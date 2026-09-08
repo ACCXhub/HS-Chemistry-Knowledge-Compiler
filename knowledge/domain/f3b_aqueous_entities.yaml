@@ -1,0 +1,319 @@
+records:
+  - id: src_openstax_chemistry_2e
+    record_type: source
+    source_type: textbook
+    citation: "OpenStax, Chemistry 2e: sections 4.2 Classifying Chemical Reactions, 14.3 Relative Strengths of Acids and Bases, and 18.6 Occurrence, Preparation, and Properties of Carbonates. https://openstax.org/details/books/chemistry-2e (accessed 2026-09-08)"
+
+  - id: ev_f3b_solubility_precipitation
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "Supports aqueous solubility-rule use for common salts, including insoluble AgCl and BaSO4, and precipitation/net-ionic representations."
+    stance: supports
+
+  - id: ev_f3b_strong_acid_base
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "Supports HNO3 as a common strong acid and KOH as a common strong base in water, together with strong-electrolyte aqueous treatment."
+    stance: supports
+
+  - id: ev_f3b_carbonate_acid
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "Supports acid + hydrogen-carbonate/carbonate gas-evolution chemistry producing carbon dioxide and water."
+    stance: supports
+
+  - id: ev_f3b_identity_context
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "Supports distinguishing molecular formula-bearing species from aqueous acid/electrolyte behavior, which is medium-dependent."
+    stance: qualifies
+
+  - id: ent_element_c
+    record_type: entity
+    entity_kind: element
+    terms: {preferred: carbon}
+    semantic_keys: [{scheme: element.symbol, value: C}]
+    payload: {atomic_number: 6, symbol: C}
+
+  - id: ent_element_s
+    record_type: entity
+    entity_kind: element
+    terms: {preferred: sulfur}
+    semantic_keys: [{scheme: element.symbol, value: S}]
+    payload: {atomic_number: 16, symbol: S}
+
+  - id: ent_element_k
+    record_type: entity
+    entity_kind: element
+    terms: {preferred: potassium}
+    semantic_keys: [{scheme: element.symbol, value: K}]
+    payload: {atomic_number: 19, symbol: K}
+
+  - id: ent_element_ba
+    record_type: entity
+    entity_kind: element
+    terms: {preferred: barium}
+    semantic_keys: [{scheme: element.symbol, value: Ba}]
+    payload: {atomic_number: 56, symbol: Ba}
+
+  - id: ent_species_hcl_molecule
+    record_type: entity
+    entity_kind: species
+    terms: {preferred: hydrogen chloride molecule}
+    semantic_keys: [{scheme: formula.molecule, value: HCl}]
+    payload:
+      species_kind: molecule
+      formal_charge: 0
+      composition:
+        components:
+          - {element_id: ent_element_h, count: 1}
+          - {element_id: ent_element_cl, count: 1}
+        net_charge: 0
+    evidence_ids: [ev_f3b_identity_context]
+
+  - id: ent_material_hydrochloric_acid_aqueous
+    record_type: entity
+    entity_kind: material_system
+    terms: {preferred: hydrochloric acid aqueous solution}
+    semantic_keys: [{scheme: material_system.slug, value: hydrochloric-acid-aqueous}]
+    payload:
+      material_system_kind: solution
+    facet_assertions:
+      - {facet_key: classification.acid, value_state: known, value: true, evidence_ids: [ev_f3b_identity_context]}
+      - {facet_key: acid.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_identity_context]}
+      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_identity_context]}
+    evidence_ids: [ev_f3b_identity_context]
+
+  - id: ent_species_na_plus
+    record_type: entity
+    entity_kind: species
+    terms: {preferred: sodium ion}
+    semantic_keys: [{scheme: formula.ion, value: Na+}]
+    payload:
+      species_kind: ion
+      formal_charge: 1
+      composition:
+        components: [{element_id: ent_element_na, count: 1}]
+        net_charge: 1
+    evidence_ids: [ev_f3b_solubility_precipitation]
+
+  - id: ent_species_k_plus
+    record_type: entity
+    entity_kind: species
+    terms: {preferred: potassium ion}
+    semantic_keys: [{scheme: formula.ion, value: K+}]
+    payload:
+      species_kind: ion
+      formal_charge: 1
+      composition:
+        components: [{element_id: ent_element_k, count: 1}]
+        net_charge: 1
+    evidence_ids: [ev_f3b_solubility_precipitation]
+
+  - id: ent_species_ba_2plus
+    record_type: entity
+    entity_kind: species
+    terms: {preferred: barium ion}
+    semantic_keys: [{scheme: formula.ion, value: Ba2+}]
+    payload:
+      species_kind: ion
+      formal_charge: 2
+      composition:
+        components: [{element_id: ent_element_ba, count: 1}]
+        net_charge: 2
+    evidence_ids: [ev_f3b_solubility_precipitation]
+
+  - id: ent_species_no3_minus
+    record_type: entity
+    entity_kind: species
+    terms: {preferred: nitrate ion}
+    semantic_keys: [{scheme: formula.ion, value: NO3-}]
+    payload:
+      species_kind: ion
+      formal_charge: -1
+      composition:
+        components:
+          - {element_id: ent_element_n, count: 1}
+          - {element_id: ent_element_o, count: 3}
+        net_charge: -1
+    evidence_ids: [ev_f3b_solubility_precipitation]
+
+  - id: ent_species_so4_2minus
+    record_type: entity
+    entity_kind: species
+    terms: {preferred: sulfate ion}
+    semantic_keys: [{scheme: formula.ion, value: SO4^2-}]
+    payload:
+      species_kind: ion
+      formal_charge: -2
+      composition:
+        components:
+          - {element_id: ent_element_s, count: 1}
+          - {element_id: ent_element_o, count: 4}
+        net_charge: -2
+    evidence_ids: [ev_f3b_solubility_precipitation]
+
+  - id: ent_species_hco3_minus
+    record_type: entity
+    entity_kind: species
+    terms: {preferred: hydrogen carbonate ion, aliases: [bicarbonate ion]}
+    semantic_keys: [{scheme: formula.ion, value: HCO3-}]
+    payload:
+      species_kind: ion
+      formal_charge: -1
+      composition:
+        components:
+          - {element_id: ent_element_h, count: 1}
+          - {element_id: ent_element_c, count: 1}
+          - {element_id: ent_element_o, count: 3}
+        net_charge: -1
+    facet_assertions:
+      - {facet_key: classification.hydrogen_carbonate, value_state: known, value: true, evidence_ids: [ev_f3b_carbonate_acid]}
+    evidence_ids: [ev_f3b_carbonate_acid]
+
+  - id: ent_substance_bacl2
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: barium chloride}
+    semantic_keys: [{scheme: formula.unit, value: BaCl2}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_ba, count: 1}
+          - {element_id: ent_element_cl, count: 2}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
+      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
+      - {facet_key: solubility.soluble_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
+    evidence_ids: [ev_f3b_solubility_precipitation]
+
+  - id: ent_substance_na2so4
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: sodium sulfate}
+    semantic_keys: [{scheme: formula.unit, value: Na2SO4}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_na, count: 2}
+          - {element_id: ent_element_s, count: 1}
+          - {element_id: ent_element_o, count: 4}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
+      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
+      - {facet_key: solubility.soluble_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
+    evidence_ids: [ev_f3b_solubility_precipitation]
+
+  - id: ent_substance_baso4
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: barium sulfate}
+    semantic_keys: [{scheme: formula.unit, value: BaSO4}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_ba, count: 1}
+          - {element_id: ent_element_s, count: 1}
+          - {element_id: ent_element_o, count: 4}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
+      - {facet_key: solubility.insoluble_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
+    evidence_ids: [ev_f3b_solubility_precipitation]
+
+  - id: ent_substance_hno3
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: nitric acid}
+    semantic_keys: [{scheme: formula.molecular, value: HNO3}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_h, count: 1}
+          - {element_id: ent_element_n, count: 1}
+          - {element_id: ent_element_o, count: 3}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.acid, value_state: known, value: true, evidence_ids: [ev_f3b_strong_acid_base]}
+      - {facet_key: acid.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_strong_acid_base]}
+      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_strong_acid_base]}
+    evidence_ids: [ev_f3b_strong_acid_base]
+
+  - id: ent_substance_koh
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: potassium hydroxide}
+    semantic_keys: [{scheme: formula.unit, value: KOH}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_k, count: 1}
+          - {element_id: ent_element_o, count: 1}
+          - {element_id: ent_element_h, count: 1}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.base, value_state: known, value: true, evidence_ids: [ev_f3b_strong_acid_base]}
+      - {facet_key: base.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_strong_acid_base]}
+      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_strong_acid_base]}
+    evidence_ids: [ev_f3b_strong_acid_base]
+
+  - id: ent_substance_kno3
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: potassium nitrate}
+    semantic_keys: [{scheme: formula.unit, value: KNO3}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_k, count: 1}
+          - {element_id: ent_element_n, count: 1}
+          - {element_id: ent_element_o, count: 3}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
+      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
+      - {facet_key: solubility.soluble_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
+    evidence_ids: [ev_f3b_solubility_precipitation]
+
+  - id: ent_substance_nahco3
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: sodium hydrogen carbonate, aliases: [sodium bicarbonate]}
+    semantic_keys: [{scheme: formula.unit, value: NaHCO3}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_na, count: 1}
+          - {element_id: ent_element_h, count: 1}
+          - {element_id: ent_element_c, count: 1}
+          - {element_id: ent_element_o, count: 3}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, evidence_ids: [ev_f3b_carbonate_acid]}
+      - {facet_key: classification.hydrogen_carbonate, value_state: known, value: true, evidence_ids: [ev_f3b_carbonate_acid]}
+      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_carbonate_acid]}
+      - {facet_key: solubility.soluble_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_carbonate_acid]}
+    evidence_ids: [ev_f3b_carbonate_acid]
+
+  - id: ent_substance_co2
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: carbon dioxide}
+    semantic_keys: [{scheme: formula.molecular, value: CO2}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_c, count: 1}
+          - {element_id: ent_element_o, count: 2}
+        net_charge: 0
+    evidence_ids: [ev_f3b_carbonate_acid]
