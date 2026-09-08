@@ -20,13 +20,14 @@ records:
         members: [rxn_f3b_hno3_koh_neutralization]
       - path_key: D03/reaction-types/gas-evolution
         parent_path_key: D03/reaction-types
-        members: [rxn_f3b_hcl_nahco3_gas_evolution]
+        members: [rxn_f3b_hcl_nahco3_gas_evolution, rxn_m5_hno3_nahco3_gas_evolution]
       - path_key: D06/notation/ionic-equations
         parent_path_key: D06/notation
         members:
           - rxn_f3b_baso4_precipitation
           - rxn_f3b_hno3_koh_neutralization
           - rxn_f3b_hcl_nahco3_gas_evolution
+          - rxn_m5_hno3_nahco3_gas_evolution
       - path_key: D08/substance-classification/acids
         parent_path_key: D08/substance-classification
         members:

@@ -33,11 +33,19 @@ M4 acceptance requires:
 
 The bounded no-net NaCl + KNO3 contrast records a known `driving_force = none` for the precipitation rule. Overall inference remains `indeterminate` when another structurally possible rule family depends on absent open-world facts; no candidate or canonical negative reaction is emitted.
 
-## M5 — next bounded decisions
+## M5 — Bounded hydrogen-carbonate gas evolution
 
-The one demonstrated next-family gap is reusable acid + hydrogen-carbonate gas evolution. M5 may add it only through generic typed semantics and bounded product construction; the curated HCl + NaHCO3 Reaction is not justification for an exact-ID engine branch.
+M5 extends the M4 pipeline with one reusable family:
 
-Any broader relation/numeric predicates or speciation capability still requires a concrete corpus case and a compatible contract change.
+```text
+aqueous strong acid
++ soluble, strongly dissociated hydrogen-carbonate salt
+-> canonical salt + CO2 + H2O
+```
+
+HCl + NaHCO3 and HNO3 + NaHCO3 use the same declarative rule. Context-qualified acid/electrolyte strength, solubility, and canonical speciation gate applicability; the existing `ionic_pair` constructor selects the salt without formula parsing or entity fabrication. Exact balancing produces molecular coefficients, and the existing ReactionForm projection reduces both reactions to `H+ + HCO3- -> CO2 + H2O` while retaining speciation/evidence provenance.
+
+The gas-evolution rule explicitly specializes neutralization for conservative overlap resolution. Carbonate, relative-acid-strength reasoning, and any broader relation/numeric or speciation capability remain candidates for M6 only when a concrete corpus case justifies a compatible bounded contract change.
 
 ## Still out of scope
 

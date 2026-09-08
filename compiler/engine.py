@@ -8,7 +8,7 @@ from .canonical import sha256_hex
 from .diagnostics import diagnostic
 from .model import RulePlan, Truth
 from .predicates import evaluate_predicate
-from .products import ProductResolutionError, resolve_products
+from .products import ProductResolutionError, resolve_products_detailed
 from .rules import bind_rule_candidates, resolve_applicable_rules
 from .source import KnowledgeBase
 
@@ -217,20 +217,35 @@ def _construct_candidate(
     case: dict[str, Any],
 ) -> dict[str, Any]:
     try:
-        product_specs = tuple(
-            sorted(resolve_products(kb, plan.products, bindings, context), key=lambda item: (item[0], item[1]))
+        resolved_products = tuple(
+            sorted(
+                resolve_products_detailed(kb, plan.products, bindings, context),
+                key=lambda item: (item.target_id, item.phase),
+            )
         )
     except ProductResolutionError as exc:
         trace.append({"event": "products.resolved", "resolved": False, "diagnostic": exc.diagnostic})
         return _terminal(case, "invalid", trace, rule_id=plan.rule_id, diagnostic_obj=exc.diagnostic)
 
-    products = tuple(item[0] for item in product_specs)
-    product_phases = {entity_id: phase for entity_id, phase in product_specs}
+    products = tuple(item.target_id for item in resolved_products)
+    product_phases = {item.target_id: item.phase for item in resolved_products}
+    profile_index = {
+        (profile["target_id"], profile["profile_key"]): profile
+        for product in resolved_products
+        for profile in product.speciation_profiles
+    }
+    speciation_profiles = [profile_index[key] for key in sorted(profile_index)]
+    product_evidence_ids = {
+        evidence_id
+        for product in resolved_products
+        for evidence_id in product.evidence_ids
+    }
     trace.append(
         {
             "event": "products.constructed",
             "rule_id": plan.rule_id,
-            "products": [{"target_id": entity_id, "phase": phase} for entity_id, phase in product_specs],
+            "products": [{"target_id": item.target_id, "phase": item.phase} for item in resolved_products],
+            "speciation_profiles": speciation_profiles,
         }
     )
     trace.append({"event": "products.resolved", "resolved": True, "missing": []})
@@ -307,7 +322,8 @@ def _construct_candidate(
             "kind": "derived_reaction_candidate",
             "rule_id": plan.rule_id,
             "rule_version": plan.version,
-            "evidence_ids": sorted(plan.evidence_ids),
+            "evidence_ids": sorted(set(plan.evidence_ids) | product_evidence_ids),
+            "speciation_profiles": speciation_profiles,
         },
         "proof_trace": trace,
     }

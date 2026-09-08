@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import Any
 
 from .aqueous import AqueousResolutionError, resolve_exchange, resolve_ionic_pair_from_bindings
@@ -11,6 +12,14 @@ class ProductResolutionError(SourceError):
     pass
 
 
+@dataclass(frozen=True)
+class ResolvedProduct:
+    target_id: str
+    phase: str
+    speciation_profiles: tuple[dict[str, Any], ...] = ()
+    evidence_ids: tuple[str, ...] = ()
+
+
 def _translate_aqueous_error(exc: AqueousResolutionError) -> ProductResolutionError:
     return ProductResolutionError(
         str(exc),
@@ -20,12 +29,12 @@ def _translate_aqueous_error(exc: AqueousResolutionError) -> ProductResolutionEr
     )
 
 
-def resolve_product(
+def resolve_product_detail(
     kb: KnowledgeBase,
     plan: ProductPlan,
     bindings: dict[str, str] | None = None,
     context: dict[str, Any] | None = None,
-) -> str:
+) -> ResolvedProduct:
     bindings = bindings or {}
     context = context or {}
     if plan.constructor == "exact_entity":
@@ -37,7 +46,7 @@ def resolve_product(
                 stage="product_resolution",
                 details={"target_id": plan.target_id},
             )
-        return plan.target_id
+        return ResolvedProduct(plan.target_id, plan.phase)
     if plan.constructor == "semantic_key":
         assert plan.scheme is not None and plan.value is not None
         candidates = kb.semantic_key_candidates(plan.scheme, plan.value)
@@ -52,17 +61,23 @@ def resolve_product(
                     "candidates": list(candidates),
                 },
             )
-        return candidates[0]
+        return ResolvedProduct(candidates[0], plan.phase)
     if plan.constructor == "ionic_pair":
         assert plan.cation_from is not None and plan.anion_from is not None
         try:
-            return resolve_ionic_pair_from_bindings(
+            resolution = resolve_ionic_pair_from_bindings(
                 kb,
                 bindings,
                 plan.cation_from,
                 plan.anion_from,
                 context,
-            ).target_id
+            )
+            return ResolvedProduct(
+                resolution.target_id,
+                plan.phase,
+                resolution.speciation_profiles,
+                resolution.evidence_ids,
+            )
         except AqueousResolutionError as exc:
             raise _translate_aqueous_error(exc) from exc
     if plan.constructor == "exchange_product":
@@ -83,10 +98,10 @@ def resolve_product(
             )
         if plan.exchange_role == "precipitate":
             assert resolution.precipitate_id is not None
-            return resolution.precipitate_id
+            return ResolvedProduct(resolution.precipitate_id, plan.phase, evidence_ids=resolution.evidence_ids)
         if plan.exchange_role == "counterproduct":
             assert resolution.counterproduct_id is not None
-            return resolution.counterproduct_id
+            return ResolvedProduct(resolution.counterproduct_id, plan.phase, evidence_ids=resolution.evidence_ids)
         raise ProductResolutionError(
             f"unknown exchange product role: {plan.exchange_role}",
             code="schema_invalid",
@@ -99,10 +114,31 @@ def resolve_product(
     )
 
 
+def resolve_product(
+    kb: KnowledgeBase,
+    plan: ProductPlan,
+    bindings: dict[str, str] | None = None,
+    context: dict[str, Any] | None = None,
+) -> str:
+    return resolve_product_detail(kb, plan, bindings, context).target_id
+
+
+def resolve_products_detailed(
+    kb: KnowledgeBase,
+    plans: tuple[ProductPlan, ...],
+    bindings: dict[str, str] | None = None,
+    context: dict[str, Any] | None = None,
+) -> tuple[ResolvedProduct, ...]:
+    return tuple(resolve_product_detail(kb, plan, bindings, context) for plan in plans)
+
+
 def resolve_products(
     kb: KnowledgeBase,
     plans: tuple[ProductPlan, ...],
     bindings: dict[str, str] | None = None,
     context: dict[str, Any] | None = None,
 ) -> tuple[tuple[str, str], ...]:
-    return tuple((resolve_product(kb, plan, bindings, context), plan.phase) for plan in plans)
+    return tuple(
+        (resolved.target_id, resolved.phase)
+        for resolved in resolve_products_detailed(kb, plans, bindings, context)
+    )

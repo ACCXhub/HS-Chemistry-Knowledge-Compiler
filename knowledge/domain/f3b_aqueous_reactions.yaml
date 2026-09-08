@@ -132,7 +132,7 @@ records:
           method: aqueous_strong_electrolyte_v1
           lifecycle: golden
           required_assumptions: [aqueous_medium, strong_electrolyte_dissociation]
-          notes: ["Golden expected form for deterministic projection; reaction-family inference remains deferred."]
+          notes: ["Golden expected form for reusable strong-acid hydrogen-carbonate inference."]
       - form_key: net_ionic
         form_kind: net_ionic
         participants:
@@ -144,5 +144,5 @@ records:
           method: cancel_spectator_ions_v1
           lifecycle: golden
           required_assumptions: [aqueous_medium, strong_electrolyte_dissociation]
-          notes: ["Golden expected form for deterministic projection; reaction-family inference remains deferred."]
+          notes: ["Golden shared net ionic form for strong-acid hydrogen-carbonate gas evolution."]
     evidence_ids: [ev_f3b_carbonate_acid]

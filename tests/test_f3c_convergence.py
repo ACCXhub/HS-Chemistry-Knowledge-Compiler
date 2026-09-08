@@ -223,9 +223,9 @@ def test_project_reaction_form_preserves_owner_identity_and_is_deterministic() -
     assert first["derivation"]["source_reaction_id"] == "rxn_f3b_baso4_precipitation"
 
 
-def test_gas_evolution_family_remains_explicit_non_blocking_gap() -> None:
+def test_gas_evolution_family_is_reused_without_an_exact_case_branch() -> None:
     kb = load_knowledge(ROOT)
     result = infer_case(kb, compile_rules(kb), _case("gas-gap", "ent_substance_hcl", "ent_substance_nahco3"))
-    assert result["status"] == "indeterminate"
-    assert result["diagnostic"]["code"] == "unknown_applicability"
-    assert "candidate_key" not in result
+    assert result["status"] == "inferred"
+    assert result["rule_id"] == "rule_m5_strong_acid_hydrogen_carbonate_gas_evolution"
+    assert result["canonical_match"]["reaction_ids"] == ["rxn_f3b_hcl_nahco3_gas_evolution"]

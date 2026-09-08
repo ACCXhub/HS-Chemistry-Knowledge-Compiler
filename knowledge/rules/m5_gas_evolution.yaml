@@ -1,0 +1,30 @@
+records:
+  - id: rule_m5_strong_acid_hydrogen_carbonate_gas_evolution
+    record_type: rule
+    version: 1.0.0
+    decision_domain: aqueous_acid_base
+    match:
+      reactants:
+        - bind: acid
+          entity_kind: substance
+          required_facets: [classification.acid]
+        - bind: hydrogen_carbonate
+          entity_kind: substance
+          required_facets: [classification.hydrogen_carbonate, classification.salt]
+    context:
+      medium: aqueous
+    predicates:
+      - {operator: equals, subject: property, binding: acid, key: acid.strength, expected: strong}
+      - {operator: equals, subject: property, binding: acid, key: electrolyte.strength, expected: strong}
+      - {operator: equals, subject: property, binding: hydrogen_carbonate, key: electrolyte.strength, expected: strong}
+      - {operator: equals, subject: property, binding: hydrogen_carbonate, key: solubility.class, expected: soluble}
+    blockers:
+      - {key: temperature_regime, equals: frozen}
+    products:
+      - phase: aqueous
+        construct: {kind: ionic_pair, cation_from: hydrogen_carbonate, anion_from: acid}
+      - {target_id: ent_substance_co2, phase: gas}
+      - {target_id: ent_substance_h2o, phase: liquid}
+    validators: [atoms_conserved, charge_conserved]
+    evidence_ids: [ev_f2_reactions, ev_f3b_carbonate_acid, ev_f3b_strong_acid_base]
+    specializes: [rule_f2_strong_acid_base_neutralization]

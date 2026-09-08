@@ -1,12 +1,12 @@
 # Declarative Reaction Rule DSL
 
-Status: **M4 Chemistry Model Convergence executable semantic contract**
+Status: **M5 bounded gas-evolution executable semantic contract**
 
 ## 1. Ownership and version
 
 Each authored Rule owns one stable `rule_*` ID, semantic version, evidence, and explicit resolution relationships. The Rule DSL version is independent from source-schema, compiler-plan, and external-artifact versions.
 
-M4 Rule DSL version: `1.0.0`.
+M5 retains Rule DSL version `1.0.0`; the gas-evolution family composes existing predicates, relationships, and constructors without a contract-version change.
 
 ## 2. Participant patterns
 
@@ -87,6 +87,8 @@ products:
 A constructor must resolve to exactly one existing canonical Entity. It never invents identity and does not own balancing coefficients.
 
 `ionic_pair` resolves the canonical cation/anion from bound aqueous speciation profiles, charge-balances their exact compositions, and selects one existing neutral Substance. `exchange_product` reuses the same bounded exchange resolution to select the unique precipitate or soluble counterproduct. Zero or multiple matches are explicit failures.
+
+Ionic-pair resolution also returns the speciation profiles and evidence actually used so inference can retain deterministic product-construction provenance. This is compiler output metadata, not a new source-level constructor or formula parser.
 
 ## 7. Rule-resolution relationships
 

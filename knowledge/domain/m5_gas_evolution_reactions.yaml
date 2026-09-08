@@ -1,0 +1,52 @@
+records:
+  - id: rxn_m5_hno3_nahco3_gas_evolution
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_hno3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_nahco3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_nano3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_co2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+    forms:
+      - form_key: molecular
+        form_kind: molecular
+        participants:
+          - {target_id: ent_substance_hno3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+          - {target_id: ent_substance_nahco3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+          - {target_id: ent_substance_nano3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+          - {target_id: ent_substance_co2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+          - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+        projection:
+          method: authored_molecular_v1
+          lifecycle: curated
+          required_assumptions: []
+          notes: ["Canonical molecular teaching form for reusable M5 gas-evolution inference."]
+      - form_key: complete_ionic
+        form_kind: complete_ionic
+        participants:
+          - {target_id: ent_species_h_plus, target_kind: species, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_no3_minus, target_kind: species, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_na_plus, target_kind: species, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_hco3_minus, target_kind: species, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_na_plus, target_kind: species, role: product, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_no3_minus, target_kind: species, role: product, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_substance_co2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+          - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+        projection:
+          method: aqueous_strong_electrolyte_v1
+          lifecycle: golden
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation]
+          notes: ["Golden expected form for the reusable strong-acid hydrogen-carbonate rule."]
+      - form_key: net_ionic
+        form_kind: net_ionic
+        participants:
+          - {target_id: ent_species_h_plus, target_kind: species, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_hco3_minus, target_kind: species, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_substance_co2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+          - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+        projection:
+          method: cancel_spectator_ions_v1
+          lifecycle: golden
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation]
+          notes: ["Golden shared net ionic form for strong-acid hydrogen-carbonate gas evolution."]
+    evidence_ids: [ev_f3b_carbonate_acid, ev_f3b_strong_acid_base]

@@ -20,6 +20,8 @@ class IonicPairResolution:
     anion_id: str
     cation_coefficient: int
     anion_coefficient: int
+    speciation_profiles: tuple[dict[str, Any], ...] = ()
+    evidence_ids: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -148,7 +150,34 @@ def resolve_ionic_pair_from_bindings(
     anion_profile = _profile_for(kb, bindings[anion_binding], context)
     cation = _single_profile_ion(kb, cation_profile, "positive")
     anion = _single_profile_ion(kb, anion_profile, "negative")
-    return resolve_ionic_pair(kb, cation, anion)
+    resolved = resolve_ionic_pair(kb, cation, anion)
+    profiles = tuple(
+        sorted(
+            (
+                {
+                    "target_id": bindings[binding],
+                    "profile_key": profile["profile_key"],
+                    "model": profile["model"],
+                    "evidence_ids": sorted(profile.get("evidence_ids", [])),
+                }
+                for binding, profile in (
+                    (cation_binding, cation_profile),
+                    (anion_binding, anion_profile),
+                )
+            ),
+            key=lambda item: (item["target_id"], item["profile_key"]),
+        )
+    )
+    evidence_ids = tuple(sorted({evidence_id for profile in profiles for evidence_id in profile["evidence_ids"]}))
+    return IonicPairResolution(
+        target_id=resolved.target_id,
+        cation_id=resolved.cation_id,
+        anion_id=resolved.anion_id,
+        cation_coefficient=resolved.cation_coefficient,
+        anion_coefficient=resolved.anion_coefficient,
+        speciation_profiles=profiles,
+        evidence_ids=evidence_ids,
+    )
 
 
 def resolve_exchange(kb: KnowledgeBase, left_id: str, right_id: str, context: dict[str, Any]) -> ExchangeResolution:

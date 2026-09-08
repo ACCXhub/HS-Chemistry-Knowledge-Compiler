@@ -1,6 +1,6 @@
 # Deterministic Reaction Inference Semantics
 
-Status: **M4 Chemistry Model Convergence canonical semantics**
+Status: **M5 bounded gas-evolution canonical semantics**
 
 ## Pipeline
 
@@ -38,6 +38,8 @@ A declared `mutually_exclusive_with` pair that becomes simultaneously applicable
 
 Products resolve only through bounded canonical constructors. Ionic-pair construction uses canonical ion charge/composition plus exact positive integer coefficients and must resolve one existing neutral Substance. Unresolved or ambiguous lookup is explicit and cannot fabricate an Entity.
 
+When ionic-pair construction consumes bound aqueous reactants, the generated candidate and `products.constructed` proof event retain the normalized profile key, model, target, and evidence IDs for each speciation profile used. This provenance is deterministic and does not create a second source of chemistry truth.
+
 Balancing receives fixed canonical reactants/products and uses exact arithmetic. Atom and charge validation are separate stages and diagnostics.
 
 ## Canonical comparison
@@ -48,7 +50,7 @@ Canonical comparison happens after validation. `none`, exact single match, and m
 
 A `ReactionForm` is projected only when its declared `required_assumptions` and a unique context-matching canonical speciation profile are available. The projection response retains the owning `reaction_id`, exact coefficients, atom/charge validation, derivation operators, and evidence; no new Reaction identity is created.
 
-M4 covers bounded strong-electrolyte aqueous projection only. Missing or ambiguous speciation is explicit; this is not a universal aqueous speciation solver.
+M5 still covers bounded strong-electrolyte aqueous projection only. Missing or ambiguous speciation is explicit; this is not a universal aqueous speciation solver.
 
 An overall `indeterminate/unknown_applicability` result can coexist with a known-false predicate in one rule family when another structurally possible family depends on absent open-world knowledge. This does not emit a candidate or author canonical negative reaction truth.
 

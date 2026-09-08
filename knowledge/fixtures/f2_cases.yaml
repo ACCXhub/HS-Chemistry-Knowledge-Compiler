@@ -22,3 +22,21 @@ cases:
       - {target_id: ent_substance_nacl, phase: aqueous}
       - {target_id: ent_substance_agno3, phase: aqueous}
     context: {medium: aqueous, temperature_regime: frozen}
+
+  - id: case_m5_hcl_nahco3
+    reactants:
+      - {target_id: ent_substance_hcl, phase: aqueous}
+      - {target_id: ent_substance_nahco3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m5_hno3_nahco3
+    reactants:
+      - {target_id: ent_substance_hno3, phase: aqueous}
+      - {target_id: ent_substance_nahco3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m5_hcl_nahco3_unknown_medium
+    reactants:
+      - {target_id: ent_substance_hcl, phase: aqueous}
+      - {target_id: ent_substance_nahco3, phase: aqueous}
+    context: {temperature_regime: ambient}

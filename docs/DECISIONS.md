@@ -1,6 +1,6 @@
 # Architecture Decision Log
 
-Status: **M4 Chemistry Model Convergence decisions**
+Status: **M5 bounded gas-evolution decisions**
 
 ## ADR-F1-001 — Entity-kind alignment
 
@@ -147,6 +147,14 @@ Canonical aqueous speciation profiles own exact canonical species IDs, rational 
 
 `TeachingView` is schema- and reference-validated executable canonical source, but it does not participate in reaction inference. Generated `ReactionCandidate` and derived `ReactionForm` artifacts remain compiler output and cannot enter canonical reaction source implicitly.
 
-## M4 remaining limitation
+## ADR-M5-001 — Strong-acid hydrogen-carbonate scope
 
-Acid + hydrogen-carbonate gas evolution remains a non-blocking deferred inference family. The curated Reaction may be taught and projected, but M4 does not add an exact-reaction engine branch to claim reusable inference coverage.
+M5 supports gas evolution only when an aqueous reactant is a classified acid with contextual `acid.strength = strong` and `electrolyte.strength = strong`, and the other reactant is a classified salt and hydrogen carbonate with contextual `electrolyte.strength = strong` and `solubility.class = soluble`. Missing facts remain UNKNOWN and emit no candidate.
+
+The rule reuses canonical aqueous speciation profiles and the existing `ionic_pair` constructor to form the salt, while CO2 and H2O resolve as existing canonical entities. The constructor records the exact speciation profiles and their evidence in candidate provenance. Formula parsing, exact HCl/NaHCO3 branches, and runtime external chemistry truth remain prohibited.
+
+The rule declares `specializes` against strong-acid/base neutralization so conservative overlap is resolved by an explicit semantic relationship, never file order or integer priority.
+
+## M5 remaining limitation
+
+Carbonate (`CO3^2-`) gas evolution, relative-acid-strength reasoning, weak acids, broader equilibria, and universal speciation remain deferred. They require a separately justified bounded extension rather than broadening the M5 strong-acid hydrogen-carbonate rule.

@@ -173,9 +173,11 @@ def test_f3b_inference_coverage_audit_executes_against_converged_rules() -> None
     assert results["f3b_baso4"]["canonical_match"]["reaction_ids"] == ["rxn_f3b_baso4_precipitation"]
     assert results["f3b_hno3_koh"]["status"] == "inferred"
     assert results["f3b_hno3_koh"]["canonical_match"]["reaction_ids"] == ["rxn_f3b_hno3_koh_neutralization"]
-    assert results["f3b_hcl_nahco3"]["status"] == "indeterminate"
-    assert results["f3b_hcl_nahco3"]["diagnostic"]["code"] == "unknown_applicability"
-    assert "candidate_key" not in results["f3b_hcl_nahco3"]
+    assert results["f3b_hcl_nahco3"]["status"] == "inferred"
+    assert results["f3b_hcl_nahco3"]["rule_id"] == "rule_m5_strong_acid_hydrogen_carbonate_gas_evolution"
+    assert results["f3b_hcl_nahco3"]["canonical_match"]["reaction_ids"] == [
+        "rxn_f3b_hcl_nahco3_gas_evolution"
+    ]
     assert results["f3b_no_net_contrast"]["status"] == "indeterminate"
     assert results["f3b_no_net_contrast"]["diagnostic"]["code"] == "unknown_applicability"
     assert "candidate_key" not in results["f3b_no_net_contrast"]
