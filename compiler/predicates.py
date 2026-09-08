@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
+from .aqueous import exchange_driving_force_fact
 from .model import FactValue, KnowledgeState, PredicatePlan, Truth
 from .source import KnowledgeBase, SourceError
 
@@ -19,11 +20,12 @@ class OperatorSpec:
     unknown_is_unknown: bool
 
 
+_FACT_SUBJECTS = frozenset({"context", "facet", "property", "ionic_exchange"})
 OPERATOR_REGISTRY: dict[str, OperatorSpec] = {
-    "equals": OperatorSpec("equals", frozenset({"context", "facet"}), "scalar", ("string", "boolean", "integer"), True),
-    "not_equals": OperatorSpec("not_equals", frozenset({"context", "facet"}), "scalar", ("string", "boolean", "integer"), True),
-    "is_known": OperatorSpec("is_known", frozenset({"context", "facet"}), "none", ("any_fact_state",), False),
-    "in_set": OperatorSpec("in_set", frozenset({"context", "facet"}), "scalar_list", ("string", "boolean", "integer"), True),
+    "equals": OperatorSpec("equals", _FACT_SUBJECTS, "scalar", ("string", "boolean", "integer"), True),
+    "not_equals": OperatorSpec("not_equals", _FACT_SUBJECTS, "scalar", ("string", "boolean", "integer"), True),
+    "is_known": OperatorSpec("is_known", _FACT_SUBJECTS, "none", ("any_fact_state",), False),
+    "in_set": OperatorSpec("in_set", frozenset({"context", "facet", "property"}), "scalar_list", ("string", "boolean", "integer"), True),
 }
 
 
@@ -46,10 +48,12 @@ def compile_predicate(source: dict[str, Any], bindings: set[str]) -> PredicatePl
             details={"operator": operator, "subject": subject},
         )
     binding = source.get("binding")
+    predicate_bindings = tuple(source.get("bindings", []))
     key = source.get("key")
     if not isinstance(key, str) or not key:
         raise SourceError("predicate key must be a non-empty string", code="schema_invalid", stage="rule_compile")
-    if subject == "facet":
+
+    if subject in {"facet", "property"}:
         if binding not in bindings:
             raise SourceError(
                 f"predicate binding does not resolve: {binding}",
@@ -57,12 +61,34 @@ def compile_predicate(source: dict[str, Any], bindings: set[str]) -> PredicatePl
                 stage="rule_compile",
                 details={"binding": binding},
             )
-    elif binding is not None:
-        raise SourceError(
-            "context predicate cannot declare binding",
-            code="schema_invalid",
-            stage="rule_compile",
-        )
+        if predicate_bindings:
+            raise SourceError(
+                f"{subject} predicate cannot declare bindings",
+                code="schema_invalid",
+                stage="rule_compile",
+            )
+    elif subject == "context":
+        if binding is not None or predicate_bindings:
+            raise SourceError(
+                "context predicate cannot declare participant bindings",
+                code="schema_invalid",
+                stage="rule_compile",
+            )
+    elif subject == "ionic_exchange":
+        if binding is not None or len(predicate_bindings) != 2 or any(item not in bindings for item in predicate_bindings):
+            raise SourceError(
+                "ionic_exchange predicate requires exactly two valid bindings",
+                code="schema_invalid",
+                stage="rule_compile",
+                details={"bindings": list(predicate_bindings)},
+            )
+        if key != "driving_force":
+            raise SourceError(
+                f"unsupported ionic_exchange predicate key: {key}",
+                code="schema_invalid",
+                stage="rule_compile",
+                details={"key": key},
+            )
 
     has_expected = "expected" in source
     expected = source.get("expected")
@@ -102,7 +128,14 @@ def compile_predicate(source: dict[str, Any], bindings: set[str]) -> PredicatePl
                 stage="rule_compile",
                 details={"operator": operator},
             )
-    return PredicatePlan(operator=operator, subject=subject, binding=binding, key=key, expected=expected)
+    return PredicatePlan(
+        operator=operator,
+        subject=subject,
+        binding=binding,
+        bindings=predicate_bindings,
+        key=key,
+        expected=expected,
+    )
 
 
 def _fact_for(
@@ -115,10 +148,21 @@ def _fact_for(
     if predicate.subject == "context":
         if predicate.key not in context:
             return FactValue(KnowledgeState.ABSENT, None, "contextual")
-        return FactValue(KnowledgeState.KNOWN, context[predicate.key], "contextual")
+        return FactValue(
+            KnowledgeState.KNOWN,
+            context[predicate.key],
+            "contextual",
+            context=((predicate.key, context[predicate.key]),),
+        )
     if predicate.subject == "facet":
         assert predicate.binding is not None
         return kb.facet_fact(bindings[predicate.binding], predicate.key)
+    if predicate.subject == "property":
+        assert predicate.binding is not None
+        return kb.property_fact(bindings[predicate.binding], predicate.key, context)
+    if predicate.subject == "ionic_exchange":
+        left_binding, right_binding = predicate.bindings
+        return exchange_driving_force_fact(kb, bindings[left_binding], bindings[right_binding], context)
     raise SourceError(f"unsupported predicate subject: {predicate.subject}")
 
 
