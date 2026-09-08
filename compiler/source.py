@@ -11,7 +11,7 @@ from .canonical import sha256_hex
 from .model import FactValue, KnowledgeState
 
 
-SOURCE_DIRS = ("knowledge/domain", "knowledge/rules")
+SOURCE_DIRS = ("knowledge/domain", "knowledge/rules", "knowledge/teaching")
 SOURCE_SCHEMA_VERSION = "3.0.0"
 
 
@@ -73,6 +73,14 @@ def load_yaml(path: Path) -> Any:
         ) from exc
 
 
+def _context_tuple(context: dict[str, Any] | None) -> tuple[tuple[str, Any], ...]:
+    return tuple(sorted((context or {}).items()))
+
+
+def _context_matches(assertion_context: dict[str, Any] | None, requested: dict[str, Any]) -> bool:
+    return all(requested.get(key) == value for key, value in (assertion_context or {}).items())
+
+
 @dataclass(frozen=True)
 class KnowledgeBase:
     records: tuple[dict[str, Any], ...]
@@ -81,6 +89,7 @@ class KnowledgeBase:
     rules: dict[str, dict[str, Any]]
     sources: dict[str, dict[str, Any]]
     evidence: dict[str, dict[str, Any]]
+    teaching_views: dict[str, dict[str, Any]]
     semantic_keys: dict[tuple[str, str], tuple[str, ...]]
     source_digest: str
 
@@ -93,8 +102,62 @@ class KnowledgeBase:
                     state=state,
                     value=assertion.get("value"),
                     origin=assertion.get("fact_kind", "intrinsic"),
+                    evidence_ids=tuple(sorted(assertion.get("evidence_ids", []))),
                 )
         return FactValue(KnowledgeState.ABSENT, None, "intrinsic")
+
+    def property_fact(self, entity_id: str, property_key: str, context: dict[str, Any]) -> FactValue:
+        entity = self.entities[entity_id]
+        matches = [
+            assertion
+            for assertion in entity.get("property_assertions", [])
+            if assertion["property_key"] == property_key and _context_matches(assertion.get("context"), context)
+        ]
+        if not matches:
+            return FactValue(KnowledgeState.ABSENT, None, "contextual")
+        specificity = max(len(assertion.get("context", {})) for assertion in matches)
+        matches = [assertion for assertion in matches if len(assertion.get("context", {})) == specificity]
+        signatures = {
+            (
+                assertion.get("value_state", "known"),
+                repr(assertion.get("value")),
+                assertion.get("fact_kind", "contextual"),
+                _context_tuple(assertion.get("context")),
+            )
+            for assertion in matches
+        }
+        if len(signatures) != 1:
+            raise SourceError(
+                f"ambiguous contextual property fact: {entity_id}:{property_key}",
+                code="contextual_fact_ambiguous",
+                stage="fact_resolution",
+                details={"entity_id": entity_id, "property_key": property_key},
+            )
+        assertion = sorted(matches, key=lambda item: _context_tuple(item.get("context")))[0]
+        return FactValue(
+            state=KnowledgeState(assertion.get("value_state", "known")),
+            value=assertion.get("value"),
+            origin=assertion.get("fact_kind", "contextual"),
+            context=_context_tuple(assertion.get("context")),
+            evidence_ids=tuple(sorted(assertion.get("evidence_ids", []))),
+        )
+
+    def speciation_profiles(self, entity_id: str, context: dict[str, Any]) -> tuple[dict[str, Any], ...]:
+        entity = self.entities[entity_id]
+        matches = [
+            profile
+            for profile in entity.get("speciation_profiles", [])
+            if _context_matches(profile.get("context"), context)
+        ]
+        if not matches:
+            return ()
+        specificity = max(len(profile.get("context", {})) for profile in matches)
+        return tuple(
+            sorted(
+                (profile for profile in matches if len(profile.get("context", {})) == specificity),
+                key=lambda profile: (profile["profile_key"], _context_tuple(profile.get("context"))),
+            )
+        )
 
     def facet_state(self, entity_id: str, facet_key: str) -> tuple[str, Any]:
         """Compatibility projection for F2 callers."""
@@ -121,6 +184,32 @@ def _iter_record_files(repo_root: Path) -> Iterable[Path]:
         if root.exists():
             paths.extend(root.glob("*.yaml"))
     return sorted(paths, key=lambda path: path.as_posix())
+
+
+def _validate_assertion_uniqueness(record: dict[str, Any]) -> None:
+    property_keys: set[tuple[str, tuple[tuple[str, Any], ...]]] = set()
+    for assertion in record.get("property_assertions", []):
+        key = (assertion["property_key"], _context_tuple(assertion.get("context")))
+        if key in property_keys:
+            raise SourceError(
+                f"duplicate contextual property assertion: {record['id']}:{assertion['property_key']}",
+                code="schema_invalid",
+                stage="source_load",
+                details={"entity_id": record["id"], "property_key": assertion["property_key"]},
+            )
+        property_keys.add(key)
+
+    profile_keys: set[tuple[str, tuple[tuple[str, Any], ...]]] = set()
+    for profile in record.get("speciation_profiles", []):
+        key = (profile["profile_key"], _context_tuple(profile.get("context")))
+        if key in profile_keys:
+            raise SourceError(
+                f"duplicate speciation profile: {record['id']}:{profile['profile_key']}",
+                code="schema_invalid",
+                stage="source_load",
+                details={"entity_id": record["id"], "profile_key": profile["profile_key"]},
+            )
+        profile_keys.add(key)
 
 
 def load_knowledge(repo_root: Path) -> KnowledgeBase:
@@ -155,12 +244,14 @@ def load_knowledge(repo_root: Path) -> KnowledgeBase:
                     stage="source_load",
                     details={"id": record_id},
                 )
+            if record.get("record_type") == "entity":
+                _validate_assertion_uniqueness(record)
             seen_ids.add(record_id)
             records.append(record)
 
     records.sort(key=lambda record: (record["record_type"], record["id"]))
     by_type: dict[str, dict[str, dict[str, Any]]] = {
-        kind: {} for kind in ("entity", "reaction", "rule", "source", "evidence")
+        kind: {} for kind in ("entity", "reaction", "rule", "source", "evidence", "teaching_view")
     }
     for record in records:
         by_type[record["record_type"]][record["id"]] = record
@@ -177,6 +268,7 @@ def load_knowledge(repo_root: Path) -> KnowledgeBase:
         rules=by_type["rule"],
         sources=by_type["source"],
         evidence=by_type["evidence"],
+        teaching_views=by_type["teaching_view"],
         semantic_keys={key: tuple(sorted(ids)) for key, ids in semantic_index.items()},
         source_digest=sha256_hex(records),
     )
@@ -198,6 +290,24 @@ def validate_references(kb: KnowledgeBase) -> None:
                         stage="reference_validation",
                         details={"target_id": element_id},
                     )
+        for assertion in entity.get("facet_assertions", []):
+            for evidence_id in assertion.get("evidence_ids", []):
+                _require(kb.evidence, evidence_id, "evidence")
+        for assertion in entity.get("property_assertions", []):
+            for evidence_id in assertion.get("evidence_ids", []):
+                _require(kb.evidence, evidence_id, "evidence")
+        for profile in entity.get("speciation_profiles", []):
+            for product in profile["products"]:
+                target = kb.entities.get(product["target_id"])
+                if not target or target.get("entity_kind") != "species":
+                    raise SourceError(
+                        f"speciation product does not resolve to species: {product['target_id']}",
+                        code="reference_unresolved",
+                        stage="reference_validation",
+                        details={"target_id": product["target_id"]},
+                    )
+            for evidence_id in profile.get("evidence_ids", []):
+                _require(kb.evidence, evidence_id, "evidence")
         for evidence_id in entity.get("evidence_ids", []):
             _require(kb.evidence, evidence_id, "evidence")
 
@@ -221,6 +331,27 @@ def validate_references(kb: KnowledgeBase) -> None:
         for evidence_id in rule.get("evidence_ids", []):
             _require(kb.evidence, evidence_id, "evidence")
 
+    resolvable_members = set(kb.entities) | set(kb.reactions)
+    for view in kb.teaching_views.values():
+        path_keys: set[str] = set()
+        for node in view["nodes"]:
+            if node["path_key"] in path_keys:
+                raise SourceError(
+                    f"duplicate teaching path in {view['id']}: {node['path_key']}",
+                    code="schema_invalid",
+                    stage="reference_validation",
+                    details={"view_id": view["id"], "path_key": node["path_key"]},
+                )
+            path_keys.add(node["path_key"])
+            for member in node.get("members", []):
+                if member not in resolvable_members:
+                    raise SourceError(
+                        f"unresolved teaching view member: {member}",
+                        code="reference_unresolved",
+                        stage="reference_validation",
+                        details={"view_id": view["id"], "target_id": member},
+                    )
+
 
 def _validate_participants(kb: KnowledgeBase, participants: list[dict[str, Any]], owner: str) -> None:
     for participant in participants:
@@ -237,6 +368,13 @@ def _validate_participants(kb: KnowledgeBase, participants: list[dict[str, Any]]
             raise SourceError(
                 f"participant target_kind mismatch for {entity_id} in {owner}",
                 code="schema_invalid",
+                stage="reference_validation",
+                details={"owner": owner, "target_id": entity_id},
+            )
+        if entity.get("entity_kind") == "material_system":
+            raise SourceError(
+                f"material_system requires an explicit stoichiometric projection basis: {entity_id}",
+                code="stoichiometric_basis_required",
                 stage="reference_validation",
                 details={"owner": owner, "target_id": entity_id},
             )
