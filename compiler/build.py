@@ -7,8 +7,9 @@ from typing import Any
 from . import __version__
 from .canonical import write_canonical_json
 from .engine import infer_case
+from .reaction_forms import derive_aqueous_ionic_form
 from .rules import RULE_DSL_VERSION, RULE_PLAN_VERSION, analyze_rule_overlaps, compile_rules
-from .source import SOURCE_SCHEMA_VERSION, load_cases, load_knowledge
+from .source import SOURCE_SCHEMA_VERSION, KnowledgeBase, load_cases, load_knowledge
 
 
 ARTIFACT_FORMAT_VERSION = "1.0.0"
@@ -42,6 +43,8 @@ def validate(repo_root: Path) -> dict[str, Any]:
         "record_count": len(kb.records),
         "rule_count": len(plans),
         "case_count": len(cases),
+        "teaching_view_count": len(kb.teaching_views),
+        "speciation_profile_count": sum(len(entity.get("speciation_profiles", [])) for entity in kb.entities.values()),
         "versions": artifact_versions(),
         "potential_overlap_count": len(analyze_rule_overlaps(plans)),
     }
@@ -70,16 +73,72 @@ def _plan_projection(plans: tuple[Any, ...]) -> dict[str, Any]:
     }
 
 
+def _teaching_projection(kb: KnowledgeBase) -> dict[str, Any]:
+    return {
+        "artifact_format_version": ARTIFACT_FORMAT_VERSION,
+        "views": [kb.teaching_views[view_id] for view_id in sorted(kb.teaching_views)],
+    }
+
+
+def _speciation_projection(kb: KnowledgeBase) -> dict[str, Any]:
+    entities: list[dict[str, Any]] = []
+    for entity_id in sorted(kb.entities):
+        profiles = kb.entities[entity_id].get("speciation_profiles", [])
+        if not profiles:
+            continue
+        entities.append(
+            {
+                "entity_id": entity_id,
+                "profiles": sorted(profiles, key=lambda profile: (profile["profile_key"], sorted(profile["context"].items()))),
+            }
+        )
+    return {
+        "artifact_format_version": ARTIFACT_FORMAT_VERSION,
+        "entities": entities,
+    }
+
+
+def _derived_form_projection(kb: KnowledgeBase) -> dict[str, Any]:
+    results: list[dict[str, Any]] = []
+    for reaction_id in sorted(kb.reactions):
+        form_kinds = sorted(
+            {
+                form["form_kind"]
+                for form in kb.reactions[reaction_id].get("forms", [])
+                if form["form_kind"] in {"complete_ionic", "net_ionic"}
+                and form["projection"].get("lifecycle", "curated") == "golden"
+            }
+        )
+        for form_kind in form_kinds:
+            results.append(derive_aqueous_ionic_form(kb, reaction_id, form_kind, {"medium": "aqueous"}))
+    return {
+        "artifact_format_version": ARTIFACT_FORMAT_VERSION,
+        "forms": results,
+    }
+
+
+def _write_compiled_knowledge_artifacts(kb: KnowledgeBase, output_dir: Path) -> dict[str, str]:
+    return {
+        "teaching-views.json": write_canonical_json(output_dir / "teaching-views.json", _teaching_projection(kb)),
+        "aqueous-speciation.json": write_canonical_json(output_dir / "aqueous-speciation.json", _speciation_projection(kb)),
+        "derived-reaction-forms.json": write_canonical_json(
+            output_dir / "derived-reaction-forms.json", _derived_form_projection(kb)
+        ),
+    }
+
+
 def compile_repository(repo_root: Path, output_dir: Path, source_revision: str) -> dict[str, Any]:
     kb = load_knowledge(repo_root)
     plans = compile_rules(kb)
     plan_hash = write_canonical_json(output_dir / "compiled-rule-plans.json", _plan_projection(plans))
+    compiled_knowledge = _write_compiled_knowledge_artifacts(kb, output_dir)
     overlap_diagnostics = list(analyze_rule_overlaps(plans))
     diagnostics = {
         "artifact_format_version": ARTIFACT_FORMAT_VERSION,
         "status": "ok",
         "record_count": len(kb.records),
         "rule_count": len(plans),
+        "teaching_view_count": len(kb.teaching_views),
         "source_digest": kb.source_digest,
         "potential_overlaps": overlap_diagnostics,
     }
@@ -91,6 +150,7 @@ def compile_repository(repo_root: Path, output_dir: Path, source_revision: str) 
         "source_semantic_digest": kb.source_digest,
         "artifacts": {
             "compiled-rule-plans.json": plan_hash,
+            **compiled_knowledge,
             "diagnostics.json": diagnostics_hash,
         },
     }
@@ -111,6 +171,7 @@ def audit_repository(repo_root: Path, output_dir: Path, source_revision: str) ->
             "results": results,
         },
     )
+    compiled_knowledge = _write_compiled_knowledge_artifacts(kb, output_dir)
     diagnostics = {
         "artifact_format_version": ARTIFACT_FORMAT_VERSION,
         "statuses": {
@@ -127,6 +188,7 @@ def audit_repository(repo_root: Path, output_dir: Path, source_revision: str) ->
         "source_semantic_digest": kb.source_digest,
         "artifacts": {
             "reaction-candidates.json": candidate_hash,
+            **compiled_knowledge,
             "diagnostics.json": diagnostics_hash,
         },
     }
