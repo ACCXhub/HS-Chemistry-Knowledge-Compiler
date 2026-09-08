@@ -1,208 +1,88 @@
 # Architecture Decision Log
 
-This file records durable cross-workstream decisions owned by the Architecture Lead. Detailed chemistry ontology choices, schema field definitions, and reaction-rule semantics belong in their specialist canonical areas and should be referenced here only when they alter an architecture boundary.
+Status: **F1 convergence accepted decisions**
 
-Decision states:
+## ADR-F1-001 — Entity-kind alignment
 
-- **Accepted** — current canonical direction.
-- **Provisional** — working direction allowed for implementation, subject to evidence-driven revision.
-- **Open** — explicitly unresolved; owned by the named workstream.
-- **Superseded** — retained for history after a later decision replaces it.
+**Decision:** canonical `entity_kind` is `element | species | substance | material_system`. `Ion` is `species_kind: ion`. `Solution` and `Mixture` are `material_system_kind` values.
 
-## D-001 — This repository replaces, rather than wraps, `chem-knowledge-data`
+**Why:** this keeps microscopic species, pure macroscopic material, and composed experimental systems distinct without competing identity systems.
 
-**Status:** Accepted
+## ADR-F1-002 — Structure ownership
 
-`chem-knowledge-data` is legacy reference, migration input, and comparison material only. Its architecture, package boundaries, identifiers, schemas, and denormalized outputs do not constrain the new canonical model.
+**Decision:** `Structure` is a stable identity-bearing domain record when durable structural reference is required. Representations are subordinate values. `Bond` is embedded with a structure-local key by default.
 
-Migration must adapt legacy data into this repository's contracts rather than preserve legacy structure for compatibility.
+**Why:** a stable structure must not collapse into SMILES/Lewis/image strings, while top-level bond UUIDs are unnecessary without an independent lifecycle.
 
-## D-002 — Git-versioned authored knowledge is the initial source of truth
+## ADR-F1-003 — Source normalization
 
-**Status:** Accepted
+**Decision:** the following are embedded value objects in F1 source: `Composition`, `Context`, `ReactionParticipant`, `Condition`, `TeachingViewPath`, and default `Bond`.
 
-Canonical authored chemistry knowledge, teaching views, rules, and contracts are maintained as reviewable Git-versioned source data. A runtime database is not introduced as the authority during the foundation phase.
+`FacetAssertion` is durable only for authored/evidenced claims that need independent provenance/revision identity; generated memberships are compiler output.
 
-Generated/runtime stores may later consume compiled artifacts, but they remain downstream of canonical source.
+**Why:** canonical source should be practical to author and audit, not a UUID-heavy normalized graph.
 
-## D-003 — Chemical identity uses stable opaque IDs
+## ADR-F1-004 — ReactionCandidate lifecycle
 
-**Status:** Accepted
+**Decision:** pure compilation emits a deterministic content-derived `candidate_key` and mints no UUID. A persistent human-review candidate may additionally receive a durable `rcand_*` ID while retaining that candidate key.
 
-Canonical chemical entities and canonical reactions require stable opaque identity independent of names, formulas, file paths, facet memberships, and teaching paths.
+**Why:** deterministic builds and persistent review objects have different lifecycles.
 
-Inference rules also require stable identity when referenced by outputs, diagnostics, provenance, or versioned behavior. Independently curated/provenance-bearing assertions and evidence records require durable IDs when their lifecycle needs independent reference.
+## ADR-F1-005 — Rule identity owner
 
-Readable semantic keys remain appropriate for controlled vocabularies and lookup namespaces, but do not replace canonical object identity.
+**Decision:** the declarative `Rule` definition is the sole canonical owner of `rule_*` identity, semantic version, resolution edges, evidence, and provenance. `RuleReference` is not a separate source-record type.
 
-## D-004 — Classification is faceted, not inheritance-driven
+## ADR-F1-006 — Reaction identity vs representation
 
-**Status:** Accepted
+**Decision:** use `Reaction + ReactionForm`.
 
-Classification memberships are modeled as data in independent schemes. They do not create chemical identity and do not require a deep subtype tree for every curriculum or chemistry classification.
+Molecular, complete ionic, net ionic, symbolic, and thermochemical forms may belong to one reaction when they are projections/representations of the same transformation. A chemically distinct transformation remains a separate related reaction.
 
-Scheme-local hierarchy may exist for navigation or semantics, but it remains a classification structure rather than the root entity ontology.
+Half-reactions are separate `Reaction` records and may compose an overall electrochemical reaction.
 
-## D-005 — Facts distinguish intrinsic, contextual, and derived claims
+## ADR-F1-007 — Macro/micro reaction referents
 
-**Status:** Accepted
+**Decision:** participants may target `Species`, `Substance`, or `MaterialSystem`. Alternate molecular/ionic forms must state projection/speciation assumptions when they change referent level.
 
-A context-dependent chemistry statement must explicitly retain its context semantics instead of being flattened into an unconditional field, subtype name, or teaching label.
+**Consequence:** NaCl crystal never requires a fictional NaCl molecule.
 
-Derived facts are compiler-produced knowledge with derivation traceability and remain distinguishable from authored claims.
+## ADR-F1-008 — Canonical specialist locations
 
-The exact source schema is owned by Canonical Data Contracts; determining which chemistry claims require context is owned by Domain Ontology & Pedagogy.
+**Decision:** specialist canonical documents live only under:
 
-## D-006 — Semantic relations are explicit and typed
+- `docs/domain/**`;
+- `docs/pedagogy/**`;
+- `docs/contracts/**`;
+- `docs/inference/**`.
 
-**Status:** Accepted
+No duplicate root-level specialist copies are canonical.
 
-Cross-entity semantic meaning that is not identity, facet membership, fact value, reaction structure, or teaching navigation is represented as explicit typed relations.
+## ADR-F1-009 — Compiler-contract ownership
 
-A generic graph edge with undefined semantics is insufficient as canonical knowledge.
+**Decision:** Data Contracts owns exact external generated artifact schemas and compatibility contracts. Compiler owns internal plans, indexes, caches, operator lowering, and runtime layout.
 
-## D-007 — Canonical reactions and inferred reaction candidates are different lifecycle objects
+## ADR-F1-010 — Identity remains independent from presentation
 
-**Status:** Accepted
+Names, aliases, formulas, classification paths, teaching paths, file paths, YAML order, and runtime dense IDs do not define permanent identity.
 
-Canonical reactions are curated chemistry knowledge with stable identity. Inference rules may deterministically produce reaction candidates or derived reaction knowledge, but those outputs are not silently promoted into canonical reaction source data.
+## ADR-F1-011 — Open-world fact semantics
 
-Promotion, when justified, occurs through the canonical data workflow and may require evidence/review.
+Absence, explicit `unknown`, `not_applicable`, and known false remain distinct. Missing knowledge cannot be silently used as false by rules.
 
-## D-008 — Inference rules are declarative, deterministic, and traceable
+## ADR-F1-012 — Canonical Reaction != ReactionCandidate
 
-**Status:** Accepted
+A candidate remains generated even if canonical comparison finds an exact/equivalent reaction. Canonical promotion is a separate evidence-backed curation action.
 
-Given the same validated source revision and compiler revision, inference must produce the same semantic result. Rules must be inspectable and attributable so derived outputs can reference the responsible rule and source knowledge.
+## ADR-F1-013 — Language and optimization
 
-Detailed reaction-rule semantics remain owned by Inference & Compiler Semantics.
+The architecture and source DSL remain language-neutral. Python-first is provisional. Performance changes require profiling and must stay behind stable semantic boundaries.
 
-## D-009 — Teaching/curriculum structures are views over canonical chemistry knowledge
+## F1 open decisions
 
-**Status:** Accepted
+No blocking architecture contradiction remains for F1.
 
-The user's 11 high-school chemistry framework diagrams are pedagogical/knowledge views, not assumed ontology roots. They may group, sequence, annotate, simplify, or cross-link canonical entities, facts, relations, and reactions.
+The following are intentionally deferred and **do not block F1**:
 
-Teaching paths are allowed as readable view-local locators, but they are not chemical identity.
-
-Additional curriculum classifications should be introduced only when supported by chemistry semantics or curriculum evidence.
-
-## D-010 — Evidence and derivation provenance survive compilation
-
-**Status:** Accepted
-
-Compiled runtime artifacts must preserve sufficient traceability to connect runtime records back to canonical source identities and, where relevant, evidence records and inference rules.
-
-The exact provenance schema is delegated to Canonical Data Contracts, with derivation behavior owned by Inference & Compiler Semantics.
-
-## D-011 — The repository is knowledge-compiler-first
-
-**Status:** Accepted
-
-The compiler is the boundary between editable canonical source and machine-consumable runtime artifacts. Conceptual compilation stages are:
-
-```text
-parse
-→ contract validation
-→ identity/reference resolution
-→ semantic validation
-→ normalization
-→ deterministic derivation/inference
-→ teaching-view projection
-→ indexing
-→ artifact emission + diagnostics
-```
-
-The precise implementation may evolve, but validation precedes derivation and generated outputs never become the editable authority.
-
-## D-012 — Python is the default implementation language; optimization follows profiling
-
-**Status:** Provisional
-
-Compiler/runtime implementation begins Python-first because the domain is data/validation/compiler heavy and rapid semantic iteration is more important than premature low-level optimization.
-
-Native acceleration remains an allowed later optimization behind stable boundaries if profiling identifies a justified hot path.
-
-This decision may be revised if concrete ecosystem, tooling, interoperability, or performance evidence favors another language.
-
-## D-013 — Parallel workstreams have non-overlapping canonical ownership
-
-**Status:** Accepted
-
-### Architecture Lead
-
-Owns:
-
-```text
-README.md
-docs/ARCHITECTURE.md
-docs/ROADMAP.md
-docs/DECISIONS.md
-```
-
-### Domain Ontology & Pedagogy
-
-Owns:
-
-```text
-knowledge/domain/**
-knowledge/teaching/**
-docs/domain/**
-docs/pedagogy/**
-```
-
-### Canonical Data Contracts
-
-Owns:
-
-```text
-schemas/**
-docs/contracts/**
-```
-
-### Inference & Compiler Semantics
-
-Owns:
-
-```text
-knowledge/rules/**
-compiler/**
-docs/inference/**
-tests/inference/**
-```
-
-Paths are ownership boundaries and should be created only when needed. Cross-workstream concepts have one canonical owner; consumers reference them rather than create parallel definitions.
-
-## D-014 — Generated artifacts may be denormalized but cannot redefine source semantics
-
-**Status:** Accepted
-
-Runtime artifacts may optimize lookup, traversal, search, rendering, or runtime service needs through denormalization and indexing. Those optimizations are downstream compilation concerns.
-
-No runtime convenience should require changing chemical identity, flattening contextual facts, merging canonical and inferred reactions, or making generated files hand-edited source truth.
-
-## D-015 — Detailed ontology, schema, and inference designs remain intentionally unresolved in the foundation
-
-**Status:** Accepted
-
-The foundation establishes boundaries rather than prematurely freezing specialist designs.
-
-### Open: detailed chemistry ontology
-
-**Owner:** Domain Ontology & Pedagogy
-
-Resolve the minimum entity/concept vocabulary, valid facet schemes, context semantics, and teaching-view mappings needed for high-school chemistry.
-
-### Open: field-by-field source and artifact contracts
-
-**Owner:** Canonical Data Contracts
-
-Resolve concrete serialization, validation, reference, versioning, and artifact schemas while preserving the identity/source/generated boundaries in `docs/ARCHITECTURE.md`.
-
-### Open: reaction-rule and compiler execution semantics
-
-**Owner:** Inference & Compiler Semantics
-
-Resolve rule language/representation, matching and derivation semantics, diagnostics, pass implementation, and deterministic candidate production without collapsing inferred candidates into canonical reaction source.
-
-These open decisions should converge through the representative vertical slice in `docs/ROADMAP.md` rather than through speculative architecture expansion.
+1. exact YAML/JSON Schema field syntax and file sharding strategy — owner: Data Contracts; needed for the next vertical slice;
+2. exact deterministic hash canonicalization encoding for `candidate_key` and artifact digests — joint Data Contracts + Compiler; needed before implementation emits persistent fixtures;
+3. whether any future bond use case justifies top-level durable bond identity — owner: Domain Ontology; deferred until a concrete bond-local lifecycle exists.
