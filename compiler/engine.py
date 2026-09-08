@@ -59,11 +59,14 @@ def _trace_predicate(
             "operator": predicate.operator,
             "subject": predicate.subject,
             "binding": predicate.binding,
+            "bindings": list(predicate.bindings),
             "key": predicate.key,
             "expected": predicate.expected,
             "truth": truth.value,
             "knowledge_state": fact.state.value,
             "fact_origin": fact.origin,
+            "fact_context": dict(fact.context),
+            "evidence_ids": list(fact.evidence_ids),
         }
     )
 
@@ -191,12 +194,22 @@ def infer_case(kb: KnowledgeBase, plans: tuple[RulePlan, ...], case: dict[str, A
     if selected_rule_id is None:
         return _terminal(case, "ambiguous", trace, diagnostic_obj=resolution_error)
     plan = next(plan for plan in plans if plan.rule_id == selected_rule_id)
-    return _construct_candidate(kb, plan, reactants, reactant_phases, context, trace, case)
+    return _construct_candidate(
+        kb,
+        plan,
+        applicable[selected_rule_id],
+        reactants,
+        reactant_phases,
+        context,
+        trace,
+        case,
+    )
 
 
 def _construct_candidate(
     kb: KnowledgeBase,
     plan: RulePlan,
+    bindings: dict[str, str],
     reactants: tuple[str, ...],
     reactant_phases: dict[str, str],
     context: dict[str, Any],
@@ -204,7 +217,9 @@ def _construct_candidate(
     case: dict[str, Any],
 ) -> dict[str, Any]:
     try:
-        product_specs = tuple(sorted(resolve_products(kb, plan.products), key=lambda item: (item[0], item[1])))
+        product_specs = tuple(
+            sorted(resolve_products(kb, plan.products, bindings, context), key=lambda item: (item[0], item[1]))
+        )
     except ProductResolutionError as exc:
         trace.append({"event": "products.resolved", "resolved": False, "diagnostic": exc.diagnostic})
         return _terminal(case, "invalid", trace, rule_id=plan.rule_id, diagnostic_obj=exc.diagnostic)
@@ -287,6 +302,12 @@ def _construct_candidate(
                 reaction_id: [form["form_key"] for form in kb.reactions[reaction_id].get("forms", [])]
                 for reaction_id in matches
             },
+        },
+        "provenance": {
+            "kind": "derived_reaction_candidate",
+            "rule_id": plan.rule_id,
+            "rule_version": plan.version,
+            "evidence_ids": sorted(plan.evidence_ids),
         },
         "proof_trace": trace,
     }
