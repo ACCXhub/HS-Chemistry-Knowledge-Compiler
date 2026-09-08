@@ -16,7 +16,9 @@ records:
           - {target_id: ent_substance_nacl, target_kind: substance, role: product, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
         projection:
           method: authored_molecular_v1
-          assumptions: ["Aqueous BaCl2 and Na2SO4 are represented at substance/formula-unit level for the molecular teaching equation."]
+          lifecycle: curated
+          required_assumptions: []
+          notes: ["Canonical molecular teaching form."]
       - form_key: complete_ionic
         form_kind: complete_ionic
         participants:
@@ -29,7 +31,9 @@ records:
           - {target_id: ent_species_cl_minus, target_kind: species, role: product, coefficient: {numerator: 2, denominator: 1}, phase: dissolved}
         projection:
           method: aqueous_strong_electrolyte_v1
-          assumptions: ["BaCl2 and Na2SO4 are treated as dissociated in the declared aqueous teaching model; BaSO4 is represented as precipitated solid."]
+          lifecycle: golden
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation, insoluble_precipitate_intact]
+          notes: ["Golden expected form for deterministic projection; not an independent reaction identity."]
       - form_key: net_ionic
         form_kind: net_ionic
         participants:
@@ -38,7 +42,9 @@ records:
           - {target_id: ent_substance_baso4, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
         projection:
           method: cancel_spectator_ions_v1
-          assumptions: ["Na+ and Cl- are spectator ions under the declared aqueous conditions."]
+          lifecycle: golden
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation, insoluble_precipitate_intact]
+          notes: ["Golden expected form for deterministic projection; not an independent reaction identity."]
     evidence_ids: [ev_f3b_solubility_precipitation]
 
   - id: rxn_f3b_hno3_koh_neutralization
@@ -58,7 +64,9 @@ records:
           - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
         projection:
           method: authored_molecular_v1
-          assumptions: ["HNO3 and KOH are represented at substance level in the molecular teaching equation."]
+          lifecycle: curated
+          required_assumptions: []
+          notes: ["Canonical molecular teaching form."]
       - form_key: complete_ionic
         form_kind: complete_ionic
         participants:
@@ -71,7 +79,9 @@ records:
           - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
         projection:
           method: aqueous_strong_electrolyte_v1
-          assumptions: ["HNO3 and KOH are treated as strongly ionized/dissociated in water."]
+          lifecycle: golden
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation, weak_electrolyte_remains_molecular]
+          notes: ["Golden expected form for deterministic projection; not an independent reaction identity."]
       - form_key: net_ionic
         form_kind: net_ionic
         participants:
@@ -80,7 +90,9 @@ records:
           - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
         projection:
           method: cancel_spectator_ions_v1
-          assumptions: ["K+ and NO3- are spectator ions under the declared aqueous conditions."]
+          lifecycle: golden
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation, weak_electrolyte_remains_molecular]
+          notes: ["Golden expected form for deterministic projection; not an independent reaction identity."]
     evidence_ids: [ev_f3b_strong_acid_base]
 
   - id: rxn_f3b_hcl_nahco3_gas_evolution
@@ -102,7 +114,9 @@ records:
           - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
         projection:
           method: authored_molecular_v1
-          assumptions: ["Hydrochloric acid and sodium hydrogen carbonate are represented at substance/formula-unit level for the molecular teaching equation."]
+          lifecycle: curated
+          required_assumptions: []
+          notes: ["Canonical molecular teaching form."]
       - form_key: complete_ionic
         form_kind: complete_ionic
         participants:
@@ -116,7 +130,9 @@ records:
           - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
         projection:
           method: aqueous_strong_electrolyte_v1
-          assumptions: ["HCl and NaHCO3 are represented as dissociated aqueous electrolytes; evolved CO2 and liquid H2O remain molecular products."]
+          lifecycle: golden
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation]
+          notes: ["Golden expected form for deterministic projection; reaction-family inference remains deferred."]
       - form_key: net_ionic
         form_kind: net_ionic
         participants:
@@ -126,5 +142,7 @@ records:
           - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
         projection:
           method: cancel_spectator_ions_v1
-          assumptions: ["Na+ and Cl- are spectator ions; the teaching projection represents the overall acid/hydrogen-carbonate gas-evolution transformation."]
+          lifecycle: golden
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation]
+          notes: ["Golden expected form for deterministic projection; reaction-family inference remains deferred."]
     evidence_ids: [ev_f3b_carbonate_acid]
