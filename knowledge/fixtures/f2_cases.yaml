@@ -1,0 +1,24 @@
+cases:
+  - id: case_precipitation
+    reactants:
+      - {target_id: ent_substance_nacl, phase: aqueous}
+      - {target_id: ent_substance_agno3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_neutralization
+    reactants:
+      - {target_id: ent_substance_hcl, phase: aqueous}
+      - {target_id: ent_substance_naoh, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_unknown_medium
+    reactants:
+      - {target_id: ent_substance_hcl, phase: aqueous}
+      - {target_id: ent_substance_naoh, phase: aqueous}
+    context: {temperature_regime: ambient}
+
+  - id: case_blocked_frozen
+    reactants:
+      - {target_id: ent_substance_nacl, phase: aqueous}
+      - {target_id: ent_substance_agno3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: frozen}
