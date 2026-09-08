@@ -122,11 +122,7 @@ def _construct_candidate(
     product_specs = tuple(sorted(plan.products, key=lambda item: (item[0], item[1])))
     products = tuple(item[0] for item in product_specs)
     product_phases = {entity_id: phase for entity_id, phase in product_specs}
-    trace.append({
-        "event": "products.constructed",
-        "rule_id": plan.rule_id,
-        "products": [{"target_id": entity_id, "phase": phase} for entity_id, phase in product_specs],
-    })
+    trace.append({"event": "products.constructed", "rule_id": plan.rule_id, "products": [{"target_id": i, "phase": p} for i, p in product_specs]})
     missing = [entity_id for entity_id in products if entity_id not in kb.entities]
     trace.append({"event": "products.resolved", "resolved": not missing, "missing": missing})
     if missing:
