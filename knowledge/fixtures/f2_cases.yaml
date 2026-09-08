@@ -88,3 +88,33 @@ cases:
       - {target_id: ent_substance_nacl, phase: aqueous}
       - {target_id: ent_substance_naoh, phase: aqueous}
     context: {medium: aqueous, temperature_regime: warmed}
+
+  - id: case_m8_hcl_na2so3
+    reactants:
+      - {target_id: ent_substance_hcl, phase: aqueous}
+      - {target_id: ent_substance_na2so3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m8_hno3_na2so3
+    reactants:
+      - {target_id: ent_substance_hno3, phase: aqueous}
+      - {target_id: ent_substance_na2so3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m8_hcl_k2so3
+    reactants:
+      - {target_id: ent_substance_hcl, phase: aqueous}
+      - {target_id: ent_substance_k2so3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m8_hcl_na2so3_unknown_medium
+    reactants:
+      - {target_id: ent_substance_hcl, phase: aqueous}
+      - {target_id: ent_substance_na2so3, phase: aqueous}
+    context: {temperature_regime: ambient}
+
+  - id: case_m8_hcl_na2so4_contrast
+    reactants:
+      - {target_id: ent_substance_hcl, phase: aqueous}
+      - {target_id: ent_substance_na2so4, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}

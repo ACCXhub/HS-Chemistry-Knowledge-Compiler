@@ -76,6 +76,20 @@ aqueous soluble ammonium salt
 
 M7 also makes embedded Reaction conditions executable. Participant signatures remain the canonical lookup index, while required conditions filter signature matches and preserve evidence in comparison/projection provenance. The gas phase is limited to the evidence-backed warmed test; general dissolved-ammonia equilibrium remains deferred.
 
+## M8 — Strong-acid sulfite gas evolution
+
+M8 adds a third chemically distinct strong-acid gas-evolution sibling using the established compiler pipeline:
+
+```text
+aqueous strong acid
++ soluble, strongly dissociated sulfite salt
+-> canonical salt + SO2(g) + H2O
+```
+
+Canonical `SO3^2-`, SO2, Na2SO3, and K2SO3 data support acid and cation substitutions. HCl + Na2SO3, HNO3 + Na2SO3, and HCl + K2SO3 use one typed Rule and the existing `ionic_pair` constructor. Exact balancing derives the `2:1:2:1:1` molecular ratio, while complete ionic projection and spectator cancellation normalize all three cases to `2 H+ + SO3^2- -> SO2(g) + H2O`.
+
+M8 requires no compiler, DSL, schema, artifact-format, or dependency change. It adds no warmed condition because ordinary aqueous acidification is sufficient for the represented transformation. Sulfate remains an explicit negative contrast; hydrogen sulfite, weak-acid displacement, sulfurous-acid equilibrium, sulfite redox, and broader sulfur chemistry remain later milestones.
+
 ## Still out of scope
 
 - full high-school chemistry population or wholesale legacy migration;

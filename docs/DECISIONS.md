@@ -188,3 +188,17 @@ Static overlap analysis finds conservative same-domain overlaps with neutralizat
 ## M7 remaining limitations
 
 Unconditioned dissolved-ammonia projection, ammonia equilibrium constants, generic weak acid/base reasoning, buffers, broader nitrogen chemistry, and sulfite/SO2 gas evolution remain deferred.
+
+## ADR-M8-001 — Sibling strong-acid sulfite rule on the established pipeline
+
+M8 represents `SO3^2-`, `SO2`, Na2SO3, and K2SO3 as canonical identities with exact composition, charge, and evidence-aware aqueous speciation. Strong-acid sulfite gas evolution is a sibling Rule to the M5 hydrogen-carbonate and M6 carbonate families. It retains their bounded strong-acid gate and adds the chemically distinct `classification.sulfite` salt constraint; no umbrella gas-evolving-anion facet, formula parsing, OR syntax, or exact reactant branch is introduced.
+
+The existing `ionic_pair` constructor resolves the spectator salt, the exact balancer derives `2 acid : 1 sulfite : 2 salt : 1 SO2 : 1 H2O`, and existing complete/net ionic projection yields `2 H+ + SO3^2- -> SO2(g) + H2O`. M8 carries only aqueous applicability: ordinary aqueous acidification supports SO2 liberation, so no warmed condition or D05 experiment mapping is authored. M7 condition-aware comparison remains unchanged.
+
+The sulfite Rule `specializes` strong-acid/base neutralization for conservative same-domain overlap resolution. It is mutually exclusive with the hydrogen-carbonate, carbonate, and ammonium/strong-base families because the bounded participant classifications and acid/base orientations are chemically distinct. Sulfate is not sulfite and cannot match from formula similarity.
+
+M8 composes the existing source, Rule DSL, RulePlan, artifact, balancing, and projection contracts. Compatibility versions therefore remain source schema `3.1.0`, Rule DSL `1.0.0`, RulePlan `1.0.0`, and artifact format `1.1.0`; no compiler dependency or infrastructure primitive is added.
+
+## M8 remaining limitations
+
+Hydrogen sulfite, weak-acid applicability, relative acid strength, sulfurous-acid and SO2/H2SO3 equilibria, sulfite oxidation, SO2 reducing/bleaching behavior, sulfur oxidation-state inference, H2S, thiosulfate, and broader sulfur chemistry remain deferred.

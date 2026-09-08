@@ -1,0 +1,106 @@
+records:
+  - id: src_rsc_sulfur_dioxide_practical
+    record_type: source
+    source_type: textbook
+    citation: "Royal Society of Chemistry Education, Preparing and testing sulfur dioxide gas: laboratory preparation by adding dilute sulfuric acid to sodium sulfite. https://edu.rsc.org/experiments/preparing-and-testing-sulfur-dioxide-gas/ (accessed 2026-09-09)"
+
+  - id: ev_m8_sulfite_identity_speciation
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "Supports canonical sulfite and sulfur-dioxide composition and the aqueous treatment of soluble sodium and potassium salts."
+    stance: supports
+
+  - id: ev_m8_sulfite_acid
+    record_type: evidence
+    source_id: src_rsc_sulfur_dioxide_practical
+    claim_summary: "Supports aqueous acidification of a soluble sulfite salt to form and liberate sulfur dioxide, with the corresponding sulfite plus acid chemistry."
+    stance: supports
+
+  - id: ent_species_so3_2minus
+    record_type: entity
+    entity_kind: species
+    terms: {preferred: sulfite ion}
+    semantic_keys: [{scheme: formula.ion, value: SO3^2-}]
+    payload:
+      species_kind: ion
+      formal_charge: -2
+      composition:
+        components:
+          - {element_id: ent_element_s, count: 1}
+          - {element_id: ent_element_o, count: 3}
+        net_charge: -2
+    facet_assertions:
+      - {facet_key: classification.sulfite, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m8_sulfite_identity_speciation]}
+    evidence_ids: [ev_m8_sulfite_identity_speciation]
+
+  - id: ent_substance_so2
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: sulfur dioxide}
+    semantic_keys: [{scheme: formula.molecular, value: SO2}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_s, count: 1}
+          - {element_id: ent_element_o, count: 2}
+        net_charge: 0
+    evidence_ids: [ev_m8_sulfite_identity_speciation, ev_m8_sulfite_acid]
+
+  - id: ent_substance_na2so3
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: sodium sulfite}
+    semantic_keys: [{scheme: formula.unit, value: Na2SO3}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_na, count: 2}
+          - {element_id: ent_element_s, count: 1}
+          - {element_id: ent_element_o, count: 3}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m8_sulfite_identity_speciation]}
+      - {facet_key: classification.sulfite, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m8_sulfite_identity_speciation]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m8_sulfite_identity_speciation]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m8_sulfite_identity_speciation]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_na_plus, coefficient: {numerator: 2, denominator: 1}}
+          - {target_id: ent_species_so3_2minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_m8_sulfite_identity_speciation]
+    evidence_ids: [ev_m8_sulfite_identity_speciation]
+
+  - id: ent_substance_k2so3
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: potassium sulfite}
+    semantic_keys: [{scheme: formula.unit, value: K2SO3}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_k, count: 2}
+          - {element_id: ent_element_s, count: 1}
+          - {element_id: ent_element_o, count: 3}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m8_sulfite_identity_speciation]}
+      - {facet_key: classification.sulfite, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m8_sulfite_identity_speciation]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m8_sulfite_identity_speciation]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m8_sulfite_identity_speciation]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_k_plus, coefficient: {numerator: 2, denominator: 1}}
+          - {target_id: ent_species_so3_2minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_m8_sulfite_identity_speciation]
+    evidence_ids: [ev_m8_sulfite_identity_speciation]
