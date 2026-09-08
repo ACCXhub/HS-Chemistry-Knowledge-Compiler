@@ -1,0 +1,38 @@
+records:
+  - id: rxn_agcl_precipitation
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_nacl, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_agno3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_agcl, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_nano3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+    forms:
+      - form_key: net_ionic
+        form_kind: net_ionic
+        participants:
+          - {target_id: ent_species_ag_plus, target_kind: species, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_cl_minus, target_kind: species, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_substance_agcl, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+        projection:
+          method: aqueous_strong_electrolyte_v1
+          assumptions: ["NaCl and AgNO3 are treated as strongly dissociated in the declared aqueous teaching model"]
+    evidence_ids: [ev_f2_reactions]
+
+  - id: rxn_hcl_naoh_neutralization
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_hcl, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_naoh, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_nacl, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+    forms:
+      - form_key: net_ionic
+        form_kind: net_ionic
+        participants:
+          - {target_id: ent_species_h_plus, target_kind: species, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_oh_minus, target_kind: species, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+        projection:
+          method: aqueous_strong_electrolyte_v1
+          assumptions: ["HCl and NaOH are treated as strongly dissociated in the declared aqueous teaching model"]
+    evidence_ids: [ev_f2_reactions]
