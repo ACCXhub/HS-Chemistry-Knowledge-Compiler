@@ -3,8 +3,6 @@ from __future__ import annotations
 from collections import Counter
 from pathlib import Path
 
-import yaml
-
 from compiler.balance import balance, validate_conservation
 from compiler.engine import infer_case
 from compiler.rules import compile_rules
@@ -135,23 +133,27 @@ def test_f3b_all_authored_evidence_refs_resolve() -> None:
         for assertion in record.get("facet_assertions", []):
             for evidence_id in assertion.get("evidence_ids", []):
                 assert evidence_id in kb.evidence
+        for assertion in record.get("property_assertions", []):
+            for evidence_id in assertion.get("evidence_ids", []):
+                assert evidence_id in kb.evidence
+        for profile in record.get("speciation_profiles", []):
+            for evidence_id in profile.get("evidence_ids", []):
+                assert evidence_id in kb.evidence
 
 
 def test_f3b_teaching_view_members_resolve_without_owning_identity() -> None:
     kb = load_knowledge(ROOT)
-    path = ROOT / "knowledge" / "teaching" / "f3b_aqueous_views.yaml"
-    view = yaml.safe_load(path.read_text(encoding="utf-8"))
-    assert view["record_type"] == "teaching_view"
+    view = kb.teaching_views["view_f3b_hs_aqueous_core"]
     resolvable = set(kb.entities) | set(kb.reactions)
     members: list[str] = []
     for node in view["nodes"]:
         members.extend(node.get("members", []))
     assert members
     assert all(member in resolvable for member in members)
-    assert len(set(members)) < len(members)  # reuse across paths is intentional
+    assert len(set(members)) < len(members)
 
 
-def test_f3b_inference_coverage_audit_executes_against_f2_rules() -> None:
+def test_f3b_inference_coverage_audit_executes_against_converged_rules() -> None:
     kb = load_knowledge(ROOT)
     plans = compile_rules(kb)
     cases = [
@@ -167,8 +169,10 @@ def test_f3b_inference_coverage_audit_executes_against_f2_rules() -> None:
     assert results["f3b_existing_agcl"]["canonical_match"]["reaction_ids"] == ["rxn_agcl_precipitation"]
     assert results["f3b_existing_neutralization"]["status"] == "inferred"
     assert results["f3b_existing_neutralization"]["canonical_match"]["reaction_ids"] == ["rxn_hcl_naoh_neutralization"]
-    assert results["f3b_baso4"]["status"] == "no_match"
-    assert results["f3b_hno3_koh"]["status"] == "no_match"
+    assert results["f3b_baso4"]["status"] == "inferred"
+    assert results["f3b_baso4"]["canonical_match"]["reaction_ids"] == ["rxn_f3b_baso4_precipitation"]
+    assert results["f3b_hno3_koh"]["status"] == "inferred"
+    assert results["f3b_hno3_koh"]["canonical_match"]["reaction_ids"] == ["rxn_f3b_hno3_koh_neutralization"]
     assert results["f3b_hcl_nahco3"]["status"] == "no_match"
     assert results["f3b_no_net_contrast"]["status"] == "no_match"
 
@@ -182,3 +186,4 @@ def test_f3b_generated_candidates_do_not_become_canonical_records() -> None:
     assert result["candidate_key"].startswith("cand_sha256_")
     assert "id" not in result
     assert result["candidate_key"] not in kb.reactions
+    assert result["provenance"]["kind"] == "derived_reaction_candidate"
