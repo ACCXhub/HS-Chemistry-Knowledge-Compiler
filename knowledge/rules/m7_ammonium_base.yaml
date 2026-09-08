@@ -1,0 +1,32 @@
+records:
+  - id: rule_m7_ammonium_strong_base_gas_evolution
+    record_type: rule
+    version: 1.0.0
+    decision_domain: aqueous_acid_base
+    match:
+      reactants:
+        - bind: ammonium_salt
+          entity_kind: substance
+          required_facets: [classification.ammonium, classification.salt]
+        - bind: base
+          entity_kind: substance
+          required_facets: [classification.base]
+    context:
+      medium: aqueous
+      temperature_regime: warmed
+    predicates:
+      - {operator: equals, subject: property, binding: ammonium_salt, key: electrolyte.strength, expected: strong}
+      - {operator: equals, subject: property, binding: ammonium_salt, key: solubility.class, expected: soluble}
+      - {operator: equals, subject: property, binding: base, key: base.strength, expected: strong}
+      - {operator: equals, subject: property, binding: base, key: electrolyte.strength, expected: strong}
+    products:
+      - phase: aqueous
+        construct: {kind: ionic_pair, cation_from: base, anion_from: ammonium_salt}
+      - {target_id: ent_substance_nh3, phase: gas}
+      - {target_id: ent_substance_h2o, phase: liquid}
+    validators: [atoms_conserved, charge_conserved]
+    evidence_ids: [ev_m7_ammonium_identity_speciation, ev_m7_ammonium_hydroxide_aqueous, ev_m7_ammonia_warmed_test]
+    mutually_exclusive_with:
+      - rule_f2_strong_acid_base_neutralization
+      - rule_m5_strong_acid_hydrogen_carbonate_gas_evolution
+      - rule_m6_strong_acid_carbonate_gas_evolution

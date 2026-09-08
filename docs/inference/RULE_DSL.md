@@ -1,12 +1,12 @@
 # Declarative Reaction Rule DSL
 
-Status: **M6 strong-acid carbonate executable semantic contract**
+Status: **M7 ammonium/base executable semantics; Rule DSL unchanged**
 
 ## 1. Ownership and version
 
 Each authored Rule owns one stable `rule_*` ID, semantic version, evidence, and explicit resolution relationships. The Rule DSL version is independent from source-schema, compiler-plan, and external-artifact versions.
 
-M6 retains Rule DSL version `1.0.0`; the carbonate sibling Rule composes existing predicates, relationships, and constructors without a contract-version change.
+M7 retains Rule DSL version `1.0.0`; the ammonium/base Rule composes existing context/property predicates, relationships, and `ionic_pair` construction without a Rule source or RulePlan contract change. Reaction conditions belong to the Reaction source contract, not the Rule DSL.
 
 ## 2. Participant patterns
 

@@ -44,6 +44,51 @@ def canonical_reaction_index(kb: KnowledgeBase) -> dict[str, list[str]]:
     return index
 
 
+def compare_canonical_reactions(
+    kb: KnowledgeBase,
+    participants: list[dict[str, Any]],
+    context: dict[str, Any],
+) -> dict[str, Any]:
+    signature_matches = canonical_reaction_index(kb).get(reaction_signature(participants), [])
+    compatible: list[str] = []
+    compatibility: list[dict[str, Any]] = []
+    condition_evidence_ids: set[str] = set()
+    for reaction_id in signature_matches:
+        reaction = kb.reactions[reaction_id]
+        unsatisfied: list[dict[str, Any]] = []
+        for condition in sorted(reaction.get("conditions", []), key=lambda item: item["key"]):
+            key = condition["key"]
+            actual = context.get(key)
+            if actual != condition["value"]:
+                unsatisfied.append(
+                    {
+                        "key": key,
+                        "required": condition["value"],
+                        "actual": actual,
+                        "reason": "missing" if key not in context else "conflicting",
+                        "evidence_ids": sorted(condition.get("evidence_ids", [])),
+                    }
+                )
+        state = "incompatible" if unsatisfied else "compatible"
+        compatibility.append(
+            {
+                "reaction_id": reaction_id,
+                "state": state,
+                "unsatisfied": unsatisfied,
+            }
+        )
+        if not unsatisfied:
+            compatible.append(reaction_id)
+            for condition in reaction.get("conditions", []):
+                condition_evidence_ids.update(condition.get("evidence_ids", []))
+    return {
+        "state": "exact" if len(compatible) == 1 else "none" if not compatible else "conflict",
+        "reaction_ids": compatible,
+        "condition_compatibility": compatibility,
+        "condition_evidence_ids": sorted(condition_evidence_ids),
+    }
+
+
 def _trace_predicate(
     trace: list[dict[str, Any]],
     event: str,
@@ -288,10 +333,17 @@ def _construct_candidate(
                 "coefficient": {"numerator": coefficient, "denominator": 1},
             }
         )
-    signature = reaction_signature(participants)
-    matches = canonical_reaction_index(kb).get(signature, [])
-    comparison_state = "exact" if len(matches) == 1 else "none" if not matches else "conflict"
-    trace.append({"event": "canonical.compare", "state": comparison_state, "reaction_ids": matches})
+    comparison = compare_canonical_reactions(kb, participants, context)
+    matches = comparison["reaction_ids"]
+    comparison_state = comparison["state"]
+    trace.append(
+        {
+            "event": "canonical.compare",
+            "state": comparison_state,
+            "reaction_ids": matches,
+            "condition_compatibility": comparison["condition_compatibility"],
+        }
+    )
 
     semantic_candidate = {
         "rule_id": plan.rule_id,
@@ -327,6 +379,9 @@ def _construct_candidate(
         },
         "proof_trace": trace,
     }
+    if comparison["condition_evidence_ids"]:
+        result["canonical_match"]["condition_evidence_ids"] = comparison["condition_evidence_ids"]
+        result["provenance"]["condition_evidence_ids"] = comparison["condition_evidence_ids"]
     if comparison_state == "none":
         result["diagnostics"] = [
             diagnostic("canonical_no_match", "canonical_comparison", "candidate has no canonical reaction match")

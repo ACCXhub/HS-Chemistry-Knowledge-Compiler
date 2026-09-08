@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.invalid/hs-chem/knowledge-record.schema.json",
-  "x-source-schema-version": "3.0.0",
+  "x-source-schema-version": "3.1.0",
   "oneOf": [
     {"$ref": "#/$defs/entity"},
     {"$ref": "#/$defs/reaction"},
@@ -191,6 +191,26 @@
         }
       }
     },
+    "reactionCondition": {
+      "type": "object",
+      "required": ["key", "value", "evidence_ids"],
+      "additionalProperties": false,
+      "properties": {
+        "key": {"enum": ["medium", "temperature_regime"]},
+        "value": {"enum": ["aqueous", "warmed"]},
+        "evidence_ids": {"$ref": "#/$defs/evidenceIds"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"key": {"const": "medium"}}},
+          "then": {"properties": {"value": {"const": "aqueous"}}}
+        },
+        {
+          "if": {"properties": {"key": {"const": "temperature_regime"}}},
+          "then": {"properties": {"value": {"const": "warmed"}}}
+        }
+      ]
+    },
     "reaction": {
       "type": "object",
       "required": ["id", "record_type", "participants", "forms", "evidence_ids"],
@@ -199,6 +219,7 @@
         "id": {"$ref": "#/$defs/id"},
         "record_type": {"const": "reaction"},
         "participants": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/participant"}},
+        "conditions": {"type": "array", "items": {"$ref": "#/$defs/reactionCondition"}},
         "forms": {"type": "array", "items": {"$ref": "#/$defs/reactionForm"}},
         "evidence_ids": {"$ref": "#/$defs/evidenceIds"}
       }

@@ -1,6 +1,6 @@
 # Architecture Decision Log
 
-Status: **M6 strong-acid carbonate gas-evolution decisions**
+Status: **M7 ammonium/base and reaction-condition convergence decisions**
 
 ## ADR-F1-001 — Entity-kind alignment
 
@@ -118,10 +118,10 @@ F3A does not implement a universal aqueous speciation solver. Half-reactions rem
 
 The compiler now exposes independent version axes:
 
-- source schema: `3.0.0`;
+- source schema: `3.1.0`;
 - Rule DSL: `1.0.0`;
 - internal RulePlan: `1.0.0`;
-- external artifact format: `1.0.0`.
+- external artifact format: `1.1.0`.
 
 Artifacts carry the external format version and manifests carry all four versions. Consumers can reject unsupported artifact format versions. No broader long-term backwards-compatibility promise is made by F3A.
 
@@ -166,3 +166,25 @@ The carbonate Rule `specializes` strong-acid/base neutralization when their broa
 ## M6 remaining limitation
 
 Relative acid strength, weak-acid carbonate applicability, pKa comparison, equilibrium direction, concentration-sensitive displacement, carbonate/CO2/H2CO3 equilibria, buffers, and universal speciation remain deferred. M6 supports only aqueous strong acids and soluble, strongly dissociated carbonate salts.
+
+## ADR-M7-001 — Executable embedded Reaction conditions
+
+Canonical Reaction conditions are embedded, evidence-bearing values with controlled `key` and `value` fields. M7 executes only `medium = aqueous` and `temperature_regime = warmed`; duplicate keys and unresolved condition evidence are source errors. Conditions do not receive ordinary durable IDs and free text is not semantic truth.
+
+Canonical comparison keeps the normalized participant signature as its first-stage index, then filters signature matches by each Reaction's required conditions. Extra request context is allowed; a missing or conflicting required value is incompatible; multiple compatible reactions remain an explicit conflict. Existing conditionless reactions remain compatible. Candidate semantic identity continues to include the request context, so unchanged M4-M6 candidate keys do not change.
+
+This source and artifact shape change advances source schema to `3.1.0` and artifact format to `1.1.0`; artifact reader compatibility retains `1.0.0`. Rule DSL and internal RulePlan remain `1.0.0` because no Rule syntax or lowered plan contract changed.
+
+## ADR-M7-002 — Conditioned ammonium/strong-base gas-liberation family
+
+M7 adds canonical `NH4+`, `NH3`, `NH4Cl`, and `(NH4)2SO4`, with `classification.ammonium` as a stable identity facet on ammonium-bearing salts/species. The reusable Rule requires a soluble, strongly dissociated ammonium salt, a strongly dissociated strong base, aqueous medium, and warmed temperature regime. It uses existing aqueous speciation and `ionic_pair` construction to resolve the spectator salt and never parses formula text or creates `NH4OH`.
+
+The canonical M7 reactions intentionally represent the high-school warmed test with `NH3(g)`. OpenStax supports ammonia preparation from an ammonium salt and strong base; the Cambridge IGCSE qualitative-analysis specification supplies the warming condition. General aqueous `NH4+ + OH- -> NH3(aq) + H2O` chemistry and ammonia equilibria remain outside this gas-specific Rule.
+
+The exact balancer derives both molecular equations. The projector now reduces any common rational scale after spectator cancellation, allowing the ammonium-sulfate case to normalize from two reactive equivalents to `NH4+ + OH- -> NH3(g) + H2O` while retaining Reaction-condition and evidence provenance.
+
+Static overlap analysis finds conservative same-domain overlaps with neutralization and the two strong-acid carbonate families. M7 declares them mutually exclusive because its bounded strong-base participant cannot simultaneously be the strong-acid participant required by those families; cross-domain precipitation remains outside the same-domain overlap graph. No priority or source order is used.
+
+## M7 remaining limitations
+
+Unconditioned dissolved-ammonia projection, ammonia equilibrium constants, generic weak acid/base reasoning, buffers, broader nitrogen chemistry, and sulfite/SO2 gas evolution remain deferred.

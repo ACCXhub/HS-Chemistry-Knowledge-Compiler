@@ -14,6 +14,8 @@ records:
           - ent_substance_nahco3
           - ent_substance_na2co3
           - ent_substance_k2co3
+          - ent_substance_nh4cl
+          - ent_substance_nh4_2so4
       - path_key: D03/reaction-types/precipitation
         parent_path_key: D03/reaction-types
         members: [rxn_f3b_baso4_precipitation]
@@ -28,6 +30,13 @@ records:
           - rxn_m6_hcl_na2co3_gas_evolution
           - rxn_m6_hno3_na2co3_gas_evolution
           - rxn_m6_hcl_k2co3_gas_evolution
+          - rxn_m7_nh4cl_naoh_ammonia_liberation
+          - rxn_m7_nh4_2so4_naoh_ammonia_liberation
+      - path_key: D05/chemical-experiments/ammonium-ion-identification
+        parent_path_key: D05/chemical-experiments
+        members:
+          - rxn_m7_nh4cl_naoh_ammonia_liberation
+          - rxn_m7_nh4_2so4_naoh_ammonia_liberation
       - path_key: D06/notation/ionic-equations
         parent_path_key: D06/notation
         members:
@@ -38,6 +47,8 @@ records:
           - rxn_m6_hcl_na2co3_gas_evolution
           - rxn_m6_hno3_na2co3_gas_evolution
           - rxn_m6_hcl_k2co3_gas_evolution
+          - rxn_m7_nh4cl_naoh_ammonia_liberation
+          - rxn_m7_nh4_2so4_naoh_ammonia_liberation
       - path_key: D08/substance-classification/acids
         parent_path_key: D08/substance-classification
         members:
@@ -56,6 +67,8 @@ records:
           - ent_substance_nahco3
           - ent_substance_na2co3
           - ent_substance_k2co3
+          - ent_substance_nh4cl
+          - ent_substance_nh4_2so4
       - path_key: D10/elements-and-compounds/representative-elements
         parent_path_key: D10/elements-and-compounds
         members:
@@ -63,3 +76,8 @@ records:
           - ent_element_s
           - ent_element_k
           - ent_element_ba
+      - path_key: D10/elements-and-compounds/nitrogen-compounds
+        parent_path_key: D10/elements-and-compounds
+        members:
+          - ent_species_nh4_plus
+          - ent_substance_nh3

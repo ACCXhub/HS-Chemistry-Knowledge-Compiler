@@ -1,6 +1,6 @@
 # Schema Strategy
 
-Status: **M4 Chemistry Model Convergence source and artifact contract**
+Status: **M7 Reaction-condition source and artifact contract**
 
 ## 1. Authoring boundary
 
@@ -14,7 +14,7 @@ The active source schema is:
 
 ```text
 schemas/knowledge-record.schema.json
-source schema version: 3.0.0
+source schema version: 3.1.0
 ```
 
 It covers the M4 executable subset of:
@@ -44,7 +44,8 @@ M4 validation is deliberately staged:
 8. conservative overlap/conflict analysis;
 9. inference-time product resolution;
 10. exact balancing and atom/charge validation;
-11. canonical Reaction comparison.
+11. participant-signature canonical Reaction lookup;
+12. required-condition compatibility filtering.
 
 Malformed or semantically ambiguous source is rejected rather than repaired by hidden defaults.
 
@@ -100,16 +101,18 @@ A consumer/compiler may expose the form only when the required assumptions and c
 
 M4 separates four compatibility coordinates:
 
-| Coordinate | M4 value | Owner |
+| Coordinate | M7 value | Owner |
 | --- | --- | --- |
-| source schema | `3.0.0` | source/data contract |
+| source schema | `3.1.0` | source/data contract |
 | Rule DSL | `1.0.0` | rule source contract |
 | compiler RulePlan | `1.0.0` | compiler internal contract |
-| external artifact format | `1.0.0` | external generated contract |
+| external artifact format | `1.1.0` | external generated contract |
 
 These axes are intentionally independent. A source schema change does not automatically imply an external artifact-format change, and an internal RulePlan revision is not a source DSL revision by definition.
 
 M4 does not promise long-term backward compatibility beyond these explicit coordinates.
+
+The `1.1.0` reader accepts historical artifact format `1.0.0`. Existing source Reaction records may omit `conditions`; omission means no additional canonical-match requirement. M7 does not change Rule DSL or RulePlan versions.
 
 ## 8. Generated artifacts
 

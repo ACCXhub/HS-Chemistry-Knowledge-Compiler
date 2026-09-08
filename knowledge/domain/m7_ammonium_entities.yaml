@@ -1,0 +1,114 @@
+records:
+  - id: src_cambridge_igcse_chemistry_0620_2026
+    record_type: source
+    source_type: standard
+    citation: "Cambridge International, Cambridge IGCSE Chemistry 0620 syllabus for 2026-2028, Notes for use in qualitative analysis: ammonium-ion test with aqueous sodium hydroxide and gentle warming. https://www.cambridgeinternational.org/Images/697205-2026-2028-syllabus.pdf (accessed 2026-09-09)"
+
+  - id: ev_m7_ammonium_identity_speciation
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "Supports ammonium and ammonia composition and the aqueous dissociation of soluble ammonium chloride and ammonium sulfate into canonical ions."
+    stance: supports
+
+  - id: ev_m7_ammonium_hydroxide_aqueous
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "Supports the aqueous acid-base transformation NH4+ + OH- to NH3 + H2O and laboratory ammonia preparation from an ammonium salt and a strong base."
+    stance: supports
+
+  - id: ev_m7_ammonia_warmed_test
+    record_type: evidence
+    source_id: src_cambridge_igcse_chemistry_0620_2026
+    claim_summary: "Supports gentle warming with aqueous sodium hydroxide as the high-school ammonium-ion test condition that liberates observable ammonia gas."
+    stance: supports
+
+  - id: ent_species_nh4_plus
+    record_type: entity
+    entity_kind: species
+    terms: {preferred: ammonium ion}
+    semantic_keys: [{scheme: formula.ion, value: NH4+}]
+    payload:
+      species_kind: ion
+      formal_charge: 1
+      composition:
+        components:
+          - {element_id: ent_element_n, count: 1}
+          - {element_id: ent_element_h, count: 4}
+        net_charge: 1
+    facet_assertions:
+      - {facet_key: classification.ammonium, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m7_ammonium_identity_speciation]}
+    evidence_ids: [ev_m7_ammonium_identity_speciation]
+
+  - id: ent_substance_nh3
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: ammonia}
+    semantic_keys: [{scheme: formula.molecular, value: NH3}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_n, count: 1}
+          - {element_id: ent_element_h, count: 3}
+        net_charge: 0
+    evidence_ids: [ev_m7_ammonium_hydroxide_aqueous, ev_m7_ammonia_warmed_test]
+
+  - id: ent_substance_nh4cl
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: ammonium chloride}
+    semantic_keys: [{scheme: formula.unit, value: NH4Cl}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_n, count: 1}
+          - {element_id: ent_element_h, count: 4}
+          - {element_id: ent_element_cl, count: 1}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m7_ammonium_identity_speciation]}
+      - {facet_key: classification.ammonium, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m7_ammonium_identity_speciation]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m7_ammonium_identity_speciation]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m7_ammonium_identity_speciation]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_nh4_plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_cl_minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_m7_ammonium_identity_speciation]
+    evidence_ids: [ev_m7_ammonium_identity_speciation]
+
+  - id: ent_substance_nh4_2so4
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: ammonium sulfate}
+    semantic_keys: [{scheme: formula.unit, value: (NH4)2SO4}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_n, count: 2}
+          - {element_id: ent_element_h, count: 8}
+          - {element_id: ent_element_s, count: 1}
+          - {element_id: ent_element_o, count: 4}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m7_ammonium_identity_speciation]}
+      - {facet_key: classification.ammonium, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m7_ammonium_identity_speciation]}
+      - {facet_key: classification.sulfate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m7_ammonium_identity_speciation]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m7_ammonium_identity_speciation]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m7_ammonium_identity_speciation]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_nh4_plus, coefficient: {numerator: 2, denominator: 1}}
+          - {target_id: ent_species_so4_2minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_m7_ammonium_identity_speciation]
+    evidence_ids: [ev_m7_ammonium_identity_speciation]

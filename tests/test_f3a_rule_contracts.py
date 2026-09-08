@@ -174,7 +174,7 @@ def test_reaction_form_projection_preserves_identity_and_uses_assumptions() -> N
 def test_artifact_version_emitted_and_validated(tmp_path: Path) -> None:
     manifest = compile_repository(ROOT, tmp_path / "out", "fixture-revision")
     assert manifest["versions"] == {
-        "source_schema": "3.0.0",
+        "source_schema": "3.1.0",
         "rule_dsl": "1.0.0",
         "rule_plan": "1.0.0",
         "artifact_format": ARTIFACT_FORMAT_VERSION,

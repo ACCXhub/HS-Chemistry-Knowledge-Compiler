@@ -1,6 +1,6 @@
 # Deterministic Reaction Inference Semantics
 
-Status: **M6 strong-acid carbonate gas-evolution canonical semantics**
+Status: **M7 ammonium/base and condition-aware canonical semantics**
 
 ## Pipeline
 
@@ -16,7 +16,8 @@ input normalization
 → exact balancing
 → atom validation
 → charge validation
-→ canonical Reaction comparison
+→ participant-signature canonical Reaction lookup
+→ required-condition compatibility filtering
 → ReactionCandidate + proof trace
 ```
 
@@ -44,13 +45,13 @@ Balancing receives fixed canonical reactants/products and uses exact arithmetic.
 
 ## Canonical comparison
 
-Canonical comparison happens after validation. `none`, exact single match, and multi-match conflict remain distinguishable. Even an exact match remains a generated `ReactionCandidate` until separate curation changes canonical source.
+Canonical comparison happens after validation. The existing normalized participant signature retrieves chemical matches; each canonical Reaction's embedded conditions are then treated as required key/value constraints. Extra candidate context is ignored for compatibility, while missing/conflicting required conditions reject that canonical match. `none`, exact single match, and multi-match conflict remain distinguishable. Condition evidence and compatibility decisions remain in generated proof/provenance. Even an exact match remains a generated `ReactionCandidate` until separate curation changes canonical source.
 
 ## ReactionForm projection
 
-A `ReactionForm` is projected only when its declared `required_assumptions` and a unique context-matching canonical speciation profile are available. The projection response retains the owning `reaction_id`, exact coefficients, atom/charge validation, derivation operators, and evidence; no new Reaction identity is created.
+A `ReactionForm` is projected only when its declared `required_assumptions` and a unique context-matching canonical speciation profile are available. The projection response retains the owning `reaction_id`, exact coefficients, atom/charge validation, derivation operators, Reaction conditions, and evidence; no new Reaction identity is created. Net ionic participants are reduced to their smallest exact rational scale after spectator cancellation.
 
-M6 still covers bounded strong-electrolyte aqueous projection only. Missing or ambiguous speciation is explicit; this is not a universal aqueous speciation solver or a relative-acid-strength model.
+M7 still covers bounded strong-electrolyte aqueous projection only. The ammonium/base family emits `NH3(g)` only for aqueous warmed context. Missing or ambiguous speciation is explicit; this is not a universal aqueous speciation solver, ammonia equilibrium model, or relative-acid-strength model.
 
 An overall `indeterminate/unknown_applicability` result can coexist with a known-false predicate in one rule family when another structurally possible family depends on absent open-world knowledge. This does not emit a candidate or author canonical negative reaction truth.
 

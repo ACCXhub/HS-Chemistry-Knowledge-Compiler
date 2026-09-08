@@ -1,6 +1,6 @@
 # Canonical Data Model
 
-Status: **M4 Chemistry Model Convergence over the canonical model**
+Status: **M7 executable Reaction-condition convergence over the canonical model**
 
 This document defines canonical source-record semantics. M4 converges the executable Rule/fact/speciation/TeachingView/ReactionForm/artifact subset without narrowing the broader model.
 
@@ -154,6 +154,20 @@ evidence_ids: [ev_...]
 
 Participants and conditions are embedded values. Reaction identity is independent from equation text, participant order, coefficient scaling, or teaching placement.
 
+M7's executable condition subset is an ordered-insensitive list of evidence-bearing controlled values:
+
+```yaml
+conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids: [ev_...]
+  - key: temperature_regime
+    value: warmed
+    evidence_ids: [ev_...]
+```
+
+Condition keys are unique within a Reaction. They are requirements for canonical comparison, not a demand that request context equal the Reaction condition object exactly; additional request dimensions are allowed.
+
 ## 8. ReactionForm
 
 `ReactionForm` is a representation/projection of the owning Reaction when the underlying transformation is the same.
@@ -268,12 +282,12 @@ Evidence/provenance must remain traceable through compiler output when a generat
 
 External generated artifacts remain contract-owned and reproducible. M4 keeps four compatibility coordinates separate:
 
-| Coordinate | M4 value |
+| Coordinate | M7 value |
 | --- | --- |
-| source schema | `3.0.0` |
+| source schema | `3.1.0` |
 | Rule DSL | `1.0.0` |
 | internal RulePlan | `1.0.0` |
-| external artifact format | `1.0.0` |
+| external artifact format | `1.1.0` |
 
 Manifests carry all four coordinates. External payloads carry `artifact_format_version`; consumers must reject unsupported artifact-format versions rather than inferring payload compatibility from compiler package version alone.
 

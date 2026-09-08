@@ -61,6 +61,21 @@ Canonical `CO3^2-`, Na2CO3, and K2CO3 data pressure-test divalent speciation and
 
 The sibling design deliberately avoids OR syntax and a synthetic carbonate-family facet. Relative acid-strength reasoning, weak-acid applicability, pKa/equilibrium modeling, and any broader speciation capability remain later evidence-driven work.
 
+## M7 — Ammonium + strong base and Reaction conditions
+
+M7 adds a conditioned high-school laboratory family:
+
+```text
+aqueous soluble ammonium salt
++ strong aqueous base
++ warmed condition
+-> canonical spectator salt + NH3(g) + H2O
+```
+
+`NH4Cl + NaOH` and `(NH4)2SO4 + 2 NaOH` use one generic Rule and the existing `ionic_pair` constructor. Exact balancing handles the multi-ammonium case; complete ionic projection and normalized spectator cancellation yield `NH4+ + OH- -> NH3(g) + H2O` for both.
+
+M7 also makes embedded Reaction conditions executable. Participant signatures remain the canonical lookup index, while required conditions filter signature matches and preserve evidence in comparison/projection provenance. The gas phase is limited to the evidence-backed warmed test; general dissolved-ammonia equilibrium remains deferred.
+
 ## Still out of scope
 
 - full high-school chemistry population or wholesale legacy migration;

@@ -12,8 +12,8 @@ from .rules import RULE_DSL_VERSION, RULE_PLAN_VERSION, analyze_rule_overlaps, c
 from .source import SOURCE_SCHEMA_VERSION, KnowledgeBase, load_cases, load_knowledge
 
 
-ARTIFACT_FORMAT_VERSION = "1.0.0"
-SUPPORTED_ARTIFACT_FORMAT_VERSIONS = frozenset({ARTIFACT_FORMAT_VERSION})
+ARTIFACT_FORMAT_VERSION = "1.1.0"
+SUPPORTED_ARTIFACT_FORMAT_VERSIONS = frozenset({"1.0.0", ARTIFACT_FORMAT_VERSION})
 
 
 def artifact_versions() -> dict[str, str]:

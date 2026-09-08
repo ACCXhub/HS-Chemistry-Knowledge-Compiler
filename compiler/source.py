@@ -12,7 +12,7 @@ from .model import FactValue, KnowledgeState
 
 
 SOURCE_DIRS = ("knowledge/domain", "knowledge/rules", "knowledge/teaching")
-SOURCE_SCHEMA_VERSION = "3.0.0"
+SOURCE_SCHEMA_VERSION = "3.1.0"
 
 
 class SourceError(ValueError):
@@ -212,6 +212,20 @@ def _validate_assertion_uniqueness(record: dict[str, Any]) -> None:
         profile_keys.add(key)
 
 
+def _validate_reaction_condition_uniqueness(record: dict[str, Any]) -> None:
+    condition_keys: set[str] = set()
+    for condition in record.get("conditions", []):
+        key = condition["key"]
+        if key in condition_keys:
+            raise SourceError(
+                f"duplicate reaction condition: {record['id']}:{key}",
+                code="schema_invalid",
+                stage="source_load",
+                details={"reaction_id": record["id"], "condition_key": key},
+            )
+        condition_keys.add(key)
+
+
 def load_knowledge(repo_root: Path) -> KnowledgeBase:
     validator = _validator(repo_root)
     records: list[dict[str, Any]] = []
@@ -246,6 +260,13 @@ def load_knowledge(repo_root: Path) -> KnowledgeBase:
                 )
             if record.get("record_type") == "entity":
                 _validate_assertion_uniqueness(record)
+            if record.get("record_type") == "reaction":
+                _validate_reaction_condition_uniqueness(record)
+                if "conditions" in record:
+                    record["conditions"] = sorted(
+                        record["conditions"],
+                        key=lambda condition: (condition["key"], condition["value"]),
+                    )
             seen_ids.add(record_id)
             records.append(record)
 
@@ -320,6 +341,9 @@ def validate_references(kb: KnowledgeBase) -> None:
             _validate_participants(kb, form.get("participants", []), f"{reaction['id']}:{form['form_key']}")
         for evidence_id in reaction.get("evidence_ids", []):
             _require(kb.evidence, evidence_id, "evidence")
+        for condition in reaction.get("conditions", []):
+            for evidence_id in condition.get("evidence_ids", []):
+                _require(kb.evidence, evidence_id, "evidence")
 
     for rule in kb.rules.values():
         for pattern in rule["match"]["reactants"]:

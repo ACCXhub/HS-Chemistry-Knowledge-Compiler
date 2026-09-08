@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from fractions import Fraction
+from math import gcd, lcm
 from typing import Any, Iterable
 
 from .source import KnowledgeBase, SourceError
@@ -79,6 +80,27 @@ def _cancel_spectators(kb: KnowledgeBase, participants: list[dict[str, Any]]) ->
     return _merge_participants(kb, entries)
 
 
+def _normalize_participants(participants: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    coefficients = [_coefficient(item["coefficient"]) for item in participants]
+    denominator_lcm = 1
+    for coefficient in coefficients:
+        denominator_lcm = lcm(denominator_lcm, coefficient.denominator)
+    integers = [coefficient.numerator * (denominator_lcm // coefficient.denominator) for coefficient in coefficients]
+    common = 0
+    for integer in integers:
+        common = gcd(common, integer)
+    common = common or 1
+    normalized: list[dict[str, Any]] = []
+    for participant, integer in zip(participants, integers, strict=True):
+        normalized.append(
+            {
+                **participant,
+                "coefficient": {"numerator": integer // common, "denominator": 1},
+            }
+        )
+    return normalized
+
+
 def _validate_participant_conservation(kb: KnowledgeBase, participants: list[dict[str, Any]]) -> dict[str, bool]:
     atom_totals: dict[str, Fraction] = defaultdict(Fraction)
     charge_total = Fraction(0)
@@ -134,6 +156,12 @@ def derive_aqueous_ionic_form(
     entries: list[tuple[str, str, str, Fraction]] = []
     profile_trace: list[dict[str, Any]] = []
     evidence_ids: set[str] = set(reaction.get("evidence_ids", []))
+    reaction_conditions = sorted(
+        reaction.get("conditions", []),
+        key=lambda condition: (condition["key"], condition["value"]),
+    )
+    for condition in reaction_conditions:
+        evidence_ids.update(condition.get("evidence_ids", []))
     for participant in reaction["participants"]:
         coefficient = _coefficient(participant["coefficient"])
         if participant["phase"] != "aqueous":
@@ -187,7 +215,7 @@ def derive_aqueous_ionic_form(
             )
 
     complete = _merge_participants(kb, entries)
-    projected = complete if form_kind == "complete_ionic" else _cancel_spectators(kb, complete)
+    projected = complete if form_kind == "complete_ionic" else _normalize_participants(_cancel_spectators(kb, complete))
     validation = _validate_participant_conservation(kb, projected)
     if not validation["atoms"] or not validation["charge"]:
         return {
@@ -215,6 +243,7 @@ def derive_aqueous_ionic_form(
             "kind": "derived_reaction_form",
             "source_reaction_id": reaction_id,
             "context": {key: context[key] for key in sorted(context)},
+            "reaction_conditions": reaction_conditions,
             "speciation_profiles": sorted(profile_trace, key=lambda item: (item["target_id"], item["profile_key"])),
             "operators": operators,
             "evidence_ids": sorted(evidence_ids),
