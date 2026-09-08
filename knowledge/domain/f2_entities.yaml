@@ -2,55 +2,20 @@ records:
   - id: src_f2_fixture
     record_type: source
     source_type: fixture
-    citation: "F2 architecture executable fixture; not a corpus authority"
+    citation: "F2/F3A architecture executable fixture; not a corpus authority"
 
   - id: ev_f2_reactions
     record_type: evidence
     source_id: src_f2_fixture
-    claim_summary: "Supports the deliberately tiny F2 precipitation and neutralization fixture semantics."
+    claim_summary: "Supports the deliberately tiny precipitation and neutralization fixture semantics."
     stance: supports
 
-  - id: ent_element_h
-    record_type: entity
-    entity_kind: element
-    terms: {preferred: hydrogen}
-    semantic_keys: [{scheme: element.symbol, value: H}]
-    payload: {atomic_number: 1, symbol: H}
-
-  - id: ent_element_o
-    record_type: entity
-    entity_kind: element
-    terms: {preferred: oxygen}
-    semantic_keys: [{scheme: element.symbol, value: O}]
-    payload: {atomic_number: 8, symbol: O}
-
-  - id: ent_element_n
-    record_type: entity
-    entity_kind: element
-    terms: {preferred: nitrogen}
-    semantic_keys: [{scheme: element.symbol, value: N}]
-    payload: {atomic_number: 7, symbol: N}
-
-  - id: ent_element_na
-    record_type: entity
-    entity_kind: element
-    terms: {preferred: sodium}
-    semantic_keys: [{scheme: element.symbol, value: Na}]
-    payload: {atomic_number: 11, symbol: Na}
-
-  - id: ent_element_cl
-    record_type: entity
-    entity_kind: element
-    terms: {preferred: chlorine}
-    semantic_keys: [{scheme: element.symbol, value: Cl}]
-    payload: {atomic_number: 17, symbol: Cl}
-
-  - id: ent_element_ag
-    record_type: entity
-    entity_kind: element
-    terms: {preferred: silver}
-    semantic_keys: [{scheme: element.symbol, value: Ag}]
-    payload: {atomic_number: 47, symbol: Ag}
+  - {id: ent_element_h, record_type: entity, entity_kind: element, terms: {preferred: hydrogen}, semantic_keys: [{scheme: element.symbol, value: H}], payload: {atomic_number: 1, symbol: H}}
+  - {id: ent_element_o, record_type: entity, entity_kind: element, terms: {preferred: oxygen}, semantic_keys: [{scheme: element.symbol, value: O}], payload: {atomic_number: 8, symbol: O}}
+  - {id: ent_element_n, record_type: entity, entity_kind: element, terms: {preferred: nitrogen}, semantic_keys: [{scheme: element.symbol, value: N}], payload: {atomic_number: 7, symbol: N}}
+  - {id: ent_element_na, record_type: entity, entity_kind: element, terms: {preferred: sodium}, semantic_keys: [{scheme: element.symbol, value: Na}], payload: {atomic_number: 11, symbol: Na}}
+  - {id: ent_element_cl, record_type: entity, entity_kind: element, terms: {preferred: chlorine}, semantic_keys: [{scheme: element.symbol, value: Cl}], payload: {atomic_number: 17, symbol: Cl}}
+  - {id: ent_element_ag, record_type: entity, entity_kind: element, terms: {preferred: silver}, semantic_keys: [{scheme: element.symbol, value: Ag}], payload: {atomic_number: 47, symbol: Ag}}
 
   - id: ent_substance_nacl
     record_type: entity
@@ -65,7 +30,8 @@ records:
           - {element_id: ent_element_cl, count: 1}
         net_charge: 0
     facet_assertions:
-      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f2_reactions]}
+      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, fact_kind: contextual, evidence_ids: [ev_f2_reactions]}
+      - {facet_key: salt.chloride, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f2_reactions]}
     evidence_ids: [ev_f2_reactions]
 
   - id: ent_substance_agno3
@@ -82,7 +48,8 @@ records:
           - {element_id: ent_element_o, count: 3}
         net_charge: 0
     facet_assertions:
-      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f2_reactions]}
+      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, fact_kind: contextual, evidence_ids: [ev_f2_reactions]}
+      - {facet_key: salt.silver, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f2_reactions]}
     evidence_ids: [ev_f2_reactions]
 
   - id: ent_substance_agcl
@@ -97,6 +64,8 @@ records:
           - {element_id: ent_element_ag, count: 1}
           - {element_id: ent_element_cl, count: 1}
         net_charge: 0
+    facet_assertions:
+      - {facet_key: solubility.insoluble_in_water, value_state: known, value: true, fact_kind: contextual, evidence_ids: [ev_f2_reactions]}
     evidence_ids: [ev_f2_reactions]
 
   - id: ent_substance_nano3
@@ -127,8 +96,8 @@ records:
           - {element_id: ent_element_cl, count: 1}
         net_charge: 0
     facet_assertions:
-      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f2_reactions]}
-      - {facet_key: acid.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f2_reactions]}
+      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, fact_kind: contextual, evidence_ids: [ev_f2_reactions]}
+      - {facet_key: acid.strong_in_water, value_state: known, value: true, fact_kind: contextual, evidence_ids: [ev_f2_reactions]}
     evidence_ids: [ev_f2_reactions]
 
   - id: ent_substance_naoh
@@ -145,8 +114,8 @@ records:
           - {element_id: ent_element_h, count: 1}
         net_charge: 0
     facet_assertions:
-      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f2_reactions]}
-      - {facet_key: base.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f2_reactions]}
+      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, fact_kind: contextual, evidence_ids: [ev_f2_reactions]}
+      - {facet_key: base.strong_in_water, value_state: known, value: true, fact_kind: contextual, evidence_ids: [ev_f2_reactions]}
     evidence_ids: [ev_f2_reactions]
 
   - id: ent_substance_h2o

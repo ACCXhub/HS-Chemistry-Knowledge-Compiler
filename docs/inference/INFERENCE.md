@@ -1,84 +1,61 @@
 # Deterministic Reaction Inference Semantics
 
-Status: **F1 canonical**
+Status: **F3A executable canonical semantics**
 
-## 1. Input
+## Pipeline
 
-An inference request identifies reactants/material systems, supplied context, and an inference scope. Input names/formulas are normalized to canonical candidates before rule execution; ambiguity must remain explicit.
+```text
+input normalization
+→ reference/context resolution
+→ structural participant binding candidates
+→ typed predicate evaluation (TRUE/FALSE/UNKNOWN)
+→ blockers
+→ applicable-rule resolution graph
+→ typed product construction
+→ canonical entity resolution
+→ exact balancing
+→ atom validation
+→ charge validation
+→ canonical Reaction comparison
+→ ReactionCandidate + proof trace
+```
 
-## 2. Context construction
+The implementation may short-circuit only where the observable result and proof semantics remain deterministic.
 
-Construct a typed context from explicit request qualifiers plus only contract-approved defaults. Defaults must be deterministic and visible in the proof trace.
+## Matching and UNKNOWN
 
-## 3. Hard blockers
+Participant binding uses canonical identity/kind constraints. Required/forbidden facets and context conditions use the typed predicate registry. Multiple possible participant bindings are evaluated deterministically; a failed arbitrary binding cannot suppress another valid binding.
 
-Blockers represent conditions that make a decision domain inapplicable or unsafe to infer. They are evaluated before ordinary product inference when their semantics require it.
+Missing/open-world knowledge is `UNKNOWN`, not false. Explicit `unknown`, `not_applicable`, and absent facts remain distinguishable in the trace.
 
-## 4. Matching
+## Rule resolution
 
-Rule matching uses canonical identity constraints, entity/species/material kinds, facets, typed relations, context predicates, and condition predicates.
+All fully applicable rules are considered before a winner is selected. Explicit `overrides`, `specializes`, and `fallback_for` edges define precedence; transitive precedence is respected. If multiple non-equivalent winners remain, inference returns structured `ambiguous_rule_resolution` rather than selecting by source order.
 
-UNKNOWN does not equal FALSE.
+A declared `mutually_exclusive_with` pair that becomes simultaneously applicable is a runtime ambiguity, because the authored exclusivity assumption was violated by the actual inputs.
 
-## 5. Product construction
+## Product construction and validation
 
-Rules construct semantic product descriptors/queries, not display equation strings and not balancing coefficients.
+Products resolve only through bounded canonical constructors. Unresolved or ambiguous semantic-key lookup is explicit and cannot fabricate an Entity.
 
-Constructed products are resolved against canonical entity/structure semantics. Failure or ambiguity is explicit.
+Balancing receives fixed canonical reactants/products and uses exact arithmetic. Atom and charge validation are separate stages and diagnostics.
 
-## 6. Postmatch tests
+## Canonical comparison
 
-Driving-force or product-dependent tests that require resolved products belong after product construction. Validators validate a proposed chemistry state; they do not secretly choose product identity.
+Canonical comparison happens after validation. `none`, exact single match, and multi-match conflict remain distinguishable. Even an exact match remains a generated `ReactionCandidate` until separate curation changes canonical source.
 
-## 7. Resolution
+## ReactionForm projection
 
-If multiple rules survive, use explicit resolution relationships. Unrelated conflicting survivors are an error/ambiguity, not an invitation to pick by file order.
+A `ReactionForm` is projected only when its declared `required_assumptions` are satisfied. The projection response retains the owning `reaction_id`; no new Reaction identity is created.
 
-## 8. Balancing and validation
+F3A covers curated assumption-gated molecular/net-ionic examples only. It is not a universal aqueous speciation solver.
 
-After products are fixed:
+## Structured diagnostics
 
-1. balance exactly;
-2. validate atom conservation;
-3. validate charge conservation where applicable;
-4. run declared chemistry postconditions.
+Runtime/source failures use deterministic objects containing `code`, `stage`, `message`, and optional details. Current distinguished codes include:
 
-A failed candidate remains traceable; failures are not erased.
+`schema_invalid`, `reference_unresolved`, `unknown_applicability`, `blocked`, `no_rule_match`, `ambiguous_rule_resolution`, `rule_overlap_compile_error`, `product_unresolved`, `balance_failure`, `atom_validation_failure`, `charge_validation_failure`, `canonical_no_match`, and `canonical_conflict`.
 
-## 9. Canonical comparison
+## Proof trace
 
-Compare the validated candidate against canonical `Reaction` signatures/forms. Comparison states may include none, exact, equivalent, ambiguous, and conflict.
-
-The candidate remains generated even on exact match.
-
-## 10. Proof trace
-
-A proof trace must record at least:
-
-- normalized inputs and resolutions;
-- constructed context/defaults;
-- blockers checked;
-- rules considered and match outcomes;
-- UNKNOWN dependencies;
-- exceptions/overrides/resolution edges used;
-- product construction/resolution;
-- balancing result;
-- atom/charge validation;
-- postconditions;
-- canonical comparison;
-- rule/version/evidence provenance;
-- compiler/source revision.
-
-## 11. Representative semantics
-
-### Precipitation
-
-Aqueous NaCl + AgNO3 may normalize to material/substance participants, project to ionic species under declared strong-electrolyte assumptions, infer AgCl(s) formation, and expose molecular/ionic/net-ionic forms for the same precipitation reaction.
-
-### Neutralization
-
-HCl + NaOH under the declared aqueous strong-electrolyte model can project to H+ + OH- → H2O as a net-ionic form. The projection assumptions must be traceable.
-
-### Electrochemistry
-
-For a Cu-Zn galvanic system, the overall cell reaction and the two half-reactions are separate related canonical reactions. Rule execution may reason about electrode/material-system context without collapsing all three into one equation representation.
+Trace events retain normalized inputs, rule IDs/versions, predicate operator/subject/key/expected value, truth result, knowledge state, fact origin, blocker checks, rule resolution, product resolution, balancing, conservation validation, canonical comparison, and emitted candidate key.

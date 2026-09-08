@@ -1,0 +1,768 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/hs-chem/knowledge-record.schema.json",
+  "x-source-schema-version": "3.0.0",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/entity"
+    },
+    {
+      "$ref": "#/$defs/reaction"
+    },
+    {
+      "$ref": "#/$defs/rule"
+    },
+    {
+      "$ref": "#/$defs/source"
+    },
+    {
+      "$ref": "#/$defs/evidence"
+    }
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_:-]+$"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "composition": {
+      "type": "object",
+      "required": [
+        "components",
+        "net_charge"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "components": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "element_id",
+              "count"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "element_id": {
+                "$ref": "#/$defs/id"
+              },
+              "count": {
+                "$ref": "#/$defs/count"
+              }
+            }
+          }
+        },
+        "net_charge": {
+          "type": "integer"
+        }
+      }
+    },
+    "facetAssertion": {
+      "type": "object",
+      "required": [
+        "facet_key",
+        "value_state"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "facet_key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value_state": {
+          "enum": [
+            "known",
+            "unknown",
+            "not_applicable"
+          ]
+        },
+        "value": {
+          "type": [
+            "boolean",
+            "string",
+            "integer",
+            "null"
+          ]
+        },
+        "fact_kind": {
+          "enum": [
+            "intrinsic",
+            "contextual",
+            "derived"
+          ]
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        }
+      }
+    },
+    "entity": {
+      "type": "object",
+      "required": [
+        "id",
+        "record_type",
+        "entity_kind",
+        "terms",
+        "payload"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "record_type": {
+          "const": "entity"
+        },
+        "entity_kind": {
+          "enum": [
+            "element",
+            "species",
+            "substance",
+            "material_system"
+          ]
+        },
+        "terms": {
+          "type": "object",
+          "required": [
+            "preferred"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "preferred": {
+              "type": "string",
+              "minLength": 1
+            },
+            "aliases": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "semantic_keys": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "scheme",
+              "value"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "scheme": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "atomic_number": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "symbol": {
+              "type": "string"
+            },
+            "species_kind": {
+              "enum": [
+                "atom",
+                "ion",
+                "molecule"
+              ]
+            },
+            "substance_kind": {
+              "enum": [
+                "elemental",
+                "pure_compound"
+              ]
+            },
+            "material_system_kind": {
+              "enum": [
+                "solution",
+                "mixture"
+              ]
+            },
+            "composition": {
+              "$ref": "#/$defs/composition"
+            },
+            "formal_charge": {
+              "type": "integer"
+            }
+          }
+        },
+        "facet_assertions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/facetAssertion"
+          }
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        }
+      }
+    },
+    "participant": {
+      "type": "object",
+      "required": [
+        "target_id",
+        "target_kind",
+        "role",
+        "coefficient",
+        "phase"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "target_id": {
+          "$ref": "#/$defs/id"
+        },
+        "target_kind": {
+          "enum": [
+            "element",
+            "species",
+            "substance",
+            "material_system"
+          ]
+        },
+        "role": {
+          "enum": [
+            "reactant",
+            "product"
+          ]
+        },
+        "coefficient": {
+          "type": "object",
+          "required": [
+            "numerator",
+            "denominator"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "numerator": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "denominator": {
+              "const": 1
+            }
+          }
+        },
+        "phase": {
+          "enum": [
+            "solid",
+            "liquid",
+            "gas",
+            "aqueous",
+            "dissolved",
+            "unknown"
+          ]
+        }
+      }
+    },
+    "reactionForm": {
+      "type": "object",
+      "required": [
+        "form_key",
+        "form_kind",
+        "participants",
+        "projection"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "form_key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "form_kind": {
+          "enum": [
+            "molecular",
+            "complete_ionic",
+            "net_ionic",
+            "thermochemical"
+          ]
+        },
+        "participants": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "$ref": "#/$defs/participant"
+          }
+        },
+        "projection": {
+          "type": "object",
+          "required": [
+            "method",
+            "required_assumptions"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "method": {
+              "type": "string"
+            },
+            "required_assumptions": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "notes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "reaction": {
+      "type": "object",
+      "required": [
+        "id",
+        "record_type",
+        "participants",
+        "forms",
+        "evidence_ids"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "record_type": {
+          "const": "reaction"
+        },
+        "participants": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "$ref": "#/$defs/participant"
+          }
+        },
+        "forms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reactionForm"
+          }
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        }
+      }
+    },
+    "reactantPattern": {
+      "type": "object",
+      "required": [
+        "bind"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "bind": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "target_id": {
+          "$ref": "#/$defs/id"
+        },
+        "entity_kind": {
+          "enum": [
+            "element",
+            "species",
+            "substance",
+            "material_system"
+          ]
+        },
+        "species_kind": {
+          "enum": [
+            "atom",
+            "ion",
+            "molecule"
+          ]
+        },
+        "required_facets": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "forbidden_facets": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "target_id"
+          ]
+        },
+        {
+          "required": [
+            "entity_kind"
+          ]
+        },
+        {
+          "required": [
+            "species_kind"
+          ]
+        },
+        {
+          "required": [
+            "required_facets"
+          ]
+        },
+        {
+          "required": [
+            "forbidden_facets"
+          ]
+        }
+      ]
+    },
+    "predicate": {
+      "type": "object",
+      "required": [
+        "operator",
+        "subject",
+        "key"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "operator": {
+          "enum": [
+            "equals",
+            "not_equals",
+            "is_known",
+            "in_set"
+          ]
+        },
+        "subject": {
+          "enum": [
+            "context",
+            "facet"
+          ]
+        },
+        "binding": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expected": {
+          "type": [
+            "string",
+            "boolean",
+            "integer",
+            "array"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "boolean",
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "blocker": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "key",
+            "equals"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "key": {
+              "type": "string"
+            },
+            "equals": {
+              "type": [
+                "string",
+                "boolean",
+                "integer"
+              ]
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/predicate"
+        }
+      ]
+    },
+    "product": {
+      "type": "object",
+      "required": [
+        "phase"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "target_id": {
+          "$ref": "#/$defs/id"
+        },
+        "phase": {
+          "enum": [
+            "solid",
+            "liquid",
+            "gas",
+            "aqueous",
+            "dissolved",
+            "unknown"
+          ]
+        },
+        "construct": {
+          "type": "object",
+          "required": [
+            "kind",
+            "scheme",
+            "value"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "semantic_key"
+            },
+            "scheme": {
+              "type": "string",
+              "minLength": 1
+            },
+            "value": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "target_id"
+          ]
+        },
+        {
+          "required": [
+            "construct"
+          ]
+        }
+      ]
+    },
+    "rule": {
+      "type": "object",
+      "required": [
+        "id",
+        "record_type",
+        "version",
+        "decision_domain",
+        "match",
+        "products",
+        "validators",
+        "evidence_ids"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "record_type": {
+          "const": "rule"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "decision_domain": {
+          "type": "string",
+          "minLength": 1
+        },
+        "match": {
+          "type": "object",
+          "required": [
+            "reactants"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "reactants": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/reactantPattern"
+              }
+            }
+          }
+        },
+        "context": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "boolean",
+              "integer"
+            ]
+          }
+        },
+        "predicates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/predicate"
+          }
+        },
+        "blockers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/blocker"
+          }
+        },
+        "products": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/product"
+          }
+        },
+        "validators": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "atoms_conserved",
+              "charge_conserved"
+            ]
+          },
+          "minItems": 1
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "overrides": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "specializes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "fallback_for": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "equivalent_to": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "mutually_exclusive_with": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "id",
+        "record_type",
+        "source_type",
+        "citation"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "record_type": {
+          "const": "source"
+        },
+        "source_type": {
+          "enum": [
+            "textbook",
+            "standard",
+            "fixture"
+          ]
+        },
+        "citation": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": [
+        "id",
+        "record_type",
+        "source_id",
+        "claim_summary",
+        "stance"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "record_type": {
+          "const": "evidence"
+        },
+        "source_id": {
+          "$ref": "#/$defs/id"
+        },
+        "claim_summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stance": {
+          "enum": [
+            "supports",
+            "qualifies",
+            "contradicts"
+          ]
+        }
+      }
+    }
+  }
+}

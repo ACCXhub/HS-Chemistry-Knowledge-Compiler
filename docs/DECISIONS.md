@@ -1,126 +1,134 @@
 # Architecture Decision Log
 
-Status: **F2 executable architecture decisions**
+Status: **F3A executable contract and rule hardening decisions**
 
 ## ADR-F1-001 — Entity-kind alignment
 
-**Decision:** canonical `entity_kind` is `element | species | substance | material_system`. `Ion` is `species_kind: ion`. `Solution` and `Mixture` are `material_system_kind` values.
-
-**Why:** this keeps microscopic species, pure macroscopic material, and composed experimental systems distinct without competing identity systems.
+Canonical `entity_kind` is `element | species | substance | material_system`. `Ion` is `species_kind: ion`; solution/mixture are `material_system_kind` values.
 
 ## ADR-F1-002 — Structure ownership
 
-**Decision:** `Structure` is a stable identity-bearing domain record when durable structural reference is required. Representations are subordinate values. `Bond` is embedded with a structure-local key by default.
-
-**Why:** a stable structure must not collapse into SMILES/Lewis/image strings, while top-level bond UUIDs are unnecessary without an independent lifecycle.
+`Structure` is stable identity when durable structural reference is required. Representations are subordinate values. `Bond` is embedded with a structure-local key by default.
 
 ## ADR-F1-003 — Source normalization
 
-**Decision:** the following are embedded value objects in F1 source: `Composition`, `Context`, `ReactionParticipant`, `Condition`, `TeachingViewPath`, and default `Bond`.
-
-`FacetAssertion` is durable only for authored/evidenced claims that need independent provenance/revision identity; generated memberships are compiler output.
-
-**Why:** canonical source should be practical to author and audit, not a UUID-heavy normalized graph.
+`Composition`, `Context`, `ReactionParticipant`, `Condition`, `TeachingViewPath`, and default `Bond` are embedded value objects unless independent lifecycle/provenance requires durable identity.
 
 ## ADR-F1-004 — ReactionCandidate lifecycle
 
-**Decision:** pure compilation emits a deterministic content-derived `candidate_key` and mints no UUID. A persistent human-review candidate may additionally receive a durable `rcand_*` ID while retaining that candidate key.
-
-**Why:** deterministic builds and persistent review objects have different lifecycles.
+Pure compilation emits a deterministic content-derived `candidate_key` and mints no UUID. Persistent review state may additionally own `rcand_*` while retaining the immutable candidate key.
 
 ## ADR-F1-005 — Rule identity owner
 
-**Decision:** the declarative `Rule` definition is the sole canonical owner of `rule_*` identity, semantic version, resolution edges, evidence, and provenance. `RuleReference` is not a separate source-record type.
+The declarative `Rule` is the sole canonical owner of `rule_*` identity, semantic version, evidence, provenance, and rule-resolution relationships.
 
 ## ADR-F1-006 — Reaction identity vs representation
 
-**Decision:** use `Reaction + ReactionForm`.
-
-Molecular, complete ionic, net ionic, symbolic, and thermochemical forms may belong to one reaction when they are projections/representations of the same transformation. A chemically distinct transformation remains a separate related reaction.
-
-Half-reactions are separate `Reaction` records and may compose an overall electrochemical reaction.
+Use `Reaction + ReactionForm`. Molecular, complete ionic, net ionic, symbolic, and thermochemical forms may be projections of one transformation. Chemically distinct half-reactions remain separate related `Reaction` records.
 
 ## ADR-F1-007 — Macro/micro reaction referents
 
-**Decision:** participants may target `Species`, `Substance`, or `MaterialSystem`. Alternate molecular/ionic forms must state projection/speciation assumptions when they change referent level.
-
-**Consequence:** NaCl crystal never requires a fictional NaCl molecule.
+Reaction participants may target `Species`, `Substance`, or `MaterialSystem`. Projection between referent levels must declare speciation/dissociation assumptions.
 
 ## ADR-F1-008 — Canonical specialist locations
 
-**Decision:** specialist canonical documents live only under:
-
-- `docs/domain/**`;
-- `docs/pedagogy/**`;
-- `docs/contracts/**`;
-- `docs/inference/**`.
-
-No duplicate root-level specialist copies are canonical.
+Specialist canonical documents live under `docs/domain/**`, `docs/pedagogy/**`, `docs/contracts/**`, and `docs/inference/**`. Do not create duplicate root-level specialist owners.
 
 ## ADR-F1-009 — Compiler-contract ownership
 
-**Decision:** Data Contracts owns exact external generated artifact schemas and compatibility contracts. Compiler owns internal plans, indexes, caches, operator lowering, and runtime layout.
+Data Contracts owns external artifact/source contracts. Compiler owns internal plans, indexes, caches, operator lowering, and runtime layout.
 
 ## ADR-F1-010 — Identity remains independent from presentation
 
-Names, aliases, formulas, classification paths, teaching paths, file paths, YAML order, and runtime dense IDs do not define permanent identity.
+Names, formulas, aliases, paths, file order, and runtime dense IDs never define durable chemistry identity.
 
 ## ADR-F1-011 — Open-world fact semantics
 
-Absence, explicit `unknown`, `not_applicable`, and known false remain distinct. Missing knowledge cannot be silently used as false by rules.
+Absence, explicit `unknown`, `not_applicable`, and known values including boolean `false` remain distinct. Missing knowledge is never silently coerced to false.
 
 ## ADR-F1-012 — Canonical Reaction != ReactionCandidate
 
-A candidate remains generated even if canonical comparison finds an exact/equivalent reaction. Canonical promotion is a separate evidence-backed curation action.
+Canonical comparison never promotes a generated candidate. Promotion remains an evidence-backed source curation action.
 
 ## ADR-F1-013 — Language and optimization
 
-The architecture and source DSL remain language-neutral. Python-first is provisional. Performance changes require profiling and must stay behind stable semantic boundaries.
+The source contracts and DSL remain language-neutral. Python-first remains the reference implementation; performance changes require evidence and stable semantic boundaries.
 
 ## ADR-F2-001 — Deterministic canonical JSON
 
-**Decision:** F2 semantic hashing and deterministic artifact payloads use an owned canonical JSON encoding:
+Semantic hashing/artifact payloads use owned deterministic JSON semantics: UTF-8, NFC-normalized strings/keys, lexicographically sorted mappings, compact separators, integer-only semantic numeric values, semantic list order, and no timestamps/local paths/process IDs/traversal-order metadata. `candidate_key` is `cand_sha256_` plus SHA-256 of canonical semantic candidate content.
 
-- UTF-8;
-- Unicode strings and mapping keys normalized to NFC;
-- mapping keys sorted lexicographically after normalization;
-- no insignificant whitespace;
-- semantic numbers in the F2 hash domain are integers only; floating-point values are rejected;
-- lists preserve declared semantic order;
-- top-level source records are sorted by `(record_type, id)` before source hashing;
-- timestamps, local paths, process IDs, filesystem traversal order, and worker ordering are excluded from semantic payloads.
+## ADR-F2-002 — Executable YAML + JSON Schema boundary
 
-`candidate_key` is `cand_sha256_` plus SHA-256 of the canonicalized semantic candidate payload. External JSON artifact files append one LF byte; artifact hashes cover the exact emitted bytes.
+Authored chemistry/rules use human-reviewable YAML. Structural validation precedes stable-ID/reference checks, rule compilation, balancing, and conservation checks. Phase remains participant/template context rather than identity.
 
-**Why:** this gives a narrow byte-stable contract without inventing a binary format or inheriting implementation-specific JSON behavior.
+## ADR-F2-003 — Source Rule vs internal RulePlan
 
-## ADR-F2-002 — Minimal executable source/schema boundary
+Authored `Rule` source compiles into typed compiler-owned `RulePlan`. Balancing receives fixed canonical reactants/products; canonical comparison occurs only after product resolution and conservation validation. File order and integer priority are not resolution semantics.
 
-**Decision:** F2 authored chemistry/rule source remains YAML and is validated by the minimal executable schemas under `schemas/`.
+## ADR-F3A-001 — Reusable participant pattern contract
 
-- `schemas/f2-record.schema.json` validates the identity-bearing record shapes used by the slice;
-- `schemas/f2-case.schema.json` validates audit/example requests;
-- `Composition` remains embedded;
-- reaction/request participants carry phase explicitly;
-- rule product templates carry product phase explicitly;
-- phase is not promoted into Entity identity or a timeless default identity fact.
+A rule participant pattern may constrain exact identity, `entity_kind`, `species_kind`, required facets, and forbidden facets. Required/forbidden facet truth is evaluated through the normal three-valued predicate model rather than hidden closed-world matching.
 
-Source files may be split or renamed without changing identity or semantic output.
+Ordinary reaction-family expansion should normally add canonical data plus declarative Rule source, not an engine branch. The AgCl precipitation fixture is the architecture proof: exact NaCl/AgNO3 participant IDs were replaced by typed/faceted participant patterns without changing its canonical `ReactionCandidate` result.
 
-## ADR-F2-003 — F2 source Rule vs internal RulePlan
+## ADR-F3A-002 — Small typed predicate registry
 
-**Decision:** authored `Rule` YAML is compiled into an internal typed Python `RulePlan`. `RulePlan` is compiler-owned runtime structure and is not a source contract.
+F3A source semantics use a bounded operator registry rather than host-language function names or arbitrary expressions. The executable registry contains:
 
-F2 implements only the operators needed by the two executable families: exact participant binding, required facet checks, context equality predicates, declared context blockers, canonical product templates, and atom/charge validators. Rule selection does not use file order or integer priority.
+- `equals`;
+- `not_equals`;
+- `is_known`;
+- `in_set`.
 
-Balancing receives fixed canonical reactants/products and exact composition/charge data. Canonical reaction comparison runs only after product resolution, balancing, and conservation validation.
+Each operator declares allowed subjects, input types, expected-argument shape, and UNKNOWN behavior. F3A supports `context` and `facet` predicate subjects. Relation and numeric operators remain deferred until executable source data justifies them.
 
-## F2 remaining non-blocking decisions
+## ADR-F3A-003 — Fact state and origin boundary
 
-The following do not block F2 and are candidates for F3:
+Fact state distinguishes `known`, explicit `unknown`, `not_applicable`, and compiler-observed `absent`. Known boolean `false` remains a known value. Fact origin is `intrinsic | contextual | derived`; request context is traced as contextual. Absence is not authored as a fake fact record.
 
-1. broaden source Rule patterns from the deliberately exact F2 fixture bindings to reusable typed/facet/relation patterns while retaining compile-time overlap analysis;
-2. generalize `ReactionForm` projection/speciation beyond the two curated aqueous examples;
-3. extend external artifact compatibility/versioning beyond the F2 `f2.0` slice contract;
-4. decide whether any concrete bond-local lifecycle justifies top-level bond identity;
-5. migrate a small evidence-backed real corpus sample only after the executable contracts remain stable.
+## ADR-F3A-004 — Conservative static overlap analysis
+
+Within one `decision_domain`, the compiler statically analyzes participant count/kind, exact identity, required/forbidden facets, and simple context-equality constraints. If disjointness cannot be proven, `potential_overlap` is conservative and acceptable.
+
+Potentially overlapping rules with non-equivalent outcomes require an explicit semantic relationship. Strict compilation rejects unresolved overlap and reports both rule IDs plus the overlap reason/signature.
+
+## ADR-F3A-005 — Explicit rule-resolution graph
+
+Supported relationships are `overrides`, `specializes`, `fallback_for`, `equivalent_to`, and `mutually_exclusive_with`.
+
+Unknown rule references, self relationships, contradictory equivalent declarations, and precedence cycles are compile errors. `overrides`/`specializes` mean the declaring rule wins; `fallback_for` means the referenced rule wins while both apply. Runtime precedence is transitive and deterministic.
+
+## ADR-F3A-006 — Canonical product construction remains bounded
+
+F3A product constructors are limited to:
+
+- `exact_entity` resolution;
+- canonical `semantic_key` resolution.
+
+A constructor must resolve to exactly one existing canonical Entity. Zero matches or ambiguity is `product_unresolved`; the compiler never fabricates canonical identity. Variable-valence or other chemically ambiguous construction remains unresolved until source/context semantics justify a unique entity.
+
+## ADR-F3A-007 — ReactionForm projection is assumption-gated
+
+`ReactionForm` remains a projection of its owning `Reaction`, not a second reaction identity. Projection records declare stable `required_assumptions` such as aqueous medium, strong-electrolyte dissociation, precipitate integrity, or weak-electrolyte molecular retention. Projection is available only when all required assumptions are supplied.
+
+F3A does not implement a universal aqueous speciation solver. Half-reactions remain independent `Reaction` records.
+
+## ADR-F3A-008 — Separate compatibility version axes
+
+The compiler now exposes independent version axes:
+
+- source schema: `3.0.0`;
+- Rule DSL: `1.0.0`;
+- internal RulePlan: `1.0.0`;
+- external artifact format: `1.0.0`.
+
+Artifacts carry the external format version and manifests carry all four versions. Consumers can reject unsupported artifact format versions. No broader long-term backwards-compatibility promise is made by F3A.
+
+## ADR-F3A-009 — Structured diagnostic codes
+
+Compiler/inference failures use deterministic structured diagnostics with `code`, `stage`, `message`, and optional sorted `details`. Current codes distinguish schema invalidity, unresolved references, unknown applicability, blockers, no match, ambiguous rule resolution, overlap compile errors, product resolution, balancing, atom/charge validation, and canonical no-match/conflict.
+
+## F3A remaining limitations
+
+F3A intentionally does not yet provide relation-predicate execution, numeric chemistry predicates, arbitrary expression evaluation, a general speciation solver, broad chemistry-family population, redox/organic inference, database/runtime services, RETE, or native acceleration.

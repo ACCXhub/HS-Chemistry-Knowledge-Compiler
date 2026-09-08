@@ -1,83 +1,109 @@
 # Declarative Reaction Rule DSL
 
-Status: **F1 semantic contract; concrete serialization deferred to F2**
+Status: **F3A executable semantic contract**
 
-## 1. Rule ownership
+## 1. Ownership and version
 
-Each rule definition owns one stable `rule_*` ID, semantic version, evidence, and resolution relationships. There is no separate canonical `RuleReference` record.
+Each authored Rule owns one stable `rule_*` ID, semantic version, evidence, and explicit resolution relationships. The Rule DSL version is independent from source-schema, compiler-plan, and external-artifact versions.
 
-## 2. Conceptual shape
+F3A Rule DSL version: `1.0.0`.
+
+## 2. Participant patterns
+
+A reactant pattern binds one canonical participant and may constrain:
 
 ```yaml
-id: rule_...
-version: 1.0.0
-family: precipitation
-decision_domain: aqueous_double_displacement
-match:
-  participants: []
-required_facets: []
-context_predicates: []
-conditions: []
-exceptions: []
-blockers: []
-resolution:
-  specializes: []
-  overrides: []
-  fallback_for: []
-products: []
-postmatch: []
-validators: [atom_balance, charge_balance]
-evidence_ids: []
+- bind: chloride_salt
+  entity_kind: substance
+  species_kind: ion        # only when relevant
+  target_id: ent_...       # optional exact identity
+  required_facets: []
+  forbidden_facets: []
 ```
 
-## 3. Semantic requirements
+`target_id` is optional. Pattern identity/kind constraints establish possible bindings; facet constraints are evaluated with open-world three-valued semantics so missing knowledge does not become false.
 
-A rule may express:
+## 3. Typed predicates
 
-- match patterns and bindings;
-- required/forbidden facets;
-- typed relation bindings;
-- context predicates;
-- conditions;
-- exceptions;
-- blockers;
-- explicit precedence/resolution edges;
-- product templates/constructors;
-- postmatch predicates;
-- validators/postconditions;
-- evidence;
-- rule version.
+F3A exposes only these source operators:
 
-## 4. Determinism
+| Operator | Subjects | Input types | Expected argument | UNKNOWN behavior |
+| --- | --- | --- | --- | --- |
+| `equals` | context, facet | string / boolean / integer | one scalar | non-known fact → UNKNOWN |
+| `not_equals` | context, facet | string / boolean / integer | one scalar | non-known fact → UNKNOWN |
+| `is_known` | context, facet | any fact state | none | returns TRUE only for known; otherwise FALSE |
+| `in_set` | context, facet | string / boolean / integer | homogeneous non-empty scalar list | non-known fact → UNKNOWN |
 
-Rule semantics cannot depend on source file order, YAML map order, hash-map iteration order, or arbitrary integer priority alone.
+Example:
 
-Matching and resolution operate on canonical typed values and stable semantic operators.
+```yaml
+predicates:
+  - operator: equals
+    subject: context
+    key: medium
+    expected: aqueous
+```
 
-## 5. Three-valued predicates
+Legacy F2 `context: {key: value}` authoring lowers to the same typed `equals/context` semantics. F3A intentionally has no arbitrary-expression language.
 
-Predicate results may be TRUE, FALSE, or UNKNOWN. Operators must declare their UNKNOWN behavior. Rules cannot silently treat missing open-world facts as false.
+## 4. Knowledge states
+
+Applicability preserves:
+
+```text
+known(value, including false)
+explicit unknown
+not_applicable
+absent/open-world
+```
+
+and traces fact origin as intrinsic, contextual, or derived. Except for epistemic operators such as `is_known`, non-known states propagate as `UNKNOWN` rather than false.
+
+## 5. Blockers
+
+Blockers use the same typed predicate semantics. A true blocker blocks that rule path; an unknown blocker makes that path indeterminate. Blockers are not integer-priority shortcuts.
 
 ## 6. Product constructors
 
-Product constructors return canonical IDs or resolvable semantic descriptors. They do not own balancing coefficients and do not emit final equation text.
+F3A supports only bounded canonical constructors:
 
-## 7. Resolution graph
+```yaml
+products:
+  - phase: solid
+    target_id: ent_substance_agcl
+```
 
-Supported semantic relationships may include:
+or:
 
-- `specializes`;
+```yaml
+products:
+  - phase: solid
+    construct:
+      kind: semantic_key
+      scheme: formula.unit
+      value: AgCl
+```
+
+A constructor must resolve to exactly one existing canonical Entity. It never invents identity and does not own balancing coefficients.
+
+## 7. Rule-resolution relationships
+
+Rules may declare:
+
 - `overrides`;
+- `specializes`;
 - `fallback_for`;
 - `equivalent_to`;
 - `mutually_exclusive_with`.
 
-Cycles/contradictions in precedence/fallback graphs are compile errors. Potential overlap with incompatible effects requires an explicit relationship or proof of disjointness.
+Unknown references, self edges, contradictory equivalent declarations, and precedence cycles are compile errors. File order, definition order, and arbitrary integer priority are never semantic tie-breakers.
 
-## 8. Validation boundary
+## 8. Static overlap analysis
 
-Validators confirm conservation and declared postconditions after candidate product identity is fixed. Canonical reaction lookup is downstream and cannot be used to decide what products should be.
+Within a `decision_domain`, F3A analyzes participant count/kind, exact identity, required/forbidden facets, and simple context-equality constraints. If it cannot prove disjointness it emits conservative `potential_overlap`.
 
-## 9. Versioning and provenance
+Non-equivalent overlapping outcomes require an explicit relationship or strict compilation fails with both rule IDs and a deterministic reason/signature.
 
-Changing chemistry-bearing semantics requires a rule-version change according to the future compatibility policy. Proof traces record rule ID/version and evidence so generated candidates remain auditable across compiler releases.
+## 9. Validation boundary
+
+Rules fix canonical product identity before exact balancing. Validators then check conservation/postconditions. Canonical reaction lookup is downstream comparison and never an inference oracle.

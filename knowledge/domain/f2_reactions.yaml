@@ -15,7 +15,8 @@ records:
           - {target_id: ent_substance_agcl, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
         projection:
           method: aqueous_strong_electrolyte_v1
-          assumptions: ["NaCl and AgNO3 are treated as strongly dissociated in the declared aqueous teaching model"]
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation, insoluble_precipitate_intact]
+          notes: ["NaCl and AgNO3 are treated as strongly dissociated in the declared aqueous teaching model"]
     evidence_ids: [ev_f2_reactions]
 
   - id: rxn_hcl_naoh_neutralization
@@ -34,5 +35,6 @@ records:
           - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
         projection:
           method: aqueous_strong_electrolyte_v1
-          assumptions: ["HCl and NaOH are treated as strongly dissociated in the declared aqueous teaching model"]
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation, weak_electrolyte_remains_molecular]
+          notes: ["HCl and NaOH are treated as strongly dissociated while water remains molecular"]
     evidence_ids: [ev_f2_reactions]

@@ -1,93 +1,72 @@
 # Knowledge Compiler Architecture
 
-Status: **F1 canonical compiler boundary**
+Status: **F3A executable compiler boundary**
 
-## 1. Responsibility
+## Responsibility
 
-The compiler turns validated canonical source plus declarative rules into deterministic diagnostics, indexes, candidates, proof traces, teaching projections, and external artifacts.
+The compiler converts validated canonical source and declarative rules into deterministic internal plans, diagnostics, candidates, proof traces, and external artifacts. Generated output is reproducible and never becomes editable chemistry truth.
 
-Generated artifacts are disposable/reproducible and never become editable truth.
-
-## 2. Ordered build passes
+## Ordered compile responsibilities
 
 ```text
-A parse + safe normalization
-B schema validation
-C stable-ID/reference resolution
-D cross-record semantic validation
-E vocabulary/operator resolution
-F rule parse + type checking
-G rule lowering to normalized IR
-H overlap / precedence / UNKNOWN-policy analysis
-I chemistry-plan validation
-J runtime-ID/layout planning
-K index/cache construction
-L canonical reaction signature compilation
-M optional deterministic derivation / coverage audit
-N artifact emission + manifest
+parse YAML safely
+→ JSON Schema validation
+→ durable-ID/reference resolution
+→ semantic indexes
+→ Rule parse/type checking
+→ typed PredicatePlan / ParticipantPatternPlan / ProductPlan lowering
+→ rule relationship graph validation
+→ static overlap analysis
+→ deterministic runtime plan
+→ inference/audit
+→ versioned artifact emission
 ```
 
 Validation precedes derivation.
 
-## 3. Ownership
+## Operator registry
 
-Data Contracts owns exact external artifact schemas. Compiler owns:
+The compiler owns the implementation of the source-level typed operator registry. Source semantics are stable operator names and typed arguments, not Python function names. F3A intentionally keeps the registry small and rejects malformed arguments during compilation.
 
-- normalized rule IR / `RulePlan`;
-- operator registry implementation contracts;
-- runtime dense IDs;
-- indexes/caches;
-- balancing adapter;
-- candidate execution pipeline;
-- internal diagnostics/layout.
+## Overlap analysis
 
-## 4. Runtime inference pipeline
+Strict compilation compares rules only inside the same decision domain. It can currently reason about participant arity, exact IDs, entity/species kinds, required/forbidden facets, and simple context equality. Unprovable disjointness is conservative `potential_overlap`.
+
+Non-equivalent potential overlap without explicit resolution is `rule_overlap_compile_error`.
+
+## Resolution graph
+
+The compiler validates relationship references and builds precedence from:
 
 ```text
-input normalization
-→ context construction
-→ hard blockers
-→ explicit overrides/resolution gates
-→ candidate rule matching
-→ product construction
-→ canonical entity resolution
-→ postmatch predicates
-→ resolution graph
-→ balancing
-→ atom validation
-→ charge validation
-→ canonical reaction comparison
-→ ReactionCandidate + proof trace
+overrides: declaring rule > referenced rule
+specializes: declaring rule > referenced rule
+fallback_for: referenced rule > declaring fallback
 ```
 
-The exact internal ordering may short-circuit safely, but trace semantics and deterministic outcomes must remain stable.
+Precedence cycles are rejected. Runtime resolution uses transitive reachability and does not depend on file ordering.
 
-## 5. Rule conflict analysis
+## Product resolution
 
-File order and raw integer priority are not semantic resolution mechanisms.
+`exact_entity` and `semantic_key` are the only F3A constructors. Both resolve against canonical source indexes. Ambiguity is preserved as an error; no constructor mints canonical identity.
 
-Rules use explicit relationships such as `overrides`, `specializes`, `fallback_for`, `equivalent_to`, and declared mutual exclusion. Potentially overlapping rules with non-equivalent effects and no explicit resolution relationship are compile errors in strict mode.
+## ReactionForm projection
 
-## 6. UNKNOWN semantics
+Projection is an explicit API over curated forms. Required assumptions gate availability, and the result retains the canonical Reaction identity.
 
-Predicates use three-valued logic where required. Missing open-world knowledge remains UNKNOWN. The compiler rejects constructs that silently coerce UNKNOWN to false for applicability decisions unless an operator contract explicitly defines a closed-world scope.
+## Artifact/version boundary
 
-## 7. Balancing
+Version axes are separate:
 
-Balancing receives fixed canonical reactant/product identities. It does not guess products.
+```text
+source schema     3.0.0
+Rule DSL          1.0.0
+RulePlan          1.0.0
+artifact format   1.0.0
+```
 
-Use exact composition/charge data to solve conservation equations with exact arithmetic. If multiple chemically distinct admissible solutions remain, return an underdetermined diagnostic unless explicit evidence-backed constraints resolve the ambiguity.
+External artifacts include `artifact_format_version`; manifests include all four. Consumers can reject unsupported external format versions. F3A does not promise compatibility across unspecified future versions.
 
-## 8. Canonical reaction comparison
+## Performance policy
 
-Canonical comparison occurs only after candidate construction, entity resolution, balancing, and validation. It cannot serve as an inference oracle.
-
-Reaction signatures normalize participant ordering and coefficient scaling while retaining identity-relevant reaction/form/context boundaries.
-
-## 9. Candidate determinism
-
-Pure compilation derives `candidate_key` from canonical semantic content plus declared inference lineage. Timestamps, local paths, process IDs, nondeterministic traversal order, and time-based UUIDs are excluded from semantic identity/digests.
-
-## 10. Performance policy
-
-Start with bounded typed/faceted indexes and exact deterministic execution. RETE, native acceleration, or alternate languages require profiling evidence. Stable source contracts must not change solely for runtime convenience.
+Python-first remains the reference implementation. F3A adds no RETE, database, native extension, or plugin runtime. Small typed indexes and compiled plans are preferred; optimization requires measured evidence.

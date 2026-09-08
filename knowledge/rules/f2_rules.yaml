@@ -6,18 +6,20 @@ records:
     match:
       reactants:
         - bind: chloride_salt
-          target_id: ent_substance_nacl
-          required_facets: [electrolyte.strong_in_water]
+          entity_kind: substance
+          required_facets: [salt.chloride, electrolyte.strong_in_water]
         - bind: silver_salt
-          target_id: ent_substance_agno3
-          required_facets: [electrolyte.strong_in_water]
+          entity_kind: substance
+          required_facets: [salt.silver, electrolyte.strong_in_water]
     context:
       medium: aqueous
     blockers:
       - {key: temperature_regime, equals: frozen}
     products:
-      - {target_id: ent_substance_agcl, phase: solid}
-      - {target_id: ent_substance_nano3, phase: aqueous}
+      - phase: solid
+        construct: {kind: semantic_key, scheme: formula.unit, value: AgCl}
+      - phase: aqueous
+        construct: {kind: semantic_key, scheme: formula.unit, value: NaNO3}
     validators: [atoms_conserved, charge_conserved]
     evidence_ids: [ev_f2_reactions]
 

@@ -1,138 +1,62 @@
 # Canonical Data Model
 
-Status: **F1 canonical source-contract semantics**
+Status: **F3A executable subset over the F1 canonical model**
 
-This document defines conceptual source record shapes. Exact YAML/JSON Schema syntax is finalized in F2.
+F3A hardens only the source records needed to prove reusable deterministic reaction inference. It does not narrow the broader F1 ontology or claim that the small executable schema is the final high-school chemistry corpus schema.
 
-## 1. Top-level identity-bearing records
+## 1. Stable identity
 
-Canonical F1 top-level records include:
+Canonical chemical identity remains independent from names, formulas, teaching paths, source file paths, and runtime IDs.
 
-- `Entity` (`element | species | substance | material_system`);
-- `Structure`;
-- `Reaction`;
-- `TeachingView`;
-- `Rule`;
-- `Source`;
-- `Evidence`;
-- independently curated/evidenced `FacetAssertion`, `PropertyFact`, and `Relation` when durable assertion identity is required;
-- optional reusable `Experiment`.
+The executable Entity kinds remain:
 
-A record receives a durable ID only when an independent lifecycle or durable reference requires it.
-
-## 2. Entity
-
-Conceptual shape:
-
-```yaml
-id: ent_...
-record_type: entity
-entity_kind: species
-semantic_keys: []
-terms:
-  preferred: []
-  aliases: []
-payload:
-  species_kind: ion
-  composition: {}
-  formal_charge: -1
-  structure_ids: []
+```text
+element | species | substance | material_system
 ```
 
-`species_kind` may be atom/ion/molecule/etc. `substance` payload describes pure material identity. `material_system` payload describes solution/mixture/system composition.
+`species_kind` carries microscopic refinements such as `ion`; macroscopic `Substance` and composed `MaterialSystem` remain separate concepts.
 
-Formula strings are representations/semantic lookup keys, not durable IDs.
+## 2. Composition
 
-## 3. Embedded composition
+Exact stoichiometric composition remains an embedded value object on its owner. It provides the atom/charge information used by exact balancing and conservation validation.
 
-`Composition` is an exact value object on its owner rather than a top-level `cmp_*` record by default.
+Formula/semantic keys are lookup coordinates, not identity owners.
 
-```yaml
-composition:
-  components:
-    - element_id: ent_element_h
-      count: 2
-    - element_id: ent_element_o
-      count: 1
-  net_charge: 0
-```
+## 3. Fact / facet semantics
 
-Non-stoichiometric mixture/system composition uses appropriate quantitative components rather than fake integer formula counts.
-
-## 4. Structure
+An authored facet assertion may declare:
 
 ```yaml
-id: str_...
-record_type: structure
-structure_kind: molecular_connectivity
-subject_ids: [ent_...]
-components: []
-bonds:
-  - key: b1
-    from: a1
-    to: a2
-    order: 1
-motifs: []
-representations:
-  - kind: smiles
-    value: CCO
-```
-
-Representations never replace structure identity.
-
-## 5. Assertion semantics
-
-A fact/assertion envelope includes:
-
-```yaml
-id: fact_...
-subject_id: ent_...
+facet_key: electrolyte.strong_in_water
 fact_kind: contextual
 value_state: known
-context: {}
-evidence_ids: [ev_...]
-derivation: null
+value: true
 ```
 
-`value_state` distinguishes known, unknown, and not-applicable. No record means no assertion.
+`fact_kind` is one of:
 
-`FacetAssertion` and `Relation` use the same fact-state/context/provenance principles.
+- `intrinsic` — intended to hold independent of an inference request context within the model boundary;
+- `contextual` — meaningful only under an appropriate context;
+- `derived` — deterministically derived from canonical data/rules.
 
-## 6. Embedded Context
+Value state distinguishes:
 
-`Context` is a structured qualifier bundle, not a top-level record by default:
+- `known` with a value, including boolean `false`;
+- explicit `unknown`;
+- `not_applicable`;
+- source absence/open-world knowledge, represented by no assertion and observed by the compiler as `absent`.
 
-```yaml
-context:
-  phase: aqueous
-  solvent_id: ent_water
-  temperature: {number: 298.15, unit: K}
-  pressure: {number: 100, unit: kPa}
-  concentration_regime: dilute
-```
+No rule may silently coerce absence, explicit unknown, or not-applicable into known false.
 
-Context dimension keys and enums are controlled vocabularies.
+## 4. Reaction
 
-## 7. Reaction
+A canonical `Reaction` owns one curated transformation. Embedded participants identify canonical entities, role, phase, and exact stoichiometric coefficient.
 
-```yaml
-id: rxn_...
-record_type: reaction
-participants:
-  - target_id: ent_...
-    target_kind: substance
-    role: reactant
-    coefficient: {numerator: 1, denominator: 1}
-    phase: aqueous
-conditions: []
-forms: []
-facet_assertions: []
-evidence_ids: [ev_...]
-```
+Reaction identity is independent from equation text, participant order, coefficient scaling, or teaching placement.
 
-Participants and conditions are embedded values. The display equation is compiled from semantic participants/forms.
+## 5. ReactionForm
 
-## 8. ReactionForm
+`ReactionForm` is a representation/projection of the owning Reaction when the underlying transformation is the same.
 
 ```yaml
 forms:
@@ -141,74 +65,70 @@ forms:
     participants: []
     projection:
       method: aqueous_strong_electrolyte_v1
-      assumptions: []
+      required_assumptions:
+        - aqueous_medium
+        - strong_electrolyte_dissociation
 ```
 
-Molecular, complete ionic, net ionic, and thermochemical forms may coexist for one reaction when they represent the same transformation.
+A form may change referent level from macroscopic substances to ionic species only under declared assumptions. Missing assumptions make the projection unavailable rather than causing the compiler to guess speciation.
 
-Half-reactions are separate `Reaction` records linked by typed relations.
+Half-reactions remain independent `Reaction` records because they are distinct transformations.
+
+## 6. Rule
+
+A Rule owns stable rule identity, semantic version, decision domain, evidence, participant patterns, predicates/blockers, product construction, validators, and explicit resolution relationships.
+
+Participant patterns may combine exact identity and typed semantic constraints. Ordinary reusable families should normally be expressible through source Rule records without adding chemistry-specific branches to the engine.
+
+F3A predicates are typed against `context` or a bound entity facet. The source vocabulary is intentionally small and versioned.
+
+## 7. Rule relationship graph
+
+Rules can declare:
+
+```text
+overrides
+specializes
+fallback_for
+equivalent_to
+mutually_exclusive_with
+```
+
+Unknown references, invalid cycles, contradictory declarations, and unresolved potentially conflicting overlaps are compile-time errors.
+
+Rule/file order is not semantic precedence.
+
+## 8. Product construction
+
+A Rule product may be:
+
+```yaml
+- target_id: ent_substance_h2o
+  phase: liquid
+```
+
+or a bounded canonical resolver request:
+
+```yaml
+- construct:
+    kind: semantic_key
+    scheme: formula.unit
+    value: AgCl
+  phase: solid
+```
+
+Resolution must return exactly one existing canonical entity. Zero or multiple matches remain explicit failures. The compiler never fabricates canonical identity and does not resolve variable-valence ambiguity without canonical chemistry/context evidence.
 
 ## 9. ReactionCandidate
 
-Generated candidate:
+A generated candidate remains separate from canonical Reaction source. It contains a deterministic `candidate_key`, selected Rule identity/version, normalized participants, validation results, canonical comparison, and proof trace.
 
-```yaml
-record_type: reaction_candidate
-candidate_key: cand_sha256_...
-proposed_participants: []
-proposed_conditions: []
-provenance:
-  rule_id: rule_...
-  rule_version: 1.0.0
-  input_ids: []
-  validation_results: []
-  canonical_match: {}
-  proof_trace: []
-```
+An exact canonical match does not promote or mutate a candidate into canonical knowledge.
 
-No time-based ID is minted during pure compilation.
+## 10. Diagnostics
 
-Persistent review object:
+Compiler/inference failures are represented by structured diagnostics carrying stable code, stage, message, and deterministic details. F3A distinguishes at least schema/reference errors, rule overlap and ambiguity, unknown applicability, blockers, product resolution, balancing, conservation, and canonical comparison outcomes.
 
-```yaml
-id: rcand_...
-candidate_key: cand_sha256_...
-review_status: pending
-```
+## 11. Artifact compatibility
 
-Promotion creates/edits canonical `rxn_*` source separately.
-
-## 10. Rule
-
-`Rule` owns `rule_*` identity directly. Other records reference the ID; there is no separate `RuleReference` source type.
-
-## 11. TeachingView
-
-```yaml
-id: view_...
-record_type: teaching_view
-view_key: hs-cn-framework-11
-nodes:
-  - path_key: D08/substances/inorganic/acids
-    parent_path_key: D08/substances/inorganic
-    members: []
-```
-
-View nodes/paths are embedded and view-local.
-
-## 12. Source and Evidence
-
-`Source` identifies a publication/database/standard/manual. `Evidence` locates and interprets a claim in a source and can support or qualify a curated assertion, relation, reaction, teaching claim, or rule.
-
-## 13. External generated artifacts
-
-The exact emitted artifact contract is owned here. F2 must define:
-
-- manifest schema;
-- stable-ID/runtime-ID mapping contract;
-- candidate artifact schema;
-- proof-trace external schema;
-- artifact versioning/compatibility rules;
-- deterministic canonical serialization used for semantic hashes.
-
-Compiler-internal plans and indexes are explicitly out of scope for this document.
+F3A generated artifacts expose independent versions for source schema, Rule DSL, internal RulePlan, and external artifact format. External consumers gate compatibility on the artifact format version rather than assuming a compiler package version implies payload compatibility.
