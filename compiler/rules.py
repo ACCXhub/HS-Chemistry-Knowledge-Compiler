@@ -37,7 +37,18 @@ def _compile_blocker(source: dict[str, Any], bindings: set[str]) -> PredicatePla
     )
 
 
-def _compile_product(source: dict[str, Any]) -> ProductPlan:
+def _require_binding(name: str, bindings: set[str], constructor: str) -> str:
+    if name not in bindings:
+        raise SourceError(
+            f"product constructor binding does not resolve: {name}",
+            code="reference_unresolved",
+            stage="rule_compile",
+            details={"binding": name, "constructor": constructor},
+        )
+    return name
+
+
+def _compile_product(source: dict[str, Any], bindings: set[str]) -> ProductPlan:
     phase = source["phase"]
     if "target_id" in source:
         return ProductPlan(constructor="exact_entity", phase=phase, target_id=source["target_id"])
@@ -49,6 +60,29 @@ def _compile_product(source: dict[str, Any]) -> ProductPlan:
             phase=phase,
             scheme=construction["scheme"],
             value=construction["value"],
+        )
+    if kind == "ionic_pair":
+        return ProductPlan(
+            constructor="ionic_pair",
+            phase=phase,
+            cation_from=_require_binding(construction["cation_from"], bindings, kind),
+            anion_from=_require_binding(construction["anion_from"], bindings, kind),
+        )
+    if kind == "exchange_product":
+        role = construction["role"]
+        if role not in {"precipitate", "counterproduct"}:
+            raise SourceError(
+                f"unknown exchange product role: {role}",
+                code="schema_invalid",
+                stage="rule_compile",
+                details={"role": role},
+            )
+        return ProductPlan(
+            constructor="exchange_product",
+            phase=phase,
+            left_binding=_require_binding(construction["left_binding"], bindings, kind),
+            right_binding=_require_binding(construction["right_binding"], bindings, kind),
+            exchange_role=role,
         )
     raise SourceError(
         f"unknown product constructor: {kind}",
@@ -130,7 +164,7 @@ def compile_rules(kb: KnowledgeBase) -> tuple[RulePlan, ...]:
                 patterns=patterns,
                 predicates=tuple(predicates),
                 blockers=tuple(_compile_blocker(item, bindings) for item in source.get("blockers", [])),
-                products=tuple(_compile_product(item) for item in source["products"]),
+                products=tuple(_compile_product(item, bindings) for item in source["products"]),
                 validators=tuple(source.get("validators", [])),
                 evidence_ids=tuple(source.get("evidence_ids", [])),
                 relations=relations,
@@ -246,6 +280,11 @@ def _outcome_signature(plan: RulePlan) -> tuple[Any, ...]:
                 product.scheme,
                 product.value,
                 product.phase,
+                product.cation_from,
+                product.anion_from,
+                product.left_binding,
+                product.right_binding,
+                product.exchange_role,
             )
             for product in plan.products
         )
@@ -367,8 +406,6 @@ def analyze_rule_overlaps(plans: tuple[RulePlan, ...]) -> tuple[dict[str, Any], 
 def validate_rule_overlaps(plans: tuple[RulePlan, ...]) -> None:
     for item in analyze_rule_overlaps(plans):
         left_id, right_id = item["rule_ids"]
-        left = next(plan for plan in plans if plan.rule_id == left_id)
-        right = next(plan for plan in plans if plan.rule_id == right_id)
         relationships = set(item["relationships"])
         if "equivalent_to" in relationships and not item["outcomes_equivalent"]:
             raise SourceError(
