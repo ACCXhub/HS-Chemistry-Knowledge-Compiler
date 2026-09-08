@@ -2,83 +2,48 @@
 
 ## Current state
 
-F1 architecture convergence established the canonical ontology, data-contract, pedagogy, inference, and compiler boundaries.
+Historical F1/F2 and F3A/F3B workstreams established the ontology, executable compiler contracts, and the bounded aqueous pilot. Their provenance and branch names remain historical facts.
 
-F2 executable contract-to-candidate work is complete at:
+## M4 — Chemistry Model Convergence
 
-```text
-8d92d19b8ebbbcb0f8a9fdaceb7eb895da381447
-```
-
-The repository's current `main` has not yet converged that F2 lineage. F3A therefore continues from the verified F2 head on `workstream/f3a-rule-contract-hardening`; main-line convergence remains a prerequisite before a later F3 integration step.
-
-## F3A — Contract and Rule Hardening
-
-F3A generalizes the deliberately fixture-oriented F2 slice while keeping the chemistry corpus tiny.
-
-The implemented target pipeline is:
+M4 integrates those workstreams on `workstream/f3-convergence` and verifies this pipeline:
 
 ```text
-canonical source
-→ source schema + reference validation
-→ typed participant/predicate compilation
-→ RulePlan
-→ relationship-graph + overlap analysis
-→ deterministic matching/resolution
+canonical YAML source
+→ schema + reference + evidence validation
+→ typed participant/property/context predicates
+→ deterministic RulePlan matching and resolution
 → bounded canonical product construction
-→ exact balancing
-→ atom + charge validation
+→ exact balancing and atom/charge validation
 → canonical Reaction comparison
 → ReactionCandidate + proof trace
-→ versioned deterministic artifacts
+→ TeachingView/speciation/derived-ReactionForm artifacts
 ```
 
-F3A acceptance focuses on reusable architecture rather than chemistry coverage:
+M4 acceptance requires:
 
-- generic entity/species/facet participant patterns;
-- explicit TRUE/FALSE/UNKNOWN predicate behavior with known/unknown/not-applicable/absent fact states;
-- typed predicate validation;
-- conservative compile-time overlap diagnostics;
-- explicit, validated rule resolution relationships;
-- rule/file-order independence;
-- assumption-gated ReactionForm projection that preserves Reaction identity;
-- bounded semantic-key product resolution against canonical data;
-- separate source/DSL/plan/artifact versions;
-- structured diagnostics;
-- retained F2 deterministic candidate behavior.
+- structured context-qualified properties while stable classifications remain facets;
+- validated executable TeachingView source that does not enter reaction inference;
+- an explicit MaterialSystem-to-stoichiometric projection boundary;
+- evidence-aware canonical aqueous speciation with exact coefficients;
+- reusable neutralization and precipitation without exact-case engine branches;
+- no fabricated canonical entities or negative Reaction truth;
+- deterministic complete/net ionic projection subordinate to the owning Reaction;
+- byte-stable semantic artifacts and a fully passing compiler/CLI suite.
 
-The AgCl precipitation fixture is the architecture proof that an exact F2 participant rule can become a reusable faceted rule without adding a chemistry-specific engine branch.
+The bounded no-net NaCl + KNO3 contrast records a known `driving_force = none` for the precipitation rule. Overall inference remains `indeterminate` when another structurally possible rule family depends on absent open-world facts; no candidate or canonical negative reaction is emitted.
 
-## F3 convergence gate
+## M5 — next bounded decisions
 
-Before F3 convergence:
+The one demonstrated next-family gap is reusable acid + hydrogen-carbonate gas evolution. M5 may add it only through generic typed semantics and bounded product construction; the curated HCl + NaHCO3 Reaction is not justification for an exact-ID engine branch.
 
-1. integrate/resolve the verified F2 → F3A lineage into the canonical main history;
-2. review F3A overlap diagnostics and Rule DSL compatibility decisions;
-3. retain deterministic build/test evidence;
-4. only then begin a small evidence-backed real chemistry migration pilot.
-
-## Next phase — small migration pilot
-
-After F3A convergence, migrate a deliberately small real high-school chemistry subset to discover missing contract semantics. Add new compiler primitives only when the migrated data demonstrates a real reusable need.
-
-Good pilot questions include:
-
-- whether relation predicates are required by real families;
-- whether additional numeric/context operators are justified;
-- whether product constructors need one more typed canonical resolver;
-- which aqueous speciation assumptions need canonical vocabulary/evidence;
-- whether artifact consumers expose any compatibility requirement beyond F3A `1.0.0`.
+Any broader relation/numeric predicates or speciation capability still requires a concrete corpus case and a compatible contract change.
 
 ## Still out of scope
 
-- full D01-D11 chemistry population;
-- wholesale `chem-knowledge-data` migration;
-- dozens of reaction families;
-- advanced redox or organic inference;
-- universal aqueous speciation;
-- UI / chem-wiki integration;
-- PostgreSQL / Neo4j;
-- RETE;
+- full high-school chemistry population or wholesale legacy migration;
+- transition-metal redox, concentrated-acid/passivation, or organic families;
+- universal equilibrium/speciation solving;
+- UI integration, database services, Neo4j, or RETE;
 - Rust/C++ or native acceleration without profiling evidence;
 - speculative plugin infrastructure.

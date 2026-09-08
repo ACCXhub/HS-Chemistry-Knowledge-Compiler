@@ -1,6 +1,6 @@
 # Knowledge Compiler Architecture
 
-Status: **F3A executable compiler boundary**
+Status: **M4 Chemistry Model Convergence compiler boundary**
 
 ## Responsibility
 
@@ -26,7 +26,7 @@ Validation precedes derivation.
 
 ## Operator registry
 
-The compiler owns the implementation of the source-level typed operator registry. Source semantics are stable operator names and typed arguments, not Python function names. F3A intentionally keeps the registry small and rejects malformed arguments during compilation.
+The compiler owns the implementation of the source-level typed operator registry. Source semantics are stable operator names and typed arguments, not Python function names. M4 keeps the registry small, adds structured property and bounded ionic-exchange subjects, and rejects malformed arguments during compilation.
 
 ## Overlap analysis
 
@@ -48,11 +48,11 @@ Precedence cycles are rejected. Runtime resolution uses transitive reachability 
 
 ## Product resolution
 
-`exact_entity` and `semantic_key` are the only F3A constructors. Both resolve against canonical source indexes. Ambiguity is preserved as an error; no constructor mints canonical identity.
+`exact_entity`, `semantic_key`, `ionic_pair`, and `exchange_product` are bounded constructors. They resolve against canonical source indexes and canonical composition/speciation records. Zero or multiple matches remain explicit; no constructor parses display formulas or mints canonical identity.
 
 ## ReactionForm projection
 
-Projection is an explicit API over curated forms. Required assumptions gate availability, and the result retains the canonical Reaction identity.
+Projection is an explicit API over curated/golden forms and canonical speciation profiles. Required assumptions gate availability; derived complete/net ionic forms retain their canonical Reaction identity, exact coefficients, validation results, and derivation provenance.
 
 ## Artifact/version boundary
 
@@ -65,8 +65,8 @@ RulePlan          1.0.0
 artifact format   1.0.0
 ```
 
-External artifacts include `artifact_format_version`; manifests include all four. Consumers can reject unsupported external format versions. F3A does not promise compatibility across unspecified future versions.
+External artifacts include `artifact_format_version`; manifests include all four. Consumers can reject unsupported external format versions. M4 does not promise compatibility across unspecified future versions.
 
 ## Performance policy
 
-Python-first remains the reference implementation. F3A adds no RETE, database, native extension, or plugin runtime. Small typed indexes and compiled plans are preferred; optimization requires measured evidence.
+Python-first remains the reference implementation. M4 adds no RETE, database, native extension, or plugin runtime. Small typed indexes and compiled plans are preferred; optimization requires measured evidence.

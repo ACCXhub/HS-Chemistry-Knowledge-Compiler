@@ -57,6 +57,12 @@ def _composition(kb: KnowledgeBase, entity_id: str) -> Counter[str]:
     return Counter({item["element_id"]: item["count"] for item in composition["components"]})
 
 
+def _scaled_composition(composition: Counter[str], coefficient: int) -> Counter[str]:
+    if coefficient <= 0:
+        raise ValueError("composition coefficient must be a positive integer")
+    return Counter({element_id: count * coefficient for element_id, count in composition.items()})
+
+
 def _profile_for(kb: KnowledgeBase, entity_id: str, context: dict[str, Any]) -> dict[str, Any]:
     profiles = kb.speciation_profiles(entity_id, context)
     if len(profiles) != 1:
@@ -101,7 +107,8 @@ def resolve_ionic_pair(kb: KnowledgeBase, cation_id: str, anion_id: str) -> Ioni
     divisor = gcd(cation_charge, abs(anion_charge))
     cation_coefficient = abs(anion_charge) // divisor
     anion_coefficient = cation_charge // divisor
-    expected = _composition(kb, cation_id) * cation_coefficient + _composition(kb, anion_id) * anion_coefficient
+    expected = _scaled_composition(_composition(kb, cation_id), cation_coefficient)
+    expected.update(_scaled_composition(_composition(kb, anion_id), anion_coefficient))
 
     candidates: list[str] = []
     for entity_id, entity in sorted(kb.entities.items()):

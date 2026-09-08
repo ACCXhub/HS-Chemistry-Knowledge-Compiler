@@ -1,6 +1,6 @@
 # Deterministic Reaction Inference Semantics
 
-Status: **F3A executable canonical semantics**
+Status: **M4 Chemistry Model Convergence canonical semantics**
 
 ## Pipeline
 
@@ -36,7 +36,7 @@ A declared `mutually_exclusive_with` pair that becomes simultaneously applicable
 
 ## Product construction and validation
 
-Products resolve only through bounded canonical constructors. Unresolved or ambiguous semantic-key lookup is explicit and cannot fabricate an Entity.
+Products resolve only through bounded canonical constructors. Ionic-pair construction uses canonical ion charge/composition plus exact positive integer coefficients and must resolve one existing neutral Substance. Unresolved or ambiguous lookup is explicit and cannot fabricate an Entity.
 
 Balancing receives fixed canonical reactants/products and uses exact arithmetic. Atom and charge validation are separate stages and diagnostics.
 
@@ -46,9 +46,11 @@ Canonical comparison happens after validation. `none`, exact single match, and m
 
 ## ReactionForm projection
 
-A `ReactionForm` is projected only when its declared `required_assumptions` are satisfied. The projection response retains the owning `reaction_id`; no new Reaction identity is created.
+A `ReactionForm` is projected only when its declared `required_assumptions` and a unique context-matching canonical speciation profile are available. The projection response retains the owning `reaction_id`, exact coefficients, atom/charge validation, derivation operators, and evidence; no new Reaction identity is created.
 
-F3A covers curated assumption-gated molecular/net-ionic examples only. It is not a universal aqueous speciation solver.
+M4 covers bounded strong-electrolyte aqueous projection only. Missing or ambiguous speciation is explicit; this is not a universal aqueous speciation solver.
+
+An overall `indeterminate/unknown_applicability` result can coexist with a known-false predicate in one rule family when another structurally possible family depends on absent open-world knowledge. This does not emit a candidate or author canonical negative reaction truth.
 
 ## Structured diagnostics
 

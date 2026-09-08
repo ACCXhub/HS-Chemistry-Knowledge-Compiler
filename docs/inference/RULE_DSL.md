@@ -1,12 +1,12 @@
 # Declarative Reaction Rule DSL
 
-Status: **F3A executable semantic contract**
+Status: **M4 Chemistry Model Convergence executable semantic contract**
 
 ## 1. Ownership and version
 
 Each authored Rule owns one stable `rule_*` ID, semantic version, evidence, and explicit resolution relationships. The Rule DSL version is independent from source-schema, compiler-plan, and external-artifact versions.
 
-F3A Rule DSL version: `1.0.0`.
+M4 Rule DSL version: `1.0.0`.
 
 ## 2. Participant patterns
 
@@ -25,14 +25,14 @@ A reactant pattern binds one canonical participant and may constrain:
 
 ## 3. Typed predicates
 
-F3A exposes only these source operators:
+M4 exposes only these source operators:
 
 | Operator | Subjects | Input types | Expected argument | UNKNOWN behavior |
 | --- | --- | --- | --- | --- |
-| `equals` | context, facet | string / boolean / integer | one scalar | non-known fact → UNKNOWN |
-| `not_equals` | context, facet | string / boolean / integer | one scalar | non-known fact → UNKNOWN |
-| `is_known` | context, facet | any fact state | none | returns TRUE only for known; otherwise FALSE |
-| `in_set` | context, facet | string / boolean / integer | homogeneous non-empty scalar list | non-known fact → UNKNOWN |
+| `equals` | context, facet, property, ionic_exchange | string / boolean / integer | one scalar | non-known fact → UNKNOWN |
+| `not_equals` | context, facet, property, ionic_exchange | string / boolean / integer | one scalar | non-known fact → UNKNOWN |
+| `is_known` | context, facet, property, ionic_exchange | any fact state | none | returns TRUE only for known; otherwise FALSE |
+| `in_set` | context, facet, property | string / boolean / integer | homogeneous non-empty scalar list | non-known fact → UNKNOWN |
 
 Example:
 
@@ -44,7 +44,7 @@ predicates:
     expected: aqueous
 ```
 
-Legacy F2 `context: {key: value}` authoring lowers to the same typed `equals/context` semantics. F3A intentionally has no arbitrary-expression language.
+Legacy F2 `context: {key: value}` authoring lowers to the same typed `equals/context` semantics. M4 intentionally has no arbitrary-expression language.
 
 ## 4. Knowledge states
 
@@ -65,7 +65,7 @@ Blockers use the same typed predicate semantics. A true blocker blocks that rule
 
 ## 6. Product constructors
 
-F3A supports only bounded canonical constructors:
+M4 supports bounded canonical constructors:
 
 ```yaml
 products:
@@ -86,6 +86,8 @@ products:
 
 A constructor must resolve to exactly one existing canonical Entity. It never invents identity and does not own balancing coefficients.
 
+`ionic_pair` resolves the canonical cation/anion from bound aqueous speciation profiles, charge-balances their exact compositions, and selects one existing neutral Substance. `exchange_product` reuses the same bounded exchange resolution to select the unique precipitate or soluble counterproduct. Zero or multiple matches are explicit failures.
+
 ## 7. Rule-resolution relationships
 
 Rules may declare:
@@ -100,7 +102,7 @@ Unknown references, self edges, contradictory equivalent declarations, and prece
 
 ## 8. Static overlap analysis
 
-Within a `decision_domain`, F3A analyzes participant count/kind, exact identity, required/forbidden facets, and simple context-equality constraints. If it cannot prove disjointness it emits conservative `potential_overlap`.
+Within a `decision_domain`, M4 analyzes participant count/kind, exact identity, required/forbidden facets, and simple context-equality constraints. If it cannot prove disjointness it emits conservative `potential_overlap`.
 
 Non-equivalent overlapping outcomes require an explicit relationship or strict compilation fails with both rule IDs and a deterministic reason/signature.
 

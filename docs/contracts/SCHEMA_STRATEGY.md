@@ -1,12 +1,12 @@
 # Schema Strategy
 
-Status: **F3A executable source and artifact contract**
+Status: **M4 Chemistry Model Convergence source and artifact contract**
 
 ## 1. Authoring boundary
 
 Canonical chemistry remains human-reviewable YAML. Structural validation uses JSON Schema Draft 2020-12, followed by compiler-owned semantic validation. Runtime layout, indexes, and `RulePlan` remain generated implementation details and are not authoring contracts.
 
-F3A keeps the F1/F2 principle that file layout is not identity-bearing. Stable IDs and semantic content determine meaning; source traversal order does not.
+M4 keeps the principle that file layout is not identity-bearing. Stable IDs and semantic content determine meaning; source traversal order does not.
 
 ## 2. Active source schema
 
@@ -17,21 +17,22 @@ schemas/knowledge-record.schema.json
 source schema version: 3.0.0
 ```
 
-It covers the F3A executable subset of:
+It covers the M4 executable subset of:
 
 - Entity;
 - Reaction / ReactionForm;
+- TeachingView;
 - Rule;
 - Source;
 - Evidence.
 
-`schemas/f2-record.schema.json` remains historical F2 material. The F3A loader does not use it as the active source contract.
+`schemas/f2-record.schema.json` remains historical F2 material. The M4 loader does not use it as the active source contract.
 
-`schemas/f2-case.schema.json` remains the deterministic audit/example request schema because F3A does not broaden the request surface.
+`schemas/f2-case.schema.json` remains the deterministic audit/example request schema because M4 does not broaden the request surface.
 
 ## 3. Validation order
 
-F3A validation is deliberately staged:
+M4 validation is deliberately staged:
 
 1. safe YAML parsing with duplicate-key rejection;
 2. JSON Schema validation;
@@ -76,11 +77,11 @@ A participant pattern may constrain a binding by:
 - required facets;
 - forbidden facets.
 
-Predicates use the versioned Rule DSL operator names rather than Python function names. F3A intentionally supports a small registry only: `equals`, `not_equals`, `is_known`, and `in_set`.
+Predicates use the versioned Rule DSL operator names rather than Python function names. M4 intentionally supports a small registry only: `equals`, `not_equals`, `is_known`, and `in_set`.
 
 Rule relationships are explicit source semantics: `overrides`, `specializes`, `fallback_for`, `equivalent_to`, and `mutually_exclusive_with`.
 
-Product templates may use an exact canonical ID or a bounded semantic-key resolver. Construction never creates a new canonical entity.
+Product templates may use an exact canonical ID or bounded semantic-key, ionic-pair, and exchange-product resolvers. Construction uses canonical compositions/speciation and never creates a new canonical entity.
 
 ## 6. ReactionForm projection contract
 
@@ -93,13 +94,13 @@ projection:
   notes: []
 ```
 
-A consumer/compiler may expose the form only when the required assumptions are supplied. Projection does not mint a second Reaction identity.
+A consumer/compiler may expose the form only when the required assumptions and canonical context-matching speciation are available. Projection does not mint a second Reaction identity.
 
 ## 7. Version axes
 
-F3A separates four compatibility coordinates:
+M4 separates four compatibility coordinates:
 
-| Coordinate | F3A value | Owner |
+| Coordinate | M4 value | Owner |
 | --- | --- | --- |
 | source schema | `3.0.0` | source/data contract |
 | Rule DSL | `1.0.0` | rule source contract |
@@ -108,11 +109,11 @@ F3A separates four compatibility coordinates:
 
 These axes are intentionally independent. A source schema change does not automatically imply an external artifact-format change, and an internal RulePlan revision is not a source DSL revision by definition.
 
-F3A does not promise long-term backward compatibility beyond these explicit coordinates.
+M4 does not promise long-term backward compatibility beyond these explicit coordinates.
 
 ## 8. Generated artifacts
 
-F3A emits deterministic JSON artifacts under caller-selected build output. Manifests carry all four version coordinates. External payloads carry `artifact_format_version`; compiled plans additionally identify `rule_plan_version`.
+M4 emits deterministic JSON artifacts under caller-selected build output. Manifests carry all four version coordinates. External payloads carry `artifact_format_version`; compiled plans additionally identify `rule_plan_version`.
 
 Consumers must reject an artifact format version they do not support. The reference compiler exposes validation for this compatibility gate.
 

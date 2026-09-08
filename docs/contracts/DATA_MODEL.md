@@ -1,8 +1,8 @@
 # Canonical Data Model
 
-Status: **F3A executable contract hardening over the F1 canonical model**
+Status: **M4 Chemistry Model Convergence over the canonical model**
 
-This document defines canonical source-record semantics. F3A hardens the executable Rule/fact/ReactionForm/artifact subset without narrowing the broader F1 domain model.
+This document defines canonical source-record semantics. M4 converges the executable Rule/fact/speciation/TeachingView/ReactionForm/artifact subset without narrowing the broader model.
 
 ## 1. Top-level identity-bearing records
 
@@ -101,15 +101,18 @@ absent/open-world
 
 `absent` is not serialized as a fabricated source assertion; it is the compiler-observed state when no matching assertion exists.
 
-Executable F3A facet example:
+Executable contextual property example:
 
 ```yaml
-facet_key: electrolyte.strong_in_water
+property_key: electrolyte.strength
 fact_kind: contextual
 value_state: known
-value: true
+value: strong
+context: {medium: aqueous}
 evidence_ids: [ev_...]
 ```
+
+Stable classifications such as acid, base, salt, chloride, sulfate, and hydrogen-carbonate remain facets.
 
 No rule may silently coerce absence, explicit unknown, or not-applicable into known false.
 
@@ -128,7 +131,7 @@ context:
   concentration_regime: dilute
 ```
 
-Context dimension keys and enums are controlled vocabularies. F3A's executable request fixture currently uses only a deliberately small scalar subset; that implementation subset does not narrow this canonical model.
+Context dimension keys and enums are controlled vocabularies. M4's executable request fixture currently uses only a deliberately small scalar subset; that implementation subset does not narrow this canonical model.
 
 ## 7. Reaction
 
@@ -168,7 +171,7 @@ forms:
       notes: []
 ```
 
-A form may change referent level from macroscopic substances to ionic species only under declared assumptions. F3A exposes a form only when all `required_assumptions` are supplied; missing assumptions remain explicit rather than causing guessed speciation.
+A form may change referent level from macroscopic substances to ionic species only under declared assumptions. M4 derives aqueous forms only from unique context-matching canonical speciation profiles; missing assumptions/speciation remain explicit rather than causing guessed speciation.
 
 Molecular, complete-ionic, net-ionic, and thermochemical forms may coexist for one transformation. Half-reactions remain independent `Reaction` records because they are chemically distinct transformations.
 
@@ -198,7 +201,7 @@ A separately persisted human-review object may own a durable `rcand_*` ID while 
 
 `Rule` owns `rule_*` identity, semantic version, decision domain, evidence, matching constraints, predicates/blockers, product construction, validators, and explicit resolution relationships. There is no separate canonical `RuleReference` record.
 
-F3A participant patterns may combine:
+M4 participant patterns may combine:
 
 - exact `target_id` where chemistry is identity-specific;
 - `entity_kind`;
@@ -206,7 +209,7 @@ F3A participant patterns may combine:
 - required facets;
 - forbidden facets.
 
-The typed F3A predicate registry currently supports `equals`, `not_equals`, `is_known`, and `in_set` over context/facet subjects. This is a bounded executable vocabulary, not an arbitrary expression language.
+The typed M4 predicate registry supports `equals`, `not_equals`, `is_known`, and `in_set` over their declared context/facet/property/ionic-exchange subjects. This is a bounded executable vocabulary, not an arbitrary expression language.
 
 Rule relationships are:
 
@@ -229,7 +232,7 @@ A product may use an exact canonical ID:
   phase: liquid
 ```
 
-or the F3A bounded semantic-key resolver:
+or bounded semantic-key/ionic-pair/exchange-product resolvers:
 
 ```yaml
 - construct:
@@ -263,9 +266,9 @@ Evidence/provenance must remain traceable through compiler output when a generat
 
 ## 13. External generated artifacts
 
-External generated artifacts remain contract-owned and reproducible. F3A separates four compatibility coordinates:
+External generated artifacts remain contract-owned and reproducible. M4 keeps four compatibility coordinates separate:
 
-| Coordinate | F3A value |
+| Coordinate | M4 value |
 | --- | --- |
 | source schema | `3.0.0` |
 | Rule DSL | `1.0.0` |

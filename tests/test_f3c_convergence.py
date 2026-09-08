@@ -7,6 +7,7 @@ from pathlib import Path
 import pytest
 import yaml
 
+from compiler.aqueous import resolve_ionic_pair
 from compiler.balance import BalanceError, balance
 from compiler.engine import infer_case
 from compiler.reaction_forms import derive_aqueous_ionic_form, project_reaction_form
@@ -126,15 +127,31 @@ def test_generic_neutralization_infers_f2_and_f3b_pairs() -> None:
     assert f3b["canonical_match"]["reaction_ids"] == ["rxn_f3b_hno3_koh_neutralization"]
 
 
-def test_reusable_precipitation_infers_baso4_and_no_net_contrast_stays_no_match() -> None:
+def test_reusable_precipitation_infers_baso4_and_no_net_contrast_has_no_driving_force() -> None:
     kb = load_knowledge(ROOT)
     plans = compile_rules(kb)
     baso4 = infer_case(kb, plans, _case("baso4", "ent_substance_bacl2", "ent_substance_na2so4"))
     contrast = infer_case(kb, plans, _case("contrast", "ent_substance_nacl", "ent_substance_kno3"))
     assert baso4["status"] == "inferred"
     assert baso4["canonical_match"]["reaction_ids"] == ["rxn_f3b_baso4_precipitation"]
-    assert contrast["status"] == "no_match"
-    assert contrast["diagnostic"]["code"] == "no_rule_match"
+    assert contrast["status"] == "indeterminate"
+    assert contrast["diagnostic"]["code"] == "unknown_applicability"
+    assert "candidate_key" not in contrast
+    assert any(
+        event["event"] == "predicate.eval"
+        and event["subject"] == "ionic_exchange"
+        and event["knowledge_state"] == "known"
+        and event["truth"] == "FALSE"
+        for event in contrast["proof_trace"]
+    )
+
+
+def test_ionic_pair_composition_scales_polyvalent_ion_coefficients() -> None:
+    kb = load_knowledge(ROOT)
+    resolution = resolve_ionic_pair(kb, "ent_species_ba_2plus", "ent_species_cl_minus")
+    assert resolution.target_id == "ent_substance_bacl2"
+    assert resolution.cation_coefficient == 1
+    assert resolution.anion_coefficient == 2
 
 
 def test_ionic_pair_constructor_never_fabricates_unknown_or_ambiguous_product(tmp_path: Path) -> None:
@@ -209,4 +226,6 @@ def test_project_reaction_form_preserves_owner_identity_and_is_deterministic() -
 def test_gas_evolution_family_remains_explicit_non_blocking_gap() -> None:
     kb = load_knowledge(ROOT)
     result = infer_case(kb, compile_rules(kb), _case("gas-gap", "ent_substance_hcl", "ent_substance_nahco3"))
-    assert result["status"] == "no_match"
+    assert result["status"] == "indeterminate"
+    assert result["diagnostic"]["code"] == "unknown_applicability"
+    assert "candidate_key" not in result

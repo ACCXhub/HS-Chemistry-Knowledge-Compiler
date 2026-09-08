@@ -1,6 +1,6 @@
 # Architecture Decision Log
 
-Status: **F3A executable contract and rule hardening decisions**
+Status: **M4 Chemistry Model Convergence decisions**
 
 ## ADR-F1-001 — Entity-kind alignment
 
@@ -132,3 +132,21 @@ Compiler/inference failures use deterministic structured diagnostics with `code`
 ## F3A remaining limitations
 
 F3A intentionally does not yet provide relation-predicate execution, numeric chemistry predicates, arbitrary expression evaluation, a general speciation solver, broad chemistry-family population, redox/organic inference, database/runtime services, RETE, or native acceleration.
+
+## ADR-M4-001 — Context-qualified properties
+
+Behavioral facts such as electrolyte strength and solubility class are typed property assertions qualified by structured context. Stable chemical classifications remain facets. Required facets and properties retain open-world TRUE/FALSE/UNKNOWN evaluation; a missing assertion is not silently converted to false.
+
+## ADR-M4-002 — Evidence-aware aqueous projection
+
+Canonical aqueous speciation profiles own exact canonical species IDs, rational coefficients, context, model, and evidence. Bounded ionic product construction combines canonical compositions and charges, resolves exactly one existing neutral Substance, and never parses display formulas or creates an Entity.
+
+`MaterialSystem` cannot enter exact balancing without an explicit stoichiometric/speciation projection. Aqueous complete/net ionic forms are deterministic derived projections of their owning Reaction, retain derivation/evidence provenance, and never become independent Reaction identities.
+
+## ADR-M4-003 — Teaching and generated truth boundaries
+
+`TeachingView` is schema- and reference-validated executable canonical source, but it does not participate in reaction inference. Generated `ReactionCandidate` and derived `ReactionForm` artifacts remain compiler output and cannot enter canonical reaction source implicitly.
+
+## M4 remaining limitation
+
+Acid + hydrogen-carbonate gas evolution remains a non-blocking deferred inference family. The curated Reaction may be taught and projected, but M4 does not add an exact-reaction engine branch to claim reusable inference coverage.

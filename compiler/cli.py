@@ -15,10 +15,10 @@ def parser() -> argparse.ArgumentParser:
     sub = result.add_subparsers(dest="command", required=True)
     sub.add_parser("validate")
     compile_cmd = sub.add_parser("compile")
-    compile_cmd.add_argument("--output", type=Path, default=Path("build/f3a-compile"))
+    compile_cmd.add_argument("--output", type=Path, default=Path("build/m4-compile"))
     compile_cmd.add_argument("--source-revision", default="WORKTREE")
     audit_cmd = sub.add_parser("audit")
-    audit_cmd.add_argument("--output", type=Path, default=Path("build/f3a-audit"))
+    audit_cmd.add_argument("--output", type=Path, default=Path("build/m4-audit"))
     audit_cmd.add_argument("--source-revision", default="WORKTREE")
     return result
 
