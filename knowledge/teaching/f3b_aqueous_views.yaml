@@ -1,0 +1,51 @@
+id: view_f3b_hs_aqueous_core
+record_type: teaching_view
+view_key: hs-cn-framework-11
+nodes:
+  - path_key: D02/electrolyte-solutions/strong-electrolytes
+    parent_path_key: D02/electrolyte-solutions
+    members:
+      - ent_material_hydrochloric_acid_aqueous
+      - ent_substance_hno3
+      - ent_substance_koh
+      - ent_substance_bacl2
+      - ent_substance_na2so4
+      - ent_substance_nahco3
+  - path_key: D03/reaction-types/precipitation
+    parent_path_key: D03/reaction-types
+    members: [rxn_f3b_baso4_precipitation]
+  - path_key: D03/reaction-types/neutralization
+    parent_path_key: D03/reaction-types
+    members: [rxn_f3b_hno3_koh_neutralization]
+  - path_key: D03/reaction-types/gas-evolution
+    parent_path_key: D03/reaction-types
+    members: [rxn_f3b_hcl_nahco3_gas_evolution]
+  - path_key: D06/notation/ionic-equations
+    parent_path_key: D06/notation
+    members:
+      - rxn_f3b_baso4_precipitation
+      - rxn_f3b_hno3_koh_neutralization
+      - rxn_f3b_hcl_nahco3_gas_evolution
+  - path_key: D08/substance-classification/acids
+    parent_path_key: D08/substance-classification
+    members:
+      - ent_substance_hno3
+      - ent_material_hydrochloric_acid_aqueous
+  - path_key: D08/substance-classification/bases
+    parent_path_key: D08/substance-classification
+    members: [ent_substance_koh]
+  - path_key: D08/substance-classification/salts
+    parent_path_key: D08/substance-classification
+    members:
+      - ent_substance_bacl2
+      - ent_substance_na2so4
+      - ent_substance_baso4
+      - ent_substance_kno3
+      - ent_substance_nahco3
+  - path_key: D10/elements-and-compounds/representative-elements
+    parent_path_key: D10/elements-and-compounds
+    members:
+      - ent_element_c
+      - ent_element_s
+      - ent_element_k
+      - ent_element_ba
