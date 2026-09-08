@@ -5,23 +5,27 @@ records:
     decision_domain: aqueous_exchange
     match:
       reactants:
-        - bind: chloride_salt
+        - bind: left_salt
           entity_kind: substance
-          required_facets: [salt.chloride, electrolyte.strong_in_water]
-        - bind: silver_salt
+          required_facets: [classification.salt]
+        - bind: right_salt
           entity_kind: substance
-          required_facets: [salt.silver, electrolyte.strong_in_water]
+          required_facets: [classification.salt]
     context:
       medium: aqueous
+    predicates:
+      - {operator: equals, subject: property, binding: left_salt, key: electrolyte.strength, expected: strong}
+      - {operator: equals, subject: property, binding: right_salt, key: electrolyte.strength, expected: strong}
+      - {operator: equals, subject: ionic_exchange, bindings: [left_salt, right_salt], key: driving_force, expected: precipitate}
     blockers:
       - {key: temperature_regime, equals: frozen}
     products:
       - phase: solid
-        construct: {kind: semantic_key, scheme: formula.unit, value: AgCl}
+        construct: {kind: exchange_product, left_binding: left_salt, right_binding: right_salt, role: precipitate}
       - phase: aqueous
-        construct: {kind: semantic_key, scheme: formula.unit, value: NaNO3}
+        construct: {kind: exchange_product, left_binding: left_salt, right_binding: right_salt, role: counterproduct}
     validators: [atoms_conserved, charge_conserved]
-    evidence_ids: [ev_f2_reactions]
+    evidence_ids: [ev_f2_reactions, ev_f3b_solubility_precipitation]
 
   - id: rule_f2_strong_acid_base_neutralization
     record_type: rule
@@ -30,17 +34,24 @@ records:
     match:
       reactants:
         - bind: acid
-          target_id: ent_substance_hcl
-          required_facets: [acid.strong_in_water, electrolyte.strong_in_water]
+          entity_kind: substance
+          required_facets: [classification.acid]
         - bind: base
-          target_id: ent_substance_naoh
-          required_facets: [base.strong_in_water, electrolyte.strong_in_water]
+          entity_kind: substance
+          required_facets: [classification.base]
     context:
       medium: aqueous
+    predicates:
+      - {operator: equals, subject: property, binding: acid, key: acid.strength, expected: strong}
+      - {operator: equals, subject: property, binding: acid, key: electrolyte.strength, expected: strong}
+      - {operator: equals, subject: property, binding: base, key: base.strength, expected: strong}
+      - {operator: equals, subject: property, binding: base, key: electrolyte.strength, expected: strong}
     blockers:
       - {key: temperature_regime, equals: frozen}
     products:
-      - {target_id: ent_substance_nacl, phase: aqueous}
-      - {target_id: ent_substance_h2o, phase: liquid}
+      - phase: aqueous
+        construct: {kind: ionic_pair, cation_from: base, anion_from: acid}
+      - phase: liquid
+        construct: {kind: ionic_pair, cation_from: acid, anion_from: base}
     validators: [atoms_conserved, charge_conserved]
-    evidence_ids: [ev_f2_reactions]
+    evidence_ids: [ev_f2_reactions, ev_f3b_strong_acid_base]
