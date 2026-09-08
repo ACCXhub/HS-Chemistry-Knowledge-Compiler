@@ -15,6 +15,8 @@ class BalanceError(ValueError):
 
 def _composition(kb: KnowledgeBase, entity_id: str) -> tuple[dict[str, int], int]:
     entity = kb.entities[entity_id]
+    if entity.get("entity_kind") == "material_system":
+        raise BalanceError(f"material_system cannot enter exact balancing without stoichiometric projection: {entity_id}")
     payload = entity.get("payload", {})
     composition = payload.get("composition")
     if not composition:
