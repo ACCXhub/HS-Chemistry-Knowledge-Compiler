@@ -23,6 +23,8 @@ class FactValue:
     state: KnowledgeState
     value: Any = None
     origin: str = "intrinsic"
+    context: tuple[tuple[str, Any], ...] = ()
+    evidence_ids: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -30,6 +32,7 @@ class PredicatePlan:
     operator: str
     subject: str = "context"
     binding: str | None = None
+    bindings: tuple[str, ...] = ()
     key: str | None = None
     expected: Any = None
 
@@ -51,6 +54,11 @@ class ProductPlan:
     target_id: str | None = None
     scheme: str | None = None
     value: str | None = None
+    cation_from: str | None = None
+    anion_from: str | None = None
+    left_binding: str | None = None
+    right_binding: str | None = None
+    exchange_role: str | None = None
 
 
 @dataclass(frozen=True)
