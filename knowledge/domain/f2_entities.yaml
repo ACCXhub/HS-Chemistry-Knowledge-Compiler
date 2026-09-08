@@ -1,0 +1,218 @@
+records:
+  - id: src_f2_fixture
+    record_type: source
+    source_type: fixture
+    citation: "F2 architecture executable fixture; not a corpus authority"
+
+  - id: ev_f2_reactions
+    record_type: evidence
+    source_id: src_f2_fixture
+    claim_summary: "Supports the deliberately tiny F2 precipitation and neutralization fixture semantics."
+    stance: supports
+
+  - id: ent_element_h
+    record_type: entity
+    entity_kind: element
+    terms: {preferred: hydrogen}
+    semantic_keys: [{scheme: element.symbol, value: H}]
+    payload: {atomic_number: 1, symbol: H}
+
+  - id: ent_element_o
+    record_type: entity
+    entity_kind: element
+    terms: {preferred: oxygen}
+    semantic_keys: [{scheme: element.symbol, value: O}]
+    payload: {atomic_number: 8, symbol: O}
+
+  - id: ent_element_n
+    record_type: entity
+    entity_kind: element
+    terms: {preferred: nitrogen}
+    semantic_keys: [{scheme: element.symbol, value: N}]
+    payload: {atomic_number: 7, symbol: N}
+
+  - id: ent_element_na
+    record_type: entity
+    entity_kind: element
+    terms: {preferred: sodium}
+    semantic_keys: [{scheme: element.symbol, value: Na}]
+    payload: {atomic_number: 11, symbol: Na}
+
+  - id: ent_element_cl
+    record_type: entity
+    entity_kind: element
+    terms: {preferred: chlorine}
+    semantic_keys: [{scheme: element.symbol, value: Cl}]
+    payload: {atomic_number: 17, symbol: Cl}
+
+  - id: ent_element_ag
+    record_type: entity
+    entity_kind: element
+    terms: {preferred: silver}
+    semantic_keys: [{scheme: element.symbol, value: Ag}]
+    payload: {atomic_number: 47, symbol: Ag}
+
+  - id: ent_substance_nacl
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: sodium chloride}
+    semantic_keys: [{scheme: formula.unit, value: NaCl}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_na, count: 1}
+          - {element_id: ent_element_cl, count: 1}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f2_reactions]}
+    evidence_ids: [ev_f2_reactions]
+
+  - id: ent_substance_agno3
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: silver nitrate}
+    semantic_keys: [{scheme: formula.unit, value: AgNO3}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_ag, count: 1}
+          - {element_id: ent_element_n, count: 1}
+          - {element_id: ent_element_o, count: 3}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f2_reactions]}
+    evidence_ids: [ev_f2_reactions]
+
+  - id: ent_substance_agcl
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: silver chloride}
+    semantic_keys: [{scheme: formula.unit, value: AgCl}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_ag, count: 1}
+          - {element_id: ent_element_cl, count: 1}
+        net_charge: 0
+    evidence_ids: [ev_f2_reactions]
+
+  - id: ent_substance_nano3
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: sodium nitrate}
+    semantic_keys: [{scheme: formula.unit, value: NaNO3}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_na, count: 1}
+          - {element_id: ent_element_n, count: 1}
+          - {element_id: ent_element_o, count: 3}
+        net_charge: 0
+    evidence_ids: [ev_f2_reactions]
+
+  - id: ent_substance_hcl
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: hydrogen chloride aqueous material}
+    semantic_keys: [{scheme: formula.unit, value: HCl}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_h, count: 1}
+          - {element_id: ent_element_cl, count: 1}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f2_reactions]}
+      - {facet_key: acid.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f2_reactions]}
+    evidence_ids: [ev_f2_reactions]
+
+  - id: ent_substance_naoh
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: sodium hydroxide}
+    semantic_keys: [{scheme: formula.unit, value: NaOH}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_na, count: 1}
+          - {element_id: ent_element_o, count: 1}
+          - {element_id: ent_element_h, count: 1}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f2_reactions]}
+      - {facet_key: base.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f2_reactions]}
+    evidence_ids: [ev_f2_reactions]
+
+  - id: ent_substance_h2o
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: water}
+    semantic_keys: [{scheme: formula.unit, value: H2O}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_h, count: 2}
+          - {element_id: ent_element_o, count: 1}
+        net_charge: 0
+    evidence_ids: [ev_f2_reactions]
+
+  - id: ent_species_ag_plus
+    record_type: entity
+    entity_kind: species
+    terms: {preferred: silver ion}
+    semantic_keys: [{scheme: formula.ion, value: Ag+}]
+    payload:
+      species_kind: ion
+      formal_charge: 1
+      composition:
+        components: [{element_id: ent_element_ag, count: 1}]
+        net_charge: 1
+    evidence_ids: [ev_f2_reactions]
+
+  - id: ent_species_cl_minus
+    record_type: entity
+    entity_kind: species
+    terms: {preferred: chloride ion}
+    semantic_keys: [{scheme: formula.ion, value: Cl-}]
+    payload:
+      species_kind: ion
+      formal_charge: -1
+      composition:
+        components: [{element_id: ent_element_cl, count: 1}]
+        net_charge: -1
+    evidence_ids: [ev_f2_reactions]
+
+  - id: ent_species_h_plus
+    record_type: entity
+    entity_kind: species
+    terms: {preferred: hydrogen ion}
+    semantic_keys: [{scheme: formula.ion, value: H+}]
+    payload:
+      species_kind: ion
+      formal_charge: 1
+      composition:
+        components: [{element_id: ent_element_h, count: 1}]
+        net_charge: 1
+    evidence_ids: [ev_f2_reactions]
+
+  - id: ent_species_oh_minus
+    record_type: entity
+    entity_kind: species
+    terms: {preferred: hydroxide ion}
+    semantic_keys: [{scheme: formula.ion, value: OH-}]
+    payload:
+      species_kind: ion
+      formal_charge: -1
+      composition:
+        components:
+          - {element_id: ent_element_o, count: 1}
+          - {element_id: ent_element_h, count: 1}
+        net_charge: -1
+    evidence_ids: [ev_f2_reactions]
