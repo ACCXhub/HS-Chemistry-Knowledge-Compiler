@@ -1,6 +1,6 @@
 # Architecture Decision Log
 
-Status: **F1 convergence accepted decisions**
+Status: **F2 executable architecture decisions**
 
 ## ADR-F1-001 — Entity-kind alignment
 
@@ -77,12 +77,50 @@ A candidate remains generated even if canonical comparison finds an exact/equiva
 
 The architecture and source DSL remain language-neutral. Python-first is provisional. Performance changes require profiling and must stay behind stable semantic boundaries.
 
-## F1 open decisions
+## ADR-F2-001 — Deterministic canonical JSON
 
-No blocking architecture contradiction remains for F1.
+**Decision:** F2 semantic hashing and deterministic artifact payloads use an owned canonical JSON encoding:
 
-The following are intentionally deferred and **do not block F1**:
+- UTF-8;
+- Unicode strings and mapping keys normalized to NFC;
+- mapping keys sorted lexicographically after normalization;
+- no insignificant whitespace;
+- semantic numbers in the F2 hash domain are integers only; floating-point values are rejected;
+- lists preserve declared semantic order;
+- top-level source records are sorted by `(record_type, id)` before source hashing;
+- timestamps, local paths, process IDs, filesystem traversal order, and worker ordering are excluded from semantic payloads.
 
-1. exact YAML/JSON Schema field syntax and file sharding strategy — owner: Data Contracts; needed for the next vertical slice;
-2. exact deterministic hash canonicalization encoding for `candidate_key` and artifact digests — joint Data Contracts + Compiler; needed before implementation emits persistent fixtures;
-3. whether any future bond use case justifies top-level durable bond identity — owner: Domain Ontology; deferred until a concrete bond-local lifecycle exists.
+`candidate_key` is `cand_sha256_` plus SHA-256 of the canonicalized semantic candidate payload. External JSON artifact files append one LF byte; artifact hashes cover the exact emitted bytes.
+
+**Why:** this gives a narrow byte-stable contract without inventing a binary format or inheriting implementation-specific JSON behavior.
+
+## ADR-F2-002 — Minimal executable source/schema boundary
+
+**Decision:** F2 authored chemistry/rule source remains YAML and is validated by the minimal executable schemas under `schemas/`.
+
+- `schemas/f2-record.schema.json` validates the identity-bearing record shapes used by the slice;
+- `schemas/f2-case.schema.json` validates audit/example requests;
+- `Composition` remains embedded;
+- reaction/request participants carry phase explicitly;
+- rule product templates carry product phase explicitly;
+- phase is not promoted into Entity identity or a timeless default identity fact.
+
+Source files may be split or renamed without changing identity or semantic output.
+
+## ADR-F2-003 — F2 source Rule vs internal RulePlan
+
+**Decision:** authored `Rule` YAML is compiled into an internal typed Python `RulePlan`. `RulePlan` is compiler-owned runtime structure and is not a source contract.
+
+F2 implements only the operators needed by the two executable families: exact participant binding, required facet checks, context equality predicates, declared context blockers, canonical product templates, and atom/charge validators. Rule selection does not use file order or integer priority.
+
+Balancing receives fixed canonical reactants/products and exact composition/charge data. Canonical reaction comparison runs only after product resolution, balancing, and conservation validation.
+
+## F2 remaining non-blocking decisions
+
+The following do not block F2 and are candidates for F3:
+
+1. broaden source Rule patterns from the deliberately exact F2 fixture bindings to reusable typed/facet/relation patterns while retaining compile-time overlap analysis;
+2. generalize `ReactionForm` projection/speciation beyond the two curated aqueous examples;
+3. extend external artifact compatibility/versioning beyond the F2 `f2.0` slice contract;
+4. decide whether any concrete bond-local lifecycle justifies top-level bond identity;
+5. migrate a small evidence-backed real corpus sample only after the executable contracts remain stable.
