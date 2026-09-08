@@ -12,6 +12,8 @@ records:
           - ent_substance_bacl2
           - ent_substance_na2so4
           - ent_substance_nahco3
+          - ent_substance_na2co3
+          - ent_substance_k2co3
       - path_key: D03/reaction-types/precipitation
         parent_path_key: D03/reaction-types
         members: [rxn_f3b_baso4_precipitation]
@@ -20,7 +22,12 @@ records:
         members: [rxn_f3b_hno3_koh_neutralization]
       - path_key: D03/reaction-types/gas-evolution
         parent_path_key: D03/reaction-types
-        members: [rxn_f3b_hcl_nahco3_gas_evolution, rxn_m5_hno3_nahco3_gas_evolution]
+        members:
+          - rxn_f3b_hcl_nahco3_gas_evolution
+          - rxn_m5_hno3_nahco3_gas_evolution
+          - rxn_m6_hcl_na2co3_gas_evolution
+          - rxn_m6_hno3_na2co3_gas_evolution
+          - rxn_m6_hcl_k2co3_gas_evolution
       - path_key: D06/notation/ionic-equations
         parent_path_key: D06/notation
         members:
@@ -28,6 +35,9 @@ records:
           - rxn_f3b_hno3_koh_neutralization
           - rxn_f3b_hcl_nahco3_gas_evolution
           - rxn_m5_hno3_nahco3_gas_evolution
+          - rxn_m6_hcl_na2co3_gas_evolution
+          - rxn_m6_hno3_na2co3_gas_evolution
+          - rxn_m6_hcl_k2co3_gas_evolution
       - path_key: D08/substance-classification/acids
         parent_path_key: D08/substance-classification
         members:
@@ -44,6 +54,8 @@ records:
           - ent_substance_baso4
           - ent_substance_kno3
           - ent_substance_nahco3
+          - ent_substance_na2co3
+          - ent_substance_k2co3
       - path_key: D10/elements-and-compounds/representative-elements
         parent_path_key: D10/elements-and-compounds
         members:

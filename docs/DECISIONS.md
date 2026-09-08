@@ -1,6 +1,6 @@
 # Architecture Decision Log
 
-Status: **M5 bounded gas-evolution decisions**
+Status: **M6 strong-acid carbonate gas-evolution decisions**
 
 ## ADR-F1-001 — Entity-kind alignment
 
@@ -155,6 +155,14 @@ The rule reuses canonical aqueous speciation profiles and the existing `ionic_pa
 
 The rule declares `specializes` against strong-acid/base neutralization so conservative overlap is resolved by an explicit semantic relationship, never file order or integer priority.
 
-## M5 remaining limitation
+## ADR-M6-001 — Sibling strong-acid carbonate rule
 
-Carbonate (`CO3^2-`) gas evolution, relative-acid-strength reasoning, weak acids, broader equilibria, and universal speciation remain deferred. They require a separately justified bounded extension rather than broadening the M5 strong-acid hydrogen-carbonate rule.
+M6 represents `CO3^2-` as a canonical divalent Species and soluble sodium/potassium carbonate as canonical Substances with evidence-aware complete-dissociation profiles. Exact profile coefficients (`2 Na+` or `2 K+` per `CO3^2-`) are authored data, not formula-derived runtime truth.
+
+Carbonate gas evolution is a sibling Rule rather than a generalization of M5. This preserves the chemical distinction between carbonate and hydrogen carbonate without adding disjunction syntax, a synthetic umbrella facet, or hidden stoichiometric branching. Both rules reuse the existing `ionic_pair` constructor, exact balancer, and ReactionForm projector. The balancer derives the two-acid stoichiometry; the Rule contains no carbonate-specific coefficients or reactant IDs.
+
+The carbonate Rule `specializes` strong-acid/base neutralization when their broad structural patterns could overlap. It is `mutually_exclusive_with` the hydrogen-carbonate Rule because those canonical classifications identify distinct reactants; simultaneous applicability is therefore a data/model contradiction reported as ambiguity.
+
+## M6 remaining limitation
+
+Relative acid strength, weak-acid carbonate applicability, pKa comparison, equilibrium direction, concentration-sensitive displacement, carbonate/CO2/H2CO3 equilibria, buffers, and universal speciation remain deferred. M6 supports only aqueous strong acids and soluble, strongly dissociated carbonate salts.

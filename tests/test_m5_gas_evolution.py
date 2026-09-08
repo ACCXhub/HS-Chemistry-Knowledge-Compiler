@@ -158,6 +158,9 @@ def test_teaching_view_contains_both_reusable_gas_evolution_cases() -> None:
     assert set(gas_node["members"]) == {
         "rxn_f3b_hcl_nahco3_gas_evolution",
         "rxn_m5_hno3_nahco3_gas_evolution",
+        "rxn_m6_hcl_na2co3_gas_evolution",
+        "rxn_m6_hno3_na2co3_gas_evolution",
+        "rxn_m6_hcl_k2co3_gas_evolution",
     }
 
 

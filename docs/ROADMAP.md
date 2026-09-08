@@ -45,7 +45,21 @@ aqueous strong acid
 
 HCl + NaHCO3 and HNO3 + NaHCO3 use the same declarative rule. Context-qualified acid/electrolyte strength, solubility, and canonical speciation gate applicability; the existing `ionic_pair` constructor selects the salt without formula parsing or entity fabrication. Exact balancing produces molecular coefficients, and the existing ReactionForm projection reduces both reactions to `H+ + HCO3- -> CO2 + H2O` while retaining speciation/evidence provenance.
 
-The gas-evolution rule explicitly specializes neutralization for conservative overlap resolution. Carbonate, relative-acid-strength reasoning, and any broader relation/numeric or speciation capability remain candidates for M6 only when a concrete corpus case justifies a compatible bounded contract change.
+The gas-evolution rule explicitly specializes neutralization for conservative overlap resolution.
+
+## M6 — Strong-acid carbonate gas evolution
+
+M6 adds a distinct sibling family using the same M4/M5 execution architecture:
+
+```text
+aqueous strong acid
++ soluble, strongly dissociated carbonate salt
+-> canonical salt + CO2 + H2O
+```
+
+Canonical `CO3^2-`, Na2CO3, and K2CO3 data pressure-test divalent speciation and exact coefficients. HCl + Na2CO3, HNO3 + Na2CO3, and HCl + K2CO3 all use one typed carbonate Rule. The existing exact balancer derives `2 acid : 1 carbonate : 2 salt : 1 CO2 : 1 H2O`; complete ionic projection and spectator cancellation yield `2 H+ + CO3^2- -> CO2 + H2O` for every case.
+
+The sibling design deliberately avoids OR syntax and a synthetic carbonate-family facet. Relative acid-strength reasoning, weak-acid applicability, pKa/equilibrium modeling, and any broader speciation capability remain later evidence-driven work.
 
 ## Still out of scope
 
