@@ -1,0 +1,44 @@
+records:
+  - id: rule_f2_agcl_precipitation
+    record_type: rule
+    version: 1.0.0
+    decision_domain: aqueous_exchange
+    match:
+      reactants:
+        - bind: chloride_salt
+          target_id: ent_substance_nacl
+          required_facets: [electrolyte.strong_in_water]
+        - bind: silver_salt
+          target_id: ent_substance_agno3
+          required_facets: [electrolyte.strong_in_water]
+    context:
+      medium: aqueous
+    blockers:
+      - {key: temperature_regime, equals: frozen}
+    products:
+      - {target_id: ent_substance_agcl, phase: solid}
+      - {target_id: ent_substance_nano3, phase: aqueous}
+    validators: [atoms_conserved, charge_conserved]
+    evidence_ids: [ev_f2_reactions]
+
+  - id: rule_f2_strong_acid_base_neutralization
+    record_type: rule
+    version: 1.0.0
+    decision_domain: aqueous_acid_base
+    match:
+      reactants:
+        - bind: acid
+          target_id: ent_substance_hcl
+          required_facets: [acid.strong_in_water, electrolyte.strong_in_water]
+        - bind: base
+          target_id: ent_substance_naoh
+          required_facets: [base.strong_in_water, electrolyte.strong_in_water]
+    context:
+      medium: aqueous
+    blockers:
+      - {key: temperature_regime, equals: frozen}
+    products:
+      - {target_id: ent_substance_nacl, phase: aqueous}
+      - {target_id: ent_substance_h2o, phase: liquid}
+    validators: [atoms_conserved, charge_conserved]
+    evidence_ids: [ev_f2_reactions]
