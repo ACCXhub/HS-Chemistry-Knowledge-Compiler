@@ -79,9 +79,10 @@ records:
     payload:
       material_system_kind: solution
     facet_assertions:
-      - {facet_key: classification.acid, value_state: known, value: true, evidence_ids: [ev_f3b_identity_context]}
-      - {facet_key: acid.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_identity_context]}
-      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_identity_context]}
+      - {facet_key: classification.acid, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f3b_identity_context]}
+    property_assertions:
+      - {property_key: acid.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f3b_identity_context]}
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f3b_identity_context]}
     evidence_ids: [ev_f3b_identity_context]
 
   - id: ent_species_na_plus
@@ -168,7 +169,7 @@ records:
           - {element_id: ent_element_o, count: 3}
         net_charge: -1
     facet_assertions:
-      - {facet_key: classification.hydrogen_carbonate, value_state: known, value: true, evidence_ids: [ev_f3b_carbonate_acid]}
+      - {facet_key: classification.hydrogen_carbonate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f3b_carbonate_acid]}
     evidence_ids: [ev_f3b_carbonate_acid]
 
   - id: ent_substance_bacl2
@@ -184,9 +185,19 @@ records:
           - {element_id: ent_element_cl, count: 2}
         net_charge: 0
     facet_assertions:
-      - {facet_key: classification.salt, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
-      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
-      - {facet_key: solubility.soluble_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f3b_solubility_precipitation]}
+      - {facet_key: classification.chloride, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f3b_solubility_precipitation]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f3b_solubility_precipitation]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f3b_solubility_precipitation]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_ba_2plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_cl_minus, coefficient: {numerator: 2, denominator: 1}}
+        evidence_ids: [ev_f3b_solubility_precipitation]
     evidence_ids: [ev_f3b_solubility_precipitation]
 
   - id: ent_substance_na2so4
@@ -203,9 +214,19 @@ records:
           - {element_id: ent_element_o, count: 4}
         net_charge: 0
     facet_assertions:
-      - {facet_key: classification.salt, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
-      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
-      - {facet_key: solubility.soluble_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f3b_solubility_precipitation]}
+      - {facet_key: classification.sulfate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f3b_solubility_precipitation]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f3b_solubility_precipitation]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f3b_solubility_precipitation]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_na_plus, coefficient: {numerator: 2, denominator: 1}}
+          - {target_id: ent_species_so4_2minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_f3b_solubility_precipitation]
     evidence_ids: [ev_f3b_solubility_precipitation]
 
   - id: ent_substance_baso4
@@ -222,8 +243,10 @@ records:
           - {element_id: ent_element_o, count: 4}
         net_charge: 0
     facet_assertions:
-      - {facet_key: classification.salt, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
-      - {facet_key: solubility.insoluble_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f3b_solubility_precipitation]}
+      - {facet_key: classification.sulfate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f3b_solubility_precipitation]}
+    property_assertions:
+      - {property_key: solubility.class, value_state: known, value: insoluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f3b_solubility_precipitation]}
     evidence_ids: [ev_f3b_solubility_precipitation]
 
   - id: ent_substance_hno3
@@ -240,9 +263,18 @@ records:
           - {element_id: ent_element_o, count: 3}
         net_charge: 0
     facet_assertions:
-      - {facet_key: classification.acid, value_state: known, value: true, evidence_ids: [ev_f3b_strong_acid_base]}
-      - {facet_key: acid.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_strong_acid_base]}
-      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_strong_acid_base]}
+      - {facet_key: classification.acid, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f3b_strong_acid_base]}
+    property_assertions:
+      - {property_key: acid.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f3b_strong_acid_base]}
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f3b_strong_acid_base]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_h_plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_no3_minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_f3b_strong_acid_base]
     evidence_ids: [ev_f3b_strong_acid_base]
 
   - id: ent_substance_koh
@@ -259,9 +291,18 @@ records:
           - {element_id: ent_element_h, count: 1}
         net_charge: 0
     facet_assertions:
-      - {facet_key: classification.base, value_state: known, value: true, evidence_ids: [ev_f3b_strong_acid_base]}
-      - {facet_key: base.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_strong_acid_base]}
-      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_strong_acid_base]}
+      - {facet_key: classification.base, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f3b_strong_acid_base]}
+    property_assertions:
+      - {property_key: base.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f3b_strong_acid_base]}
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f3b_strong_acid_base]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_k_plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_oh_minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_f3b_strong_acid_base]
     evidence_ids: [ev_f3b_strong_acid_base]
 
   - id: ent_substance_kno3
@@ -278,9 +319,47 @@ records:
           - {element_id: ent_element_o, count: 3}
         net_charge: 0
     facet_assertions:
-      - {facet_key: classification.salt, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
-      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
-      - {facet_key: solubility.soluble_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_solubility_precipitation]}
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f3b_solubility_precipitation]}
+      - {facet_key: classification.nitrate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f3b_solubility_precipitation]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f3b_solubility_precipitation]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f3b_solubility_precipitation]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_k_plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_no3_minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_f3b_solubility_precipitation]
+    evidence_ids: [ev_f3b_solubility_precipitation]
+
+  - id: ent_substance_kcl
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: potassium chloride}
+    semantic_keys: [{scheme: formula.unit, value: KCl}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_k, count: 1}
+          - {element_id: ent_element_cl, count: 1}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f3b_solubility_precipitation]}
+      - {facet_key: classification.chloride, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f3b_solubility_precipitation]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f3b_solubility_precipitation]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f3b_solubility_precipitation]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_k_plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_cl_minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_f3b_solubility_precipitation]
     evidence_ids: [ev_f3b_solubility_precipitation]
 
   - id: ent_substance_nahco3
@@ -298,10 +377,19 @@ records:
           - {element_id: ent_element_o, count: 3}
         net_charge: 0
     facet_assertions:
-      - {facet_key: classification.salt, value_state: known, value: true, evidence_ids: [ev_f3b_carbonate_acid]}
-      - {facet_key: classification.hydrogen_carbonate, value_state: known, value: true, evidence_ids: [ev_f3b_carbonate_acid]}
-      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_carbonate_acid]}
-      - {facet_key: solubility.soluble_in_water, value_state: known, value: true, evidence_ids: [ev_f3b_carbonate_acid]}
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f3b_carbonate_acid]}
+      - {facet_key: classification.hydrogen_carbonate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f3b_carbonate_acid]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f3b_carbonate_acid]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f3b_carbonate_acid]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_na_plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_hco3_minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_f3b_carbonate_acid]
     evidence_ids: [ev_f3b_carbonate_acid]
 
   - id: ent_substance_co2
