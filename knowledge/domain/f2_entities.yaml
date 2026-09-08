@@ -30,8 +30,19 @@ records:
           - {element_id: ent_element_cl, count: 1}
         net_charge: 0
     facet_assertions:
-      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, fact_kind: contextual, evidence_ids: [ev_f2_reactions]}
-      - {facet_key: salt.chloride, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f2_reactions]}
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f2_reactions]}
+      - {facet_key: classification.chloride, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f2_reactions]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f2_reactions]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f2_reactions]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_na_plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_cl_minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_f2_reactions]
     evidence_ids: [ev_f2_reactions]
 
   - id: ent_substance_agno3
@@ -48,8 +59,19 @@ records:
           - {element_id: ent_element_o, count: 3}
         net_charge: 0
     facet_assertions:
-      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, fact_kind: contextual, evidence_ids: [ev_f2_reactions]}
-      - {facet_key: salt.silver, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f2_reactions]}
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f2_reactions]}
+      - {facet_key: classification.nitrate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f2_reactions]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f2_reactions]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f2_reactions]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_ag_plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_no3_minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_f2_reactions]
     evidence_ids: [ev_f2_reactions]
 
   - id: ent_substance_agcl
@@ -65,7 +87,10 @@ records:
           - {element_id: ent_element_cl, count: 1}
         net_charge: 0
     facet_assertions:
-      - {facet_key: solubility.insoluble_in_water, value_state: known, value: true, fact_kind: contextual, evidence_ids: [ev_f2_reactions]}
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f2_reactions]}
+      - {facet_key: classification.chloride, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f2_reactions]}
+    property_assertions:
+      - {property_key: solubility.class, value_state: known, value: insoluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f2_reactions]}
     evidence_ids: [ev_f2_reactions]
 
   - id: ent_substance_nano3
@@ -81,12 +106,26 @@ records:
           - {element_id: ent_element_n, count: 1}
           - {element_id: ent_element_o, count: 3}
         net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f2_reactions]}
+      - {facet_key: classification.nitrate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f2_reactions]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f2_reactions]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f2_reactions]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_na_plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_no3_minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_f2_reactions]
     evidence_ids: [ev_f2_reactions]
 
   - id: ent_substance_hcl
     record_type: entity
     entity_kind: substance
-    terms: {preferred: hydrogen chloride aqueous material}
+    terms: {preferred: hydrogen chloride}
     semantic_keys: [{scheme: formula.unit, value: HCl}]
     payload:
       substance_kind: pure_compound
@@ -96,8 +135,18 @@ records:
           - {element_id: ent_element_cl, count: 1}
         net_charge: 0
     facet_assertions:
-      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, fact_kind: contextual, evidence_ids: [ev_f2_reactions]}
-      - {facet_key: acid.strong_in_water, value_state: known, value: true, fact_kind: contextual, evidence_ids: [ev_f2_reactions]}
+      - {facet_key: classification.acid, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f2_reactions]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f2_reactions]}
+      - {property_key: acid.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f2_reactions]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_h_plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_cl_minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_f2_reactions]
     evidence_ids: [ev_f2_reactions]
 
   - id: ent_substance_naoh
@@ -114,8 +163,18 @@ records:
           - {element_id: ent_element_h, count: 1}
         net_charge: 0
     facet_assertions:
-      - {facet_key: electrolyte.strong_in_water, value_state: known, value: true, fact_kind: contextual, evidence_ids: [ev_f2_reactions]}
-      - {facet_key: base.strong_in_water, value_state: known, value: true, fact_kind: contextual, evidence_ids: [ev_f2_reactions]}
+      - {facet_key: classification.base, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f2_reactions]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f2_reactions]}
+      - {property_key: base.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f2_reactions]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_na_plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_oh_minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_f2_reactions]
     evidence_ids: [ev_f2_reactions]
 
   - id: ent_substance_h2o
