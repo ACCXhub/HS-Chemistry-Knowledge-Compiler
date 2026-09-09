@@ -90,11 +90,26 @@ Canonical `SO3^2-`, SO2, Na2SO3, and K2SO3 data support acid and cation substitu
 
 M8 requires no compiler, DSL, schema, artifact-format, or dependency change. It adds no warmed condition because ordinary aqueous acidification is sufficient for the represented transformation. Sulfate remains an explicit negative contrast; hydrogen sulfite, weak-acid displacement, sulfurous-acid equilibrium, sulfite redox, and broader sulfur chemistry remain later milestones.
 
+## M9 — Thiosulfate acid decomposition
+
+M9 adds a chemically distinct mixed-phase sibling family:
+
+```text
+aqueous non-oxidizing strong acid
++ soluble, strongly dissociated thiosulfate salt
+-> canonical salt + SO2(g) + elemental sulfur(s) + H2O(l)
+```
+
+Canonical `S2O3^2-`, Na2S2O3, K2S2O3, and elemental-sulfur Substance data support two HCl cation-substitution cases through one declarative Rule. The existing `ionic_pair` constructor resolves NaCl/KCl, exact balancing derives the `2:1:2:1:1:1` molecular ratio, and complete/net ionic projection preserves all gas, solid, and liquid products before normalizing to `2 H+ + S2O3^2- -> SO2(g) + S(s) + H2O(l)`.
+
+M9 adds the contextual property `acid.redox_character = non_oxidizing` for evidence-backed aqueous HCl applicability. It does not infer the same pathway for HNO3: the absent compatibility fact remains UNKNOWN. The milestone requires no compiler, schema, DSL, artifact-format, condition-contract, or dependency change and adds no general redox engine.
+
 ## Still out of scope
 
 - full high-school chemistry population or wholesale legacy migration;
 - transition-metal redox, concentrated-acid/passivation, or organic families;
 - universal equilibrium/speciation solving;
+- nitric-acid/thiosulfate prediction, oxidation-number/electrode-potential inference, or broader thiosulfate/redox chemistry;
 - UI integration, database services, Neo4j, or RETE;
 - Rust/C++ or native acceleration without profiling evidence;
 - speculative plugin infrastructure.

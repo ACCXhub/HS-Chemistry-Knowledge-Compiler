@@ -1,0 +1,37 @@
+records:
+  - id: rule_m9_acid_thiosulfate_decomposition
+    record_type: rule
+    version: 1.0.0
+    decision_domain: aqueous_acid_base
+    match:
+      reactants:
+        - bind: acid
+          entity_kind: substance
+          required_facets: [classification.acid]
+        - bind: thiosulfate
+          entity_kind: substance
+          required_facets: [classification.salt, classification.thiosulfate]
+    context:
+      medium: aqueous
+    predicates:
+      - {operator: equals, subject: property, binding: acid, key: acid.strength, expected: strong}
+      - {operator: equals, subject: property, binding: acid, key: electrolyte.strength, expected: strong}
+      - {operator: equals, subject: property, binding: acid, key: acid.redox_character, expected: non_oxidizing}
+      - {operator: equals, subject: property, binding: thiosulfate, key: electrolyte.strength, expected: strong}
+      - {operator: equals, subject: property, binding: thiosulfate, key: solubility.class, expected: soluble}
+    blockers:
+      - {key: temperature_regime, equals: frozen}
+    products:
+      - phase: aqueous
+        construct: {kind: ionic_pair, cation_from: thiosulfate, anion_from: acid}
+      - {target_id: ent_substance_so2, phase: gas}
+      - {target_id: ent_substance_elemental_sulfur, phase: solid}
+      - {target_id: ent_substance_h2o, phase: liquid}
+    validators: [atoms_conserved, charge_conserved]
+    evidence_ids: [ev_m9_thiosulfate_hcl_decomposition, ev_m9_hcl_redox_compatibility]
+    specializes: [rule_f2_strong_acid_base_neutralization]
+    mutually_exclusive_with:
+      - rule_m5_strong_acid_hydrogen_carbonate_gas_evolution
+      - rule_m6_strong_acid_carbonate_gas_evolution
+      - rule_m7_ammonium_strong_base_gas_evolution
+      - rule_m8_strong_acid_sulfite_gas_evolution

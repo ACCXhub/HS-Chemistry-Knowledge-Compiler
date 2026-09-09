@@ -166,6 +166,8 @@ def test_teaching_view_contains_both_reusable_gas_evolution_cases() -> None:
         "rxn_m8_hcl_na2so3_gas_evolution",
         "rxn_m8_hno3_na2so3_gas_evolution",
         "rxn_m8_hcl_k2so3_gas_evolution",
+        "rxn_m9_hcl_na2s2o3_decomposition",
+        "rxn_m9_hcl_k2s2o3_decomposition",
     }
 
 

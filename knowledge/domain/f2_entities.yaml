@@ -139,6 +139,7 @@ records:
     property_assertions:
       - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f2_reactions]}
       - {property_key: acid.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f2_reactions]}
+      - {property_key: acid.redox_character, value_state: known, value: non_oxidizing, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m9_hcl_redox_compatibility]}
     speciation_profiles:
       - profile_key: aqueous_complete_dissociation
         context: {medium: aqueous}

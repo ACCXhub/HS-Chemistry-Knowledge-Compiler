@@ -202,3 +202,17 @@ M8 composes the existing source, Rule DSL, RulePlan, artifact, balancing, and pr
 ## M8 remaining limitations
 
 Hydrogen sulfite, weak-acid applicability, relative acid strength, sulfurous-acid and SO2/H2SO3 equilibria, sulfite oxidation, SO2 reducing/bleaching behavior, sulfur oxidation-state inference, H2S, thiosulfate, and broader sulfur chemistry remain deferred.
+
+## ADR-M9-001 — Context-bounded thiosulfate decomposition and mixed-phase products
+
+M9 represents `S2O3^2-`, Na2S2O3, K2S2O3, and elemental sulfur as canonical identities. `classification.thiosulfate` is distinct from sulfite and sulfate. Elemental sulfur is a macroscopic `Substance` distinct from the abstract sulfur `Element`; its `S: 1` composition is only the exact stoichiometric basis required by balancing and makes no monatomic or allotrope-structure claim.
+
+Acid strength alone is insufficient for thiosulfate decomposition because strong oxidizing acids may introduce competing chemistry. The M9 Rule therefore also requires contextual `acid.redox_character = non_oxidizing`. Aqueous HCl owns an evidence-backed known value for the bounded pathway; HNO3 owns no fabricated compatible or incompatible value, so its applicability remains UNKNOWN and emits no M9 candidate.
+
+The sibling Rule uses `classification.acid`, `classification.salt`, `classification.thiosulfate`, contextual strength/electrolyte/solubility/redox facts, and aqueous context. It reuses `ionic_pair`, exact balancing, and ReactionForm projection. The existing pipeline preserves the simultaneous aqueous spectator salt, SO2 gas, elemental-sulfur solid, and liquid water products and normalizes both sodium and potassium cases to `2 H+ + S2O3^2- -> SO2(g) + S(s) + H2O(l)`.
+
+No warmed condition, exact reactant-ID engine branch, formula parsing, general redox inference, new dependency, compiler/schema/DSL/artifact change, or D05 experiment mapping is introduced. Compatibility coordinates remain source schema `3.1.0`, Rule DSL `1.0.0`, RulePlan `1.0.0`, and artifact format `1.1.0`.
+
+## M9 remaining limitations
+
+Nitric-acid/thiosulfate product prediction, general acid redox classification, oxidation-number or electrode-potential reasoning, iodine/chlorine thiosulfate chemistry, H2S/polysulfides, sulfur allotrope structure, weak-acid generalization, and broader sulfur/redox systems remain deferred.

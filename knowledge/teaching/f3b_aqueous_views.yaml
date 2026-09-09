@@ -18,6 +18,8 @@ records:
           - ent_substance_nh4_2so4
           - ent_substance_na2so3
           - ent_substance_k2so3
+          - ent_substance_na2s2o3
+          - ent_substance_k2s2o3
       - path_key: D03/reaction-types/precipitation
         parent_path_key: D03/reaction-types
         members: [rxn_f3b_baso4_precipitation]
@@ -37,6 +39,8 @@ records:
           - rxn_m8_hcl_na2so3_gas_evolution
           - rxn_m8_hno3_na2so3_gas_evolution
           - rxn_m8_hcl_k2so3_gas_evolution
+          - rxn_m9_hcl_na2s2o3_decomposition
+          - rxn_m9_hcl_k2s2o3_decomposition
       - path_key: D05/chemical-experiments/ammonium-ion-identification
         parent_path_key: D05/chemical-experiments
         members:
@@ -57,6 +61,8 @@ records:
           - rxn_m8_hcl_na2so3_gas_evolution
           - rxn_m8_hno3_na2so3_gas_evolution
           - rxn_m8_hcl_k2so3_gas_evolution
+          - rxn_m9_hcl_na2s2o3_decomposition
+          - rxn_m9_hcl_k2s2o3_decomposition
       - path_key: D08/substance-classification/acids
         parent_path_key: D08/substance-classification
         members:
@@ -79,6 +85,8 @@ records:
           - ent_substance_nh4_2so4
           - ent_substance_na2so3
           - ent_substance_k2so3
+          - ent_substance_na2s2o3
+          - ent_substance_k2s2o3
       - path_key: D10/elements-and-compounds/representative-elements
         parent_path_key: D10/elements-and-compounds
         members:
@@ -86,6 +94,7 @@ records:
           - ent_element_s
           - ent_element_k
           - ent_element_ba
+          - ent_substance_elemental_sulfur
       - path_key: D10/elements-and-compounds/nitrogen-compounds
         parent_path_key: D10/elements-and-compounds
         members:
@@ -96,3 +105,6 @@ records:
         members:
           - ent_species_so3_2minus
           - ent_substance_so2
+          - ent_species_s2o3_2minus
+          - ent_substance_na2s2o3
+          - ent_substance_k2s2o3

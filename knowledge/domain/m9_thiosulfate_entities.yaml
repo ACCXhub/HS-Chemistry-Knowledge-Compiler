@@ -1,0 +1,111 @@
+records:
+  - id: src_rsc_thiosulfate_acid_practical
+    record_type: source
+    source_type: textbook
+    citation: "Royal Society of Chemistry Education, Rates of reaction practical videos, 14-16 years: sodium thiosulfate solution reacts with dilute hydrochloric acid, obscures a black cross as sulfur forms, and liberates sulfur dioxide gas. https://edu.rsc.org/practical/rates-of-reaction-practical-videos-14-16-years/4018536.article (accessed 2026-09-09)"
+
+  - id: ev_m9_thiosulfate_identity_speciation
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "Supports canonical formula-composition interpretation for thiosulfate and elemental sulfur and complete aqueous dissociation of the represented soluble sodium and potassium salts."
+    stance: supports
+
+  - id: ev_m9_thiosulfate_hcl_decomposition
+    record_type: evidence
+    source_id: src_rsc_thiosulfate_acid_practical
+    claim_summary: "Supports aqueous sodium thiosulfate acidification with dilute hydrochloric acid, producing sulfur turbidity and liberating sulfur dioxide."
+    stance: supports
+
+  - id: ev_m9_hcl_redox_compatibility
+    record_type: evidence
+    source_id: src_rsc_thiosulfate_acid_practical
+    claim_summary: "Supports treating aqueous hydrochloric acid as non-oxidizing for the bounded thiosulfate-decomposition pathway, without extending that value to nitric acid."
+    stance: qualifies
+
+  - id: ent_species_s2o3_2minus
+    record_type: entity
+    entity_kind: species
+    terms: {preferred: thiosulfate ion}
+    semantic_keys: [{scheme: formula.ion, value: S2O3^2-}]
+    payload:
+      species_kind: ion
+      formal_charge: -2
+      composition:
+        components:
+          - {element_id: ent_element_s, count: 2}
+          - {element_id: ent_element_o, count: 3}
+        net_charge: -2
+    facet_assertions:
+      - {facet_key: classification.thiosulfate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m9_thiosulfate_identity_speciation]}
+    evidence_ids: [ev_m9_thiosulfate_identity_speciation]
+
+  - id: ent_substance_elemental_sulfur
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: elemental sulfur}
+    semantic_keys: [{scheme: formula.elemental_basis, value: S}]
+    payload:
+      substance_kind: elemental
+      composition:
+        components:
+          - {element_id: ent_element_s, count: 1}
+        net_charge: 0
+    evidence_ids: [ev_m9_thiosulfate_identity_speciation, ev_m9_thiosulfate_hcl_decomposition]
+
+  - id: ent_substance_na2s2o3
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: sodium thiosulfate}
+    semantic_keys: [{scheme: formula.unit, value: Na2S2O3}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_na, count: 2}
+          - {element_id: ent_element_s, count: 2}
+          - {element_id: ent_element_o, count: 3}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m9_thiosulfate_identity_speciation]}
+      - {facet_key: classification.thiosulfate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m9_thiosulfate_identity_speciation]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m9_thiosulfate_identity_speciation]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m9_thiosulfate_identity_speciation]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_na_plus, coefficient: {numerator: 2, denominator: 1}}
+          - {target_id: ent_species_s2o3_2minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_m9_thiosulfate_identity_speciation]
+    evidence_ids: [ev_m9_thiosulfate_identity_speciation, ev_m9_thiosulfate_hcl_decomposition]
+
+  - id: ent_substance_k2s2o3
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: potassium thiosulfate}
+    semantic_keys: [{scheme: formula.unit, value: K2S2O3}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_k, count: 2}
+          - {element_id: ent_element_s, count: 2}
+          - {element_id: ent_element_o, count: 3}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m9_thiosulfate_identity_speciation]}
+      - {facet_key: classification.thiosulfate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m9_thiosulfate_identity_speciation]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m9_thiosulfate_identity_speciation]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m9_thiosulfate_identity_speciation]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_k_plus, coefficient: {numerator: 2, denominator: 1}}
+          - {target_id: ent_species_s2o3_2minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_m9_thiosulfate_identity_speciation]
+    evidence_ids: [ev_m9_thiosulfate_identity_speciation, ev_m9_thiosulfate_hcl_decomposition]
