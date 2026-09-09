@@ -48,17 +48,36 @@ class ParticipantPatternPlan:
 
 
 @dataclass(frozen=True)
+class IonSourcePlan:
+    kind: str
+    binding: str
+    relation_key: str | None = None
+
+
+@dataclass(frozen=True)
 class ProductPlan:
     constructor: str
     phase: str
     target_id: str | None = None
     scheme: str | None = None
     value: str | None = None
-    cation_from: str | None = None
-    anion_from: str | None = None
+    cation_source: IonSourcePlan | None = None
+    anion_source: IonSourcePlan | None = None
     left_binding: str | None = None
     right_binding: str | None = None
     exchange_role: str | None = None
+
+    @property
+    def cation_from(self) -> str | None:
+        if self.cation_source is not None and self.cation_source.kind == "speciation":
+            return self.cation_source.binding
+        return None
+
+    @property
+    def anion_from(self) -> str | None:
+        if self.anion_source is not None and self.anion_source.kind == "speciation":
+            return self.anion_source.binding
+        return None
 
 
 @dataclass(frozen=True)

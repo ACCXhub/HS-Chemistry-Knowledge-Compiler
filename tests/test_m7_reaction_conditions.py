@@ -53,7 +53,7 @@ def test_reaction_conditions_are_validated_embedded_values_and_old_records_remai
 
     kb = load_knowledge(work)
 
-    assert SOURCE_SCHEMA_VERSION == "3.1.0"
+    assert SOURCE_SCHEMA_VERSION == "3.2.0"
     assert kb.reactions[reaction_id]["conditions"] == [
         {"key": "medium", "value": "aqueous", "evidence_ids": ["ev_f3b_carbonate_acid"]},
         {
@@ -190,18 +190,19 @@ def test_multiple_condition_compatible_canonical_reactions_remain_conflict() -> 
     ]
 
 
-def test_condition_contract_bumps_only_source_and_artifact_versions() -> None:
+def test_m7_condition_contract_remains_compatible_with_current_versions() -> None:
     assert artifact_versions() == {
-        "source_schema": "3.1.0",
-        "rule_dsl": "1.0.0",
-        "rule_plan": "1.0.0",
-        "artifact_format": "1.1.0",
+        "source_schema": "3.2.0",
+        "rule_dsl": "1.1.0",
+        "rule_plan": "1.1.0",
+        "artifact_format": "1.2.0",
     }
-    assert ARTIFACT_FORMAT_VERSION == "1.1.0"
-    assert SUPPORTED_ARTIFACT_FORMAT_VERSIONS == frozenset({"1.0.0", "1.1.0"})
+    assert ARTIFACT_FORMAT_VERSION == "1.2.0"
+    assert SUPPORTED_ARTIFACT_FORMAT_VERSIONS == frozenset({"1.0.0", "1.1.0", "1.2.0"})
     validate_artifact_manifest({"versions": {"artifact_format": "1.0.0"}})
+    validate_artifact_manifest({"versions": {"artifact_format": "1.1.0"}})
     schema = json.loads((ROOT / "schemas" / "knowledge-record.schema.json").read_text(encoding="utf-8"))
-    assert schema["x-source-schema-version"] == "3.1.0"
+    assert schema["x-source-schema-version"] == "3.2.0"
 
 
 def test_existing_candidate_semantic_keys_are_unchanged() -> None:

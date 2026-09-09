@@ -1,12 +1,12 @@
 # Declarative Reaction Rule DSL
 
-Status: **M7 ammonium/base executable semantics; Rule DSL unchanged**
+Status: **M10 typed ionic-pair ion sources**
 
 ## 1. Ownership and version
 
 Each authored Rule owns one stable `rule_*` ID, semantic version, evidence, and explicit resolution relationships. The Rule DSL version is independent from source-schema, compiler-plan, and external-artifact versions.
 
-M7 retains Rule DSL version `1.0.0`; the ammonium/base Rule composes existing context/property predicates, relationships, and `ionic_pair` construction without a Rule source or RulePlan contract change. Reaction conditions belong to the Reaction source contract, not the Rule DSL.
+M10 advances Rule DSL to `1.1.0` because an `ionic_pair` product may now declare typed `cation_source` and `anion_source` values. RulePlan advances independently to `1.1.0` for the lowered `IonSourcePlan` representation. Reaction conditions remain part of the Reaction source contract, not the Rule DSL.
 
 ## 2. Participant patterns
 
@@ -86,9 +86,25 @@ products:
 
 A constructor must resolve to exactly one existing canonical Entity. It never invents identity and does not own balancing coefficients.
 
-`ionic_pair` resolves the canonical cation/anion from bound aqueous speciation profiles, charge-balances their exact compositions, and selects one existing neutral Substance. `exchange_product` reuses the same bounded exchange resolution to select the unique precipitate or soluble counterproduct. Zero or multiple matches are explicit failures.
+`ionic_pair` resolves a canonical cation and anion from independently typed sources, charge-balances their exact compositions, and selects one existing neutral Substance. The M10 syntax is:
 
-Ionic-pair resolution also returns the speciation profiles and evidence actually used so inference can retain deterministic product-construction provenance. This is compiler output metadata, not a new source-level constructor or formula parser.
+```yaml
+construct:
+  kind: ionic_pair
+  cation_source:
+    kind: relation_target
+    binding: metal
+    relation_key: metal.product_cation
+  anion_source:
+    kind: speciation
+    binding: acid
+```
+
+`speciation` selects the unique sign-appropriate ion from the bound Entity's context-matching aqueous profile. `relation_target` performs one controlled, context-aware relation lookup and requires one target. It is not arbitrary graph traversal. Legacy `cation_from`/`anion_from` authoring is still valid and lowers to two `speciation` sources.
+
+`exchange_product` reuses the same bounded exchange resolution to select the unique precipitate or soluble counterproduct. Zero or multiple product/ion/relation matches are explicit failures.
+
+Ionic-pair resolution returns speciation-profile provenance and relation-assertion provenance separately, including the evidence actually used. This is deterministic compiler output metadata, not a new chemistry truth owner or formula parser.
 
 ## 7. Rule-resolution relationships
 

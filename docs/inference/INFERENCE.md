@@ -1,6 +1,6 @@
 # Deterministic Reaction Inference Semantics
 
-Status: **M7 ammonium/base and condition-aware canonical semantics**
+Status: **M10 typed relation-backed product construction**
 
 ## Pipeline
 
@@ -11,6 +11,7 @@ input normalization
 → typed predicate evaluation (TRUE/FALSE/UNKNOWN)
 → blockers
 → applicable-rule resolution graph
+→ typed relation/speciation ion-source resolution
 → typed product construction
 → canonical entity resolution
 → exact balancing
@@ -39,7 +40,9 @@ A declared `mutually_exclusive_with` pair that becomes simultaneously applicable
 
 Products resolve only through bounded canonical constructors. Ionic-pair construction uses canonical ion charge/composition plus exact positive integer coefficients and must resolve one existing neutral Substance. Unresolved or ambiguous lookup is explicit and cannot fabricate an Entity.
 
-When ionic-pair construction consumes bound aqueous reactants, the generated candidate and `products.constructed` proof event retain the normalized profile key, model, target, and evidence IDs for each speciation profile used. This provenance is deterministic and does not create a second source of chemistry truth.
+When ionic-pair construction consumes bound aqueous reactants, the generated candidate and `products.constructed` proof event retain the normalized profile key, model, target, and evidence IDs for each speciation profile used. When it consumes a one-hop relation target, they separately retain source ID, controlled relation key, target ID, normalized context, and evidence IDs. Relation provenance is omitted for candidates that did not use a relation. This metadata is deterministic and does not create a second source of chemistry truth.
+
+M10 uses this boundary for `elemental metal -> product cation` plus `acid -> speciated anion`. Solid metals never receive fake aqueous speciation, and the compiler does not guess oxidation state or valence. Missing or ambiguous relation targets produce structured relation-resolution diagnostics before balancing.
 
 Balancing receives fixed canonical reactants/products and uses exact arithmetic. The M6 carbonate family demonstrates that multi-proton molecular stoichiometry follows from canonical composition after product identities are fixed; no Rule or engine branch supplies coefficients. Atom and charge validation are separate stages and diagnostics.
 
@@ -63,4 +66,4 @@ Runtime/source failures use deterministic objects containing `code`, `stage`, `m
 
 ## Proof trace
 
-Trace events retain normalized inputs, rule IDs/versions, predicate operator/subject/key/expected value, truth result, knowledge state, fact origin, blocker checks, rule resolution, product resolution, balancing, conservation validation, canonical comparison, and emitted candidate key.
+Trace events retain normalized inputs, rule IDs/versions, predicate operator/subject/key/expected value, truth result, knowledge state, fact origin, blocker checks, rule resolution, speciation/relation product inputs, balancing, conservation validation, canonical comparison, and emitted candidate key.

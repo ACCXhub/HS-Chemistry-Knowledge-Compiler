@@ -1,0 +1,96 @@
+records:
+  - id: rxn_m10_zn_hcl_hydrogen
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_elemental_zn, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_hcl, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_zncl2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_h2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+    forms:
+      - form_key: molecular
+        form_kind: molecular
+        participants:
+          - {target_id: ent_substance_elemental_zn, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+          - {target_id: ent_substance_hcl, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+          - {target_id: ent_substance_zncl2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+          - {target_id: ent_substance_h2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+        projection:
+          method: authored_molecular_v1
+          lifecycle: curated
+          required_assumptions: []
+          notes: ["Canonical molecular form for bounded zinc and non-oxidizing hydrochloric acid hydrogen evolution."]
+      - form_key: complete_ionic
+        form_kind: complete_ionic
+        participants:
+          - {target_id: ent_substance_elemental_zn, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+          - {target_id: ent_species_h_plus, target_kind: species, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_cl_minus, target_kind: species, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_zn_2plus, target_kind: species, role: product, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_cl_minus, target_kind: species, role: product, coefficient: {numerator: 2, denominator: 1}, phase: dissolved}
+          - {target_id: ent_substance_h2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+        projection:
+          method: aqueous_strong_electrolyte_v1
+          lifecycle: golden
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation]
+          notes: ["Golden complete ionic form retaining solid zinc and gaseous hydrogen."]
+      - form_key: net_ionic
+        form_kind: net_ionic
+        participants:
+          - {target_id: ent_substance_elemental_zn, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+          - {target_id: ent_species_h_plus, target_kind: species, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_zn_2plus, target_kind: species, role: product, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_substance_h2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+        projection:
+          method: cancel_spectator_ions_v1
+          lifecycle: golden
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation]
+          notes: ["Golden net ionic form for the zinc member of the bounded M10 family."]
+    evidence_ids: [ev_m10_metal_hydrogen_activity, ev_m10_metal_identity_and_chloride_speciation, ev_m9_hcl_redox_compatibility]
+
+  - id: rxn_m10_mg_hcl_hydrogen
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_elemental_mg, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_hcl, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_mgcl2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_h2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+    forms:
+      - form_key: molecular
+        form_kind: molecular
+        participants:
+          - {target_id: ent_substance_elemental_mg, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+          - {target_id: ent_substance_hcl, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+          - {target_id: ent_substance_mgcl2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+          - {target_id: ent_substance_h2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+        projection:
+          method: authored_molecular_v1
+          lifecycle: curated
+          required_assumptions: []
+          notes: ["Canonical molecular form for bounded magnesium and non-oxidizing hydrochloric acid hydrogen evolution."]
+      - form_key: complete_ionic
+        form_kind: complete_ionic
+        participants:
+          - {target_id: ent_substance_elemental_mg, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+          - {target_id: ent_species_h_plus, target_kind: species, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_cl_minus, target_kind: species, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_mg_2plus, target_kind: species, role: product, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_cl_minus, target_kind: species, role: product, coefficient: {numerator: 2, denominator: 1}, phase: dissolved}
+          - {target_id: ent_substance_h2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+        projection:
+          method: aqueous_strong_electrolyte_v1
+          lifecycle: golden
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation]
+          notes: ["Golden complete ionic form retaining solid magnesium and gaseous hydrogen."]
+      - form_key: net_ionic
+        form_kind: net_ionic
+        participants:
+          - {target_id: ent_substance_elemental_mg, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+          - {target_id: ent_species_h_plus, target_kind: species, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_mg_2plus, target_kind: species, role: product, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_substance_h2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+        projection:
+          method: cancel_spectator_ions_v1
+          lifecycle: golden
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation]
+          notes: ["Golden net ionic form for the magnesium member of the bounded M10 family."]
+    evidence_ids: [ev_m10_metal_hydrogen_activity, ev_m10_metal_identity_and_chloride_speciation, ev_m9_hcl_redox_compatibility]

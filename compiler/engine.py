@@ -280,19 +280,32 @@ def _construct_candidate(
         for profile in product.speciation_profiles
     }
     speciation_profiles = [profile_index[key] for key in sorted(profile_index)]
+    relation_index = {
+        (
+            assertion["source_id"],
+            assertion["relation_key"],
+            assertion["target_id"],
+            tuple(sorted(assertion["context"].items())),
+            tuple(sorted(assertion["evidence_ids"])),
+        ): assertion
+        for product in resolved_products
+        for assertion in product.relation_assertions
+    }
+    relation_assertions = [relation_index[key] for key in sorted(relation_index)]
     product_evidence_ids = {
         evidence_id
         for product in resolved_products
         for evidence_id in product.evidence_ids
     }
-    trace.append(
-        {
-            "event": "products.constructed",
-            "rule_id": plan.rule_id,
-            "products": [{"target_id": item.target_id, "phase": item.phase} for item in resolved_products],
-            "speciation_profiles": speciation_profiles,
-        }
-    )
+    constructed_event = {
+        "event": "products.constructed",
+        "rule_id": plan.rule_id,
+        "products": [{"target_id": item.target_id, "phase": item.phase} for item in resolved_products],
+        "speciation_profiles": speciation_profiles,
+    }
+    if relation_assertions:
+        constructed_event["relation_assertions"] = relation_assertions
+    trace.append(constructed_event)
     trace.append({"event": "products.resolved", "resolved": True, "missing": []})
     try:
         balanced = balance(kb, reactants, products)
@@ -382,6 +395,8 @@ def _construct_candidate(
     if comparison["condition_evidence_ids"]:
         result["canonical_match"]["condition_evidence_ids"] = comparison["condition_evidence_ids"]
         result["provenance"]["condition_evidence_ids"] = comparison["condition_evidence_ids"]
+    if relation_assertions:
+        result["provenance"]["relation_assertions"] = relation_assertions
     if comparison_state == "none":
         result["diagnostics"] = [
             diagnostic("canonical_no_match", "canonical_comparison", "candidate has no canonical reaction match")

@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from math import gcd
 from typing import Any
 
-from .model import FactValue, KnowledgeState
+from .model import FactValue, IonSourcePlan, KnowledgeState
 from .source import KnowledgeBase, SourceError
 
 
@@ -21,6 +21,7 @@ class IonicPairResolution:
     cation_coefficient: int
     anion_coefficient: int
     speciation_profiles: tuple[dict[str, Any], ...] = ()
+    relation_assertions: tuple[dict[str, Any], ...] = ()
     evidence_ids: tuple[str, ...] = ()
 
 
@@ -139,36 +140,83 @@ def resolve_ionic_pair(kb: KnowledgeBase, cation_id: str, anion_id: str) -> Ioni
     )
 
 
-def resolve_ionic_pair_from_bindings(
+def _resolve_ion_source(
     kb: KnowledgeBase,
     bindings: dict[str, str],
-    cation_binding: str,
-    anion_binding: str,
+    source: IonSourcePlan,
+    sign: str,
+    context: dict[str, Any],
+) -> tuple[str, tuple[dict[str, Any], ...], tuple[dict[str, Any], ...], tuple[str, ...]]:
+    source_id = bindings[source.binding]
+    if source.kind == "speciation":
+        profile = _profile_for(kb, source_id, context)
+        ion_id = _single_profile_ion(kb, profile, sign)
+        provenance = {
+            "target_id": source_id,
+            "profile_key": profile["profile_key"],
+            "model": profile["model"],
+            "evidence_ids": sorted(profile.get("evidence_ids", [])),
+        }
+        return ion_id, (provenance,), (), tuple(provenance["evidence_ids"])
+    if source.kind == "relation_target":
+        assert source.relation_key is not None
+        assertions = kb.relation_assertions(source_id, source.relation_key, context)
+        if len(assertions) != 1:
+            candidates = sorted(assertion["target_id"] for assertion in assertions)
+            raise AqueousResolutionError(
+                f"relation target is {'ambiguous' if assertions else 'unavailable'} for {source_id}:{source.relation_key}",
+                code="relation_ambiguous" if assertions else "relation_unavailable",
+                stage="relation_resolution",
+                details={
+                    "source_id": source_id,
+                    "relation_key": source.relation_key,
+                    "candidates": candidates,
+                },
+            )
+        assertion = assertions[0]
+        return (
+            assertion["target_id"],
+            (),
+            (assertion,),
+            tuple(assertion["evidence_ids"]),
+        )
+    raise AqueousResolutionError(
+        f"unsupported ionic-pair ion source: {source.kind}",
+        code="schema_invalid",
+        stage="aqueous_product_resolution",
+        details={"ion_source": source.kind},
+    )
+
+
+def resolve_ionic_pair_from_sources(
+    kb: KnowledgeBase,
+    bindings: dict[str, str],
+    cation_source: IonSourcePlan,
+    anion_source: IonSourcePlan,
     context: dict[str, Any],
 ) -> IonicPairResolution:
-    cation_profile = _profile_for(kb, bindings[cation_binding], context)
-    anion_profile = _profile_for(kb, bindings[anion_binding], context)
-    cation = _single_profile_ion(kb, cation_profile, "positive")
-    anion = _single_profile_ion(kb, anion_profile, "negative")
+    cation, cation_profiles, cation_relations, cation_evidence = _resolve_ion_source(
+        kb, bindings, cation_source, "positive", context
+    )
+    anion, anion_profiles, anion_relations, anion_evidence = _resolve_ion_source(
+        kb, bindings, anion_source, "negative", context
+    )
     resolved = resolve_ionic_pair(kb, cation, anion)
     profiles = tuple(
+        sorted(cation_profiles + anion_profiles, key=lambda item: (item["target_id"], item["profile_key"]))
+    )
+    relations = tuple(
         sorted(
-            (
-                {
-                    "target_id": bindings[binding],
-                    "profile_key": profile["profile_key"],
-                    "model": profile["model"],
-                    "evidence_ids": sorted(profile.get("evidence_ids", [])),
-                }
-                for binding, profile in (
-                    (cation_binding, cation_profile),
-                    (anion_binding, anion_profile),
-                )
+            cation_relations + anion_relations,
+            key=lambda item: (
+                item["source_id"],
+                item["relation_key"],
+                item["target_id"],
+                tuple(sorted(item["context"].items())),
             ),
-            key=lambda item: (item["target_id"], item["profile_key"]),
         )
     )
-    evidence_ids = tuple(sorted({evidence_id for profile in profiles for evidence_id in profile["evidence_ids"]}))
+    evidence_ids = tuple(sorted(set(cation_evidence) | set(anion_evidence)))
     return IonicPairResolution(
         target_id=resolved.target_id,
         cation_id=resolved.cation_id,
@@ -176,7 +224,25 @@ def resolve_ionic_pair_from_bindings(
         cation_coefficient=resolved.cation_coefficient,
         anion_coefficient=resolved.anion_coefficient,
         speciation_profiles=profiles,
+        relation_assertions=relations,
         evidence_ids=evidence_ids,
+    )
+
+
+def resolve_ionic_pair_from_bindings(
+    kb: KnowledgeBase,
+    bindings: dict[str, str],
+    cation_binding: str,
+    anion_binding: str,
+    context: dict[str, Any],
+) -> IonicPairResolution:
+    """Compatibility wrapper for the legacy speciation-only boundary."""
+    return resolve_ionic_pair_from_sources(
+        kb,
+        bindings,
+        IonSourcePlan(kind="speciation", binding=cation_binding),
+        IonSourcePlan(kind="speciation", binding=anion_binding),
+        context,
     )
 
 

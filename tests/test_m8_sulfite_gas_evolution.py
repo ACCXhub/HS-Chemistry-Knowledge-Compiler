@@ -303,7 +303,7 @@ def test_sulfite_overlap_graph_is_explicit_and_deterministic() -> None:
     ]
 
 
-def test_m7_warmed_condition_and_compatibility_versions_remain_unchanged() -> None:
+def test_m7_warmed_condition_remains_unchanged_with_current_versions() -> None:
     kb = load_knowledge(ROOT)
     plans = compile_rules(kb)
     missing_warming = infer_case(
@@ -322,10 +322,10 @@ def test_m7_warmed_condition_and_compatibility_versions_remain_unchanged() -> No
     assert missing_warming["status"] == "indeterminate"
     assert "candidate_key" not in missing_warming
     assert artifact_versions() == {
-        "source_schema": "3.1.0",
-        "rule_dsl": "1.0.0",
-        "rule_plan": "1.0.0",
-        "artifact_format": "1.1.0",
+        "source_schema": "3.2.0",
+        "rule_dsl": "1.1.0",
+        "rule_plan": "1.1.0",
+        "artifact_format": "1.2.0",
     }
 
 

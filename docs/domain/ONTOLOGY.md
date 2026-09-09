@@ -1,6 +1,6 @@
 # Canonical Domain Ontology
 
-Status: **F1 canonical**
+Status: **M10 canonical ontology with a bounded executable relation subset**
 
 ## 1. Modeling rule
 
@@ -61,9 +61,13 @@ Typical contextual dimensions include phase, solvent/medium, concentration, temp
 
 Contextual chemistry properties may also bound reaction-family applicability. For example, acid strength and acid redox character are separate facts; knowing that an acid is strong does not establish that a non-oxidizing pathway applies.
 
+Metal activity relative to hydrogen is likewise contextual chemistry knowledge, not a reaction-result facet. M10 uses only the evidence-backed controlled values `above` and `below`; it does not infer a numeric activity series or electrode potentials.
+
 ## 6. Relations
 
 Relations are typed semantic assertions, not generic graph edges. Useful relation families include composition, structure, acid/base conjugacy, transformation, derivation, evidence, pedagogy, and reaction composition.
+
+M10's executable subset contains the one-hop controlled relation `metal.product_cation`. The owning elemental-metal Substance embeds the context and evidence-bearing assertion, and the target must resolve to a Species. It does not receive a separate identity unless an independent lifecycle later requires one. This relation is chemical product-identity knowledge; it is not fake aqueous dissociation of the solid metal.
 
 ## 7. Reactions
 

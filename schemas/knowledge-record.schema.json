@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.invalid/hs-chem/knowledge-record.schema.json",
-  "x-source-schema-version": "3.1.0",
+  "x-source-schema-version": "3.2.0",
   "oneOf": [
     {"$ref": "#/$defs/entity"},
     {"$ref": "#/$defs/reaction"},
@@ -81,6 +81,17 @@
         "evidence_ids": {"$ref": "#/$defs/evidenceIds"}
       }
     },
+    "relationAssertion": {
+      "type": "object",
+      "required": ["relation_key", "target_id", "context", "evidence_ids"],
+      "additionalProperties": false,
+      "properties": {
+        "relation_key": {"enum": ["metal.product_cation"]},
+        "target_id": {"$ref": "#/$defs/id"},
+        "context": {"$ref": "#/$defs/context"},
+        "evidence_ids": {"$ref": "#/$defs/evidenceIds"}
+      }
+    },
     "speciationProduct": {
       "type": "object",
       "required": ["target_id", "coefficient"],
@@ -150,6 +161,7 @@
         },
         "facet_assertions": {"type": "array", "items": {"$ref": "#/$defs/facetAssertion"}},
         "property_assertions": {"type": "array", "items": {"$ref": "#/$defs/propertyAssertion"}},
+        "relation_assertions": {"type": "array", "items": {"$ref": "#/$defs/relationAssertion"}},
         "speciation_profiles": {"type": "array", "items": {"$ref": "#/$defs/speciationProfile"}},
         "evidence_ids": {"$ref": "#/$defs/evidenceIds"}
       }
@@ -287,15 +299,54 @@
         "value": {"type": "string", "minLength": 1}
       }
     },
-    "ionicPairConstruct": {
+    "speciationIonSource": {
       "type": "object",
-      "required": ["kind", "cation_from", "anion_from"],
+      "required": ["kind", "binding"],
       "additionalProperties": false,
       "properties": {
-        "kind": {"const": "ionic_pair"},
-        "cation_from": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
-        "anion_from": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}
+        "kind": {"const": "speciation"},
+        "binding": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}
       }
+    },
+    "relationTargetIonSource": {
+      "type": "object",
+      "required": ["kind", "binding", "relation_key"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {"const": "relation_target"},
+        "binding": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "relation_key": {"enum": ["metal.product_cation"]}
+      }
+    },
+    "ionSource": {
+      "oneOf": [
+        {"$ref": "#/$defs/speciationIonSource"},
+        {"$ref": "#/$defs/relationTargetIonSource"}
+      ]
+    },
+    "ionicPairConstruct": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["kind", "cation_from", "anion_from"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": {"const": "ionic_pair"},
+            "cation_from": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+            "anion_from": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}
+          }
+        },
+        {
+          "type": "object",
+          "required": ["kind", "cation_source", "anion_source"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": {"const": "ionic_pair"},
+            "cation_source": {"$ref": "#/$defs/ionSource"},
+            "anion_source": {"$ref": "#/$defs/ionSource"}
+          }
+        }
+      ]
     },
     "exchangeProductConstruct": {
       "type": "object",

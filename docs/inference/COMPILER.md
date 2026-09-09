@@ -1,6 +1,6 @@
 # Knowledge Compiler Architecture
 
-Status: **M4 Chemistry Model Convergence compiler boundary**
+Status: **M10 typed relation and ion-source compiler boundary**
 
 ## Responsibility
 
@@ -12,9 +12,10 @@ The compiler converts validated canonical source and declarative rules into dete
 parse YAML safely
 → JSON Schema validation
 → durable-ID/reference resolution
+→ controlled relation-target validation
 → semantic indexes
 → Rule parse/type checking
-→ typed PredicatePlan / ParticipantPatternPlan / ProductPlan lowering
+→ typed PredicatePlan / ParticipantPatternPlan / IonSourcePlan / ProductPlan lowering
 → rule relationship graph validation
 → static overlap analysis
 → deterministic runtime plan
@@ -48,7 +49,7 @@ Precedence cycles are rejected. Runtime resolution uses transitive reachability 
 
 ## Product resolution
 
-`exact_entity`, `semantic_key`, `ionic_pair`, and `exchange_product` are bounded constructors. They resolve against canonical source indexes and canonical composition/speciation records. Zero or multiple matches remain explicit; no constructor parses display formulas or mints canonical identity.
+`exact_entity`, `semantic_key`, `ionic_pair`, and `exchange_product` are bounded constructors. They resolve against canonical source indexes and canonical composition/speciation/relation records. M10 ionic-pair ion sources may be speciation-backed or one-hop relation-backed, after which the unchanged neutral composition/charge resolver selects a canonical Substance. Zero or multiple matches remain explicit; no constructor parses display formulas, guesses valence, or mints canonical identity.
 
 ## ReactionForm projection
 
@@ -59,14 +60,14 @@ Projection is an explicit API over curated/golden forms and canonical speciation
 Version axes are separate:
 
 ```text
-source schema     3.0.0
-Rule DSL          1.0.0
-RulePlan          1.0.0
-artifact format   1.0.0
+source schema     3.2.0
+Rule DSL          1.1.0
+RulePlan          1.1.0
+artifact format   1.2.0
 ```
 
-External artifacts include `artifact_format_version`; manifests include all four. Consumers can reject unsupported external format versions. M4 does not promise compatibility across unspecified future versions.
+External artifacts include `artifact_format_version`; manifests include all four. Artifact `1.2.0` reflects the emitted nested typed ion-source plan shape, independently of the source/DSL/plan bumps. The reader also accepts historical formats `1.0.0` and `1.1.0`; consumers reject unknown versions.
 
 ## Performance policy
 
-Python-first remains the reference implementation. M4 adds no RETE, database, native extension, or plugin runtime. Small typed indexes and compiled plans are preferred; optimization requires measured evidence.
+Python-first remains the reference implementation. M10 adds no external dependency, RETE, database, native extension, generic graph engine, or plugin runtime. Small typed indexes and compiled plans are preferred; optimization requires measured evidence.

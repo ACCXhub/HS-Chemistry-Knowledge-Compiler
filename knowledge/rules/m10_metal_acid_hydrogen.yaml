@@ -1,0 +1,36 @@
+records:
+  - id: rule_m10_active_metal_non_oxidizing_acid_hydrogen
+    record_type: rule
+    version: 1.0.0
+    decision_domain: aqueous_redox_displacement
+    match:
+      reactants:
+        - bind: metal
+          entity_kind: substance
+          required_facets: [classification.metal]
+        - bind: acid
+          entity_kind: substance
+          required_facets: [classification.acid]
+    context:
+      medium: aqueous
+    predicates:
+      - {operator: equals, subject: property, binding: metal, key: metal.activity.relative_to_hydrogen, expected: above}
+      - {operator: equals, subject: property, binding: acid, key: acid.strength, expected: strong}
+      - {operator: equals, subject: property, binding: acid, key: electrolyte.strength, expected: strong}
+      - {operator: equals, subject: property, binding: acid, key: acid.redox_character, expected: non_oxidizing}
+    blockers:
+      - {key: temperature_regime, equals: frozen}
+    products:
+      - phase: aqueous
+        construct:
+          kind: ionic_pair
+          cation_source:
+            kind: relation_target
+            binding: metal
+            relation_key: metal.product_cation
+          anion_source:
+            kind: speciation
+            binding: acid
+      - {target_id: ent_substance_h2, phase: gas}
+    validators: [atoms_conserved, charge_conserved]
+    evidence_ids: [ev_m10_metal_hydrogen_activity, ev_m9_hcl_redox_compatibility]

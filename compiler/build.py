@@ -12,8 +12,8 @@ from .rules import RULE_DSL_VERSION, RULE_PLAN_VERSION, analyze_rule_overlaps, c
 from .source import SOURCE_SCHEMA_VERSION, KnowledgeBase, load_cases, load_knowledge
 
 
-ARTIFACT_FORMAT_VERSION = "1.1.0"
-SUPPORTED_ARTIFACT_FORMAT_VERSIONS = frozenset({"1.0.0", ARTIFACT_FORMAT_VERSION})
+ARTIFACT_FORMAT_VERSION = "1.2.0"
+SUPPORTED_ARTIFACT_FORMAT_VERSIONS = frozenset({"1.0.0", "1.1.0", ARTIFACT_FORMAT_VERSION})
 
 
 def artifact_versions() -> dict[str, str]:
@@ -61,7 +61,25 @@ def _plan_projection(plans: tuple[Any, ...]) -> dict[str, Any]:
                 "patterns": [pattern.__dict__ for pattern in plan.patterns],
                 "predicates": [predicate.__dict__ for predicate in plan.predicates],
                 "blockers": [blocker.__dict__ for blocker in plan.blockers],
-                "products": [product.__dict__ for product in plan.products],
+                "products": [
+                    {
+                        "constructor": product.constructor,
+                        "phase": product.phase,
+                        "target_id": product.target_id,
+                        "scheme": product.scheme,
+                        "value": product.value,
+                        "cation_source": None
+                        if product.cation_source is None
+                        else product.cation_source.__dict__,
+                        "anion_source": None
+                        if product.anion_source is None
+                        else product.anion_source.__dict__,
+                        "left_binding": product.left_binding,
+                        "right_binding": product.right_binding,
+                        "exchange_role": product.exchange_role,
+                    }
+                    for product in plan.products
+                ],
                 "validators": list(plan.validators),
                 "relations": plan.relations.__dict__,
             }

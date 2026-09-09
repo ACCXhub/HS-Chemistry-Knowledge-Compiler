@@ -1,0 +1,182 @@
+records:
+  - id: ev_m10_metal_hydrogen_activity
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "OpenStax 4.2 explicitly gives Zn(s) + 2 HCl(aq) -> ZnCl2(aq) + H2(g); its metal/H+ half-cell data relative to the standard hydrogen electrode in 17.3 support the bounded high-school facts Mg and Zn above hydrogen and Cu below hydrogen."
+    stance: supports
+
+  - id: ev_m10_metal_identity_and_chloride_speciation
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "Supports the canonical elemental Zn, Mg, Cu and H2 identities, Zn2+/Mg2+ product-ion identities, ZnCl2/MgCl2 composition, and complete aqueous dissociation of the represented soluble ionic chlorides."
+    stance: supports
+
+  - id: ent_element_mg
+    record_type: entity
+    entity_kind: element
+    terms: {preferred: magnesium}
+    semantic_keys: [{scheme: element.symbol, value: Mg}]
+    payload: {atomic_number: 12, symbol: Mg}
+    evidence_ids: [ev_m10_metal_identity_and_chloride_speciation]
+
+  - id: ent_element_cu
+    record_type: entity
+    entity_kind: element
+    terms: {preferred: copper}
+    semantic_keys: [{scheme: element.symbol, value: Cu}]
+    payload: {atomic_number: 29, symbol: Cu}
+    evidence_ids: [ev_m10_metal_identity_and_chloride_speciation]
+
+  - id: ent_element_zn
+    record_type: entity
+    entity_kind: element
+    terms: {preferred: zinc}
+    semantic_keys: [{scheme: element.symbol, value: Zn}]
+    payload: {atomic_number: 30, symbol: Zn}
+    evidence_ids: [ev_m10_metal_identity_and_chloride_speciation]
+
+  - id: ent_species_mg_2plus
+    record_type: entity
+    entity_kind: species
+    terms: {preferred: magnesium ion}
+    semantic_keys: [{scheme: formula.ion, value: Mg2+}]
+    payload:
+      species_kind: ion
+      formal_charge: 2
+      composition:
+        components: [{element_id: ent_element_mg, count: 1}]
+        net_charge: 2
+    evidence_ids: [ev_m10_metal_identity_and_chloride_speciation]
+
+  - id: ent_species_zn_2plus
+    record_type: entity
+    entity_kind: species
+    terms: {preferred: zinc ion}
+    semantic_keys: [{scheme: formula.ion, value: Zn2+}]
+    payload:
+      species_kind: ion
+      formal_charge: 2
+      composition:
+        components: [{element_id: ent_element_zn, count: 1}]
+        net_charge: 2
+    evidence_ids: [ev_m10_metal_identity_and_chloride_speciation]
+
+  - id: ent_substance_h2
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: hydrogen}
+    semantic_keys: [{scheme: formula.molecular, value: H2}]
+    payload:
+      substance_kind: elemental
+      composition:
+        components: [{element_id: ent_element_h, count: 2}]
+        net_charge: 0
+    evidence_ids: [ev_m10_metal_identity_and_chloride_speciation, ev_m10_metal_hydrogen_activity]
+
+  - id: ent_substance_elemental_mg
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: elemental magnesium}
+    semantic_keys: [{scheme: formula.elemental_basis, value: Mg}]
+    payload:
+      substance_kind: elemental
+      composition:
+        components: [{element_id: ent_element_mg, count: 1}]
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.metal, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m10_metal_hydrogen_activity]}
+    property_assertions:
+      - {property_key: metal.activity.relative_to_hydrogen, value_state: known, value: above, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m10_metal_hydrogen_activity]}
+    relation_assertions:
+      - {relation_key: metal.product_cation, target_id: ent_species_mg_2plus, context: {medium: aqueous}, evidence_ids: [ev_m10_metal_hydrogen_activity]}
+    evidence_ids: [ev_m10_metal_identity_and_chloride_speciation, ev_m10_metal_hydrogen_activity]
+
+  - id: ent_substance_elemental_cu
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: elemental copper}
+    semantic_keys: [{scheme: formula.elemental_basis, value: Cu}]
+    payload:
+      substance_kind: elemental
+      composition:
+        components: [{element_id: ent_element_cu, count: 1}]
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.metal, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m10_metal_hydrogen_activity]}
+    property_assertions:
+      - {property_key: metal.activity.relative_to_hydrogen, value_state: known, value: below, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m10_metal_hydrogen_activity]}
+    evidence_ids: [ev_m10_metal_identity_and_chloride_speciation, ev_m10_metal_hydrogen_activity]
+
+  - id: ent_substance_elemental_zn
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: elemental zinc}
+    semantic_keys: [{scheme: formula.elemental_basis, value: Zn}]
+    payload:
+      substance_kind: elemental
+      composition:
+        components: [{element_id: ent_element_zn, count: 1}]
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.metal, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m10_metal_hydrogen_activity]}
+    property_assertions:
+      - {property_key: metal.activity.relative_to_hydrogen, value_state: known, value: above, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m10_metal_hydrogen_activity]}
+    relation_assertions:
+      - {relation_key: metal.product_cation, target_id: ent_species_zn_2plus, context: {medium: aqueous}, evidence_ids: [ev_m10_metal_hydrogen_activity]}
+    evidence_ids: [ev_m10_metal_identity_and_chloride_speciation, ev_m10_metal_hydrogen_activity]
+
+  - id: ent_substance_mgcl2
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: magnesium chloride}
+    semantic_keys: [{scheme: formula.unit, value: MgCl2}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_mg, count: 1}
+          - {element_id: ent_element_cl, count: 2}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m10_metal_identity_and_chloride_speciation]}
+      - {facet_key: classification.chloride, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m10_metal_identity_and_chloride_speciation]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m10_metal_identity_and_chloride_speciation]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m10_metal_identity_and_chloride_speciation]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_mg_2plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_cl_minus, coefficient: {numerator: 2, denominator: 1}}
+        evidence_ids: [ev_m10_metal_identity_and_chloride_speciation]
+    evidence_ids: [ev_m10_metal_identity_and_chloride_speciation]
+
+  - id: ent_substance_zncl2
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: zinc chloride}
+    semantic_keys: [{scheme: formula.unit, value: ZnCl2}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_zn, count: 1}
+          - {element_id: ent_element_cl, count: 2}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m10_metal_identity_and_chloride_speciation]}
+      - {facet_key: classification.chloride, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m10_metal_identity_and_chloride_speciation]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m10_metal_identity_and_chloride_speciation]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m10_metal_identity_and_chloride_speciation]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_zn_2plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_cl_minus, coefficient: {numerator: 2, denominator: 1}}
+        evidence_ids: [ev_m10_metal_identity_and_chloride_speciation]
+    evidence_ids: [ev_m10_metal_identity_and_chloride_speciation, ev_m10_metal_hydrogen_activity]

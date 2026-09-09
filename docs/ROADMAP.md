@@ -104,10 +104,27 @@ Canonical `S2O3^2-`, Na2S2O3, K2S2O3, and elemental-sulfur Substance data suppor
 
 M9 adds the contextual property `acid.redox_character = non_oxidizing` for evidence-backed aqueous HCl applicability. It does not infer the same pathway for HNO3: the absent compatibility fact remains UNKNOWN. The milestone requires no compiler, schema, DSL, artifact-format, condition-contract, or dependency change and adds no general redox engine.
 
+## M10 — Metal + non-oxidizing acid hydrogen evolution
+
+M10 adds the first bounded metal-displacement/redox family:
+
+```text
+sufficiently active elemental metal
++ aqueous non-oxidizing strong acid
+-> canonical metal salt + H2(g)
+```
+
+Canonical Mg, Zn, and Cu Elements remain distinct from elemental Substances. Contextual activity facts place Mg/Zn above hydrogen and Cu below it; the solid metal Substances have no aqueous speciation. Evidence-bearing embedded `metal.product_cation` relations connect Mg and Zn to their canonical divalent Species. A typed ion-source extension lets the existing `ionic_pair` constructor combine that relation-derived cation with the acid-speciation anion without formula parsing or valence guessing.
+
+Zn + HCl and Mg + HCl use the same declarative Rule. Exact balancing derives `1:2:1:1`, while existing complete/net ionic projection yields `Zn + 2 H+ -> Zn2+ + H2` and `Mg + 2 H+ -> Mg2+ + H2`. Cu fails the known activity predicate and emits no M10 candidate; Zn + HNO3 remains UNKNOWN because acid strength does not imply non-oxidizing character.
+
+M10 advances the independently owned compatibility coordinates to source schema `3.2.0`, Rule DSL `1.1.0`, RulePlan `1.1.0`, and artifact format `1.2.0`. The artifact bump is required by the externally emitted typed ion-source plan shape, while historical artifact formats and legacy ionic-pair Rule syntax remain readable.
+
 ## Still out of scope
 
 - full high-school chemistry population or wholesale legacy migration;
 - transition-metal redox, concentrated-acid/passivation, or organic families;
+- variable-valence metal product selection, metal/salt displacement, metal/water reactions, or general activity-series/electrode-potential reasoning;
 - universal equilibrium/speciation solving;
 - nitric-acid/thiosulfate prediction, oxidation-number/electrode-potential inference, or broader thiosulfate/redox chemistry;
 - UI integration, database services, Neo4j, or RETE;

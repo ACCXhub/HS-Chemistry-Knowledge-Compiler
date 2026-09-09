@@ -1,6 +1,6 @@
 # Architecture Decision Log
 
-Status: **M7 ammonium/base and reaction-condition convergence decisions**
+Status: **M10 bounded metal/acid hydrogen-evolution decisions**
 
 ## ADR-F1-001 — Entity-kind alignment
 
@@ -216,3 +216,19 @@ No warmed condition, exact reactant-ID engine branch, formula parsing, general r
 ## M9 remaining limitations
 
 Nitric-acid/thiosulfate product prediction, general acid redox classification, oxidation-number or electrode-potential reasoning, iodine/chlorine thiosulfate chemistry, H2S/polysulfides, sulfur allotrope structure, weak-acid generalization, and broader sulfur/redox systems remain deferred.
+
+## ADR-M10-001 — Embedded typed product-cation relations and typed ion sources
+
+M10 makes one bounded Relation family executable without introducing a generic graph subsystem. An elemental-metal `Substance` may own an evidence-bearing, context-qualified `metal.product_cation` assertion whose target must be a canonical `Species`. The assertion has no ordinary durable UUID: its deterministic provenance is the tuple of source entity, controlled relation key, target entity, context, and evidence. Lookup is one hop, uses existing context specificity, returns zero targets explicitly, and preserves equally specific multiple targets so a uniqueness-requiring product resolver can report ambiguity.
+
+The `ionic_pair` Rule constructor now accepts independently typed `cation_source` and `anion_source` values. M10 combines a metal's `relation_target` cation with the acid's existing `speciation` anion, then delegates unchanged charge/composition matching to the canonical neutral ionic-pair resolver. Historical `cation_from` and `anion_from` source syntax remains accepted and lowers to speciation-backed `IonSourcePlan` values. Neither path parses formula text, guesses valence, or creates an Entity.
+
+These changes independently advance source schema to `3.2.0`, Rule DSL to `1.1.0`, and internal RulePlan to `1.1.0`. External artifact format advances to `1.2.0` because emitted `compiled-rule-plans.json` products now expose typed nested ion sources rather than the `1.1.0` flat `cation_from`/`anion_from` shape; an old consumer cannot safely interpret the relation-backed M10 plan. The reader continues to accept artifact formats `1.0.0`, `1.1.0`, and `1.2.0`. Relation provenance is emitted only when a generated candidate actually consumed a relation, so unchanged M4-M9 candidate semantic keys remain unchanged.
+
+## ADR-M10-002 — Bounded metal/non-oxidizing-acid hydrogen evolution
+
+M10 represents Mg, Zn, and Cu Element identities separately from their elemental solid Substances. Solid metals have no fabricated aqueous speciation. Evidence-backed contextual `metal.activity.relative_to_hydrogen` facts classify Mg and Zn as `above` and Cu as `below`; Mg and Zn additionally own their typed product-cation relations to `Mg2+` and `Zn2+`. Acid strength remains independent from the existing contextual `acid.redox_character` fact.
+
+One declarative Rule requires an elemental metal classified as a metal and above hydrogen, an aqueous strong/strong-electrolyte acid with `acid.redox_character = non_oxidizing`, and resolves the canonical chloride plus H2(g). Exact balancing derives `metal : HCl : metal chloride : H2 = 1:2:1:1`. Canonical complete/net ionic projection retains the solid metal, dissociates only HCl and the soluble product salt, cancels chloride, and yields `Zn + 2 H+ -> Zn2+ + H2` or `Mg + 2 H+ -> Mg2+ + H2`.
+
+Cu's M10 binding fails on a known activity predicate and emits no hydrogen candidate. The overall open-world result may remain indeterminate because other structurally possible families/bindings lack facts; this does not weaken the known M10 failure. HNO3 has no fabricated non-oxidizing compatibility value, so Zn/HNO3 remains UNKNOWN. Numeric electrode potentials, oxidation-state inference, electron/half-reaction balancing, variable-valence metals, passivation, concentration effects, and general redox inference remain deferred.

@@ -1,6 +1,6 @@
 # Canonical Data Model
 
-Status: **M7 executable Reaction-condition convergence over the canonical model**
+Status: **M10 executable relation assertions and typed product-ion sources**
 
 This document defines canonical source-record semantics. M4 converges the executable Rule/fact/speciation/TeachingView/ReactionForm/artifact subset without narrowing the broader model.
 
@@ -37,6 +37,11 @@ payload:
   composition: {}
   formal_charge: -1
   structure_ids: []
+relation_assertions:
+  - relation_key: metal.product_cation
+    target_id: ent_species_...
+    context: {medium: aqueous}
+    evidence_ids: [ev_...]
 ```
 
 `species_kind` may be atom/ion/molecule/etc. `Substance` describes pure macroscopic material identity. `MaterialSystem` describes solution/mixture/system composition.
@@ -117,6 +122,18 @@ Stable classifications such as acid, base, salt, chloride, sulfate, and hydrogen
 No rule may silently coerce absence, explicit unknown, or not-applicable into known false.
 
 A separately identity-bearing fact/assertion may additionally own durable provenance/revision metadata when its lifecycle requires it.
+
+M10's minimum executable Relation is embedded on its source Entity:
+
+```yaml
+relation_assertions:
+  - relation_key: metal.product_cation
+    target_id: ent_species_zn_2plus
+    context: {medium: aqueous}
+    evidence_ids: [ev_...]
+```
+
+The relation key is controlled and its target kind is validated. An ordinary embedded assertion has no durable relation UUID; deterministic lookup/provenance retains source ID, relation key, target ID, normalized context, and evidence IDs. Multiple equally specific targets remain explicit rather than being selected by file order.
 
 ## 6. Embedded Context
 
@@ -205,6 +222,7 @@ provenance:
   validation_results: []
   canonical_match: {}
   proof_trace: []
+  relation_assertions: []
 ```
 
 Pure compilation mints no time-based review UUID. An exact canonical match does not promote or mutate a candidate into canonical knowledge.
@@ -258,6 +276,20 @@ or bounded semantic-key/ionic-pair/exchange-product resolvers:
 
 Resolution must return exactly one existing canonical Entity. Zero or multiple matches remain explicit failures. The compiler never fabricates canonical identity and does not guess variable valence or other chemically ambiguous identities.
 
+M10 extends `ionic_pair` with typed ion sources:
+
+```yaml
+- phase: aqueous
+  construct:
+    kind: ionic_pair
+    cation_source:
+      {kind: relation_target, binding: metal, relation_key: metal.product_cation}
+    anion_source:
+      {kind: speciation, binding: acid}
+```
+
+Once both canonical ion Species resolve, the existing neutral ionic-pair resolver remains the sole owner of exact charge/composition matching. Historical `cation_from`/`anion_from` Rule source remains valid and lowers to equivalent `speciation` ion sources.
+
 ## 11. TeachingView
 
 ```yaml
@@ -280,15 +312,17 @@ Evidence/provenance must remain traceable through compiler output when a generat
 
 ## 13. External generated artifacts
 
-External generated artifacts remain contract-owned and reproducible. M4 keeps four compatibility coordinates separate:
+External generated artifacts remain contract-owned and reproducible. The four compatibility coordinates remain independent:
 
-| Coordinate | M7 value |
+| Coordinate | M10 value |
 | --- | --- |
-| source schema | `3.1.0` |
-| Rule DSL | `1.0.0` |
-| internal RulePlan | `1.0.0` |
-| external artifact format | `1.1.0` |
+| source schema | `3.2.0` |
+| Rule DSL | `1.1.0` |
+| internal RulePlan | `1.1.0` |
+| external artifact format | `1.2.0` |
 
 Manifests carry all four coordinates. External payloads carry `artifact_format_version`; consumers must reject unsupported artifact-format versions rather than inferring payload compatibility from compiler package version alone.
+
+Artifact `1.2.0` is required because externally emitted compiled products now contain nested typed ion sources; this is not inferred from the internal version bump. The reference reader still accepts artifact formats `1.0.0` and `1.1.0`.
 
 Compiler-internal plans, indexes, caches, and dense runtime IDs remain implementation details rather than canonical source contracts.

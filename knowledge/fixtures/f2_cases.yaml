@@ -148,3 +148,33 @@ cases:
       - {target_id: ent_substance_hcl, phase: aqueous}
       - {target_id: ent_substance_na2so4, phase: aqueous}
     context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m10_zn_hcl
+    reactants:
+      - {target_id: ent_substance_elemental_zn, phase: solid}
+      - {target_id: ent_substance_hcl, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m10_mg_hcl
+    reactants:
+      - {target_id: ent_substance_elemental_mg, phase: solid}
+      - {target_id: ent_substance_hcl, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m10_cu_hcl
+    reactants:
+      - {target_id: ent_substance_elemental_cu, phase: solid}
+      - {target_id: ent_substance_hcl, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m10_zn_hno3_unknown_redox
+    reactants:
+      - {target_id: ent_substance_elemental_zn, phase: solid}
+      - {target_id: ent_substance_hno3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m10_zn_hcl_unknown_medium
+    reactants:
+      - {target_id: ent_substance_elemental_zn, phase: solid}
+      - {target_id: ent_substance_hcl, phase: aqueous}
+    context: {temperature_regime: ambient}

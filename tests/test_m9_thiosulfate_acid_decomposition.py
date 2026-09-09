@@ -443,7 +443,7 @@ def test_audit_executes_m9_positive_unknown_and_contrast_cases(tmp_path: Path) -
         assert "candidate_key" not in results[case_id]
 
 
-def test_m7_condition_semantics_and_compatibility_versions_remain_unchanged() -> None:
+def test_m7_condition_semantics_remain_unchanged_with_current_versions() -> None:
     kb = load_knowledge(ROOT)
     result = infer_case(
         kb,
@@ -461,10 +461,10 @@ def test_m7_condition_semantics_and_compatibility_versions_remain_unchanged() ->
     assert result["status"] == "indeterminate"
     assert "candidate_key" not in result
     assert artifact_versions() == {
-        "source_schema": "3.1.0",
-        "rule_dsl": "1.0.0",
-        "rule_plan": "1.0.0",
-        "artifact_format": "1.1.0",
+        "source_schema": "3.2.0",
+        "rule_dsl": "1.1.0",
+        "rule_plan": "1.1.0",
+        "artifact_format": "1.2.0",
     }
 
 

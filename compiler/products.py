@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from .aqueous import AqueousResolutionError, resolve_exchange, resolve_ionic_pair_from_bindings
+from .aqueous import AqueousResolutionError, resolve_exchange, resolve_ionic_pair_from_sources
 from .model import ProductPlan
 from .source import KnowledgeBase, SourceError
 
@@ -17,6 +17,7 @@ class ResolvedProduct:
     target_id: str
     phase: str
     speciation_profiles: tuple[dict[str, Any], ...] = ()
+    relation_assertions: tuple[dict[str, Any], ...] = ()
     evidence_ids: tuple[str, ...] = ()
 
 
@@ -63,20 +64,21 @@ def resolve_product_detail(
             )
         return ResolvedProduct(candidates[0], plan.phase)
     if plan.constructor == "ionic_pair":
-        assert plan.cation_from is not None and plan.anion_from is not None
+        assert plan.cation_source is not None and plan.anion_source is not None
         try:
-            resolution = resolve_ionic_pair_from_bindings(
+            resolution = resolve_ionic_pair_from_sources(
                 kb,
                 bindings,
-                plan.cation_from,
-                plan.anion_from,
+                plan.cation_source,
+                plan.anion_source,
                 context,
             )
             return ResolvedProduct(
-                resolution.target_id,
-                plan.phase,
-                resolution.speciation_profiles,
-                resolution.evidence_ids,
+                target_id=resolution.target_id,
+                phase=plan.phase,
+                speciation_profiles=resolution.speciation_profiles,
+                relation_assertions=resolution.relation_assertions,
+                evidence_ids=resolution.evidence_ids,
             )
         except AqueousResolutionError as exc:
             raise _translate_aqueous_error(exc) from exc

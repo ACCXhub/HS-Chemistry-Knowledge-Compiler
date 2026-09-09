@@ -3,13 +3,13 @@ from __future__ import annotations
 from itertools import permutations
 from typing import Any, Iterable
 
-from .model import ParticipantPatternPlan, PredicatePlan, ProductPlan, RulePlan, RuleRelations
+from .model import IonSourcePlan, ParticipantPatternPlan, PredicatePlan, ProductPlan, RulePlan, RuleRelations
 from .predicates import compile_predicate
 from .source import KnowledgeBase, SourceError
 
 
-RULE_DSL_VERSION = "1.0.0"
-RULE_PLAN_VERSION = "1.0.0"
+RULE_DSL_VERSION = "1.1.0"
+RULE_PLAN_VERSION = "1.1.0"
 _RELATION_FIELDS = (
     "overrides",
     "specializes",
@@ -48,6 +48,21 @@ def _require_binding(name: str, bindings: set[str], constructor: str) -> str:
     return name
 
 
+def _compile_ion_source(source: dict[str, Any], bindings: set[str]) -> IonSourcePlan:
+    kind = source["kind"]
+    binding = _require_binding(source["binding"], bindings, f"ionic_pair.{kind}")
+    if kind == "speciation":
+        return IonSourcePlan(kind=kind, binding=binding)
+    if kind == "relation_target":
+        return IonSourcePlan(kind=kind, binding=binding, relation_key=source["relation_key"])
+    raise SourceError(
+        f"unknown ionic-pair ion source: {kind}",
+        code="schema_invalid",
+        stage="rule_compile",
+        details={"ion_source": kind},
+    )
+
+
 def _compile_product(source: dict[str, Any], bindings: set[str]) -> ProductPlan:
     phase = source["phase"]
     if "target_id" in source:
@@ -62,11 +77,23 @@ def _compile_product(source: dict[str, Any], bindings: set[str]) -> ProductPlan:
             value=construction["value"],
         )
     if kind == "ionic_pair":
+        if "cation_source" in construction:
+            cation_source = _compile_ion_source(construction["cation_source"], bindings)
+            anion_source = _compile_ion_source(construction["anion_source"], bindings)
+        else:
+            cation_source = IonSourcePlan(
+                kind="speciation",
+                binding=_require_binding(construction["cation_from"], bindings, kind),
+            )
+            anion_source = IonSourcePlan(
+                kind="speciation",
+                binding=_require_binding(construction["anion_from"], bindings, kind),
+            )
         return ProductPlan(
             constructor="ionic_pair",
             phase=phase,
-            cation_from=_require_binding(construction["cation_from"], bindings, kind),
-            anion_from=_require_binding(construction["anion_from"], bindings, kind),
+            cation_source=cation_source,
+            anion_source=anion_source,
         )
     if kind == "exchange_product":
         role = construction["role"]
@@ -280,8 +307,20 @@ def _outcome_signature(plan: RulePlan) -> tuple[Any, ...]:
                 product.scheme,
                 product.value,
                 product.phase,
-                product.cation_from,
-                product.anion_from,
+                None
+                if product.cation_source is None
+                else (
+                    product.cation_source.kind,
+                    product.cation_source.binding,
+                    product.cation_source.relation_key,
+                ),
+                None
+                if product.anion_source is None
+                else (
+                    product.anion_source.kind,
+                    product.anion_source.binding,
+                    product.anion_source.relation_key,
+                ),
                 product.left_binding,
                 product.right_binding,
                 product.exchange_role,

@@ -20,6 +20,8 @@ records:
           - ent_substance_k2so3
           - ent_substance_na2s2o3
           - ent_substance_k2s2o3
+          - ent_substance_mgcl2
+          - ent_substance_zncl2
       - path_key: D03/reaction-types/precipitation
         parent_path_key: D03/reaction-types
         members: [rxn_f3b_baso4_precipitation]
@@ -41,6 +43,11 @@ records:
           - rxn_m8_hcl_k2so3_gas_evolution
           - rxn_m9_hcl_na2s2o3_decomposition
           - rxn_m9_hcl_k2s2o3_decomposition
+      - path_key: D03/reaction-types/single-displacement
+        parent_path_key: D03/reaction-types
+        members:
+          - rxn_m10_zn_hcl_hydrogen
+          - rxn_m10_mg_hcl_hydrogen
       - path_key: D05/chemical-experiments/ammonium-ion-identification
         parent_path_key: D05/chemical-experiments
         members:
@@ -63,6 +70,8 @@ records:
           - rxn_m8_hcl_k2so3_gas_evolution
           - rxn_m9_hcl_na2s2o3_decomposition
           - rxn_m9_hcl_k2s2o3_decomposition
+          - rxn_m10_zn_hcl_hydrogen
+          - rxn_m10_mg_hcl_hydrogen
       - path_key: D08/substance-classification/acids
         parent_path_key: D08/substance-classification
         members:
@@ -87,6 +96,14 @@ records:
           - ent_substance_k2so3
           - ent_substance_na2s2o3
           - ent_substance_k2s2o3
+          - ent_substance_mgcl2
+          - ent_substance_zncl2
+      - path_key: D08/substance-classification/metals
+        parent_path_key: D08/substance-classification
+        members:
+          - ent_substance_elemental_mg
+          - ent_substance_elemental_cu
+          - ent_substance_elemental_zn
       - path_key: D10/elements-and-compounds/representative-elements
         parent_path_key: D10/elements-and-compounds
         members:
@@ -95,6 +112,9 @@ records:
           - ent_element_k
           - ent_element_ba
           - ent_substance_elemental_sulfur
+          - ent_element_mg
+          - ent_element_cu
+          - ent_element_zn
       - path_key: D10/elements-and-compounds/nitrogen-compounds
         parent_path_key: D10/elements-and-compounds
         members:
