@@ -67,7 +67,7 @@ Metal activity relative to hydrogen is likewise contextual chemistry knowledge, 
 
 Relations are typed semantic assertions, not generic graph edges. Useful relation families include composition, structure, acid/base conjugacy, transformation, derivation, evidence, pedagogy, and reaction composition.
 
-M10's executable subset contains the one-hop controlled relation `metal.product_cation`. The owning elemental-metal Substance embeds the context and evidence-bearing assertion, and the target must resolve to a Species. It does not receive a separate identity unless an independent lifecycle later requires one. This relation is chemical product-identity knowledge; it is not fake aqueous dissociation of the solid metal.
+M10's executable subset contains the one-hop controlled relation `metal.product_cation`. Its validated domain is an elemental Substance with known-true `classification.metal`; its validated range is a positively charged ion Species. The owning metal Substance embeds the context and evidence-bearing assertion. It does not receive a separate identity unless an independent lifecycle later requires one. This relation is chemical product-identity knowledge; it is not fake aqueous dissociation of the solid metal.
 
 ## 7. Reactions
 

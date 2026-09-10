@@ -28,9 +28,13 @@ def _copy(tmp_path: Path) -> Path:
 
 
 def _set_source_relations(work: Path, assertions: list[dict]) -> None:
-    path = work / "knowledge" / "domain" / "m9_thiosulfate_entities.yaml"
+    path = work / "knowledge" / "domain" / "m10_metal_entities.yaml"
     doc = yaml.safe_load(path.read_text(encoding="utf-8"))
-    source = next(record for record in doc["records"] if record.get("id") == "ent_substance_na2s2o3")
+    source = next(
+        record
+        for record in doc["records"]
+        if record.get("id") == "ent_substance_elemental_zn"
+    )
     source["relation_assertions"] = assertions
     path.write_text(yaml.safe_dump(doc, sort_keys=False), encoding="utf-8")
 
@@ -43,7 +47,7 @@ def _append_typed_rule(work: Path) -> None:
         "decision_domain": "relation_ionic_pair_fixture",
         "match": {
             "reactants": [
-                {"bind": "metal", "target_id": "ent_substance_na2s2o3"},
+                {"bind": "metal", "target_id": "ent_substance_elemental_zn"},
                 {"bind": "acid", "target_id": "ent_substance_hcl"},
             ]
         },
@@ -103,12 +107,12 @@ def test_relation_cation_and_speciation_anion_reuse_neutral_ionic_pair_resolutio
     _set_source_relations(
         work,
         [
-            {
-                "relation_key": "metal.product_cation",
-                "target_id": "ent_species_na_plus",
-                "context": {"medium": "aqueous"},
-                "evidence_ids": ["ev_f2_reactions"],
-            }
+                {
+                    "relation_key": "metal.product_cation",
+                    "target_id": "ent_species_zn_2plus",
+                    "context": {"medium": "aqueous"},
+                    "evidence_ids": ["ev_m10_metal_hydrogen_activity"],
+                }
         ],
     )
     _append_typed_rule(work)
@@ -117,11 +121,11 @@ def test_relation_cation_and_speciation_anion_reuse_neutral_ionic_pair_resolutio
     resolved = resolve_product_detail(
         kb,
         _fixture_plan(work).products[0],
-        {"metal": "ent_substance_na2s2o3", "acid": "ent_substance_hcl"},
+        {"metal": "ent_substance_elemental_zn", "acid": "ent_substance_hcl"},
         {"medium": "aqueous", "temperature_regime": "ambient"},
     )
 
-    assert resolved.target_id == "ent_substance_nacl"
+    assert resolved.target_id == "ent_substance_zncl2"
     assert resolved.speciation_profiles == (
         {
             "target_id": "ent_substance_hcl",
@@ -132,14 +136,17 @@ def test_relation_cation_and_speciation_anion_reuse_neutral_ionic_pair_resolutio
     )
     assert resolved.relation_assertions == (
         {
-            "source_id": "ent_substance_na2s2o3",
+            "source_id": "ent_substance_elemental_zn",
             "relation_key": "metal.product_cation",
-            "target_id": "ent_species_na_plus",
+            "target_id": "ent_species_zn_2plus",
             "context": {"medium": "aqueous"},
-            "evidence_ids": ["ev_f2_reactions"],
+            "evidence_ids": ["ev_m10_metal_hydrogen_activity"],
         },
     )
-    assert resolved.evidence_ids == ("ev_f2_reactions",)
+    assert resolved.evidence_ids == (
+        "ev_f2_reactions",
+        "ev_m10_metal_hydrogen_activity",
+    )
 
 
 @pytest.mark.parametrize(
@@ -150,19 +157,19 @@ def test_relation_cation_and_speciation_anion_reuse_neutral_ionic_pair_resolutio
             [
                 {
                     "relation_key": "metal.product_cation",
-                    "target_id": "ent_species_na_plus",
+                    "target_id": "ent_species_zn_2plus",
                     "context": {"medium": "aqueous"},
-                    "evidence_ids": ["ev_f2_reactions"],
+                    "evidence_ids": ["ev_m10_metal_hydrogen_activity"],
                 },
                 {
                     "relation_key": "metal.product_cation",
-                    "target_id": "ent_species_k_plus",
+                    "target_id": "ent_species_mg_2plus",
                     "context": {"temperature_regime": "ambient"},
-                    "evidence_ids": ["ev_f2_reactions"],
+                    "evidence_ids": ["ev_m10_metal_hydrogen_activity"],
                 },
             ],
             "relation_ambiguous",
-            ["ent_species_k_plus", "ent_species_na_plus"],
+            ["ent_species_mg_2plus", "ent_species_zn_2plus"],
         ),
     ],
 )
@@ -181,13 +188,13 @@ def test_relation_ion_source_zero_and_multiple_targets_are_explicit(
         resolve_product_detail(
             kb,
             _fixture_plan(work).products[0],
-            {"metal": "ent_substance_na2s2o3", "acid": "ent_substance_hcl"},
+            {"metal": "ent_substance_elemental_zn", "acid": "ent_substance_hcl"},
             {"medium": "aqueous", "temperature_regime": "ambient"},
         )
 
     assert exc.value.code == expected_code
     assert exc.value.stage == "relation_resolution"
-    assert exc.value.details["source_id"] == "ent_substance_na2s2o3"
+    assert exc.value.details["source_id"] == "ent_substance_elemental_zn"
     assert exc.value.details["relation_key"] == "metal.product_cation"
     assert exc.value.details["candidates"] == expected_candidates
 

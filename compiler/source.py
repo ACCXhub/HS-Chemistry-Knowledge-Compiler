@@ -13,7 +13,16 @@ from .model import FactValue, KnowledgeState
 
 SOURCE_DIRS = ("knowledge/domain", "knowledge/rules", "knowledge/teaching")
 SOURCE_SCHEMA_VERSION = "3.2.0"
-RELATION_TARGET_KINDS = {"metal.product_cation": "species"}
+RELATION_CONTRACTS = {
+    "metal.product_cation": {
+        "source_entity_kind": "substance",
+        "source_substance_kind": "elemental",
+        "source_required_facet": "classification.metal",
+        "target_entity_kind": "species",
+        "target_species_kind": "ion",
+        "target_charge_sign": "positive",
+    }
+}
 
 
 class SourceError(ValueError):
@@ -371,7 +380,33 @@ def validate_references(kb: KnowledgeBase) -> None:
                 _require(kb.evidence, evidence_id, "evidence")
         for assertion in entity.get("relation_assertions", []):
             relation_key = assertion["relation_key"]
-            expected_kind = RELATION_TARGET_KINDS[relation_key]
+            contract = RELATION_CONTRACTS[relation_key]
+            source_payload = entity.get("payload", {})
+            required_facet = contract["source_required_facet"]
+            has_required_facet = any(
+                item["facet_key"] == required_facet
+                and item.get("value_state", "known") == "known"
+                and item.get("value") is True
+                for item in entity.get("facet_assertions", [])
+            )
+            if (
+                entity.get("entity_kind") != contract["source_entity_kind"]
+                or source_payload.get("substance_kind") != contract["source_substance_kind"]
+                or not has_required_facet
+            ):
+                raise SourceError(
+                    f"relation source does not satisfy {relation_key} contract: {entity['id']}",
+                    code="schema_invalid",
+                    stage="reference_validation",
+                    details={
+                        "relation_key": relation_key,
+                        "source_id": entity["id"],
+                        "source_entity_kind": contract["source_entity_kind"],
+                        "source_required_facet": required_facet,
+                        "source_substance_kind": contract["source_substance_kind"],
+                    },
+                )
+            expected_kind = contract["target_entity_kind"]
             target_id = assertion["target_id"]
             target = kb.entities.get(target_id)
             if not target or target.get("entity_kind") != expected_kind:
@@ -384,6 +419,26 @@ def validate_references(kb: KnowledgeBase) -> None:
                         "source_id": entity["id"],
                         "target_id": target_id,
                         "target_kind": expected_kind,
+                    },
+                )
+            target_payload = target.get("payload", {})
+            formal_charge = target_payload.get("formal_charge")
+            if (
+                target_payload.get("species_kind") != contract["target_species_kind"]
+                or not isinstance(formal_charge, int)
+                or isinstance(formal_charge, bool)
+                or formal_charge <= 0
+            ):
+                raise SourceError(
+                    f"relation target does not satisfy {relation_key} positive-ion contract: {target_id}",
+                    code="schema_invalid",
+                    stage="reference_validation",
+                    details={
+                        "relation_key": relation_key,
+                        "source_id": entity["id"],
+                        "target_charge_sign": contract["target_charge_sign"],
+                        "target_id": target_id,
+                        "target_species_kind": contract["target_species_kind"],
                     },
                 )
             for evidence_id in assertion.get("evidence_ids", []):

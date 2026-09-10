@@ -20,7 +20,7 @@ source schema version: 3.2.0
 It covers the M4 executable subset of:
 
 - Entity;
-- embedded typed Entity relation assertions;
+- embedded typed Entity relation assertions, with compiler-owned semantic domain/range validation;
 - Reaction / ReactionForm;
 - TeachingView;
 - Rule;
@@ -38,7 +38,7 @@ M4 validation is deliberately staged:
 1. safe YAML parsing with duplicate-key rejection;
 2. JSON Schema validation;
 3. stable-ID uniqueness and reference validation;
-4. entity/participant/relation-target semantic validation;
+4. entity/participant/relation domain/range semantic validation;
 5. typed predicate/operator and ion-source validation;
 6. Rule lowering to compiler-owned `RulePlan`/`IonSourcePlan`;
 7. rule relationship graph validation;

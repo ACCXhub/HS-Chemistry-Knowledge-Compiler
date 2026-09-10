@@ -133,7 +133,7 @@ relation_assertions:
     evidence_ids: [ev_...]
 ```
 
-The relation key is controlled and its target kind is validated. An ordinary embedded assertion has no durable relation UUID; deterministic lookup/provenance retains source ID, relation key, target ID, normalized context, and evidence IDs. Multiple equally specific targets remain explicit rather than being selected by file order.
+The relation key is controlled and its domain/range are validated semantically after reference resolution. For `metal.product_cation`, the source must be an elemental `Substance` with known-true `classification.metal`, and the target must be a positively charged ion `Species`. An ordinary embedded assertion has no durable relation UUID; deterministic lookup/provenance retains source ID, relation key, target ID, normalized context, and evidence IDs. Multiple equally specific targets remain explicit rather than being selected by file order.
 
 ## 6. Embedded Context
 

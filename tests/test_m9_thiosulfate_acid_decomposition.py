@@ -468,7 +468,7 @@ def test_m7_condition_semantics_remain_unchanged_with_current_versions() -> None
     }
 
 
-def test_m4_through_m8_candidate_keys_remain_stable() -> None:
+def test_m4_through_m9_candidate_keys_remain_stable() -> None:
     expected = {
         "case_precipitation": "cand_sha256_e748d5055726020bd5eb9741a030c6dd359e9aee5e5552fe28a45423f63a0f86",
         "case_neutralization": "cand_sha256_8248f1b224137d2853abdba56150875a42783d486307d90dbe757e2b89149866",
@@ -482,6 +482,8 @@ def test_m4_through_m8_candidate_keys_remain_stable() -> None:
         "case_m8_hcl_na2so3": "cand_sha256_70bcdc14447a9f306546a0cf8301e889ac12dd0ef7d0acddbbf38b285d63a378",
         "case_m8_hno3_na2so3": "cand_sha256_75ead4d58201fd52dca019459d689a4479a708b70449882ea616163839142d1d",
         "case_m8_hcl_k2so3": "cand_sha256_96c707940e3848579f8828b8247d46a84d179c63986bbbeddb44ac7e0bf22e85",
+        "case_m9_hcl_na2s2o3": "cand_sha256_27fda74a000a136188f60cc6d8b6addb929dd8950a35f3796a2b3405b2c09f5f",
+        "case_m9_hcl_k2s2o3": "cand_sha256_a1267ef389ad852b453746fd7da4f5f232ceb885ddbc3f7dc664ef2c0b299138",
     }
     kb = load_knowledge(ROOT)
     plans = compile_rules(kb)

@@ -18,18 +18,26 @@ def _copy(tmp_path: Path) -> Path:
     return work
 
 
-def _set_hcl_relations(work: Path, assertions: list[dict]) -> None:
-    path = work / "knowledge" / "domain" / "f2_entities.yaml"
-    doc = yaml.safe_load(path.read_text(encoding="utf-8"))
-    hcl = next(record for record in doc["records"] if record.get("id") == "ent_substance_hcl")
-    hcl["relation_assertions"] = assertions
-    path.write_text(yaml.safe_dump(doc, sort_keys=False), encoding="utf-8")
+def _set_entity_relations(work: Path, entity_id: str, assertions: list[dict]) -> None:
+    for path in sorted((work / "knowledge" / "domain").glob("*.yaml")):
+        doc = yaml.safe_load(path.read_text(encoding="utf-8"))
+        entity = next(
+            (record for record in doc["records"] if record.get("id") == entity_id),
+            None,
+        )
+        if entity is None:
+            continue
+        entity["relation_assertions"] = assertions
+        path.write_text(yaml.safe_dump(doc, sort_keys=False), encoding="utf-8")
+        return
+    raise AssertionError(f"fixture entity not found: {entity_id}")
 
 
 def test_relation_lookup_uses_most_specific_context_and_preserves_provenance(tmp_path: Path) -> None:
     work = _copy(tmp_path)
-    _set_hcl_relations(
+    _set_entity_relations(
         work,
+        "ent_substance_elemental_zn",
         [
             {
                 "relation_key": "metal.product_cation",
@@ -49,12 +57,12 @@ def test_relation_lookup_uses_most_specific_context_and_preserves_provenance(tmp
     kb = load_knowledge(work)
 
     assert kb.relation_assertions(
-        "ent_substance_hcl",
+        "ent_substance_elemental_zn",
         "metal.product_cation",
         {"medium": "aqueous", "temperature_regime": "ambient"},
     ) == (
         {
-            "source_id": "ent_substance_hcl",
+            "source_id": "ent_substance_elemental_zn",
             "relation_key": "metal.product_cation",
             "target_id": "ent_species_na_plus",
             "context": {"medium": "aqueous"},
@@ -65,8 +73,9 @@ def test_relation_lookup_uses_most_specific_context_and_preserves_provenance(tmp
 
 def test_relation_key_is_controlled_by_the_source_contract(tmp_path: Path) -> None:
     work = _copy(tmp_path)
-    _set_hcl_relations(
+    _set_entity_relations(
         work,
+        "ent_substance_elemental_zn",
         [
             {
                 "relation_key": "fixture.uncontrolled_relation",
@@ -84,10 +93,78 @@ def test_relation_key_is_controlled_by_the_source_contract(tmp_path: Path) -> No
     assert exc.value.stage == "source_schema"
 
 
+@pytest.mark.parametrize(
+    "source_id",
+    [
+        "ent_element_zn",
+        "ent_substance_hcl",
+        "ent_substance_elemental_sulfur",
+    ],
+)
+def test_metal_product_cation_source_must_be_an_elemental_metal_substance(
+    tmp_path: Path,
+    source_id: str,
+) -> None:
+    work = _copy(tmp_path)
+    _set_entity_relations(
+        work,
+        source_id,
+        [
+            {
+                "relation_key": "metal.product_cation",
+                "target_id": "ent_species_h_plus",
+                "context": {"medium": "aqueous"},
+                "evidence_ids": ["ev_f2_reactions"],
+            }
+        ],
+    )
+
+    with pytest.raises(SourceError) as exc:
+        load_knowledge(work)
+
+    assert exc.value.code == "schema_invalid"
+    assert exc.value.stage == "reference_validation"
+    assert exc.value.details["relation_key"] == "metal.product_cation"
+    assert exc.value.details["source_id"] == source_id
+
+
+@pytest.mark.parametrize(
+    "target_id",
+    ["ent_species_hcl_molecule", "ent_species_cl_minus"],
+)
+def test_metal_product_cation_target_must_be_a_positive_ion(
+    tmp_path: Path,
+    target_id: str,
+) -> None:
+    work = _copy(tmp_path)
+    _set_entity_relations(
+        work,
+        "ent_substance_elemental_zn",
+        [
+            {
+                "relation_key": "metal.product_cation",
+                "target_id": target_id,
+                "context": {"medium": "aqueous"},
+                "evidence_ids": ["ev_f2_reactions"],
+            }
+        ],
+    )
+
+    with pytest.raises(SourceError) as exc:
+        load_knowledge(work)
+
+    assert exc.value.code == "schema_invalid"
+    assert exc.value.stage == "reference_validation"
+    assert exc.value.details["relation_key"] == "metal.product_cation"
+    assert exc.value.details["source_id"] == "ent_substance_elemental_zn"
+    assert exc.value.details["target_id"] == target_id
+
+
 def test_duplicate_or_contradictory_relation_assertions_in_one_context_are_rejected(tmp_path: Path) -> None:
     work = _copy(tmp_path)
-    _set_hcl_relations(
+    _set_entity_relations(
         work,
+        "ent_substance_elemental_zn",
         [
             {
                 "relation_key": "metal.product_cation",
@@ -126,8 +203,9 @@ def test_relation_targets_and_evidence_must_resolve(
     expected_kind: str,
 ) -> None:
     work = _copy(tmp_path)
-    _set_hcl_relations(
+    _set_entity_relations(
         work,
+        "ent_substance_elemental_zn",
         [
             {
                 "relation_key": "metal.product_cation",
@@ -148,8 +226,9 @@ def test_relation_targets_and_evidence_must_resolve(
 
 def test_relation_lookup_exposes_zero_and_equal_specificity_candidates_deterministically(tmp_path: Path) -> None:
     work = _copy(tmp_path)
-    _set_hcl_relations(
+    _set_entity_relations(
         work,
+        "ent_substance_elemental_zn",
         [
             {
                 "relation_key": "metal.product_cation",
@@ -167,9 +246,9 @@ def test_relation_lookup_exposes_zero_and_equal_specificity_candidates_determini
     )
     kb = load_knowledge(work)
 
-    assert kb.relation_assertions("ent_substance_hcl", "metal.product_cation", {}) == ()
+    assert kb.relation_assertions("ent_substance_elemental_zn", "metal.product_cation", {}) == ()
     matches = kb.relation_assertions(
-        "ent_substance_hcl",
+        "ent_substance_elemental_zn",
         "metal.product_cation",
         {"medium": "aqueous", "temperature_regime": "ambient"},
     )
