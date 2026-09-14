@@ -1,6 +1,6 @@
 # Canonical Domain Ontology
 
-Status: **M11 canonical ontology with bounded metal-water behavior**
+Status: **M12 canonical ontology with bounded metal/copper-salt displacement**
 
 ## 1. Modeling rule
 
@@ -70,6 +70,10 @@ M11 keeps ambient liquid-water reactivity independent from activity relative to 
 Relations are typed semantic assertions, not generic graph edges. Useful relation families include composition, structure, acid/base conjugacy, transformation, derivation, evidence, pedagogy, and reaction composition.
 
 M10's executable subset contains the one-hop controlled relation `metal.product_cation`. Its validated domain is an elemental Substance with known-true `classification.metal`; its validated range is a positively charged ion Species. The owning metal Substance embeds the context and evidence-bearing assertion. It does not receive a separate identity unless an independent lifecycle later requires one. This relation is chemical product-identity knowledge; it is not fake aqueous dissociation of the solid metal.
+
+M12 adds the contextual one-hop relation `metal.displaces_cation` with the same typed domain/range boundary. Displacement capability connects two canonical identities and is therefore a Relation, not a classification Facet or a reaction-specific boolean. Its aqueous applicability is expressed by `context: {medium: aqueous}`, never by encoding the medium in the relation key. Missing assertions remain UNKNOWN rather than establishing a negative displacement fact.
+
+Cardinality belongs to each controlled relation family. `metal.product_cation` remains `one_target_per_context`, while `metal.displaces_cation` is `many_targets_per_context`: one metal may have distinct displaceable cation targets under the same context, but an exact duplicate source/key/target/context assertion is invalid. This contract metadata does not create a general graph, reverse traversal, multi-hop query, or numeric activity ranking.
 
 ## 7. Reactions
 

@@ -5,7 +5,7 @@ from typing import Any
 
 from .aqueous import exchange_driving_force_fact
 from .model import FactValue, KnowledgeState, PredicatePlan, Truth
-from .source import KnowledgeBase, SourceError
+from .source import RELATION_CONTRACTS, KnowledgeBase, SourceError
 
 
 _SCALAR_TYPES = (str, bool, int)
@@ -22,7 +22,7 @@ class OperatorSpec:
 
 _FACT_SUBJECTS = frozenset({"context", "facet", "property", "ionic_exchange"})
 OPERATOR_REGISTRY: dict[str, OperatorSpec] = {
-    "equals": OperatorSpec("equals", _FACT_SUBJECTS, "scalar", ("string", "boolean", "integer"), True),
+    "equals": OperatorSpec("equals", _FACT_SUBJECTS | {"relation"}, "scalar", ("string", "boolean", "integer"), True),
     "not_equals": OperatorSpec("not_equals", _FACT_SUBJECTS, "scalar", ("string", "boolean", "integer"), True),
     "is_known": OperatorSpec("is_known", _FACT_SUBJECTS, "none", ("any_fact_state",), False),
     "in_set": OperatorSpec("in_set", frozenset({"context", "facet", "property"}), "scalar_list", ("string", "boolean", "integer"), True),
@@ -50,6 +50,7 @@ def compile_predicate(source: dict[str, Any], bindings: set[str]) -> PredicatePl
     binding = source.get("binding")
     predicate_bindings = tuple(source.get("bindings", []))
     key = source.get("key")
+    target_id = source.get("target_id")
     if not isinstance(key, str) or not key:
         raise SourceError("predicate key must be a non-empty string", code="schema_invalid", stage="rule_compile")
 
@@ -89,6 +90,33 @@ def compile_predicate(source: dict[str, Any], bindings: set[str]) -> PredicatePl
                 stage="rule_compile",
                 details={"key": key},
             )
+    elif subject == "relation":
+        if binding not in bindings or predicate_bindings:
+            raise SourceError(
+                "relation predicate requires one valid binding",
+                code="reference_unresolved",
+                stage="rule_compile",
+                details={"binding": binding},
+            )
+        if key not in RELATION_CONTRACTS:
+            raise SourceError(
+                f"unsupported relation predicate key: {key}",
+                code="schema_invalid",
+                stage="rule_compile",
+                details={"key": key},
+            )
+        if not isinstance(target_id, str) or not target_id:
+            raise SourceError(
+                "relation predicate requires exact target_id",
+                code="schema_invalid",
+                stage="rule_compile",
+            )
+    elif target_id is not None:
+        raise SourceError(
+            f"{subject} predicate cannot declare target_id",
+            code="schema_invalid",
+            stage="rule_compile",
+        )
 
     has_expected = "expected" in source
     expected = source.get("expected")
@@ -128,12 +156,19 @@ def compile_predicate(source: dict[str, Any], bindings: set[str]) -> PredicatePl
                 stage="rule_compile",
                 details={"operator": operator},
             )
+    if subject == "relation" and (operator != "equals" or expected is not True):
+        raise SourceError(
+            "relation predicate supports only equals expected true",
+            code="schema_invalid",
+            stage="rule_compile",
+        )
     return PredicatePlan(
         operator=operator,
         subject=subject,
         binding=binding,
         bindings=predicate_bindings,
         key=key,
+        target_id=target_id,
         expected=expected,
     )
 
@@ -160,6 +195,14 @@ def _fact_for(
     if predicate.subject == "property":
         assert predicate.binding is not None
         return kb.property_fact(bindings[predicate.binding], predicate.key, context)
+    if predicate.subject == "relation":
+        assert predicate.binding is not None and predicate.target_id is not None
+        return kb.relation_fact(
+            bindings[predicate.binding],
+            predicate.key,
+            predicate.target_id,
+            context,
+        )
     if predicate.subject == "ionic_exchange":
         left_binding, right_binding = predicate.bindings
         return exchange_driving_force_fact(kb, bindings[left_binding], bindings[right_binding], context)

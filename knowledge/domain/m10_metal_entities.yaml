@@ -89,6 +89,7 @@ records:
       - {property_key: metal.activity.relative_to_hydrogen, value_state: known, value: above, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m10_metal_hydrogen_activity]}
     relation_assertions:
       - {relation_key: metal.product_cation, target_id: ent_species_mg_2plus, context: {medium: aqueous}, evidence_ids: [ev_m10_metal_hydrogen_activity]}
+      - {relation_key: metal.displaces_cation, target_id: ent_species_cu_2plus, context: {medium: aqueous}, evidence_ids: [ev_m12_metal_copper_displacement]}
     evidence_ids: [ev_m10_metal_identity_and_chloride_speciation, ev_m10_metal_hydrogen_activity]
 
   - id: ent_substance_elemental_cu
@@ -123,6 +124,7 @@ records:
       - {property_key: metal.activity.relative_to_hydrogen, value_state: known, value: above, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m10_metal_hydrogen_activity]}
     relation_assertions:
       - {relation_key: metal.product_cation, target_id: ent_species_zn_2plus, context: {medium: aqueous}, evidence_ids: [ev_m10_metal_hydrogen_activity]}
+      - {relation_key: metal.displaces_cation, target_id: ent_species_cu_2plus, context: {medium: aqueous}, evidence_ids: [ev_m12_metal_copper_displacement]}
     evidence_ids: [ev_m10_metal_identity_and_chloride_speciation, ev_m10_metal_hydrogen_activity]
 
   - id: ent_substance_mgcl2

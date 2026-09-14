@@ -200,16 +200,18 @@ def test_relation_ion_source_zero_and_multiple_targets_are_explicit(
 
 
 def test_m10_versions_track_source_dsl_plan_and_external_artifact_changes(tmp_path: Path) -> None:
-    assert SOURCE_SCHEMA_VERSION == "3.3.0"
-    assert RULE_DSL_VERSION == "1.2.0"
-    assert RULE_PLAN_VERSION == "1.2.0"
-    assert ARTIFACT_FORMAT_VERSION == "1.3.0"
-    assert SUPPORTED_ARTIFACT_FORMAT_VERSIONS == frozenset({"1.0.0", "1.1.0", "1.2.0", "1.3.0"})
+    assert SOURCE_SCHEMA_VERSION == "3.4.0"
+    assert RULE_DSL_VERSION == "1.3.0"
+    assert RULE_PLAN_VERSION == "1.3.0"
+    assert ARTIFACT_FORMAT_VERSION == "1.4.0"
+    assert SUPPORTED_ARTIFACT_FORMAT_VERSIONS == frozenset(
+        {"1.0.0", "1.1.0", "1.2.0", "1.3.0", "1.4.0"}
+    )
     assert artifact_versions() == {
-        "source_schema": "3.3.0",
-        "rule_dsl": "1.2.0",
-        "rule_plan": "1.2.0",
-        "artifact_format": "1.3.0",
+        "source_schema": "3.4.0",
+        "rule_dsl": "1.3.0",
+        "rule_plan": "1.3.0",
+        "artifact_format": "1.4.0",
     }
 
     output = tmp_path / "compiled"

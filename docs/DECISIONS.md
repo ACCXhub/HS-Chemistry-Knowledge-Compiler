@@ -250,3 +250,23 @@ One Rule matches a solid classified metal plus exact liquid H2O, requires the am
 Canonical Na/K Reactions require ambient temperature. Aqueous hydroxide product speciation yields `2 M(s) + 2 H2O(l) -> 2 M+(aq) + 2 OH-(aq) + H2(g)`; because there are no spectators, complete and net ionic forms are semantically equal. Cu, Zn, and Mg lack the M11 water-reactivity fact and remain UNKNOWN rather than being promoted from M10 activity facts. A separate `metal_liquid_water_hydrogen` decision domain is structurally and semantically distinct from M10's acid-displacement domain, so no synthetic rule relationship or priority is added.
 
 Steam/hot-water chemistry, calcium, passivation, activity-series ordering, variable valence, oxidation states, half-reactions, electron balancing, and general metal/water or redox inference remain deferred.
+
+## ADR-M12-001 — Per-family Relation cardinality and exact-target applicability
+
+M12 generalizes Relation contract metadata only as far as the new family requires. `metal.product_cation` remains `one_target_per_context`: a source metal cannot declare different product-cation targets under the same normalized context. `metal.displaces_cation` is `many_targets_per_context`: the same source/context may name distinct positive-ion targets, while an exact duplicate source/key/target/context assertion remains invalid. Both relations retain the bounded elemental-metal Substance domain and positive-ion Species range. Context is structured assertion data, so aqueous truth is not encoded into the relation name.
+
+Rule applicability gains only an exact-target, one-hop Relation predicate using `equals expected: true`. It requires one valid source binding, one controlled relation key, and one canonical target ID satisfying the relation range. A matching assertion is known true; no match is ABSENT/UNKNOWN rather than false. Equally specific assertions for the same target are combined deterministically with merged evidence. The proof event retains source/key/target/context/evidence, and only assertions belonging to the finally applicable binding enter candidate provenance.
+
+This source change advances source schema to `3.4.0`; the new predicate source shape advances Rule DSL to `1.3.0`; `PredicatePlan.target_id` advances RulePlan to `1.3.0`; and its external serialization advances artifact format to `1.4.0`. The reference reader continues to accept artifact formats `1.0.0` through `1.3.0`.
+
+## ADR-M12-002 — CuSO4-bounded reusable metal displacement
+
+M12 represents canonical Cu2+, CuSO4, ZnSO4, and MgSO4 with exact composition, charge, salt/sulfate classifications, and evidence-backed aqueous complete-dissociation profiles. Elemental Zn and Mg own positive aqueous `metal.displaces_cation -> Cu2+` assertions. Cu, Na, and K receive no inferred or authored displacement relation; missing pairwise knowledge remains open-world UNKNOWN, including where competing aqueous chemistry is outside the model.
+
+One Rule matches a generic solid classified metal plus exact aqueous CuSO4 and gates applicability on the displacement Relation. The product sulfate is built exclusively by the existing generic `ionic_pair` path: the incoming cation comes from `metal.product_cation`, and sulfate comes from CuSO4 canonical speciation. Existing elemental Cu is the exact second product. Exact balancing derives `1:1:1:1`; complete ionic projection dissociates only CuSO4 and ZnSO4/MgSO4; sulfate cancels to `Zn + Cu2+ -> Zn2+ + Cu` or `Mg + Cu2+ -> Mg2+ + Cu`.
+
+The dedicated `aqueous_copper_salt_displacement` decision domain has no static overlap with existing families, so no synthetic relationship or priority is authored. M12 deliberately does not add formula parsing, valence guessing, product fabrication, reverse or chained Relation traversal, a numeric activity series, electrode-potential execution, oxidation-number inference, a general redox engine, or arbitrary metal-salt target resolution.
+
+## M12 remaining limitations
+
+General metal A + salt of metal B inference still requires evidence-driven salt-cation discovery, ion-to-element resolution, pairwise or ordered activity semantics, displaced-metal construction, aqueous water-competition handling, variable valence, passivation, and concentration/temperature effects. These remain later design pressures rather than hidden M12 behavior.

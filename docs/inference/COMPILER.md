@@ -1,6 +1,6 @@
 # Knowledge Compiler Architecture
 
-Status: **M11 exact-ion and phase-bounded compiler boundary**
+Status: **M12 exact-target Relation-predicate compiler boundary**
 
 ## Responsibility
 
@@ -27,7 +27,7 @@ Validation precedes derivation.
 
 ## Operator registry
 
-The compiler owns the implementation of the source-level typed operator registry. Source semantics are stable operator names and typed arguments, not Python function names. M4 keeps the registry small, adds structured property and bounded ionic-exchange subjects, and rejects malformed arguments during compilation.
+The compiler owns the implementation of the source-level typed operator registry. Source semantics are stable operator names and typed arguments, not Python function names. The registry remains small and rejects malformed arguments during compilation. M12 adds only exact-target, one-binding, one-hop Relation lookup under `equals expected: true`; it does not add graph traversal or a query language.
 
 ## Overlap analysis
 
@@ -60,14 +60,14 @@ Projection is an explicit API over curated/golden forms and canonical speciation
 Version axes are separate:
 
 ```text
-source schema     3.3.0
-Rule DSL          1.2.0
-RulePlan          1.2.0
-artifact format   1.3.0
+source schema     3.4.0
+Rule DSL          1.3.0
+RulePlan          1.3.0
+artifact format   1.4.0
 ```
 
-External artifacts include `artifact_format_version`; manifests include all four. Artifact `1.3.0` reflects emitted `IonSourcePlan.target_id` and `ParticipantPatternPlan.phase` fields, independently of the source/DSL/plan bumps. The reader also accepts historical formats `1.0.0`, `1.1.0`, and `1.2.0`; consumers reject unknown versions.
+External artifacts include `artifact_format_version`; manifests include all four. Artifact `1.4.0` reflects emitted `PredicatePlan.target_id`, independently of the source/DSL/plan bumps. The reader also accepts historical formats `1.0.0`, `1.1.0`, `1.2.0`, and `1.3.0`; consumers reject unknown versions.
 
 ## Performance policy
 
-Python-first remains the reference implementation. M11 adds no external dependency, RETE, database, native extension, generic graph engine, or plugin runtime. Small typed indexes and compiled plans are preferred; optimization requires measured evidence.
+Python-first remains the reference implementation. M12 adds no external dependency, RETE, database, native extension, generic graph engine, activity-ranking engine, or plugin runtime. Small typed indexes and compiled plans are preferred; optimization requires measured evidence.

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.invalid/hs-chem/knowledge-record.schema.json",
-  "x-source-schema-version": "3.3.0",
+  "x-source-schema-version": "3.4.0",
   "oneOf": [
     {"$ref": "#/$defs/entity"},
     {"$ref": "#/$defs/reaction"},
@@ -86,7 +86,7 @@
       "required": ["relation_key", "target_id", "context", "evidence_ids"],
       "additionalProperties": false,
       "properties": {
-        "relation_key": {"enum": ["metal.product_cation"]},
+        "relation_key": {"enum": ["metal.product_cation", "metal.displaces_cation"]},
         "target_id": {"$ref": "#/$defs/id"},
         "context": {"$ref": "#/$defs/context"},
         "evidence_ids": {"$ref": "#/$defs/evidenceIds"}
@@ -263,7 +263,7 @@
       "additionalProperties": false,
       "properties": {
         "operator": {"enum": ["equals", "not_equals", "is_known", "in_set"]},
-        "subject": {"enum": ["context", "facet", "property", "ionic_exchange"]},
+        "subject": {"enum": ["context", "facet", "property", "ionic_exchange", "relation"]},
         "binding": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
         "bindings": {
           "type": "array",
@@ -273,6 +273,7 @@
           "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}
         },
         "key": {"type": "string", "minLength": 1},
+        "target_id": {"$ref": "#/$defs/id"},
         "expected": {
           "type": ["string", "boolean", "integer", "array"],
           "items": {"type": ["string", "boolean", "integer"]}

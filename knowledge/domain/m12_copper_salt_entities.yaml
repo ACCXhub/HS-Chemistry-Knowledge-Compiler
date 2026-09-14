@@ -1,0 +1,112 @@
+records:
+  - id: ev_m12_copper_sulfate_identity_and_speciation
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "OpenStax Chemistry 2e sections 4.1 and 4.2 support representing dissolved ionic compounds as separated ions in complete ionic equations, cancelling spectator ions, and treating CuSO4, ZnSO4, and MgSO4 as soluble sulfates under the stated sulfate-solubility exceptions."
+    stance: supports
+
+  - id: ev_m12_metal_copper_displacement
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "OpenStax Chemistry 2e section 4.2 defines single-displacement oxidation of a metal by dissolved ions, while section 17.3 lists Cu2+/Cu at +0.337 V, Zn2+/Zn at -0.7618 V, and Mg2+/Mg at -2.372 V and explains using standard potentials to predict spontaneous redox reactions; together these support the bounded aqueous Zn-to-Cu2+ and Mg-to-Cu2+ displacement assertions."
+    stance: supports
+
+  - id: ent_species_cu_2plus
+    record_type: entity
+    entity_kind: species
+    terms: {preferred: copper(II) ion}
+    semantic_keys: [{scheme: formula.ion, value: Cu2+}]
+    payload:
+      species_kind: ion
+      formal_charge: 2
+      composition:
+        components: [{element_id: ent_element_cu, count: 1}]
+        net_charge: 2
+    evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation]
+
+  - id: ent_substance_cuso4
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: copper(II) sulfate}
+    semantic_keys: [{scheme: formula.unit, value: CuSO4}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_cu, count: 1}
+          - {element_id: ent_element_s, count: 1}
+          - {element_id: ent_element_o, count: 4}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation]}
+      - {facet_key: classification.sulfate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_cu_2plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_so4_2minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation]
+    evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation]
+
+  - id: ent_substance_znso4
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: zinc sulfate}
+    semantic_keys: [{scheme: formula.unit, value: ZnSO4}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_zn, count: 1}
+          - {element_id: ent_element_s, count: 1}
+          - {element_id: ent_element_o, count: 4}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation]}
+      - {facet_key: classification.sulfate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_zn_2plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_so4_2minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation]
+    evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation]
+
+  - id: ent_substance_mgso4
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: magnesium sulfate}
+    semantic_keys: [{scheme: formula.unit, value: MgSO4}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_mg, count: 1}
+          - {element_id: ent_element_s, count: 1}
+          - {element_id: ent_element_o, count: 4}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation]}
+      - {facet_key: classification.sulfate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_mg_2plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_so4_2minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation]
+    evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation]

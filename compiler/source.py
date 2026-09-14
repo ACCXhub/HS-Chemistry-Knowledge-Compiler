@@ -12,16 +12,26 @@ from .model import FactValue, KnowledgeState
 
 
 SOURCE_DIRS = ("knowledge/domain", "knowledge/rules", "knowledge/teaching")
-SOURCE_SCHEMA_VERSION = "3.3.0"
+SOURCE_SCHEMA_VERSION = "3.4.0"
 RELATION_CONTRACTS = {
     "metal.product_cation": {
+        "cardinality": "one_target_per_context",
         "source_entity_kind": "substance",
         "source_substance_kind": "elemental",
         "source_required_facet": "classification.metal",
         "target_entity_kind": "species",
         "target_species_kind": "ion",
         "target_charge_sign": "positive",
-    }
+    },
+    "metal.displaces_cation": {
+        "cardinality": "many_targets_per_context",
+        "source_entity_kind": "substance",
+        "source_substance_kind": "elemental",
+        "source_required_facet": "classification.metal",
+        "target_entity_kind": "species",
+        "target_species_kind": "ion",
+        "target_charge_sign": "positive",
+    },
 }
 
 
@@ -191,6 +201,69 @@ class KnowledgeBase:
             )
         )
 
+    def relation_fact(
+        self,
+        entity_id: str,
+        relation_key: str,
+        target_id: str,
+        context: dict[str, Any],
+    ) -> FactValue:
+        entity = self.entities[entity_id]
+        matches = [
+            assertion
+            for assertion in entity.get("relation_assertions", [])
+            if assertion["relation_key"] == relation_key
+            and assertion["target_id"] == target_id
+            and _context_matches(assertion.get("context"), context)
+        ]
+        if not matches:
+            return FactValue(KnowledgeState.ABSENT, None, "contextual_relation")
+        specificity = max(len(assertion.get("context", {})) for assertion in matches)
+        most_specific = [
+            assertion
+            for assertion in matches
+            if len(assertion.get("context", {})) == specificity
+        ]
+        projected = tuple(
+            {
+                "source_id": entity_id,
+                "relation_key": assertion["relation_key"],
+                "target_id": assertion["target_id"],
+                "context": dict(sorted(assertion.get("context", {}).items())),
+                "evidence_ids": sorted(assertion.get("evidence_ids", [])),
+            }
+            for assertion in sorted(
+                most_specific,
+                key=lambda item: (
+                    _context_tuple(item.get("context")),
+                    tuple(sorted(item.get("evidence_ids", []))),
+                ),
+            )
+        )
+        common_context = dict(projected[0]["context"])
+        for assertion in projected[1:]:
+            common_context = {
+                key: value
+                for key, value in common_context.items()
+                if assertion["context"].get(key) == value
+            }
+        return FactValue(
+            state=KnowledgeState.KNOWN,
+            value=True,
+            origin="contextual_relation",
+            context=_context_tuple(common_context),
+            evidence_ids=tuple(
+                sorted(
+                    {
+                        evidence_id
+                        for assertion in projected
+                        for evidence_id in assertion["evidence_ids"]
+                    }
+                )
+            ),
+            relation_assertions=projected,
+        )
+
     def speciation_profiles(self, entity_id: str, context: dict[str, Any]) -> tuple[dict[str, Any], ...]:
         entity = self.entities[entity_id]
         matches = [
@@ -248,15 +321,22 @@ def _validate_assertion_uniqueness(record: dict[str, Any]) -> None:
             )
         property_keys.add(key)
 
-    relation_keys: set[tuple[str, tuple[tuple[str, Any], ...]]] = set()
+    relation_keys: set[tuple[Any, ...]] = set()
     for assertion in record.get("relation_assertions", []):
-        key = (assertion["relation_key"], _context_tuple(assertion.get("context")))
+        relation_key = assertion["relation_key"]
+        contract = RELATION_CONTRACTS[relation_key]
+        key = (
+            (relation_key, _context_tuple(assertion.get("context")))
+            if contract["cardinality"] == "one_target_per_context"
+            else (relation_key, assertion["target_id"], _context_tuple(assertion.get("context")))
+        )
+
         if key in relation_keys:
             raise SourceError(
-                f"duplicate contextual relation assertion: {record['id']}:{assertion['relation_key']}",
+                f"duplicate contextual relation assertion: {record['id']}:{relation_key}",
                 code="schema_invalid",
                 stage="source_load",
-                details={"entity_id": record["id"], "relation_key": assertion["relation_key"]},
+                details={"entity_id": record["id"], "relation_key": relation_key},
             )
         relation_keys.add(key)
 
@@ -510,6 +590,46 @@ def validate_references(kb: KnowledgeBase) -> None:
                             stage="reference_validation",
                             details={"ion_position": ion_position, "target_id": target_id},
                         )
+        for predicate in rule.get("predicates", []):
+            if predicate.get("subject") != "relation":
+                continue
+            relation_key = predicate["key"]
+            contract = RELATION_CONTRACTS.get(relation_key)
+            if contract is None:
+                raise SourceError(
+                    f"unsupported relation predicate key: {relation_key}",
+                    code="schema_invalid",
+                    stage="reference_validation",
+                    details={"relation_key": relation_key},
+                )
+            target_id = predicate.get("target_id")
+            expected_kind = contract["target_entity_kind"]
+            target = kb.entities.get(target_id)
+            if target is None or target.get("entity_kind") != expected_kind:
+                raise SourceError(
+                    f"relation predicate target does not resolve to {expected_kind}: {target_id}",
+                    code="reference_unresolved",
+                    stage="reference_validation",
+                    details={
+                        "relation_key": relation_key,
+                        "target_id": target_id,
+                        "target_kind": expected_kind,
+                    },
+                )
+            payload = target.get("payload", {})
+            charge = payload.get("formal_charge")
+            if (
+                payload.get("species_kind") != contract["target_species_kind"]
+                or not isinstance(charge, int)
+                or isinstance(charge, bool)
+                or charge <= 0
+            ):
+                raise SourceError(
+                    f"relation predicate target does not satisfy {relation_key} positive-ion contract: {target_id}",
+                    code="schema_invalid",
+                    stage="reference_validation",
+                    details={"relation_key": relation_key, "target_id": target_id},
+                )
         for evidence_id in rule.get("evidence_ids", []):
             _require(kb.evidence, evidence_id, "evidence")
 

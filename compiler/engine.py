@@ -97,23 +97,25 @@ def _trace_predicate(
     truth: Truth,
     fact: Any,
 ) -> None:
-    trace.append(
-        {
-            "event": event,
-            "rule_id": plan.rule_id,
-            "operator": predicate.operator,
-            "subject": predicate.subject,
-            "binding": predicate.binding,
-            "bindings": list(predicate.bindings),
-            "key": predicate.key,
-            "expected": predicate.expected,
-            "truth": truth.value,
-            "knowledge_state": fact.state.value,
-            "fact_origin": fact.origin,
-            "fact_context": dict(fact.context),
-            "evidence_ids": list(fact.evidence_ids),
-        }
-    )
+    item = {
+        "event": event,
+        "rule_id": plan.rule_id,
+        "operator": predicate.operator,
+        "subject": predicate.subject,
+        "binding": predicate.binding,
+        "bindings": list(predicate.bindings),
+        "key": predicate.key,
+        "expected": predicate.expected,
+        "truth": truth.value,
+        "knowledge_state": fact.state.value,
+        "fact_origin": fact.origin,
+        "fact_context": dict(fact.context),
+        "evidence_ids": list(fact.evidence_ids),
+    }
+    if predicate.subject == "relation":
+        item["target_id"] = predicate.target_id
+        item["relation_assertions"] = list(fact.relation_assertions)
+    trace.append(item)
 
 
 def infer_case(kb: KnowledgeBase, plans: tuple[RulePlan, ...], case: dict[str, Any]) -> dict[str, Any]:
@@ -144,6 +146,7 @@ def infer_case(kb: KnowledgeBase, plans: tuple[RulePlan, ...], case: dict[str, A
     indeterminate = False
     blocked_rules: list[str] = []
     applicable: dict[str, dict[str, str]] = {}
+    applicable_relation_assertions: dict[str, tuple[dict[str, Any], ...]] = {}
 
     for plan in plans:
         binding_candidates = bind_rule_candidates(plan, reactants, kb, reactant_phases)
@@ -156,9 +159,11 @@ def infer_case(kb: KnowledgeBase, plans: tuple[RulePlan, ...], case: dict[str, A
         plan_blocked = False
         for bindings in binding_candidates:
             predicate_results: list[Truth] = []
+            predicate_relation_assertions: list[dict[str, Any]] = []
             for predicate in plan.predicates:
                 truth, fact = evaluate_predicate(predicate, kb, bindings, context)
                 predicate_results.append(truth)
+                predicate_relation_assertions.extend(fact.relation_assertions)
                 _trace_predicate(trace, "predicate.eval", plan, predicate, truth, fact)
             if Truth.FALSE in predicate_results:
                 continue
@@ -179,6 +184,10 @@ def infer_case(kb: KnowledgeBase, plans: tuple[RulePlan, ...], case: dict[str, A
                 plan_indeterminate = True
                 continue
             applicable.setdefault(plan.rule_id, bindings)
+            applicable_relation_assertions.setdefault(
+                plan.rule_id,
+                tuple(predicate_relation_assertions),
+            )
             break
 
         if plan.rule_id not in applicable:
@@ -248,6 +257,7 @@ def infer_case(kb: KnowledgeBase, plans: tuple[RulePlan, ...], case: dict[str, A
         context,
         trace,
         case,
+        applicable_relation_assertions.get(selected_rule_id, ()),
     )
 
 
@@ -260,6 +270,7 @@ def _construct_candidate(
     context: dict[str, Any],
     trace: list[dict[str, Any]],
     case: dict[str, Any],
+    predicate_relation_assertions: tuple[dict[str, Any], ...],
 ) -> dict[str, Any]:
     try:
         resolved_products = tuple(
@@ -288,8 +299,14 @@ def _construct_candidate(
             tuple(sorted(assertion["context"].items())),
             tuple(sorted(assertion["evidence_ids"])),
         ): assertion
-        for product in resolved_products
-        for assertion in product.relation_assertions
+        for assertion in (
+            list(predicate_relation_assertions)
+            + [
+                assertion
+                for product in resolved_products
+                for assertion in product.relation_assertions
+            ]
+        )
     }
     relation_assertions = [relation_index[key] for key in sorted(relation_index)]
     product_evidence_ids = {

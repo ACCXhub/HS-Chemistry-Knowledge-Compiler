@@ -136,11 +136,27 @@ One phase-bounded Rule handles both metals. Exact balancing derives `2:2:2:1`; a
 
 M11 advances source schema to `3.3.0`, Rule DSL and RulePlan to `1.2.0`, and artifact format to `1.3.0`. These are independent consequences of exact-ion authoring/reference validation, participant phase authoring/lowering, ambient Reaction conditions, and the externally emitted plan fields. Artifact formats `1.0.0` through `1.2.0` remain readable.
 
+## M12 — Bounded elemental-metal + aqueous CuSO4 displacement
+
+M12 adds one deliberately Cu2+-bounded family:
+
+```text
+evidence-backed compatible elemental metal
++ aqueous CuSO4
+-> canonical sulfate of the incoming metal + Cu(s)
+```
+
+Zn and Mg own contextual `metal.displaces_cation -> Cu2+` assertions; Cu, Na, and K do not receive fabricated negatives or positives. Relation-family cardinality keeps `metal.product_cation` at one target per context while allowing `metal.displaces_cation` to have multiple distinct targets per context. One exact-target, one-hop Relation predicate gates a single Rule. The existing `metal.product_cation` relation supplies Zn2+/Mg2+, CuSO4 speciation supplies sulfate, and the existing `ionic_pair` constructor resolves canonical ZnSO4/MgSO4. Elemental Cu remains an exact canonical product.
+
+Exact balancing derives `1:1:1:1`. Canonical complete ionic forms dissociate only the soluble sulfates; sulfate cancellation yields `Zn + Cu2+ -> Zn2+ + Cu` and `Mg + Cu2+ -> Mg2+ + Cu`. Missing displacement assertions remain UNKNOWN, so Cu/Na/K + CuSO4 emit no false M12 candidate. Cu + ZnSO4 cannot match the exact CuSO4 participant.
+
+M12 advances source schema to `3.4.0`, Rule DSL and RulePlan to `1.3.0`, and artifact format to `1.4.0`. The new coordinates reflect relation-family cardinality, exact-target Relation predicate authoring/lowering, and the externally emitted `PredicatePlan.target_id`. Artifact formats `1.0.0` through `1.3.0` remain readable.
+
 ## Still out of scope
 
 - full high-school chemistry population or wholesale legacy migration;
 - transition-metal redox, concentrated-acid/passivation, or organic families;
-- variable-valence metal product selection, metal/salt displacement, metal/water reactions, or general activity-series/electrode-potential reasoning;
+- variable-valence metal product selection, arbitrary metal/salt displacement, broader metal/water reactions, or general activity-series/electrode-potential reasoning;
 - universal equilibrium/speciation solving;
 - nitric-acid/thiosulfate prediction, oxidation-number/electrode-potential inference, or broader thiosulfate/redox chemistry;
 - UI integration, database services, Neo4j, or RETE;

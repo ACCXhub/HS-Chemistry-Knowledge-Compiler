@@ -1,6 +1,6 @@
 # Deterministic Reaction Inference Semantics
 
-Status: **M11 phase-bounded relation + exact-ion product construction**
+Status: **M12 exact-target Relation applicability and provenance**
 
 ## Pipeline
 
@@ -8,7 +8,7 @@ Status: **M11 phase-bounded relation + exact-ion product construction**
 input normalization
 → reference/context resolution
 → structural participant identity/kind/phase binding candidates
-→ typed predicate evaluation (TRUE/FALSE/UNKNOWN)
+→ typed predicate evaluation, including bounded exact-target Relations (TRUE/FALSE/UNKNOWN)
 → blockers
 → applicable-rule resolution graph
 → typed relation/speciation/exact-entity ion-source resolution
@@ -30,6 +30,8 @@ Participant binding uses canonical identity/kind/phase constraints. Required/for
 
 Missing/open-world knowledge is `UNKNOWN`, not false. Explicit `unknown`, `not_applicable`, and absent facts remain distinguishable in the trace.
 
+M12 Relation predicates resolve one exact `(source binding, controlled relation key, canonical target ID, context)` fact. Matching evidence-backed assertions are known true; no match is ABSENT/UNKNOWN. Only `equals expected: true` is accepted. Equally specific assertions for the same target are combined deterministically with merged evidence, and only assertions from the finally applicable binding enter candidate provenance.
+
 ## Rule resolution
 
 All fully applicable rules are considered before a winner is selected. Explicit `overrides`, `specializes`, and `fallback_for` edges define precedence; transitive precedence is respected. If multiple non-equivalent winners remain, inference returns structured `ambiguous_rule_resolution` rather than selecting by source order.
@@ -45,6 +47,8 @@ When ionic-pair construction consumes bound aqueous reactants, the generated can
 M10 uses this boundary for `elemental metal -> product cation` plus `acid -> speciated anion`. Solid metals never receive fake aqueous speciation, and the compiler does not guess oxidation state or valence. Missing or ambiguous relation targets produce structured relation-resolution diagnostics before balancing.
 
 M11 reuses the relation path for the metal cation and resolves OH- through an exact canonical ion source. The fixed ion is not attributed to water speciation. Solid-metal and liquid-water phase constraints are checked before predicates; `metal.water_reactivity` is a separate ambient contextual fact, so M10 activity relative to hydrogen cannot make Zn/Mg water positives. Missing reactivity remains UNKNOWN, while a missing cation relation or exact ion target is an explicit resolution failure once the Rule is otherwise applicable.
+
+M12 uses a Relation predicate to prove only that the generic incoming metal has an evidence-backed aqueous `metal.displaces_cation` assertion to exact Cu2+. A separate `metal.product_cation` relation still supplies the incoming cation, CuSO4 speciation supplies sulfate, and the existing ionic-pair resolver selects canonical ZnSO4 or MgSO4. Elemental Cu is an exact canonical product. No activity ranking, formula parsing, reverse relation, dynamic displaced-metal lookup, or product fabrication is involved.
 
 Balancing receives fixed canonical reactants/products and uses exact arithmetic. The M6 carbonate family demonstrates that multi-proton molecular stoichiometry follows from canonical composition after product identities are fixed; no Rule or engine branch supplies coefficients. Atom and charge validation are separate stages and diagnostics.
 
@@ -68,4 +72,4 @@ Runtime/source failures use deterministic objects containing `code`, `stage`, `m
 
 ## Proof trace
 
-Trace events retain normalized inputs, rule IDs/versions, predicate operator/subject/key/expected value, truth result, knowledge state, fact origin, blocker checks, rule resolution, speciation/relation product inputs, balancing, conservation validation, canonical comparison, and emitted candidate key.
+Trace events retain normalized inputs, rule IDs/versions, predicate operator/subject/key/target/expected value, truth result, knowledge state, fact origin, matched Relation assertions and evidence, blocker checks, rule resolution, speciation/relation product inputs, balancing, conservation validation, canonical comparison, and emitted candidate key.

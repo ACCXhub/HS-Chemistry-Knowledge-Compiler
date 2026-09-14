@@ -1,6 +1,6 @@
 # Schema Strategy
 
-Status: **M11 exact ion-source, participant-phase, and artifact contract**
+Status: **M12 relation-cardinality, relation-predicate, and artifact contract**
 
 ## 1. Authoring boundary
 
@@ -14,13 +14,13 @@ The active source schema is:
 
 ```text
 schemas/knowledge-record.schema.json
-source schema version: 3.3.0
+source schema version: 3.4.0
 ```
 
 It covers the M4 executable subset of:
 
 - Entity;
-- embedded typed Entity relation assertions, with compiler-owned semantic domain/range validation;
+- embedded typed Entity relation assertions, with compiler-owned semantic domain/range and per-family cardinality validation;
 - Reaction / ReactionForm;
 - TeachingView;
 - Rule;
@@ -80,7 +80,7 @@ A participant pattern may constrain a binding by:
 - required facets;
 - forbidden facets.
 
-Predicates use the versioned Rule DSL operator names rather than Python function names. M4 intentionally supports a small registry only: `equals`, `not_equals`, `is_known`, and `in_set`.
+Predicates use the versioned Rule DSL operator names rather than Python function names. The registry remains limited to `equals`, `not_equals`, `is_known`, and `in_set`. M12 permits Relation applicability only as `equals expected: true` with one source binding, one controlled relation key, and one exact canonical target ID; absence evaluates UNKNOWN.
 
 Rule relationships are explicit source semantics: `overrides`, `specializes`, `fallback_for`, `equivalent_to`, and `mutually_exclusive_with`.
 
@@ -103,18 +103,18 @@ A consumer/compiler may expose the form only when the required assumptions and c
 
 M4 separates four compatibility coordinates:
 
-| Coordinate | M11 value | Owner |
+| Coordinate | M12 value | Owner |
 | --- | --- | --- |
-| source schema | `3.3.0` | source/data contract |
-| Rule DSL | `1.2.0` | rule source contract |
-| compiler RulePlan | `1.2.0` | compiler internal contract |
-| external artifact format | `1.3.0` | external generated contract |
+| source schema | `3.4.0` | source/data contract |
+| Rule DSL | `1.3.0` | rule source contract |
+| compiler RulePlan | `1.3.0` | compiler internal contract |
+| external artifact format | `1.4.0` | external generated contract |
 
 These axes are intentionally independent. A source schema change does not automatically imply an external artifact-format change, and an internal RulePlan revision is not a source DSL revision by definition.
 
 M4 does not promise long-term backward compatibility beyond these explicit coordinates.
 
-The `1.3.0` reader accepts historical artifact formats `1.0.0`, `1.1.0`, and `1.2.0`. Existing source Reaction records may omit `conditions`, Entity records may omit `relation_assertions`, participant patterns may omit `phase`, and legacy ionic-pair Rules may retain `cation_from`/`anion_from`. The artifact bump is independently required because `compiled-rule-plans.json` now emits exact-ion target and participant-phase fields that a `1.2.0` consumer cannot safely interpret.
+The `1.4.0` reader accepts historical artifact formats `1.0.0`, `1.1.0`, `1.2.0`, and `1.3.0`. Existing source Reaction records may omit `conditions`, Entity records may omit `relation_assertions`, participant patterns may omit `phase`, and legacy ionic-pair Rules may retain `cation_from`/`anion_from`. The artifact bump is independently required because `compiled-rule-plans.json` now emits the exact relation-predicate `target_id` field that a `1.3.0` consumer cannot safely interpret.
 
 ## 8. Generated artifacts
 

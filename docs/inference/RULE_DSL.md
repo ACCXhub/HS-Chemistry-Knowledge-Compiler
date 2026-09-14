@@ -1,12 +1,12 @@
 # Declarative Reaction Rule DSL
 
-Status: **M11 exact ion sources and phase-bounded matching**
+Status: **M12 exact-target Relation applicability**
 
 ## 1. Ownership and version
 
 Each authored Rule owns one stable `rule_*` ID, semantic version, evidence, and explicit resolution relationships. The Rule DSL version is independent from source-schema, compiler-plan, and external-artifact versions.
 
-M11 advances Rule DSL to `1.2.0`: an `ionic_pair` ion source may select an exact canonical ion, and a reactant pattern may constrain participant phase. RulePlan advances independently to `1.2.0` for `IonSourcePlan.target_id` and `ParticipantPatternPlan.phase`. Reaction conditions remain part of the Reaction source contract, not the Rule DSL.
+M12 advances Rule DSL to `1.3.0` for the exact-target Relation predicate source shape. RulePlan advances independently to `1.3.0` for `PredicatePlan.target_id`. Reaction conditions and relation-family cardinality remain source/data contracts rather than Rule DSL fields.
 
 ## 2. Participant patterns
 
@@ -30,7 +30,7 @@ The current DSL exposes only these source operators:
 
 | Operator | Subjects | Input types | Expected argument | UNKNOWN behavior |
 | --- | --- | --- | --- | --- |
-| `equals` | context, facet, property, ionic_exchange | string / boolean / integer | one scalar | non-known fact → UNKNOWN |
+| `equals` | context, facet, property, ionic_exchange, relation | string / boolean / integer | one scalar | non-known fact → UNKNOWN |
 | `not_equals` | context, facet, property, ionic_exchange | string / boolean / integer | one scalar | non-known fact → UNKNOWN |
 | `is_known` | context, facet, property, ionic_exchange | any fact state | none | returns TRUE only for known; otherwise FALSE |
 | `in_set` | context, facet, property | string / boolean / integer | homogeneous non-empty scalar list | non-known fact → UNKNOWN |
@@ -46,6 +46,19 @@ predicates:
 ```
 
 Legacy F2 `context: {key: value}` authoring lowers to the same typed `equals/context` semantics. M6 intentionally has no arbitrary-expression or disjunction language.
+
+M12's Relation subject is deliberately narrower than the general `equals` row:
+
+```yaml
+- operator: equals
+  subject: relation
+  binding: metal
+  key: metal.displaces_cation
+  target_id: ent_species_cu_2plus
+  expected: true
+```
+
+It requires exactly one valid source binding, a controlled relation key, one canonical target ID satisfying that relation's range, and literal `expected: true`. Lookup is exact-target, context-aware, and one hop. A matching evidence-backed assertion evaluates TRUE; no assertion evaluates UNKNOWN. Other operators, reverse lookup, chained traversal, and arbitrary graph expressions are rejected.
 
 ## 4. Knowledge states
 
@@ -115,7 +128,7 @@ anion_source:
 
 `exchange_product` reuses the same bounded exchange resolution to select the unique precipitate or soluble counterproduct. Zero or multiple product/ion/relation matches are explicit failures.
 
-Ionic-pair resolution returns speciation-profile provenance and relation-assertion provenance separately, including the evidence actually used. This is deterministic compiler output metadata, not a new chemistry truth owner or formula parser.
+Ionic-pair resolution returns speciation-profile provenance and relation-assertion provenance separately, including the evidence actually used. Successful Relation predicates contribute their matched assertions to the same deterministic candidate provenance and retain target/context/evidence in their predicate proof event. Failed or non-selected bindings do not pollute candidate provenance. This metadata is not a new chemistry truth owner or formula parser.
 
 ## 7. Rule-resolution relationships
 

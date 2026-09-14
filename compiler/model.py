@@ -25,6 +25,7 @@ class FactValue:
     origin: str = "intrinsic"
     context: tuple[tuple[str, Any], ...] = ()
     evidence_ids: tuple[str, ...] = ()
+    relation_assertions: tuple[dict[str, Any], ...] = ()
 
 
 @dataclass(frozen=True)
@@ -34,6 +35,7 @@ class PredicatePlan:
     binding: str | None = None
     bindings: tuple[str, ...] = ()
     key: str | None = None
+    target_id: str | None = None
     expected: Any = None
 
 

@@ -1,0 +1,37 @@
+records:
+  - id: rule_m12_metal_copper_sulfate_displacement
+    record_type: rule
+    version: 1.0.0
+    decision_domain: aqueous_copper_salt_displacement
+    match:
+      reactants:
+        - bind: metal
+          entity_kind: substance
+          phase: solid
+          required_facets: [classification.metal]
+        - bind: copper_sulfate
+          target_id: ent_substance_cuso4
+          phase: aqueous
+    context:
+      medium: aqueous
+    predicates:
+      - operator: equals
+        subject: relation
+        binding: metal
+        key: metal.displaces_cation
+        target_id: ent_species_cu_2plus
+        expected: true
+    products:
+      - phase: aqueous
+        construct:
+          kind: ionic_pair
+          cation_source:
+            kind: relation_target
+            binding: metal
+            relation_key: metal.product_cation
+          anion_source:
+            kind: speciation
+            binding: copper_sulfate
+      - {target_id: ent_substance_elemental_cu, phase: solid}
+    validators: [atoms_conserved, charge_conserved]
+    evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation, ev_m12_metal_copper_displacement]

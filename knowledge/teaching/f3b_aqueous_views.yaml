@@ -50,6 +50,8 @@ records:
           - rxn_m10_mg_hcl_hydrogen
           - rxn_m11_na_water_hydrogen
           - rxn_m11_k_water_hydrogen
+          - rxn_m12_zn_cuso4_displacement
+          - rxn_m12_mg_cuso4_displacement
       - path_key: D05/chemical-experiments/ammonium-ion-identification
         parent_path_key: D05/chemical-experiments
         members:
@@ -76,6 +78,8 @@ records:
           - rxn_m10_mg_hcl_hydrogen
           - rxn_m11_na_water_hydrogen
           - rxn_m11_k_water_hydrogen
+          - rxn_m12_zn_cuso4_displacement
+          - rxn_m12_mg_cuso4_displacement
       - path_key: D08/substance-classification/acids
         parent_path_key: D08/substance-classification
         members:
@@ -102,6 +106,9 @@ records:
           - ent_substance_k2s2o3
           - ent_substance_mgcl2
           - ent_substance_zncl2
+          - ent_substance_cuso4
+          - ent_substance_znso4
+          - ent_substance_mgso4
       - path_key: D08/substance-classification/metals
         parent_path_key: D08/substance-classification
         members:
@@ -124,6 +131,7 @@ records:
           - ent_element_na
           - ent_substance_elemental_na
           - ent_substance_elemental_k
+          - ent_species_cu_2plus
       - path_key: D10/elements-and-compounds/nitrogen-compounds
         parent_path_key: D10/elements-and-compounds
         members:

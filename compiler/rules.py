@@ -8,8 +8,8 @@ from .predicates import compile_predicate
 from .source import KnowledgeBase, SourceError
 
 
-RULE_DSL_VERSION = "1.2.0"
-RULE_PLAN_VERSION = "1.2.0"
+RULE_DSL_VERSION = "1.3.0"
+RULE_PLAN_VERSION = "1.3.0"
 _RELATION_FIELDS = (
     "overrides",
     "specializes",
