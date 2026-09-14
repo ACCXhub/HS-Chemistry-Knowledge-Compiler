@@ -270,3 +270,11 @@ The dedicated `aqueous_copper_salt_displacement` decision domain has no static o
 ## M12 remaining limitations
 
 General metal A + salt of metal B inference still requires evidence-driven salt-cation discovery, ion-to-element resolution, pairwise or ordered activity semantics, displaced-metal construction, aqueous water-competition handling, variable valence, passivation, and concentration/temperature effects. These remain later design pressures rather than hidden M12 behavior.
+
+## Coverage decision — M13 silver-nitrate reuse proof
+
+The bounded silver-nitrate slice demonstrates that M12's existing Relation semantics are reusable in canonical data. Elemental Zn and Mg each own distinct aqueous `metal.displaces_cation` targets for Cu2+ and Ag+, while `metal.product_cation` remains one-target per context and exact duplicate displacement assertions remain invalid. Existing Ag, Ag+, and AgNO3 IDs are retained; historical fixture evidence remains as provenance, and OpenStax Chemistry 2e evidence now supports the silver identities, nitrate solubility/strong-electrolyte treatment, aqueous AgNO3 speciation, and bounded Zn/Mg displacement assertions.
+
+One exact-AgNO3 Rule uses the unchanged exact-target Relation predicate, unchanged relation-derived cation source, unchanged speciation-derived anion source, and unchanged canonical `ionic_pair` resolver. It selects existing Zn(NO3)2 or Mg(NO3)2 and exact elemental Ag; the balancer derives `1:2:1:2`, and derived ionic forms cancel nitrate. No entity is fabricated and no Ag-specific compiler path is introduced.
+
+Ag, Na, K, and Cu receive no synthetic Ag+ displacement assertions in this slice. Their AgNO3 cases remain open-world UNKNOWN, preserving water-competition and variable-valence pressure for later work. The compatibility coordinates remain source schema `3.4.0`, Rule DSL `1.3.0`, RulePlan `1.3.0`, and artifact format `1.4.0`.

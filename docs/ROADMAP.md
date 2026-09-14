@@ -152,6 +152,14 @@ Exact balancing derives `1:1:1:1`. Canonical complete ionic forms dissociate onl
 
 M12 advances source schema to `3.4.0`, Rule DSL and RulePlan to `1.3.0`, and artifact format to `1.4.0`. The new coordinates reflect relation-family cardinality, exact-target Relation predicate authoring/lowering, and the externally emitted `PredicatePlan.target_id`. Artifact formats `1.0.0` through `1.3.0` remain readable.
 
+## Coverage & Migration slice — silver nitrate reuse proof (working label M13)
+
+This bounded slice reuses the existing Ag, Ag+, and AgNO3 identities, hardens their relied-upon facts and aqueous speciation with OpenStax Chemistry 2e evidence, and adds canonical elemental Ag, Zn(NO3)2, and Mg(NO3)2. Zn and Mg now each retain both aqueous `metal.displaces_cation -> Cu2+` and `metal.displaces_cation -> Ag+` targets, providing real-source proof of the existing many-target Relation contract.
+
+One AgNO3-bounded Rule reuses the unchanged exact-target Relation predicate and unchanged `ionic_pair` constructor. Relation-derived Zn2+/Mg2+ combines with nitrate from AgNO3 speciation, while elemental Ag is an exact canonical product. Exact balancing derives `1:2:1:2`; nitrate cancellation yields `Zn + 2 Ag+ -> Zn2+ + 2 Ag` and `Mg + 2 Ag+ -> Mg2+ + 2 Ag`. Ag/Na/K/Cu + AgNO3 remain open-world UNKNOWN without authored Ag+ displacement relations.
+
+This is a coverage reuse proof, not a new formal roadmap phase. Source schema remains `3.4.0`, Rule DSL and RulePlan remain `1.3.0`, and artifact format remains `1.4.0`; no compiler or schema extension is introduced.
+
 ## Still out of scope
 
 - full high-school chemistry population or wholesale legacy migration;

@@ -244,3 +244,39 @@ cases:
       - {target_id: ent_substance_elemental_cu, phase: solid}
       - {target_id: ent_substance_znso4, phase: aqueous}
     context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m13_zn_agno3
+    reactants:
+      - {target_id: ent_substance_elemental_zn, phase: solid}
+      - {target_id: ent_substance_agno3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m13_mg_agno3
+    reactants:
+      - {target_id: ent_substance_elemental_mg, phase: solid}
+      - {target_id: ent_substance_agno3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m13_ag_agno3
+    reactants:
+      - {target_id: ent_substance_elemental_ag, phase: solid}
+      - {target_id: ent_substance_agno3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m13_na_agno3
+    reactants:
+      - {target_id: ent_substance_elemental_na, phase: solid}
+      - {target_id: ent_substance_agno3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m13_k_agno3
+    reactants:
+      - {target_id: ent_substance_elemental_k, phase: solid}
+      - {target_id: ent_substance_agno3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m13_cu_agno3
+    reactants:
+      - {target_id: ent_substance_elemental_cu, phase: solid}
+      - {target_id: ent_substance_agno3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}

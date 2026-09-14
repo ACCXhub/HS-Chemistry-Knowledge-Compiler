@@ -99,6 +99,13 @@ def test_zinc_and_magnesium_own_evidence_backed_aqueous_displacement_relations()
             {
                 "source_id": metal_id,
                 "relation_key": "metal.displaces_cation",
+                "target_id": "ent_species_ag_plus",
+                "context": {"medium": "aqueous"},
+                "evidence_ids": ["ev_m13_metal_silver_displacement"],
+            },
+            {
+                "source_id": metal_id,
+                "relation_key": "metal.displaces_cation",
                 "target_id": "ent_species_cu_2plus",
                 "context": {"medium": "aqueous"},
                 "evidence_ids": ["ev_m12_metal_copper_displacement"],

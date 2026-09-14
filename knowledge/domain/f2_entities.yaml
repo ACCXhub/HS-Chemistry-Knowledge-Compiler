@@ -15,7 +15,7 @@ records:
   - {id: ent_element_n, record_type: entity, entity_kind: element, terms: {preferred: nitrogen}, semantic_keys: [{scheme: element.symbol, value: N}], payload: {atomic_number: 7, symbol: N}}
   - {id: ent_element_na, record_type: entity, entity_kind: element, terms: {preferred: sodium}, semantic_keys: [{scheme: element.symbol, value: Na}], payload: {atomic_number: 11, symbol: Na}}
   - {id: ent_element_cl, record_type: entity, entity_kind: element, terms: {preferred: chlorine}, semantic_keys: [{scheme: element.symbol, value: Cl}], payload: {atomic_number: 17, symbol: Cl}}
-  - {id: ent_element_ag, record_type: entity, entity_kind: element, terms: {preferred: silver}, semantic_keys: [{scheme: element.symbol, value: Ag}], payload: {atomic_number: 47, symbol: Ag}}
+  - {id: ent_element_ag, record_type: entity, entity_kind: element, terms: {preferred: silver}, semantic_keys: [{scheme: element.symbol, value: Ag}], payload: {atomic_number: 47, symbol: Ag}, evidence_ids: [ev_m13_silver_nitrate_identity_and_speciation]}
 
   - id: ent_substance_nacl
     record_type: entity
@@ -59,11 +59,11 @@ records:
           - {element_id: ent_element_o, count: 3}
         net_charge: 0
     facet_assertions:
-      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f2_reactions]}
-      - {facet_key: classification.nitrate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f2_reactions]}
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f2_reactions, ev_m13_silver_nitrate_identity_and_speciation]}
+      - {facet_key: classification.nitrate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f2_reactions, ev_m13_silver_nitrate_identity_and_speciation]}
     property_assertions:
-      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f2_reactions]}
-      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f2_reactions]}
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f2_reactions, ev_m13_silver_nitrate_identity_and_speciation]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f2_reactions, ev_m13_silver_nitrate_identity_and_speciation]}
     speciation_profiles:
       - profile_key: aqueous_complete_dissociation
         context: {medium: aqueous}
@@ -71,8 +71,8 @@ records:
         products:
           - {target_id: ent_species_ag_plus, coefficient: {numerator: 1, denominator: 1}}
           - {target_id: ent_species_no3_minus, coefficient: {numerator: 1, denominator: 1}}
-        evidence_ids: [ev_f2_reactions]
-    evidence_ids: [ev_f2_reactions]
+        evidence_ids: [ev_f2_reactions, ev_m13_silver_nitrate_identity_and_speciation]
+    evidence_ids: [ev_f2_reactions, ev_m13_silver_nitrate_identity_and_speciation]
 
   - id: ent_substance_agcl
     record_type: entity
@@ -203,7 +203,7 @@ records:
       composition:
         components: [{element_id: ent_element_ag, count: 1}]
         net_charge: 1
-    evidence_ids: [ev_f2_reactions]
+    evidence_ids: [ev_f2_reactions, ev_m13_silver_nitrate_identity_and_speciation]
 
   - id: ent_species_cl_minus
     record_type: entity

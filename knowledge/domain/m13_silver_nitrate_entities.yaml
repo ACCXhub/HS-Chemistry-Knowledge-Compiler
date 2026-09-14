@@ -1,0 +1,84 @@
+records:
+  - id: ev_m13_silver_nitrate_identity_and_speciation
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "OpenStax Chemistry 2e section 4.2 represents aqueous silver nitrate as Ag+ and NO3- ions, states that nitrate salts are soluble, and supports the canonical Ag, Ag+, and AgNO3 identities plus complete aqueous strong-electrolyte dissociation used in molecular and ionic equations."
+    stance: supports
+
+  - id: ev_m13_metal_silver_displacement
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "OpenStax Chemistry 2e section 4.2 defines single-displacement oxidation of a metal by dissolved ions, while section 17.3 lists Ag+/Ag at +0.7996 V, Zn2+/Zn at -0.7618 V, and Mg2+/Mg at -2.372 V and explains using standard potentials to predict spontaneous redox reactions; together these support the bounded aqueous Zn-to-Ag+ and Mg-to-Ag+ displacement assertions."
+    stance: supports
+
+  - id: ent_substance_elemental_ag
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: elemental silver}
+    semantic_keys: [{scheme: formula.elemental_basis, value: Ag}]
+    payload:
+      substance_kind: elemental
+      composition:
+        components: [{element_id: ent_element_ag, count: 1}]
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.metal, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m13_silver_nitrate_identity_and_speciation]}
+    evidence_ids: [ev_m13_silver_nitrate_identity_and_speciation]
+
+  - id: ent_substance_zn_no3_2
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: zinc nitrate}
+    semantic_keys: [{scheme: formula.unit, value: Zn(NO3)2}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_zn, count: 1}
+          - {element_id: ent_element_n, count: 2}
+          - {element_id: ent_element_o, count: 6}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m13_silver_nitrate_identity_and_speciation]}
+      - {facet_key: classification.nitrate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m13_silver_nitrate_identity_and_speciation]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m13_silver_nitrate_identity_and_speciation]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m13_silver_nitrate_identity_and_speciation]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_zn_2plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_no3_minus, coefficient: {numerator: 2, denominator: 1}}
+        evidence_ids: [ev_m13_silver_nitrate_identity_and_speciation]
+    evidence_ids: [ev_m13_silver_nitrate_identity_and_speciation]
+
+  - id: ent_substance_mg_no3_2
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: magnesium nitrate}
+    semantic_keys: [{scheme: formula.unit, value: Mg(NO3)2}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_mg, count: 1}
+          - {element_id: ent_element_n, count: 2}
+          - {element_id: ent_element_o, count: 6}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m13_silver_nitrate_identity_and_speciation]}
+      - {facet_key: classification.nitrate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m13_silver_nitrate_identity_and_speciation]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m13_silver_nitrate_identity_and_speciation]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m13_silver_nitrate_identity_and_speciation]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_mg_2plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_no3_minus, coefficient: {numerator: 2, denominator: 1}}
+        evidence_ids: [ev_m13_silver_nitrate_identity_and_speciation]
+    evidence_ids: [ev_m13_silver_nitrate_identity_and_speciation]
