@@ -8,8 +8,8 @@ from .predicates import compile_predicate
 from .source import KnowledgeBase, SourceError
 
 
-RULE_DSL_VERSION = "1.1.0"
-RULE_PLAN_VERSION = "1.1.0"
+RULE_DSL_VERSION = "1.2.0"
+RULE_PLAN_VERSION = "1.2.0"
 _RELATION_FIELDS = (
     "overrides",
     "specializes",
@@ -50,6 +50,8 @@ def _require_binding(name: str, bindings: set[str], constructor: str) -> str:
 
 def _compile_ion_source(source: dict[str, Any], bindings: set[str]) -> IonSourcePlan:
     kind = source["kind"]
+    if kind == "exact_entity":
+        return IonSourcePlan(kind=kind, target_id=source["target_id"])
     binding = _require_binding(source["binding"], bindings, f"ionic_pair.{kind}")
     if kind == "speciation":
         return IonSourcePlan(kind=kind, binding=binding)
@@ -129,6 +131,7 @@ def compile_rules(kb: KnowledgeBase) -> tuple[RulePlan, ...]:
                 target_id=pattern.get("target_id"),
                 entity_kind=pattern.get("entity_kind"),
                 species_kind=pattern.get("species_kind"),
+                phase=pattern.get("phase"),
                 required_facets=tuple(sorted(pattern.get("required_facets", []))),
                 forbidden_facets=tuple(sorted(pattern.get("forbidden_facets", []))),
             )
@@ -203,12 +206,19 @@ def compile_rules(kb: KnowledgeBase) -> tuple[RulePlan, ...]:
     return compiled
 
 
-def _pattern_structural_match(pattern: ParticipantPatternPlan, entity: dict[str, Any], entity_id: str) -> bool:
+def _pattern_structural_match(
+    pattern: ParticipantPatternPlan,
+    entity: dict[str, Any],
+    entity_id: str,
+    phase: str | None = None,
+) -> bool:
     if pattern.target_id is not None and pattern.target_id != entity_id:
         return False
     if pattern.entity_kind is not None and pattern.entity_kind != entity.get("entity_kind"):
         return False
     if pattern.species_kind is not None and pattern.species_kind != entity.get("payload", {}).get("species_kind"):
+        return False
+    if pattern.phase is not None and pattern.phase != phase:
         return False
     return True
 
@@ -217,6 +227,7 @@ def bind_rule_candidates(
     plan: RulePlan,
     reactant_ids: tuple[str, ...],
     kb: KnowledgeBase,
+    reactant_phases: dict[str, str] | None = None,
 ) -> tuple[dict[str, str], ...]:
     if len(plan.patterns) != len(reactant_ids):
         return ()
@@ -226,7 +237,8 @@ def bind_rule_candidates(
         valid = True
         for pattern, entity_id in zip(plan.patterns, ordered_ids, strict=True):
             entity = kb.entities.get(entity_id)
-            if entity is None or not _pattern_structural_match(pattern, entity, entity_id):
+            phase = None if reactant_phases is None else reactant_phases.get(entity_id)
+            if entity is None or not _pattern_structural_match(pattern, entity, entity_id, phase):
                 valid = False
                 break
             bound[pattern.bind] = entity_id
@@ -264,6 +276,8 @@ def _patterns_compatible(a: ParticipantPatternPlan, b: ParticipantPatternPlan) -
     if a.entity_kind is not None and b.entity_kind is not None and a.entity_kind != b.entity_kind:
         return False
     if a.species_kind is not None and b.species_kind is not None and a.species_kind != b.species_kind:
+        return False
+    if a.phase is not None and b.phase is not None and a.phase != b.phase:
         return False
     if set(a.required_facets) & set(b.forbidden_facets):
         return False
@@ -313,6 +327,7 @@ def _outcome_signature(plan: RulePlan) -> tuple[Any, ...]:
                     product.cation_source.kind,
                     product.cation_source.binding,
                     product.cation_source.relation_key,
+                    product.cation_source.target_id,
                 ),
                 None
                 if product.anion_source is None
@@ -320,6 +335,7 @@ def _outcome_signature(plan: RulePlan) -> tuple[Any, ...]:
                     product.anion_source.kind,
                     product.anion_source.binding,
                     product.anion_source.relation_key,
+                    product.anion_source.target_id,
                 ),
                 product.left_binding,
                 product.right_binding,

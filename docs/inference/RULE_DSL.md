@@ -1,12 +1,12 @@
 # Declarative Reaction Rule DSL
 
-Status: **M10 typed ionic-pair ion sources**
+Status: **M11 exact ion sources and phase-bounded matching**
 
 ## 1. Ownership and version
 
 Each authored Rule owns one stable `rule_*` ID, semantic version, evidence, and explicit resolution relationships. The Rule DSL version is independent from source-schema, compiler-plan, and external-artifact versions.
 
-M10 advances Rule DSL to `1.1.0` because an `ionic_pair` product may now declare typed `cation_source` and `anion_source` values. RulePlan advances independently to `1.1.0` for the lowered `IonSourcePlan` representation. Reaction conditions remain part of the Reaction source contract, not the Rule DSL.
+M11 advances Rule DSL to `1.2.0`: an `ionic_pair` ion source may select an exact canonical ion, and a reactant pattern may constrain participant phase. RulePlan advances independently to `1.2.0` for `IonSourcePlan.target_id` and `ParticipantPatternPlan.phase`. Reaction conditions remain part of the Reaction source contract, not the Rule DSL.
 
 ## 2. Participant patterns
 
@@ -17,11 +17,12 @@ A reactant pattern binds one canonical participant and may constrain:
   entity_kind: substance
   species_kind: ion        # only when relevant
   target_id: ent_...       # optional exact identity
+  phase: liquid            # optional input participant phase
   required_facets: []
   forbidden_facets: []
 ```
 
-`target_id` is optional. Pattern identity/kind constraints establish possible bindings; facet constraints are evaluated with open-world three-valued semantics so missing knowledge does not become false.
+`target_id` and `phase` are optional. Pattern identity/kind/phase constraints establish possible bindings; facet constraints are evaluated with open-world three-valued semantics so missing knowledge does not become false.
 
 ## 3. Typed predicates
 
@@ -102,6 +103,16 @@ construct:
 
 `speciation` selects the unique sign-appropriate ion from the bound Entity's context-matching aqueous profile. `relation_target` performs one controlled, context-aware relation lookup and requires one target. It is not arbitrary graph traversal. Legacy `cation_from`/`anion_from` authoring is still valid and lowers to two `speciation` sources.
 
+M11 adds the generic exact-ion form:
+
+```yaml
+anion_source:
+  kind: exact_entity
+  target_id: ent_species_oh_minus
+```
+
+`exact_entity` requires the target to resolve to one canonical ion Species whose charge sign matches its cation/anion position. It carries no participant binding and does not imply that any reactant dissociates into that ion.
+
 `exchange_product` reuses the same bounded exchange resolution to select the unique precipitate or soluble counterproduct. Zero or multiple product/ion/relation matches are explicit failures.
 
 Ionic-pair resolution returns speciation-profile provenance and relation-assertion provenance separately, including the evidence actually used. This is deterministic compiler output metadata, not a new chemistry truth owner or formula parser.
@@ -120,7 +131,7 @@ Unknown references, self edges, contradictory equivalent declarations, and prece
 
 ## 8. Static overlap analysis
 
-Within a `decision_domain`, the compiler analyzes participant count/kind, exact identity, required/forbidden facets, and simple context-equality constraints. If it cannot prove disjointness it emits conservative `potential_overlap`.
+Within a `decision_domain`, the compiler analyzes participant count/kind/phase, exact identity, required/forbidden facets, and simple context-equality constraints. If it cannot prove disjointness it emits conservative `potential_overlap`.
 
 Non-equivalent overlapping outcomes require an explicit relationship or strict compilation fails with both rule IDs and a deterministic reason/signature.
 

@@ -12,7 +12,7 @@ from .model import FactValue, KnowledgeState
 
 
 SOURCE_DIRS = ("knowledge/domain", "knowledge/rules", "knowledge/teaching")
-SOURCE_SCHEMA_VERSION = "3.2.0"
+SOURCE_SCHEMA_VERSION = "3.3.0"
 RELATION_CONTRACTS = {
     "metal.product_cation": {
         "source_entity_kind": "substance",
@@ -478,6 +478,38 @@ def validate_references(kb: KnowledgeBase) -> None:
         for product in rule["products"]:
             if "target_id" in product:
                 _require(kb.entities, product["target_id"], "entity")
+            construction = product.get("construct", {})
+            if construction.get("kind") == "ionic_pair":
+                for field, ion_position in (
+                    ("cation_source", "cation"),
+                    ("anion_source", "anion"),
+                ):
+                    ion_source = construction.get(field, {})
+                    if ion_source.get("kind") != "exact_entity":
+                        continue
+                    target_id = ion_source["target_id"]
+                    target = kb.entities.get(target_id)
+                    if target is None:
+                        raise SourceError(
+                            f"exact ion source target does not resolve: {target_id}",
+                            code="reference_unresolved",
+                            stage="reference_validation",
+                            details={"ion_position": ion_position, "target_id": target_id},
+                        )
+                    payload = target.get("payload", {})
+                    charge = payload.get("formal_charge")
+                    sign_matches = (
+                        isinstance(charge, int)
+                        and not isinstance(charge, bool)
+                        and ((ion_position == "cation" and charge > 0) or (ion_position == "anion" and charge < 0))
+                    )
+                    if target.get("entity_kind") != "species" or payload.get("species_kind") != "ion" or not sign_matches:
+                        raise SourceError(
+                            f"exact ion source target is not a compatible {ion_position}: {target_id}",
+                            code="schema_invalid",
+                            stage="reference_validation",
+                            details={"ion_position": ion_position, "target_id": target_id},
+                        )
         for evidence_id in rule.get("evidence_ids", []):
             _require(kb.evidence, evidence_id, "evidence")
 

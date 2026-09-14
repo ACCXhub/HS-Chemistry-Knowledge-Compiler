@@ -1,6 +1,6 @@
 # Knowledge Compiler Architecture
 
-Status: **M10 typed relation and ion-source compiler boundary**
+Status: **M11 exact-ion and phase-bounded compiler boundary**
 
 ## Responsibility
 
@@ -31,7 +31,7 @@ The compiler owns the implementation of the source-level typed operator registry
 
 ## Overlap analysis
 
-Strict compilation compares rules only inside the same decision domain. It can currently reason about participant arity, exact IDs, entity/species kinds, required/forbidden facets, and simple context equality. Unprovable disjointness is conservative `potential_overlap`.
+Strict compilation compares rules only inside the same decision domain. It can currently reason about participant arity, exact IDs, entity/species kinds, participant phase, required/forbidden facets, and simple context equality. Unprovable disjointness is conservative `potential_overlap`.
 
 Non-equivalent potential overlap without explicit resolution is `rule_overlap_compile_error`.
 
@@ -49,7 +49,7 @@ Precedence cycles are rejected. Runtime resolution uses transitive reachability 
 
 ## Product resolution
 
-`exact_entity`, `semantic_key`, `ionic_pair`, and `exchange_product` are bounded constructors. They resolve against canonical source indexes and canonical composition/speciation/relation records. M10 ionic-pair ion sources may be speciation-backed or one-hop relation-backed, after which the unchanged neutral composition/charge resolver selects a canonical Substance. Zero or multiple matches remain explicit; no constructor parses display formulas, guesses valence, or mints canonical identity.
+`exact_entity`, `semantic_key`, `ionic_pair`, and `exchange_product` are bounded constructors. They resolve against canonical source indexes and canonical composition/speciation/relation records. Ionic-pair ion sources may be speciation-backed, one-hop relation-backed, or an exact canonical ion Species. Exact sources are reference- and sign-validated; after both ions resolve, the unchanged neutral composition/charge resolver selects a canonical Substance. Zero or multiple matches remain explicit; no constructor parses display formulas, guesses valence, or mints canonical identity.
 
 ## ReactionForm projection
 
@@ -60,14 +60,14 @@ Projection is an explicit API over curated/golden forms and canonical speciation
 Version axes are separate:
 
 ```text
-source schema     3.2.0
-Rule DSL          1.1.0
-RulePlan          1.1.0
-artifact format   1.2.0
+source schema     3.3.0
+Rule DSL          1.2.0
+RulePlan          1.2.0
+artifact format   1.3.0
 ```
 
-External artifacts include `artifact_format_version`; manifests include all four. Artifact `1.2.0` reflects the emitted nested typed ion-source plan shape, independently of the source/DSL/plan bumps. The reader also accepts historical formats `1.0.0` and `1.1.0`; consumers reject unknown versions.
+External artifacts include `artifact_format_version`; manifests include all four. Artifact `1.3.0` reflects emitted `IonSourcePlan.target_id` and `ParticipantPatternPlan.phase` fields, independently of the source/DSL/plan bumps. The reader also accepts historical formats `1.0.0`, `1.1.0`, and `1.2.0`; consumers reject unknown versions.
 
 ## Performance policy
 
-Python-first remains the reference implementation. M10 adds no external dependency, RETE, database, native extension, generic graph engine, or plugin runtime. Small typed indexes and compiled plans are preferred; optimization requires measured evidence.
+Python-first remains the reference implementation. M11 adds no external dependency, RETE, database, native extension, generic graph engine, or plugin runtime. Small typed indexes and compiled plans are preferred; optimization requires measured evidence.

@@ -43,6 +43,7 @@ class ParticipantPatternPlan:
     target_id: str | None = None
     entity_kind: str | None = None
     species_kind: str | None = None
+    phase: str | None = None
     required_facets: tuple[str, ...] = ()
     forbidden_facets: tuple[str, ...] = ()
 
@@ -50,8 +51,9 @@ class ParticipantPatternPlan:
 @dataclass(frozen=True)
 class IonSourcePlan:
     kind: str
-    binding: str
+    binding: str | None = None
     relation_key: str | None = None
+    target_id: str | None = None
 
 
 @dataclass(frozen=True)

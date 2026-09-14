@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.invalid/hs-chem/knowledge-record.schema.json",
-  "x-source-schema-version": "3.2.0",
+  "x-source-schema-version": "3.3.0",
   "oneOf": [
     {"$ref": "#/$defs/entity"},
     {"$ref": "#/$defs/reaction"},
@@ -209,7 +209,7 @@
       "additionalProperties": false,
       "properties": {
         "key": {"enum": ["medium", "temperature_regime"]},
-        "value": {"enum": ["aqueous", "warmed"]},
+        "value": {"enum": ["aqueous", "ambient", "warmed"]},
         "evidence_ids": {"$ref": "#/$defs/evidenceIds"}
       },
       "allOf": [
@@ -219,7 +219,7 @@
         },
         {
           "if": {"properties": {"key": {"const": "temperature_regime"}}},
-          "then": {"properties": {"value": {"const": "warmed"}}}
+          "then": {"properties": {"value": {"enum": ["ambient", "warmed"]}}}
         }
       ]
     },
@@ -245,6 +245,7 @@
         "target_id": {"$ref": "#/$defs/id"},
         "entity_kind": {"enum": ["element", "species", "substance", "material_system"]},
         "species_kind": {"enum": ["atom", "ion", "molecule"]},
+        "phase": {"enum": ["solid", "liquid", "gas", "aqueous", "dissolved", "unknown"]},
         "required_facets": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
         "forbidden_facets": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
       },
@@ -318,10 +319,20 @@
         "relation_key": {"enum": ["metal.product_cation"]}
       }
     },
+    "exactEntityIonSource": {
+      "type": "object",
+      "required": ["kind", "target_id"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {"const": "exact_entity"},
+        "target_id": {"$ref": "#/$defs/id"}
+      }
+    },
     "ionSource": {
       "oneOf": [
         {"$ref": "#/$defs/speciationIonSource"},
-        {"$ref": "#/$defs/relationTargetIonSource"}
+        {"$ref": "#/$defs/relationTargetIonSource"},
+        {"$ref": "#/$defs/exactEntityIonSource"}
       ]
     },
     "ionicPairConstruct": {

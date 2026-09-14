@@ -178,3 +178,33 @@ cases:
       - {target_id: ent_substance_elemental_zn, phase: solid}
       - {target_id: ent_substance_hcl, phase: aqueous}
     context: {temperature_regime: ambient}
+
+  - id: case_m11_na_water
+    reactants:
+      - {target_id: ent_substance_elemental_na, phase: solid}
+      - {target_id: ent_substance_h2o, phase: liquid}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m11_k_water
+    reactants:
+      - {target_id: ent_substance_elemental_k, phase: solid}
+      - {target_id: ent_substance_h2o, phase: liquid}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m11_cu_water
+    reactants:
+      - {target_id: ent_substance_elemental_cu, phase: solid}
+      - {target_id: ent_substance_h2o, phase: liquid}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m11_zn_water
+    reactants:
+      - {target_id: ent_substance_elemental_zn, phase: solid}
+      - {target_id: ent_substance_h2o, phase: liquid}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m11_mg_water
+    reactants:
+      - {target_id: ent_substance_elemental_mg, phase: solid}
+      - {target_id: ent_substance_h2o, phase: liquid}
+    context: {medium: aqueous, temperature_regime: ambient}

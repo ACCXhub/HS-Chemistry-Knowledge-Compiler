@@ -147,8 +147,9 @@ def _resolve_ion_source(
     sign: str,
     context: dict[str, Any],
 ) -> tuple[str, tuple[dict[str, Any], ...], tuple[dict[str, Any], ...], tuple[str, ...]]:
-    source_id = bindings[source.binding]
     if source.kind == "speciation":
+        assert source.binding is not None
+        source_id = bindings[source.binding]
         profile = _profile_for(kb, source_id, context)
         ion_id = _single_profile_ion(kb, profile, sign)
         provenance = {
@@ -159,7 +160,8 @@ def _resolve_ion_source(
         }
         return ion_id, (provenance,), (), tuple(provenance["evidence_ids"])
     if source.kind == "relation_target":
-        assert source.relation_key is not None
+        assert source.binding is not None and source.relation_key is not None
+        source_id = bindings[source.binding]
         assertions = kb.relation_assertions(source_id, source.relation_key, context)
         if len(assertions) != 1:
             candidates = sorted(assertion["target_id"] for assertion in assertions)
@@ -180,6 +182,31 @@ def _resolve_ion_source(
             (assertion,),
             tuple(assertion["evidence_ids"]),
         )
+    if source.kind == "exact_entity":
+        assert source.target_id is not None
+        target = kb.entities.get(source.target_id)
+        payload = target.get("payload", {}) if target is not None else {}
+        charge = payload.get("formal_charge")
+        sign_matches = (
+            isinstance(charge, int)
+            and not isinstance(charge, bool)
+            and ((sign == "positive" and charge > 0) or (sign == "negative" and charge < 0))
+        )
+        if target is None:
+            raise AqueousResolutionError(
+                f"exact ion source target is unavailable: {source.target_id}",
+                code="reference_unresolved",
+                stage="ion_source_resolution",
+                details={"ion_position": "cation" if sign == "positive" else "anion", "target_id": source.target_id},
+            )
+        if target.get("entity_kind") != "species" or payload.get("species_kind") != "ion" or not sign_matches:
+            raise AqueousResolutionError(
+                f"exact ion source target is not a compatible {sign} ion: {source.target_id}",
+                code="schema_invalid",
+                stage="ion_source_resolution",
+                details={"ion_position": "cation" if sign == "positive" else "anion", "target_id": source.target_id},
+            )
+        return source.target_id, (), (), tuple(sorted(target.get("evidence_ids", [])))
     raise AqueousResolutionError(
         f"unsupported ionic-pair ion source: {source.kind}",
         code="schema_invalid",

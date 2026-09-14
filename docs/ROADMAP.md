@@ -120,6 +120,22 @@ Zn + HCl and Mg + HCl use the same declarative Rule. Exact balancing derives `1:
 
 M10 advances the independently owned compatibility coordinates to source schema `3.2.0`, Rule DSL `1.1.0`, RulePlan `1.1.0`, and artifact format `1.2.0`. The artifact bump is required by the externally emitted typed ion-source plan shape, while historical artifact formats and legacy ionic-pair Rule syntax remain readable.
 
+## M11 — Bounded alkali-metal + liquid-water hydrogen evolution
+
+M11 adds one bounded reusable family:
+
+```text
+ambient solid water-reactive metal
++ liquid H2O
+-> canonical aqueous metal hydroxide + H2(g)
+```
+
+Elemental Na/K Substances remain distinct from Na/K Elements and carry no fake aqueous speciation. Evidence-backed contextual `metal.water_reactivity = reacts` facts gate the family independently of M10's relative-to-hydrogen facts. Their established `metal.product_cation` relation supplies Na+/K+, while the new generic `exact_entity` ion source supplies canonical OH-. The existing `ionic_pair` resolver selects existing NaOH/KOH; no product identity is minted.
+
+One phase-bounded Rule handles both metals. Exact balancing derives `2:2:2:1`; aqueous product dissociation produces complete and net ionic forms `2 M(s) + 2 H2O(l) -> 2 M+(aq) + 2 OH-(aq) + H2(g)`, which are equal because no spectators cancel. Cu/Zn/Mg remain UNKNOWN for M11 when ambient liquid-water reactivity is absent, and M10 behavior remains unchanged.
+
+M11 advances source schema to `3.3.0`, Rule DSL and RulePlan to `1.2.0`, and artifact format to `1.3.0`. These are independent consequences of exact-ion authoring/reference validation, participant phase authoring/lowering, ambient Reaction conditions, and the externally emitted plan fields. Artifact formats `1.0.0` through `1.2.0` remain readable.
+
 ## Still out of scope
 
 - full high-school chemistry population or wholesale legacy migration;

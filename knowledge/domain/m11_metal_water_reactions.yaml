@@ -1,0 +1,100 @@
+records:
+  - id: rxn_m11_na_water_hydrogen
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_elemental_na, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: liquid}
+      - {target_id: ent_substance_naoh, target_kind: substance, role: product, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_h2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+    conditions:
+      - {key: temperature_regime, value: ambient, evidence_ids: [ev_m11_alkali_metal_water_reactivity]}
+    forms:
+      - form_key: molecular
+        form_kind: molecular
+        participants:
+          - {target_id: ent_substance_elemental_na, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: solid}
+          - {target_id: ent_substance_h2o, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: liquid}
+          - {target_id: ent_substance_naoh, target_kind: substance, role: product, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+          - {target_id: ent_substance_h2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+        projection:
+          method: authored_molecular_v1
+          lifecycle: curated
+          required_assumptions: []
+          notes: ["Canonical molecular form for bounded elemental sodium and ambient liquid-water hydrogen evolution."]
+      - form_key: complete_ionic
+        form_kind: complete_ionic
+        participants:
+          - {target_id: ent_substance_elemental_na, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: solid}
+          - {target_id: ent_substance_h2o, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: liquid}
+          - {target_id: ent_species_na_plus, target_kind: species, role: product, coefficient: {numerator: 2, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_oh_minus, target_kind: species, role: product, coefficient: {numerator: 2, denominator: 1}, phase: dissolved}
+          - {target_id: ent_substance_h2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+        projection:
+          method: aqueous_strong_electrolyte_v1
+          lifecycle: golden
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation]
+          notes: ["Golden complete ionic form retains solid sodium, molecular liquid water, and gaseous hydrogen; only aqueous NaOH dissociates."]
+      - form_key: net_ionic
+        form_kind: net_ionic
+        participants:
+          - {target_id: ent_substance_elemental_na, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: solid}
+          - {target_id: ent_substance_h2o, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: liquid}
+          - {target_id: ent_species_na_plus, target_kind: species, role: product, coefficient: {numerator: 2, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_oh_minus, target_kind: species, role: product, coefficient: {numerator: 2, denominator: 1}, phase: dissolved}
+          - {target_id: ent_substance_h2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+        projection:
+          method: cancel_spectator_ions_v1
+          lifecycle: golden
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation]
+          notes: ["No spectator ion is present, so the normalized net ionic form equals the complete ionic form."]
+    evidence_ids: [ev_m11_alkali_metal_water_reactivity, ev_m11_alkali_metal_identity_and_cations]
+
+  - id: rxn_m11_k_water_hydrogen
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_elemental_k, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: liquid}
+      - {target_id: ent_substance_koh, target_kind: substance, role: product, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_h2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+    conditions:
+      - {key: temperature_regime, value: ambient, evidence_ids: [ev_m11_alkali_metal_water_reactivity]}
+    forms:
+      - form_key: molecular
+        form_kind: molecular
+        participants:
+          - {target_id: ent_substance_elemental_k, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: solid}
+          - {target_id: ent_substance_h2o, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: liquid}
+          - {target_id: ent_substance_koh, target_kind: substance, role: product, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+          - {target_id: ent_substance_h2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+        projection:
+          method: authored_molecular_v1
+          lifecycle: curated
+          required_assumptions: []
+          notes: ["Canonical molecular form for bounded elemental potassium and ambient liquid-water hydrogen evolution."]
+      - form_key: complete_ionic
+        form_kind: complete_ionic
+        participants:
+          - {target_id: ent_substance_elemental_k, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: solid}
+          - {target_id: ent_substance_h2o, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: liquid}
+          - {target_id: ent_species_k_plus, target_kind: species, role: product, coefficient: {numerator: 2, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_oh_minus, target_kind: species, role: product, coefficient: {numerator: 2, denominator: 1}, phase: dissolved}
+          - {target_id: ent_substance_h2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+        projection:
+          method: aqueous_strong_electrolyte_v1
+          lifecycle: golden
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation]
+          notes: ["Golden complete ionic form retains solid potassium, molecular liquid water, and gaseous hydrogen; only aqueous KOH dissociates."]
+      - form_key: net_ionic
+        form_kind: net_ionic
+        participants:
+          - {target_id: ent_substance_elemental_k, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: solid}
+          - {target_id: ent_substance_h2o, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: liquid}
+          - {target_id: ent_species_k_plus, target_kind: species, role: product, coefficient: {numerator: 2, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_oh_minus, target_kind: species, role: product, coefficient: {numerator: 2, denominator: 1}, phase: dissolved}
+          - {target_id: ent_substance_h2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+        projection:
+          method: cancel_spectator_ions_v1
+          lifecycle: golden
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation]
+          notes: ["No spectator ion is present, so the normalized net ionic form equals the complete ionic form."]
+    evidence_ids: [ev_m11_alkali_metal_water_reactivity, ev_m11_alkali_metal_identity_and_cations]

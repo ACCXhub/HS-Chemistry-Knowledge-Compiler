@@ -1,6 +1,6 @@
 # Canonical Data Model
 
-Status: **M10 executable relation assertions and typed product-ion sources**
+Status: **M11 exact canonical ion sources and phase-bounded Rule plans**
 
 This document defines canonical source-record semantics. M4 converges the executable Rule/fact/speciation/TeachingView/ReactionForm/artifact subset without narrowing the broader model.
 
@@ -238,6 +238,7 @@ M4 participant patterns may combine:
 - exact `target_id` where chemistry is identity-specific;
 - `entity_kind`;
 - `species_kind`;
+- participant `phase`;
 - required facets;
 - forbidden facets.
 
@@ -290,6 +291,16 @@ M10 extends `ionic_pair` with typed ion sources:
 
 Once both canonical ion Species resolve, the existing neutral ionic-pair resolver remains the sole owner of exact charge/composition matching. Historical `cation_from`/`anion_from` Rule source remains valid and lowers to equivalent `speciation` ion sources.
 
+M11 adds an exact canonical ion source:
+
+```yaml
+anion_source:
+  kind: exact_entity
+  target_id: ent_species_oh_minus
+```
+
+The target must resolve to a canonical ion Species with the sign required by its cation/anion position. This source carries no reactant binding and does not create a speciation assertion for water or any other Entity.
+
 ## 11. TeachingView
 
 ```yaml
@@ -314,15 +325,15 @@ Evidence/provenance must remain traceable through compiler output when a generat
 
 External generated artifacts remain contract-owned and reproducible. The four compatibility coordinates remain independent:
 
-| Coordinate | M10 value |
+| Coordinate | M11 value |
 | --- | --- |
-| source schema | `3.2.0` |
-| Rule DSL | `1.1.0` |
-| internal RulePlan | `1.1.0` |
-| external artifact format | `1.2.0` |
+| source schema | `3.3.0` |
+| Rule DSL | `1.2.0` |
+| internal RulePlan | `1.2.0` |
+| external artifact format | `1.3.0` |
 
 Manifests carry all four coordinates. External payloads carry `artifact_format_version`; consumers must reject unsupported artifact-format versions rather than inferring payload compatibility from compiler package version alone.
 
-Artifact `1.2.0` is required because externally emitted compiled products now contain nested typed ion sources; this is not inferred from the internal version bump. The reference reader still accepts artifact formats `1.0.0` and `1.1.0`.
+Artifact `1.3.0` is required because externally emitted compiled plans now contain `IonSourcePlan.target_id` and `ParticipantPatternPlan.phase`; this is not inferred from the internal version bump. The reference reader still accepts artifact formats `1.0.0`, `1.1.0`, and `1.2.0`.
 
 Compiler-internal plans, indexes, caches, and dense runtime IDs remain implementation details rather than canonical source contracts.

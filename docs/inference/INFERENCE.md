@@ -1,17 +1,17 @@
 # Deterministic Reaction Inference Semantics
 
-Status: **M10 typed relation-backed product construction**
+Status: **M11 phase-bounded relation + exact-ion product construction**
 
 ## Pipeline
 
 ```text
 input normalization
 → reference/context resolution
-→ structural participant binding candidates
+→ structural participant identity/kind/phase binding candidates
 → typed predicate evaluation (TRUE/FALSE/UNKNOWN)
 → blockers
 → applicable-rule resolution graph
-→ typed relation/speciation ion-source resolution
+→ typed relation/speciation/exact-entity ion-source resolution
 → typed product construction
 → canonical entity resolution
 → exact balancing
@@ -26,7 +26,7 @@ The implementation may short-circuit only where the observable result and proof 
 
 ## Matching and UNKNOWN
 
-Participant binding uses canonical identity/kind constraints. Required/forbidden facets and context conditions use the typed predicate registry. Multiple possible participant bindings are evaluated deterministically; a failed arbitrary binding cannot suppress another valid binding.
+Participant binding uses canonical identity/kind/phase constraints. Required/forbidden facets and context conditions use the typed predicate registry. Multiple possible participant bindings are evaluated deterministically; a failed arbitrary binding cannot suppress another valid binding.
 
 Missing/open-world knowledge is `UNKNOWN`, not false. Explicit `unknown`, `not_applicable`, and absent facts remain distinguishable in the trace.
 
@@ -43,6 +43,8 @@ Products resolve only through bounded canonical constructors. Ionic-pair constru
 When ionic-pair construction consumes bound aqueous reactants, the generated candidate and `products.constructed` proof event retain the normalized profile key, model, target, and evidence IDs for each speciation profile used. When it consumes a one-hop relation target, they separately retain source ID, controlled relation key, target ID, normalized context, and evidence IDs. Relation provenance is omitted for candidates that did not use a relation. This metadata is deterministic and does not create a second source of chemistry truth.
 
 M10 uses this boundary for `elemental metal -> product cation` plus `acid -> speciated anion`. Solid metals never receive fake aqueous speciation, and the compiler does not guess oxidation state or valence. Missing or ambiguous relation targets produce structured relation-resolution diagnostics before balancing.
+
+M11 reuses the relation path for the metal cation and resolves OH- through an exact canonical ion source. The fixed ion is not attributed to water speciation. Solid-metal and liquid-water phase constraints are checked before predicates; `metal.water_reactivity` is a separate ambient contextual fact, so M10 activity relative to hydrogen cannot make Zn/Mg water positives. Missing reactivity remains UNKNOWN, while a missing cation relation or exact ion target is an explicit resolution failure once the Rule is otherwise applicable.
 
 Balancing receives fixed canonical reactants/products and uses exact arithmetic. The M6 carbonate family demonstrates that multi-proton molecular stoichiometry follows from canonical composition after product identities are fixed; no Rule or engine branch supplies coefficients. Atom and charge validation are separate stages and diagnostics.
 

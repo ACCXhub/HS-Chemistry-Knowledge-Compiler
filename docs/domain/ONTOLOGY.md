@@ -1,6 +1,6 @@
 # Canonical Domain Ontology
 
-Status: **M10 canonical ontology with a bounded executable relation subset**
+Status: **M11 canonical ontology with bounded metal-water behavior**
 
 ## 1. Modeling rule
 
@@ -62,6 +62,8 @@ Typical contextual dimensions include phase, solvent/medium, concentration, temp
 Contextual chemistry properties may also bound reaction-family applicability. For example, acid strength and acid redox character are separate facts; knowing that an acid is strong does not establish that a non-oxidizing pathway applies.
 
 Metal activity relative to hydrogen is likewise contextual chemistry knowledge, not a reaction-result facet. M10 uses only the evidence-backed controlled values `above` and `below`; it does not infer a numeric activity series or electrode potentials.
+
+M11 keeps ambient liquid-water reactivity independent from activity relative to hydrogen. `metal.water_reactivity = reacts` is a contextual PropertyFact qualified by `temperature_regime = ambient`, not a classification facet or reaction name. Missing values remain UNKNOWN; no rule derives this fact from `classification.metal` or from M10 activity knowledge.
 
 ## 6. Relations
 

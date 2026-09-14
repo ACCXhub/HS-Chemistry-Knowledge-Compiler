@@ -1,6 +1,6 @@
 # Schema Strategy
 
-Status: **M10 relation assertion, typed ion-source, and artifact contract**
+Status: **M11 exact ion-source, participant-phase, and artifact contract**
 
 ## 1. Authoring boundary
 
@@ -14,7 +14,7 @@ The active source schema is:
 
 ```text
 schemas/knowledge-record.schema.json
-source schema version: 3.2.0
+source schema version: 3.3.0
 ```
 
 It covers the M4 executable subset of:
@@ -76,6 +76,7 @@ A participant pattern may constrain a binding by:
 - exact canonical `target_id` when identity-specific behavior is required;
 - `entity_kind`;
 - `species_kind`;
+- participant `phase`;
 - required facets;
 - forbidden facets.
 
@@ -83,7 +84,7 @@ Predicates use the versioned Rule DSL operator names rather than Python function
 
 Rule relationships are explicit source semantics: `overrides`, `specializes`, `fallback_for`, `equivalent_to`, and `mutually_exclusive_with`.
 
-Product templates may use an exact canonical ID or bounded semantic-key, ionic-pair, and exchange-product resolvers. M10 ionic-pair products may source each ion from canonical speciation or a controlled one-hop relation target; construction uses canonical compositions/speciation/relations and never creates a new canonical entity. Historical `cation_from`/`anion_from` syntax remains accepted and lowers to speciation ion sources.
+Product templates may use an exact canonical ID or bounded semantic-key, ionic-pair, and exchange-product resolvers. Ionic-pair products may source each ion from canonical speciation, a controlled one-hop relation target, or one exact canonical ion Species. Exact ion sources are reference-, kind-, and sign-validated; construction uses canonical compositions/speciation/relations and never creates a new canonical entity. Historical `cation_from`/`anion_from` syntax remains accepted and lowers to speciation ion sources.
 
 ## 6. ReactionForm projection contract
 
@@ -102,18 +103,18 @@ A consumer/compiler may expose the form only when the required assumptions and c
 
 M4 separates four compatibility coordinates:
 
-| Coordinate | M10 value | Owner |
+| Coordinate | M11 value | Owner |
 | --- | --- | --- |
-| source schema | `3.2.0` | source/data contract |
-| Rule DSL | `1.1.0` | rule source contract |
-| compiler RulePlan | `1.1.0` | compiler internal contract |
-| external artifact format | `1.2.0` | external generated contract |
+| source schema | `3.3.0` | source/data contract |
+| Rule DSL | `1.2.0` | rule source contract |
+| compiler RulePlan | `1.2.0` | compiler internal contract |
+| external artifact format | `1.3.0` | external generated contract |
 
 These axes are intentionally independent. A source schema change does not automatically imply an external artifact-format change, and an internal RulePlan revision is not a source DSL revision by definition.
 
 M4 does not promise long-term backward compatibility beyond these explicit coordinates.
 
-The `1.2.0` reader accepts historical artifact formats `1.0.0` and `1.1.0`. Existing source Reaction records may omit `conditions`, Entity records may omit `relation_assertions`, and legacy ionic-pair Rules may retain `cation_from`/`anion_from`. The artifact bump is independently required because `compiled-rule-plans.json` now emits nested typed ion-source objects that a `1.1.0` consumer cannot safely interpret.
+The `1.3.0` reader accepts historical artifact formats `1.0.0`, `1.1.0`, and `1.2.0`. Existing source Reaction records may omit `conditions`, Entity records may omit `relation_assertions`, participant patterns may omit `phase`, and legacy ionic-pair Rules may retain `cation_from`/`anion_from`. The artifact bump is independently required because `compiled-rule-plans.json` now emits exact-ion target and participant-phase fields that a `1.2.0` consumer cannot safely interpret.
 
 ## 8. Generated artifacts
 

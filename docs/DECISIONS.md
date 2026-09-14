@@ -1,6 +1,6 @@
 # Architecture Decision Log
 
-Status: **M10 bounded metal/acid hydrogen-evolution decisions**
+Status: **M11 bounded alkali-metal/liquid-water hydrogen-evolution decisions**
 
 ## ADR-F1-001 — Entity-kind alignment
 
@@ -232,3 +232,21 @@ M10 represents Mg, Zn, and Cu Element identities separately from their elemental
 One declarative Rule requires an elemental metal classified as a metal and above hydrogen, an aqueous strong/strong-electrolyte acid with `acid.redox_character = non_oxidizing`, and resolves the canonical chloride plus H2(g). Exact balancing derives `metal : HCl : metal chloride : H2 = 1:2:1:1`. Canonical complete/net ionic projection retains the solid metal, dissociates only HCl and the soluble product salt, cancels chloride, and yields `Zn + 2 H+ -> Zn2+ + H2` or `Mg + 2 H+ -> Mg2+ + H2`.
 
 Cu's M10 binding fails on a known activity predicate and emits no hydrogen candidate. The overall open-world result may remain indeterminate because other structurally possible families/bindings lack facts; this does not weaken the known M10 failure. HNO3 has no fabricated non-oxidizing compatibility value, so Zn/HNO3 remains UNKNOWN. Numeric electrode potentials, oxidation-state inference, electron/half-reaction balancing, variable-valence metals, passivation, concentration effects, and general redox inference remain deferred.
+
+## ADR-M11-001 — Exact canonical ion sources and phase-bounded participant patterns
+
+M11 adds `exact_entity` as the third typed `IonSourcePlan` kind. It means “use this exact canonical ion Species”: source/reference validation requires the target to exist, be an ion, and have the sign required by its cation/anion position. Runtime resolution repeats the same bounded checks for altered in-memory knowledge, includes the target Entity's evidence, and then delegates unchanged charge/composition matching to `ionic_pair`. It does not parse formulas, create an Entity, or introduce a hydroxide-specific constructor.
+
+Reactant patterns may now constrain an authored participant `phase`. Phase is checked against the normalized input participant before predicate evaluation and also participates in conservative same-domain overlap analysis. M11 uses this generic constraint to require solid metal and liquid H2O; a gas-phase water input cannot enter the liquid-water Rule. Embedded Reaction conditions now admit the controlled `temperature_regime = ambient` value so the canonical Na/K records state their bounded condition explicitly.
+
+These source changes advance source schema to `3.3.0`. The new `exact_entity` ion-source syntax and participant `phase` constraint advance Rule DSL to `1.2.0`; their lowered `IonSourcePlan.target_id` and `ParticipantPatternPlan.phase` fields advance RulePlan to `1.2.0`. Because `compiled-rule-plans.json` exposes those fields, artifact format independently advances to `1.3.0`. The reference reader continues to accept artifact formats `1.0.0`, `1.1.0`, and `1.2.0`.
+
+## ADR-M11-002 — Bounded alkali-metal/liquid-water hydrogen evolution
+
+Elemental Na and K are canonical solid Substances distinct from their Element identities. They own evidence-backed `metal.water_reactivity = reacts` facts qualified by `temperature_regime = ambient` and one-hop `metal.product_cation` relations to canonical Na+ and K+. The relation assertions are unqualified because the product-cation identity is not itself a medium-dependent dissociation claim; M10's existing aqueous-qualified Mg/Zn assertions remain unchanged. No elemental metal and no H2O record receives a speciation profile.
+
+One Rule matches a solid classified metal plus exact liquid H2O, requires the ambient water-reactivity fact, and constructs the hydroxide through relation-derived cation + exact canonical OH- + the existing neutral `ionic_pair` resolver. Existing H2 is the other exact product. The exact balancer derives `2 metal : 2 H2O : 2 hydroxide : 1 H2` for both Na and K; there is no exact Na/K engine branch and no fabricated product identity.
+
+Canonical Na/K Reactions require ambient temperature. Aqueous hydroxide product speciation yields `2 M(s) + 2 H2O(l) -> 2 M+(aq) + 2 OH-(aq) + H2(g)`; because there are no spectators, complete and net ionic forms are semantically equal. Cu, Zn, and Mg lack the M11 water-reactivity fact and remain UNKNOWN rather than being promoted from M10 activity facts. A separate `metal_liquid_water_hydrogen` decision domain is structurally and semantically distinct from M10's acid-displacement domain, so no synthetic rule relationship or priority is added.
+
+Steam/hot-water chemistry, calcium, passivation, activity-series ordering, variable valence, oxidation states, half-reactions, electron balancing, and general metal/water or redox inference remain deferred.

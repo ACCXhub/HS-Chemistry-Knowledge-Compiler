@@ -1,0 +1,48 @@
+records:
+  - id: ev_m11_alkali_metal_water_reactivity
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "OpenStax Chemistry 2e section 18.1 states that all alkali metals react vigorously with water to form hydrogen gas and a basic solution of the metal hydroxide; this supports the bounded ambient liquid-water reactivity facts for elemental sodium and potassium."
+    stance: supports
+
+  - id: ev_m11_alkali_metal_identity_and_cations
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "Supports sodium and potassium as group-1 elemental metals, their distinct elemental-substance identities, and their canonical monovalent product cations in the represented alkali-metal hydroxides."
+    stance: supports
+
+  - id: ent_substance_elemental_na
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: elemental sodium}
+    semantic_keys: [{scheme: formula.elemental_basis, value: Na}]
+    payload:
+      substance_kind: elemental
+      composition:
+        components: [{element_id: ent_element_na, count: 1}]
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.metal, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m11_alkali_metal_identity_and_cations]}
+    property_assertions:
+      - {property_key: metal.water_reactivity, value_state: known, value: reacts, fact_kind: contextual, context: {temperature_regime: ambient}, evidence_ids: [ev_m11_alkali_metal_water_reactivity]}
+    relation_assertions:
+      - {relation_key: metal.product_cation, target_id: ent_species_na_plus, context: {}, evidence_ids: [ev_m11_alkali_metal_identity_and_cations]}
+    evidence_ids: [ev_m11_alkali_metal_identity_and_cations, ev_m11_alkali_metal_water_reactivity]
+
+  - id: ent_substance_elemental_k
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: elemental potassium}
+    semantic_keys: [{scheme: formula.elemental_basis, value: K}]
+    payload:
+      substance_kind: elemental
+      composition:
+        components: [{element_id: ent_element_k, count: 1}]
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.metal, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m11_alkali_metal_identity_and_cations]}
+    property_assertions:
+      - {property_key: metal.water_reactivity, value_state: known, value: reacts, fact_kind: contextual, context: {temperature_regime: ambient}, evidence_ids: [ev_m11_alkali_metal_water_reactivity]}
+    relation_assertions:
+      - {relation_key: metal.product_cation, target_id: ent_species_k_plus, context: {}, evidence_ids: [ev_m11_alkali_metal_identity_and_cations]}
+    evidence_ids: [ev_m11_alkali_metal_identity_and_cations, ev_m11_alkali_metal_water_reactivity]

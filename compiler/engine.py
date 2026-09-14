@@ -146,7 +146,7 @@ def infer_case(kb: KnowledgeBase, plans: tuple[RulePlan, ...], case: dict[str, A
     applicable: dict[str, dict[str, str]] = {}
 
     for plan in plans:
-        binding_candidates = bind_rule_candidates(plan, reactants, kb)
+        binding_candidates = bind_rule_candidates(plan, reactants, kb, reactant_phases)
         if not binding_candidates:
             continue
         matched_any = True
