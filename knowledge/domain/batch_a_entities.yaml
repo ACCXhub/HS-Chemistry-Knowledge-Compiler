@@ -1,0 +1,422 @@
+records:
+  - id: ev_batch_a_ionic_identity_and_solubility
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "OpenStax Chemistry 2e sections 2.6 and 4.2 support the authored ionic-compound formulas and ion charges, complete ionic-equation treatment of soluble strong electrolytes, solubility of Group 1, ammonium, and nitrate salts, the stated halide and sulfate exceptions, and general insolubility of carbonates outside the listed exceptions."
+    stance: supports
+
+  - id: ev_batch_a_element_identities
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "OpenStax Chemistry 2e section 2.5 identifies calcium (Ca), bromine (Br), and iodine (I); section 2.6 explicitly describes calcium with 20 protons and bromine with 35 protons; the textbook periodic table supplies iodine atomic number 53; and section 18.11 identifies bromine and iodine as halogens."
+    stance: supports
+
+  - id: ent_substance_khco3
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: potassium hydrogen carbonate, aliases: [potassium bicarbonate]}
+    semantic_keys: [{scheme: formula.unit, value: KHCO3}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_k, count: 1}
+          - {element_id: ent_element_h, count: 1}
+          - {element_id: ent_element_c, count: 1}
+          - {element_id: ent_element_o, count: 3}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {facet_key: classification.hydrogen_carbonate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_f3b_carbonate_acid]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_k_plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_hco3_minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility, ev_f3b_carbonate_acid]
+
+  - id: ent_substance_k2so4
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: potassium sulfate}
+    semantic_keys: [{scheme: formula.unit, value: K2SO4}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_k, count: 2}
+          - {element_id: ent_element_s, count: 1}
+          - {element_id: ent_element_o, count: 4}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {facet_key: classification.sulfate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_k_plus, coefficient: {numerator: 2, denominator: 1}}
+          - {target_id: ent_species_so4_2minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: ent_substance_nh4no3
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: ammonium nitrate}
+    semantic_keys: [{scheme: formula.unit, value: NH4NO3}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_n, count: 2}
+          - {element_id: ent_element_h, count: 4}
+          - {element_id: ent_element_o, count: 3}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {facet_key: classification.ammonium, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m7_ammonium_identity_speciation]}
+      - {facet_key: classification.nitrate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility, ev_m7_ammonium_identity_speciation]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_nh4_plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_no3_minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_batch_a_ionic_identity_and_solubility, ev_m7_ammonium_identity_speciation]
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility, ev_m7_ammonium_identity_speciation]
+
+  - id: ent_element_br
+    record_type: entity
+    entity_kind: element
+    terms: {preferred: bromine}
+    semantic_keys: [{scheme: element.symbol, value: Br}]
+    payload: {atomic_number: 35, symbol: Br}
+    evidence_ids: [ev_batch_a_element_identities]
+
+  - id: ent_species_br_minus
+    record_type: entity
+    entity_kind: species
+    terms: {preferred: bromide ion}
+    semantic_keys: [{scheme: formula.ion, value: Br-}]
+    payload:
+      species_kind: ion
+      formal_charge: -1
+      composition:
+        components: [{element_id: ent_element_br, count: 1}]
+        net_charge: -1
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: ent_element_i
+    record_type: entity
+    entity_kind: element
+    terms: {preferred: iodine}
+    semantic_keys: [{scheme: element.symbol, value: I}]
+    payload: {atomic_number: 53, symbol: I}
+    evidence_ids: [ev_batch_a_element_identities]
+
+  - id: ent_species_i_minus
+    record_type: entity
+    entity_kind: species
+    terms: {preferred: iodide ion}
+    semantic_keys: [{scheme: formula.ion, value: I-}]
+    payload:
+      species_kind: ion
+      formal_charge: -1
+      composition:
+        components: [{element_id: ent_element_i, count: 1}]
+        net_charge: -1
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: ent_substance_nabr
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: sodium bromide}
+    semantic_keys: [{scheme: formula.unit, value: NaBr}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components: [{element_id: ent_element_na, count: 1}, {element_id: ent_element_br, count: 1}]
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {facet_key: classification.bromide, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_na_plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_br_minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: ent_substance_kbr
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: potassium bromide}
+    semantic_keys: [{scheme: formula.unit, value: KBr}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components: [{element_id: ent_element_k, count: 1}, {element_id: ent_element_br, count: 1}]
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {facet_key: classification.bromide, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_k_plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_br_minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: ent_substance_agbr
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: silver bromide}
+    semantic_keys: [{scheme: formula.unit, value: AgBr}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components: [{element_id: ent_element_ag, count: 1}, {element_id: ent_element_br, count: 1}]
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {facet_key: classification.bromide, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    property_assertions:
+      - {property_key: solubility.class, value_state: known, value: insoluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: ent_substance_nai
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: sodium iodide}
+    semantic_keys: [{scheme: formula.unit, value: NaI}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components: [{element_id: ent_element_na, count: 1}, {element_id: ent_element_i, count: 1}]
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {facet_key: classification.iodide, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_na_plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_i_minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: ent_substance_ki
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: potassium iodide}
+    semantic_keys: [{scheme: formula.unit, value: KI}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components: [{element_id: ent_element_k, count: 1}, {element_id: ent_element_i, count: 1}]
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {facet_key: classification.iodide, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_k_plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_i_minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: ent_substance_agi
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: silver iodide}
+    semantic_keys: [{scheme: formula.unit, value: AgI}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components: [{element_id: ent_element_ag, count: 1}, {element_id: ent_element_i, count: 1}]
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {facet_key: classification.iodide, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    property_assertions:
+      - {property_key: solubility.class, value_state: known, value: insoluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: ent_substance_cucl2
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: copper(II) chloride}
+    semantic_keys: [{scheme: formula.unit, value: CuCl2}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components: [{element_id: ent_element_cu, count: 1}, {element_id: ent_element_cl, count: 2}]
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {facet_key: classification.chloride, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_cu_2plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_cl_minus, coefficient: {numerator: 2, denominator: 1}}
+        evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: ent_element_ca
+    record_type: entity
+    entity_kind: element
+    terms: {preferred: calcium}
+    semantic_keys: [{scheme: element.symbol, value: Ca}]
+    payload: {atomic_number: 20, symbol: Ca}
+    evidence_ids: [ev_batch_a_element_identities]
+
+  - id: ent_species_ca_2plus
+    record_type: entity
+    entity_kind: species
+    terms: {preferred: calcium ion}
+    semantic_keys: [{scheme: formula.ion, value: Ca2+}]
+    payload:
+      species_kind: ion
+      formal_charge: 2
+      composition:
+        components: [{element_id: ent_element_ca, count: 1}]
+        net_charge: 2
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: ent_substance_cacl2
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: calcium chloride}
+    semantic_keys: [{scheme: formula.unit, value: CaCl2}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components: [{element_id: ent_element_ca, count: 1}, {element_id: ent_element_cl, count: 2}]
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {facet_key: classification.chloride, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_ca_2plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_cl_minus, coefficient: {numerator: 2, denominator: 1}}
+        evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: ent_substance_caco3
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: calcium carbonate}
+    semantic_keys: [{scheme: formula.unit, value: CaCO3}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components: [{element_id: ent_element_ca, count: 1}, {element_id: ent_element_c, count: 1}, {element_id: ent_element_o, count: 3}]
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {facet_key: classification.carbonate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    property_assertions:
+      - {property_key: solubility.class, value_state: known, value: insoluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: ent_substance_baco3
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: barium carbonate}
+    semantic_keys: [{scheme: formula.unit, value: BaCO3}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components: [{element_id: ent_element_ba, count: 1}, {element_id: ent_element_c, count: 1}, {element_id: ent_element_o, count: 3}]
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {facet_key: classification.carbonate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    property_assertions:
+      - {property_key: solubility.class, value_state: known, value: insoluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: ent_substance_mgco3
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: magnesium carbonate}
+    semantic_keys: [{scheme: formula.unit, value: MgCO3}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components: [{element_id: ent_element_mg, count: 1}, {element_id: ent_element_c, count: 1}, {element_id: ent_element_o, count: 3}]
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {facet_key: classification.carbonate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    property_assertions:
+      - {property_key: solubility.class, value_state: known, value: insoluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: ent_substance_znco3
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: zinc carbonate}
+    semantic_keys: [{scheme: formula.unit, value: ZnCO3}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components: [{element_id: ent_element_zn, count: 1}, {element_id: ent_element_c, count: 1}, {element_id: ent_element_o, count: 3}]
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+      - {facet_key: classification.carbonate, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    property_assertions:
+      - {property_key: solubility.class, value_state: known, value: insoluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_batch_a_ionic_identity_and_solubility]}
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]

@@ -1,0 +1,290 @@
+records:
+  - id: rxn_batch_a_hcl_koh_neutralization
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_hcl, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_koh, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_kcl, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+    forms: []
+    evidence_ids: [ev_f3b_strong_acid_base]
+
+  - id: rxn_batch_a_hno3_naoh_neutralization
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_hno3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_naoh, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_nano3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+    forms: []
+    evidence_ids: [ev_f3b_strong_acid_base]
+
+  - id: rxn_batch_a_hcl_khco3_gas_evolution
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_hcl, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_khco3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_kcl, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_co2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+    forms: []
+    evidence_ids: [ev_f3b_carbonate_acid, ev_f3b_strong_acid_base]
+
+  - id: rxn_batch_a_hno3_khco3_gas_evolution
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_hno3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_khco3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_kno3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_co2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+    forms: []
+    evidence_ids: [ev_f3b_carbonate_acid, ev_f3b_strong_acid_base]
+
+  - id: rxn_batch_a_hno3_k2co3_gas_evolution
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_hno3, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_k2co3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_kno3, target_kind: substance, role: product, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_co2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+    forms: []
+    evidence_ids: [ev_f3b_carbonate_acid, ev_f3b_strong_acid_base]
+
+  - id: rxn_batch_a_hno3_k2so3_gas_evolution
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_hno3, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_k2so3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_kno3, target_kind: substance, role: product, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_so2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+    forms: []
+    evidence_ids: [ev_f3b_strong_acid_base, ev_m8_sulfite_identity_speciation, ev_m8_sulfite_acid]
+
+  - id: rxn_batch_a_nh4cl_koh
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_nh4cl, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_koh, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_kcl, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_nh3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+    conditions:
+      - {key: medium, value: aqueous, evidence_ids: [ev_m7_ammonium_hydroxide_aqueous]}
+      - {key: temperature_regime, value: warmed, evidence_ids: [ev_m7_ammonia_warmed_test]}
+    forms: []
+    evidence_ids: [ev_m7_ammonium_identity_speciation, ev_m7_ammonium_hydroxide_aqueous, ev_m7_ammonia_warmed_test]
+
+  - id: rxn_batch_a_nh4_2so4_koh
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_nh4_2so4, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_koh, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_k2so4, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_nh3, target_kind: substance, role: product, coefficient: {numerator: 2, denominator: 1}, phase: gas}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 2, denominator: 1}, phase: liquid}
+    conditions:
+      - {key: medium, value: aqueous, evidence_ids: [ev_m7_ammonium_hydroxide_aqueous]}
+      - {key: temperature_regime, value: warmed, evidence_ids: [ev_m7_ammonia_warmed_test]}
+    forms: []
+    evidence_ids: [ev_m7_ammonium_identity_speciation, ev_m7_ammonium_hydroxide_aqueous, ev_m7_ammonia_warmed_test]
+
+  - id: rxn_batch_a_nh4no3_naoh
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_nh4no3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_naoh, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_nano3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_nh3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+    conditions:
+      - {key: medium, value: aqueous, evidence_ids: [ev_m7_ammonium_hydroxide_aqueous]}
+      - {key: temperature_regime, value: warmed, evidence_ids: [ev_m7_ammonia_warmed_test]}
+    forms: []
+    evidence_ids: [ev_m7_ammonium_identity_speciation, ev_m7_ammonium_hydroxide_aqueous, ev_m7_ammonia_warmed_test]
+
+  - id: rxn_batch_a_nh4no3_koh
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_nh4no3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_koh, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_kno3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_nh3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+    conditions:
+      - {key: medium, value: aqueous, evidence_ids: [ev_m7_ammonium_hydroxide_aqueous]}
+      - {key: temperature_regime, value: warmed, evidence_ids: [ev_m7_ammonia_warmed_test]}
+    forms: []
+    evidence_ids: [ev_m7_ammonium_identity_speciation, ev_m7_ammonium_hydroxide_aqueous, ev_m7_ammonia_warmed_test]
+
+  - id: rxn_batch_a_agno3_kcl
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_agno3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_kcl, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_agcl, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_kno3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+    forms: []
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: rxn_batch_a_agno3_nabr
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_agno3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_nabr, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_agbr, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_nano3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+    forms: []
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: rxn_batch_a_agno3_kbr
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_agno3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_kbr, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_agbr, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_kno3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+    forms: []
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: rxn_batch_a_agno3_nai
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_agno3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_nai, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_agi, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_nano3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+    forms: []
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: rxn_batch_a_agno3_ki
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_agno3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_ki, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_agi, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_kno3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+    forms: []
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: rxn_batch_a_bacl2_k2so4
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_bacl2, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_k2so4, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_baso4, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_kcl, target_kind: substance, role: product, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+    forms: []
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: rxn_batch_a_bacl2_mgso4
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_bacl2, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_mgso4, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_baso4, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_mgcl2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+    forms: []
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: rxn_batch_a_bacl2_znso4
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_bacl2, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_znso4, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_baso4, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_zncl2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+    forms: []
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: rxn_batch_a_bacl2_cuso4
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_bacl2, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_cuso4, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_baso4, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_cucl2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+    forms: []
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: rxn_batch_a_cacl2_na2co3
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_cacl2, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_na2co3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_caco3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_nacl, target_kind: substance, role: product, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+    forms: []
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: rxn_batch_a_cacl2_k2co3
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_cacl2, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_k2co3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_caco3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_kcl, target_kind: substance, role: product, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+    forms: []
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: rxn_batch_a_bacl2_na2co3
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_bacl2, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_na2co3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_baco3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_nacl, target_kind: substance, role: product, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+    forms: []
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: rxn_batch_a_bacl2_k2co3
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_bacl2, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_k2co3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_baco3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_kcl, target_kind: substance, role: product, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+    forms: []
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: rxn_batch_a_mgso4_na2co3
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_mgso4, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_na2co3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_mgco3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_na2so4, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+    forms: []
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: rxn_batch_a_mgso4_k2co3
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_mgso4, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_k2co3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_mgco3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_k2so4, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+    forms: []
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: rxn_batch_a_znso4_na2co3
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_znso4, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_na2co3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_znco3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_na2so4, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+    forms: []
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]
+
+  - id: rxn_batch_a_znso4_k2co3
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_znso4, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_k2co3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_znco3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_k2so4, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+    forms: []
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility]

@@ -168,6 +168,14 @@ def test_teaching_view_contains_both_reusable_gas_evolution_cases() -> None:
         "rxn_m8_hcl_k2so3_gas_evolution",
         "rxn_m9_hcl_na2s2o3_decomposition",
         "rxn_m9_hcl_k2s2o3_decomposition",
+        "rxn_batch_a_hcl_khco3_gas_evolution",
+        "rxn_batch_a_hno3_khco3_gas_evolution",
+        "rxn_batch_a_hno3_k2co3_gas_evolution",
+        "rxn_batch_a_hno3_k2so3_gas_evolution",
+        "rxn_batch_a_nh4cl_koh",
+        "rxn_batch_a_nh4_2so4_koh",
+        "rxn_batch_a_nh4no3_naoh",
+        "rxn_batch_a_nh4no3_koh",
     }
 
 

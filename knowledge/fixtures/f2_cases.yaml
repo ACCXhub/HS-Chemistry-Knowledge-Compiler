@@ -280,3 +280,195 @@ cases:
       - {target_id: ent_substance_elemental_cu, phase: solid}
       - {target_id: ent_substance_agno3, phase: aqueous}
     context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_hcl_koh
+    reactants:
+      - {target_id: ent_substance_hcl, phase: aqueous}
+      - {target_id: ent_substance_koh, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_hno3_naoh
+    reactants:
+      - {target_id: ent_substance_hno3, phase: aqueous}
+      - {target_id: ent_substance_naoh, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_hno3_koh
+    reactants:
+      - {target_id: ent_substance_hno3, phase: aqueous}
+      - {target_id: ent_substance_koh, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_hcl_khco3
+    reactants:
+      - {target_id: ent_substance_hcl, phase: aqueous}
+      - {target_id: ent_substance_khco3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_hno3_khco3
+    reactants:
+      - {target_id: ent_substance_hno3, phase: aqueous}
+      - {target_id: ent_substance_khco3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_hno3_k2co3
+    reactants:
+      - {target_id: ent_substance_hno3, phase: aqueous}
+      - {target_id: ent_substance_k2co3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_hno3_k2so3
+    reactants:
+      - {target_id: ent_substance_hno3, phase: aqueous}
+      - {target_id: ent_substance_k2so3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_nh4cl_koh
+    reactants:
+      - {target_id: ent_substance_nh4cl, phase: aqueous}
+      - {target_id: ent_substance_koh, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: warmed}
+
+  - id: case_batch_a_nh4_2so4_koh
+    reactants:
+      - {target_id: ent_substance_nh4_2so4, phase: aqueous}
+      - {target_id: ent_substance_koh, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: warmed}
+
+  - id: case_batch_a_nh4no3_naoh
+    reactants:
+      - {target_id: ent_substance_nh4no3, phase: aqueous}
+      - {target_id: ent_substance_naoh, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: warmed}
+
+  - id: case_batch_a_nh4no3_koh
+    reactants:
+      - {target_id: ent_substance_nh4no3, phase: aqueous}
+      - {target_id: ent_substance_koh, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: warmed}
+
+  - id: case_batch_a_nh4no3_koh_unknown_temperature
+    reactants:
+      - {target_id: ent_substance_nh4no3, phase: aqueous}
+      - {target_id: ent_substance_koh, phase: aqueous}
+    context: {medium: aqueous}
+
+  - id: case_batch_a_agno3_kcl
+    reactants:
+      - {target_id: ent_substance_agno3, phase: aqueous}
+      - {target_id: ent_substance_kcl, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_agno3_nabr
+    reactants:
+      - {target_id: ent_substance_agno3, phase: aqueous}
+      - {target_id: ent_substance_nabr, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_agno3_kbr
+    reactants:
+      - {target_id: ent_substance_agno3, phase: aqueous}
+      - {target_id: ent_substance_kbr, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_agno3_nai
+    reactants:
+      - {target_id: ent_substance_agno3, phase: aqueous}
+      - {target_id: ent_substance_nai, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_agno3_ki
+    reactants:
+      - {target_id: ent_substance_agno3, phase: aqueous}
+      - {target_id: ent_substance_ki, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_bacl2_k2so4
+    reactants:
+      - {target_id: ent_substance_bacl2, phase: aqueous}
+      - {target_id: ent_substance_k2so4, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_bacl2_mgso4
+    reactants:
+      - {target_id: ent_substance_bacl2, phase: aqueous}
+      - {target_id: ent_substance_mgso4, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_bacl2_znso4
+    reactants:
+      - {target_id: ent_substance_bacl2, phase: aqueous}
+      - {target_id: ent_substance_znso4, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_bacl2_cuso4
+    reactants:
+      - {target_id: ent_substance_bacl2, phase: aqueous}
+      - {target_id: ent_substance_cuso4, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_cacl2_na2co3
+    reactants:
+      - {target_id: ent_substance_cacl2, phase: aqueous}
+      - {target_id: ent_substance_na2co3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_cacl2_k2co3
+    reactants:
+      - {target_id: ent_substance_cacl2, phase: aqueous}
+      - {target_id: ent_substance_k2co3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_bacl2_na2co3
+    reactants:
+      - {target_id: ent_substance_bacl2, phase: aqueous}
+      - {target_id: ent_substance_na2co3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_bacl2_k2co3
+    reactants:
+      - {target_id: ent_substance_bacl2, phase: aqueous}
+      - {target_id: ent_substance_k2co3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_mgso4_na2co3
+    reactants:
+      - {target_id: ent_substance_mgso4, phase: aqueous}
+      - {target_id: ent_substance_na2co3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_mgso4_k2co3
+    reactants:
+      - {target_id: ent_substance_mgso4, phase: aqueous}
+      - {target_id: ent_substance_k2co3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_znso4_na2co3
+    reactants:
+      - {target_id: ent_substance_znso4, phase: aqueous}
+      - {target_id: ent_substance_na2co3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_znso4_k2co3
+    reactants:
+      - {target_id: ent_substance_znso4, phase: aqueous}
+      - {target_id: ent_substance_k2co3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_kcl_nano3_all_soluble
+    reactants:
+      - {target_id: ent_substance_kcl, phase: aqueous}
+      - {target_id: ent_substance_nano3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_batch_a_agno3_nabr_unknown_medium
+    reactants:
+      - {target_id: ent_substance_agno3, phase: aqueous}
+      - {target_id: ent_substance_nabr, phase: aqueous}
+    context: {temperature_regime: ambient}
+
+  - id: case_batch_a_agbr_nano3_insoluble_input
+    reactants:
+      - {target_id: ent_substance_agbr, phase: solid}
+      - {target_id: ent_substance_nano3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}

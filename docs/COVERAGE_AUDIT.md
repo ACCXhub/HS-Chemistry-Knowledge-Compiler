@@ -231,7 +231,7 @@ Until then M12/M13 stay as regression anchors, not a template to multiply.
 
 ### Scope and acceptance
 
-Batch A should add approximately **21 new canonical Entities** and **27 canonical Reactions**, plus authoritative evidence, focused positive/negative/UNKNOWN cases, and TeachingView memberships. It should reuse seven existing Rules and expect zero changes to compiler, schema, DSL, RulePlan, and artifact format. Exact IDs below are planning candidates following current conventions; implementation must reconcile identity and evidence before authoring.
+Batch A should add approximately **21 new canonical Entities** and **27 canonical Reactions**, plus authoritative evidence, focused positive/negative/UNKNOWN cases, and TeachingView memberships. It should reuse six existing Rules and expect zero changes to compiler, schema, DSL, RulePlan, and artifact format. Exact IDs below are planning candidates following current conventions; implementation must reconcile identity and evidence before authoring.
 
 ### Candidate Entity set (21)
 
