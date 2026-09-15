@@ -472,3 +472,51 @@ cases:
       - {target_id: ent_substance_agbr, phase: solid}
       - {target_id: ent_substance_nano3, phase: aqueous}
     context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m15_cuso4_naoh
+    reactants:
+      - {target_id: ent_substance_cuso4, phase: aqueous}
+      - {target_id: ent_substance_naoh, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m15_mgcl2_naoh
+    reactants:
+      - {target_id: ent_substance_mgcl2, phase: aqueous}
+      - {target_id: ent_substance_naoh, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m15_fecl3_naoh
+    reactants:
+      - {target_id: ent_substance_fecl3, phase: aqueous}
+      - {target_id: ent_substance_naoh, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m15_nacl_koh_all_soluble
+    reactants:
+      - {target_id: ent_substance_nacl, phase: aqueous}
+      - {target_id: ent_substance_koh, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m15_cuso4_naoh_unknown_medium
+    reactants:
+      - {target_id: ent_substance_cuso4, phase: aqueous}
+      - {target_id: ent_substance_naoh, phase: aqueous}
+    context: {temperature_regime: ambient}
+
+  - id: case_m15_agcl_solid_naoh
+    reactants:
+      - {target_id: ent_substance_agcl, phase: solid}
+      - {target_id: ent_substance_naoh, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m15_cuso4_nh3_unauthorized_base
+    reactants:
+      - {target_id: ent_substance_cuso4, phase: aqueous}
+      - {target_id: ent_substance_nh3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m15_znso4_naoh_deferred
+    reactants:
+      - {target_id: ent_substance_znso4, phase: aqueous}
+      - {target_id: ent_substance_naoh, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}

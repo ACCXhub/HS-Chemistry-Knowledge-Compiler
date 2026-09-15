@@ -1,0 +1,30 @@
+records:
+  - id: rxn_m15_cuso4_naoh_precipitation
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_cuso4, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_naoh, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_cu_oh_2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_na2so4, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+    forms: []
+    evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation, ev_f2_reactions, ev_m15_hydroxide_identity_and_solubility, ev_m15_hydroxide_precipitation]
+
+  - id: rxn_m15_mgcl2_naoh_precipitation
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_mgcl2, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_naoh, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_mg_oh_2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_nacl, target_kind: substance, role: product, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+    forms: []
+    evidence_ids: [ev_m10_metal_identity_and_chloride_speciation, ev_f2_reactions, ev_m15_hydroxide_identity_and_solubility, ev_m15_hydroxide_precipitation]
+
+  - id: rxn_m15_fecl3_naoh_precipitation
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_fecl3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_naoh, target_kind: substance, role: reactant, coefficient: {numerator: 3, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_fe_oh_3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_nacl, target_kind: substance, role: product, coefficient: {numerator: 3, denominator: 1}, phase: aqueous}
+    forms: []
+    evidence_ids: [ev_m15_ferric_identity_and_speciation, ev_f2_reactions, ev_m15_hydroxide_precipitation]

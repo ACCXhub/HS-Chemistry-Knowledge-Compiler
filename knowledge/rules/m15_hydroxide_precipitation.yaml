@@ -1,0 +1,33 @@
+records:
+  - id: rule_m15_hydroxide_precipitation
+    record_type: rule
+    version: 1.0.0
+    decision_domain: aqueous_exchange
+    match:
+      reactants:
+        - bind: soluble_salt
+          entity_kind: substance
+          phase: aqueous
+          required_facets: [classification.salt]
+        - bind: strong_base
+          entity_kind: substance
+          phase: aqueous
+          required_facets: [classification.base]
+    context:
+      medium: aqueous
+    predicates:
+      - {operator: equals, subject: property, binding: soluble_salt, key: electrolyte.strength, expected: strong}
+      - {operator: equals, subject: property, binding: soluble_salt, key: solubility.class, expected: soluble}
+      - {operator: equals, subject: property, binding: strong_base, key: base.strength, expected: strong}
+      - {operator: equals, subject: property, binding: strong_base, key: electrolyte.strength, expected: strong}
+      - {operator: equals, subject: ionic_exchange, bindings: [soluble_salt, strong_base], key: driving_force, expected: precipitate}
+    blockers:
+      - {key: temperature_regime, equals: frozen}
+    products:
+      - phase: solid
+        construct: {kind: exchange_product, left_binding: soluble_salt, right_binding: strong_base, role: precipitate}
+      - phase: aqueous
+        construct: {kind: exchange_product, left_binding: soluble_salt, right_binding: strong_base, role: counterproduct}
+    validators: [atoms_conserved, charge_conserved]
+    evidence_ids: [ev_m15_hydroxide_precipitation]
+    mutually_exclusive_with: [rule_f2_agcl_precipitation]

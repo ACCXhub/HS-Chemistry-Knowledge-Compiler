@@ -31,6 +31,7 @@ records:
           - ent_substance_ki
           - ent_substance_cucl2
           - ent_substance_cacl2
+          - ent_substance_fecl3
       - path_key: D03/reaction-types/precipitation
         parent_path_key: D03/reaction-types
         members:
@@ -52,6 +53,9 @@ records:
           - rxn_batch_a_mgso4_k2co3
           - rxn_batch_a_znso4_na2co3
           - rxn_batch_a_znso4_k2co3
+          - rxn_m15_cuso4_naoh_precipitation
+          - rxn_m15_mgcl2_naoh_precipitation
+          - rxn_m15_fecl3_naoh_precipitation
       - path_key: D03/reaction-types/neutralization
         parent_path_key: D03/reaction-types
         members:
@@ -153,6 +157,9 @@ records:
           - rxn_batch_a_mgso4_k2co3
           - rxn_batch_a_znso4_na2co3
           - rxn_batch_a_znso4_k2co3
+          - rxn_m15_cuso4_naoh_precipitation
+          - rxn_m15_mgcl2_naoh_precipitation
+          - rxn_m15_fecl3_naoh_precipitation
       - path_key: D08/substance-classification/acids
         parent_path_key: D08/substance-classification
         members:
@@ -160,7 +167,7 @@ records:
           - ent_material_hydrochloric_acid_aqueous
       - path_key: D08/substance-classification/bases
         parent_path_key: D08/substance-classification
-        members: [ent_substance_naoh, ent_substance_koh]
+        members: [ent_substance_naoh, ent_substance_koh, ent_substance_cu_oh_2, ent_substance_mg_oh_2, ent_substance_fe_oh_3]
       - path_key: D08/substance-classification/salts
         parent_path_key: D08/substance-classification
         members:
@@ -200,6 +207,7 @@ records:
           - ent_substance_baco3
           - ent_substance_mgco3
           - ent_substance_znco3
+          - ent_substance_fecl3
       - path_key: D08/substance-classification/metals
         parent_path_key: D08/substance-classification
         members:
@@ -233,6 +241,10 @@ records:
           - ent_species_i_minus
           - ent_element_ca
           - ent_species_ca_2plus
+          - ent_element_fe
+          - ent_species_fe_3plus
+          - ent_substance_fecl3
+          - ent_substance_fe_oh_3
       - path_key: D10/elements-and-compounds/nitrogen-compounds
         parent_path_key: D10/elements-and-compounds
         members:

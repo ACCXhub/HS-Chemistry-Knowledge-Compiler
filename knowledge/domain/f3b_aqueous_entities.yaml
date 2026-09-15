@@ -295,6 +295,7 @@ records:
     property_assertions:
       - {property_key: base.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f3b_strong_acid_base]}
       - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_f3b_strong_acid_base]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m15_alkali_hydroxide_solubility]}
     speciation_profiles:
       - profile_key: aqueous_complete_dissociation
         context: {medium: aqueous}
@@ -303,7 +304,7 @@ records:
           - {target_id: ent_species_k_plus, coefficient: {numerator: 1, denominator: 1}}
           - {target_id: ent_species_oh_minus, coefficient: {numerator: 1, denominator: 1}}
         evidence_ids: [ev_f3b_strong_acid_base]
-    evidence_ids: [ev_f3b_strong_acid_base]
+    evidence_ids: [ev_f3b_strong_acid_base, ev_m15_alkali_hydroxide_solubility]
 
   - id: ent_substance_kno3
     record_type: entity

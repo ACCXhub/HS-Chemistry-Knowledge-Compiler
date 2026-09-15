@@ -97,7 +97,7 @@ Categories are primary and mutually exclusive in the matrices below:
 | halide precipitates | A | AgCl already proves the Rule. AgBr and AgI need canonical Br/I identities, salts, solubility, speciation, Reactions, and contrasts only. |
 | sulfate precipitates | A | BaSO4 already proves the Rule. Additional soluble sulfate counterions are data-only. |
 | carbonate precipitates | A | Existing ions, exchange construction, and exact balancing suffice once each insoluble carbonate and soluble input/product salt is canonical. |
-| hydroxide precipitates from soluble salt + strong base | B | Current precipitation participant patterns require salt + salt. A bounded salt + strong-base Rule can reuse exchange products and solubility, but must be specified and tested as a separate small slice. |
+| hydroxide precipitates from soluble salt + strong base | A | M15 adds one bounded salt + strong-base Rule reusing canonical speciation, exchange products, solubility, exact balancing, and ionic projection for Cu2+, Mg2+, and exact Fe3+ cases; amphoterism, excess OH-, weak bases, and unmodeled hydroxides remain deferred. |
 | multi-precipitation competition | C | The current Rule deliberately requires exactly one insoluble product; selection among multiple driving products needs explicit pathway semantics. |
 | amphoteric hydroxides | C | Acid/base-dependent dissolution, excess-reagent behavior, and complex ions require conditional competing pathways and richer speciation. |
 | dissolution of precipitates by acid/base | C | A general family needs solid-reactivity/complexation/equilibrium semantics; isolated exact reactions should not be mistaken for a reusable inference model. |

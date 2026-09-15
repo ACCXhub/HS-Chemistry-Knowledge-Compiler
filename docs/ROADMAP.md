@@ -160,6 +160,22 @@ One AgNO3-bounded Rule reuses the unchanged exact-target Relation predicate and 
 
 This is a coverage reuse proof, not a new formal roadmap phase. Source schema remains `3.4.0`, Rule DSL and RulePlan remain `1.3.0`, and artifact format remains `1.4.0`; no compiler or schema extension is introduced.
 
+## M15 — Bounded hydroxide precipitation
+
+M15 adds one reusable aqueous-exchange family:
+
+```text
+aqueous soluble strong-electrolyte salt
++ aqueous strong base
+-> insoluble hydroxide precipitate + soluble spectator salt
+```
+
+CuSO4 + NaOH, MgCl2 + NaOH, and FeCl3 + NaOH use the same declarative Rule. Canonical speciation supplies Cu2+, Mg2+, exact Fe3+, OH-, and the spectator ions; the existing `ionic_exchange.driving_force` predicate and `exchange_product` constructor select one known-insoluble hydroxide and one known-soluble counterproduct. Exact balancing derives the `1:2:1:1`, `1:2:1:2`, and `1:3:1:3` molecular coefficients, while existing ionic projection yields `M^n+ + n OH- -> M(OH)n(s)`.
+
+A canonical-salt corpus audit rejected a new `classification.metal_salt` facet for this slice: applying it consistently would require broad reclassification while duplicating the actual speciation/solubility gates. The Rule therefore remains bounded by existing salt/base facets, aqueous participant phases, contextual strong-electrolyte/solubility facts, and unique exchange-product resolution. Missing hydroxide identity or solubility remains UNKNOWN; Zn/Al amphoterism, excess hydroxide, weak bases, variable-valence inference, and equilibrium semantics remain outside M15.
+
+M15 requires no compiler, schema, Rule DSL, RulePlan, or artifact-format change. Compatibility remains source schema `3.4.0`, Rule DSL `1.3.0`, RulePlan `1.3.0`, and artifact format `1.4.0`.
+
 ## Still out of scope
 
 - full high-school chemistry population or wholesale legacy migration;

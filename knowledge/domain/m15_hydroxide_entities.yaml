@@ -1,0 +1,130 @@
+records:
+  - id: ev_m15_alkali_hydroxide_solubility
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "OpenStax Chemistry 2e sections 4.2 and 14.3 support NaOH and KOH as soluble aqueous strong electrolytes and strong bases, including complete dissociation to alkali-metal and hydroxide ions."
+    stance: supports
+
+  - id: ev_m15_hydroxide_identity_and_solubility
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "OpenStax Chemistry 2e sections 2.6 and 4.2 support the canonical composition of represented metal hydroxides and the common-solubility-rule treatment of these hydroxides as insoluble in water."
+    stance: supports
+
+  - id: ev_m15_hydroxide_precipitation
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "OpenStax Chemistry 2e sections 4.1 and 4.2 support precipitation reactions obtained by exchanging ions between aqueous strong electrolytes, retaining the insoluble hydroxide and cancelling soluble spectator ions."
+    stance: supports
+
+  - id: ev_m15_ferric_identity_and_speciation
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "OpenStax Chemistry 2e sections 2.6 and 4.2 support the iron, Fe3+, FeCl3, and Fe(OH)3 identity/composition records, chloride-solubility treatment of FeCl3, complete aqueous ionic representation, and insoluble-hydroxide precipitation treatment."
+    stance: supports
+
+  - id: ent_element_fe
+    record_type: entity
+    entity_kind: element
+    terms: {preferred: iron}
+    semantic_keys: [{scheme: element.symbol, value: Fe}]
+    payload: {atomic_number: 26, symbol: Fe}
+    evidence_ids: [ev_m15_ferric_identity_and_speciation]
+
+  - id: ent_species_fe_3plus
+    record_type: entity
+    entity_kind: species
+    terms: {preferred: iron(III) ion}
+    semantic_keys: [{scheme: formula.ion, value: Fe3+}]
+    payload:
+      species_kind: ion
+      formal_charge: 3
+      composition:
+        components: [{element_id: ent_element_fe, count: 1}]
+        net_charge: 3
+    evidence_ids: [ev_m15_ferric_identity_and_speciation]
+
+  - id: ent_substance_fecl3
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: iron(III) chloride}
+    semantic_keys: [{scheme: formula.unit, value: FeCl3}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_fe, count: 1}
+          - {element_id: ent_element_cl, count: 3}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.salt, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m15_ferric_identity_and_speciation]}
+      - {facet_key: classification.chloride, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m15_ferric_identity_and_speciation]}
+    property_assertions:
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m15_ferric_identity_and_speciation]}
+      - {property_key: solubility.class, value_state: known, value: soluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m15_ferric_identity_and_speciation]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_fe_3plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_cl_minus, coefficient: {numerator: 3, denominator: 1}}
+        evidence_ids: [ev_m15_ferric_identity_and_speciation]
+    evidence_ids: [ev_m15_ferric_identity_and_speciation]
+
+  - id: ent_substance_cu_oh_2
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: copper(II) hydroxide}
+    semantic_keys: [{scheme: formula.unit, value: "Cu(OH)2"}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_cu, count: 1}
+          - {element_id: ent_element_o, count: 2}
+          - {element_id: ent_element_h, count: 2}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.base, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m15_hydroxide_identity_and_solubility]}
+    property_assertions:
+      - {property_key: solubility.class, value_state: known, value: insoluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m15_hydroxide_identity_and_solubility]}
+    evidence_ids: [ev_m15_hydroxide_identity_and_solubility, ev_m15_hydroxide_precipitation]
+
+  - id: ent_substance_mg_oh_2
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: magnesium hydroxide}
+    semantic_keys: [{scheme: formula.unit, value: "Mg(OH)2"}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_mg, count: 1}
+          - {element_id: ent_element_o, count: 2}
+          - {element_id: ent_element_h, count: 2}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.base, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m15_hydroxide_identity_and_solubility]}
+    property_assertions:
+      - {property_key: solubility.class, value_state: known, value: insoluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m15_hydroxide_identity_and_solubility]}
+    evidence_ids: [ev_m15_hydroxide_identity_and_solubility, ev_m15_hydroxide_precipitation]
+
+  - id: ent_substance_fe_oh_3
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: iron(III) hydroxide}
+    semantic_keys: [{scheme: formula.unit, value: "Fe(OH)3"}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_fe, count: 1}
+          - {element_id: ent_element_o, count: 3}
+          - {element_id: ent_element_h, count: 3}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.base, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m15_ferric_identity_and_speciation]}
+    property_assertions:
+      - {property_key: solubility.class, value_state: known, value: insoluble, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m15_ferric_identity_and_speciation]}
+    evidence_ids: [ev_m15_ferric_identity_and_speciation, ev_m15_hydroxide_precipitation]
