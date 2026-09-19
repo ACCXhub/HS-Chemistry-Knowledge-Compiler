@@ -1,0 +1,20 @@
+records:
+  - id: ev_m16_caco3_heated_decomposition
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "OpenStax Chemistry 2e sections 2.6 and 18.2 support calcium oxide as the solid ionic compound CaO and the deliberate thermal decomposition of solid calcium carbonate on heating to solid calcium oxide and carbon dioxide gas."
+    stance: supports
+
+  - id: ent_substance_cao
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: calcium oxide, aliases: [quicklime]}
+    semantic_keys: [{scheme: formula.unit, value: CaO}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_ca, count: 1}
+          - {element_id: ent_element_o, count: 1}
+        net_charge: 0
+    evidence_ids: [ev_m16_caco3_heated_decomposition]

@@ -288,3 +288,13 @@ A corpus-wide audit found that `classification.metal_salt` would apply to nearly
 Cu(OH)2, Mg(OH)2, and Fe(OH)3 are canonical insoluble Substances with no fake aqueous speciation. Missing product identity or `solubility.class`, missing aqueous medium, non-aqueous input phase, and unsupported salts remain UNKNOWN or non-matching. The existing projector derives complete and net ionic forms and cancels only canonical spectators. No amphoteric dissolution, excess-OH-, complex-ion, Ksp, weak-base, equilibrium, or redox semantics are implied.
 
 The Rule and data compose existing contracts, so source schema remains `3.4.0`, Rule DSL and RulePlan remain `1.3.0`, and artifact format remains `1.4.0`.
+
+## ADR-M16-001 — Controlled heated value with an exact CaCO3 pilot
+
+M16 adds `heated` to the controlled `temperature_regime` vocabulary as a value distinct from `warmed`; it does not introduce ordering, numeric temperature, or an implication between the two regimes. The existing generic scalar context/condition execution already provides the required three-valued behavior: missing temperature is UNKNOWN, a different known regime is FALSE, and an exact match carries canonical condition evidence into comparison and provenance. No heated-specific runtime branch is added.
+
+One exact declarative Rule matches only solid canonical CaCO3 under `heated` and selects exact canonical CaO(s) plus existing CO2(g). The exact balancer derives `1:1:1`, conservation validators remain unchanged, and the canonical Reaction deliberately owns no ionic forms. CaO is the only new Entity; CaCO3, CO2, Ca, C, and O are reused.
+
+The Rule does not classify or dynamically map carbonates to oxides. MgCO3 under `heated` remains unsupported, and generic carbonate, bicarbonate, nitrate, catalyst, steam, kinetics, equilibrium, and redox behavior remain deferred because substrate-derived product selection has no current semantic owner.
+
+Admitting `heated` changes the source contract, so source schema advances from `3.4.0` to `3.5.0`. Rule source syntax, lowered RulePlan shape, and emitted artifact shape are unchanged; Rule DSL and RulePlan therefore remain `1.3.0`, and artifact format remains `1.4.0`. `compiler/source.py` changes only its source-schema compatibility coordinate; compiler behavior does not change.

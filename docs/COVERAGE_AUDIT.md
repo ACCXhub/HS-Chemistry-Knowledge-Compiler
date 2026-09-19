@@ -39,7 +39,7 @@ Raw record volume is diagnostic, not the KPI. The useful KPI is the number of im
 
 | Axis | Version |
 |---|---|
-| source schema | `3.4.0` |
+| source schema | `3.5.0` |
 | Rule DSL | `1.3.0` |
 | RulePlan | `1.3.0` |
 | artifact format | `1.4.0` |
@@ -61,7 +61,7 @@ Important boundaries are equally concrete:
 - ionic projection does not model weak/partial equilibria, hydrolysis, or concentration-dependent speciation;
 - Relation execution is one-hop and exact-target only, for `metal.product_cation` and `metal.displaces_cation`; it is not graph traversal or activity ranking;
 - `metal.product_cation` is one-target-per-context; `metal.displaces_cation` is many-target-per-context, but exact duplicate assertions are invalid;
-- canonical Reaction conditions are limited to `medium` and `temperature_regime`, with the currently admitted values `aqueous`, `ambient`, and `warmed`;
+- canonical Reaction conditions are limited to `medium` and `temperature_regime`, with the currently admitted values `aqueous`, `ambient`, `warmed`, and `heated`; `heated` is distinct from `warmed`;
 - active source records do not include executable Structure or Experiment record families;
 - formula text, names, file placement, and TeachingView paths never create chemistry truth or identity.
 
@@ -139,8 +139,8 @@ Categories are primary and mutually exclusive in the matrices below:
 
 | Family or cluster | Primary | Current assessment and required coverage evidence |
 |---|:---:|---|
-| carbonate thermal decomposition | B | Exact canonical products and exact balancing are feasible, but a controlled heated condition and a bounded eligibility Rule are missing. |
-| bicarbonate thermal decomposition | B | Same bounded condition gap; products must remain canonical and cation-specific rather than dynamically fabricated. |
+| carbonate thermal decomposition | B | M16 implements one exact CaCO3(s) `heated` pilot with canonical CaO(s) + CO2(g). The broader family remains unsupported because substrate-derived oxide selection is not modeled and products must not be dynamically fabricated. |
+| bicarbonate thermal decomposition | B | The `heated` value is now controlled, but products still require a separate bounded design and must remain canonical and cation-specific rather than dynamically fabricated. |
 | nitrate thermal decomposition | C | Product families vary by cation and can involve nitrites, oxides, NO2, and O2; generic selection requires classification and redox decisions. |
 | chlorate / permanganate decomposition | C | Catalyst/heat context and redox-dependent products exceed current controlled conditions and simple eligibility facts. |
 | ammonium-salt decomposition | C | Products vary substantially by anion and conditions; no single safe generic family exists. |
@@ -334,7 +334,7 @@ Every positive must prove exact balancing, atom/charge conservation, exact canon
 | P1 | passivation | Surface/material state and concentration-qualified reactivity cannot be represented by a global activity facet | contextual Fact/MaterialSystem design | Before Al/Fe concentrated-acid coverage |
 | P1 | broader redox semantics | Oxidation states, electron conservation, half-reaction composition, medium-dependent products, and competing pathways are absent | separate redox compiler/domain contract; exact balancer remains downstream | Dedicated architecture milestone; do not accrete exact-ID branches |
 | P1 | weak/partial equilibrium and speciation | Complete dissociation cannot represent weak acids/bases, hydrolysis, buffers, amphoterism, or concentration-dependent species | speciation/equilibrium domain model and aqueous projector | Start with a bounded decision record; full solver remains D |
-| P1 | richer controlled conditions | Hot water, steam, concentrated/dilute reagent, catalyst, and light are not persistable Reaction conditions | Context vocabulary and Reaction schema | Small independent contract slice before thermal/steam families |
+| P1 | richer controlled conditions | `heated` is now persistable and distinct from `warmed`; hot water, steam, concentrated/dilute reagent, catalyst, and light remain unmodeled | Context vocabulary and Reaction schema | Add only in separate bounded contract slices before dependent families |
 | P2 | executable experiments | D05 currently maps Reactions only; safety, observation, apparatus, and procedure have no active record owner | source schema + Experiment contract + TeachingView projection | Later, independently of equation Batch A |
 | P2 | structure-aware inorganic/organic inference | Active schema has no Structure owner, so functional groups, sites, isomers, and polymers cannot drive products | separate Structure/domain architecture | Later domain expansion before D09/D11 inference |
 

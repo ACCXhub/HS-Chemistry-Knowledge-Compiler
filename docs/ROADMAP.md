@@ -176,11 +176,26 @@ A canonical-salt corpus audit rejected a new `classification.metal_salt` facet f
 
 M15 requires no compiler, schema, Rule DSL, RulePlan, or artifact-format change. Compatibility remains source schema `3.4.0`, Rule DSL `1.3.0`, RulePlan `1.3.0`, and artifact format `1.4.0`.
 
+## M16 — Heated condition and CaCO3 thermal-decomposition pilot
+
+M16 adds `heated` as a controlled `temperature_regime` distinct from `warmed`, then proves the existing generic scalar context/condition path with one exact bounded transformation:
+
+```text
+CaCO3(s) --heated--> CaO(s) + CO2(g)
+```
+
+The slice adds only the missing canonical CaO identity, one canonical Reaction, and one exact declarative Rule. The Rule requires exact solid CaCO3 plus `temperature_regime = heated`; missing temperature remains UNKNOWN, while known `ambient` or `warmed`, the wrong phase, and MgCO3 do not match. Exact balancing derives `1:1:1`; atom and charge conservation remain mandatory. The solid-state thermal Reaction has no ionic ReactionForms.
+
+The generic runtime already carries scalar context through applicability, canonical comparison, proof trace, and condition-evidence provenance, so there is no heated-specific or CaCO3-specific Python branch. Source schema advances to `3.5.0` solely for the controlled value; Rule DSL and RulePlan remain `1.3.0`, and artifact format remains `1.4.0`.
+
+This is not a generic carbonate-decomposition family. Substrate-derived oxide selection, MgCO3/ZnCO3 decomposition, bicarbonate/nitrate decomposition, numeric temperature, catalyst semantics, steam, kinetics, equilibrium, and redox remain deferred until they have explicit semantic owners.
+
 ## Still out of scope
 
 - full high-school chemistry population or wholesale legacy migration;
 - transition-metal redox, concentrated-acid/passivation, or organic families;
 - variable-valence metal product selection, arbitrary metal/salt displacement, broader metal/water reactions, or general activity-series/electrode-potential reasoning;
+- generic carbonate-to-oxide product mapping or broader thermal-decomposition inference beyond the exact M16 CaCO3 pilot;
 - universal equilibrium/speciation solving;
 - nitric-acid/thiosulfate prediction, oxidation-number/electrode-potential inference, or broader thiosulfate/redox chemistry;
 - UI integration, database services, Neo4j, or RETE;

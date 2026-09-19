@@ -1,6 +1,6 @@
 # Schema Strategy
 
-Status: **M12 relation-cardinality, relation-predicate, and artifact contract**
+Status: **M16 controlled heated source condition contract**
 
 ## 1. Authoring boundary
 
@@ -14,7 +14,7 @@ The active source schema is:
 
 ```text
 schemas/knowledge-record.schema.json
-source schema version: 3.4.0
+source schema version: 3.5.0
 ```
 
 It covers the M4 executable subset of:
@@ -103,14 +103,16 @@ A consumer/compiler may expose the form only when the required assumptions and c
 
 M4 separates four compatibility coordinates:
 
-| Coordinate | M12 value | Owner |
+| Coordinate | Current value | Owner |
 | --- | --- | --- |
-| source schema | `3.4.0` | source/data contract |
+| source schema | `3.5.0` | source/data contract |
 | Rule DSL | `1.3.0` | rule source contract |
 | compiler RulePlan | `1.3.0` | compiler internal contract |
 | external artifact format | `1.4.0` | external generated contract |
 
 These axes are intentionally independent. A source schema change does not automatically imply an external artifact-format change, and an internal RulePlan revision is not a source DSL revision by definition.
+
+M16 advances only the source schema because `temperature_regime` now admits the controlled value `heated`, distinct from `warmed`. The existing generic scalar context/condition path already validates, lowers, compares, and preserves that value, so Rule DSL, RulePlan, and artifact format do not change.
 
 M4 does not promise long-term backward compatibility beyond these explicit coordinates.
 

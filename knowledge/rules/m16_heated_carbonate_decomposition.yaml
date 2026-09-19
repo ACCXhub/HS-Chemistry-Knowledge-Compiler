@@ -1,0 +1,17 @@
+records:
+  - id: rule_m16_caco3_heated_decomposition
+    record_type: rule
+    version: 1.0.0
+    decision_domain: thermal_decomposition
+    match:
+      reactants:
+        - bind: calcium_carbonate
+          target_id: ent_substance_caco3
+          phase: solid
+    context:
+      temperature_regime: heated
+    products:
+      - {target_id: ent_substance_cao, phase: solid}
+      - {target_id: ent_substance_co2, phase: gas}
+    validators: [atoms_conserved, charge_conserved]
+    evidence_ids: [ev_m16_caco3_heated_decomposition]

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.invalid/hs-chem/knowledge-record.schema.json",
-  "x-source-schema-version": "3.4.0",
+  "x-source-schema-version": "3.5.0",
   "oneOf": [
     {"$ref": "#/$defs/entity"},
     {"$ref": "#/$defs/reaction"},
@@ -209,7 +209,7 @@
       "additionalProperties": false,
       "properties": {
         "key": {"enum": ["medium", "temperature_regime"]},
-        "value": {"enum": ["aqueous", "ambient", "warmed"]},
+        "value": {"enum": ["aqueous", "ambient", "warmed", "heated"]},
         "evidence_ids": {"$ref": "#/$defs/evidenceIds"}
       },
       "allOf": [
@@ -219,7 +219,7 @@
         },
         {
           "if": {"properties": {"key": {"const": "temperature_regime"}}},
-          "then": {"properties": {"value": {"enum": ["ambient", "warmed"]}}}
+          "then": {"properties": {"value": {"enum": ["ambient", "warmed", "heated"]}}}
         }
       ]
     },

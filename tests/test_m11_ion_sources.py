@@ -115,7 +115,7 @@ def test_exact_entity_ion_source_rejects_unresolved_non_ion_and_wrong_sign_targe
 
 
 def test_m11_versions_track_each_exact_ion_source_contract_change() -> None:
-    assert SOURCE_SCHEMA_VERSION == "3.4.0"
+    assert SOURCE_SCHEMA_VERSION == "3.5.0"
     assert RULE_DSL_VERSION == "1.3.0"
     assert RULE_PLAN_VERSION == "1.3.0"
     assert ARTIFACT_FORMAT_VERSION == "1.4.0"
@@ -123,7 +123,7 @@ def test_m11_versions_track_each_exact_ion_source_contract_change() -> None:
         {"1.0.0", "1.1.0", "1.2.0", "1.3.0", "1.4.0"}
     )
     assert artifact_versions() == {
-        "source_schema": "3.4.0",
+        "source_schema": "3.5.0",
         "rule_dsl": "1.3.0",
         "rule_plan": "1.3.0",
         "artifact_format": "1.4.0",

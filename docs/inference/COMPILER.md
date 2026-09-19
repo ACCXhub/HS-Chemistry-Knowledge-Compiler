@@ -1,6 +1,6 @@
 # Knowledge Compiler Architecture
 
-Status: **M12 exact-target Relation-predicate compiler boundary**
+Status: **M16 generic scalar context execution with a controlled heated value**
 
 ## Responsibility
 
@@ -55,12 +55,16 @@ Precedence cycles are rejected. Runtime resolution uses transitive reachability 
 
 Projection is an explicit API over curated/golden forms and canonical speciation profiles. Required assumptions gate availability; derived complete/net ionic forms retain their canonical Reaction identity, exact coefficients, validation results, and derivation provenance.
 
+## Condition execution
+
+Rule context requirements and canonical Reaction conditions use the existing generic scalar equality path. M16 adds `heated` to the source vocabulary but no heated-specific or CaCO3-specific compiler branch: missing context remains UNKNOWN, unequal known values are FALSE, and matched canonical condition evidence is retained in comparison and provenance.
+
 ## Artifact/version boundary
 
 Version axes are separate:
 
 ```text
-source schema     3.4.0
+source schema     3.5.0
 Rule DSL          1.3.0
 RulePlan          1.3.0
 artifact format   1.4.0

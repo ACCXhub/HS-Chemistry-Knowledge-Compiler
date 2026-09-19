@@ -12,7 +12,7 @@ from .model import FactValue, KnowledgeState
 
 
 SOURCE_DIRS = ("knowledge/domain", "knowledge/rules", "knowledge/teaching")
-SOURCE_SCHEMA_VERSION = "3.4.0"
+SOURCE_SCHEMA_VERSION = "3.5.0"
 RELATION_CONTRACTS = {
     "metal.product_cation": {
         "cardinality": "one_target_per_context",

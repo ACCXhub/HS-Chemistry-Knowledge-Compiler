@@ -520,3 +520,33 @@ cases:
       - {target_id: ent_substance_znso4, phase: aqueous}
       - {target_id: ent_substance_naoh, phase: aqueous}
     context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m16_caco3_heated
+    reactants:
+      - {target_id: ent_substance_caco3, phase: solid}
+    context: {temperature_regime: heated}
+
+  - id: case_m16_caco3_missing_temperature
+    reactants:
+      - {target_id: ent_substance_caco3, phase: solid}
+    context: {}
+
+  - id: case_m16_caco3_ambient
+    reactants:
+      - {target_id: ent_substance_caco3, phase: solid}
+    context: {temperature_regime: ambient}
+
+  - id: case_m16_caco3_warmed
+    reactants:
+      - {target_id: ent_substance_caco3, phase: solid}
+    context: {temperature_regime: warmed}
+
+  - id: case_m16_caco3_wrong_phase
+    reactants:
+      - {target_id: ent_substance_caco3, phase: aqueous}
+    context: {temperature_regime: heated}
+
+  - id: case_m16_mgco3_heated_deferred
+    reactants:
+      - {target_id: ent_substance_mgco3, phase: solid}
+    context: {temperature_regime: heated}

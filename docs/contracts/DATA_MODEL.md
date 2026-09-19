@@ -1,6 +1,6 @@
 # Canonical Data Model
 
-Status: **M11 exact canonical ion sources and phase-bounded Rule plans**
+Status: **M16 controlled heated condition and bounded thermal-decomposition pilot**
 
 This document defines canonical source-record semantics. M4 converges the executable Rule/fact/speciation/TeachingView/ReactionForm/artifact subset without narrowing the broader model.
 
@@ -187,6 +187,8 @@ conditions:
 
 Condition keys are unique within a Reaction. They are requirements for canonical comparison, not a demand that request context equal the Reaction condition object exactly; additional request dimensions are allowed.
 
+The active scalar `temperature_regime` vocabulary is `ambient | warmed | heated`. `heated` is a distinct controlled value, not an alias or ordering inference for `warmed`. M16 uses the existing generic scalar context/condition comparison path; no temperature-specific runtime semantics are implied.
+
 ## 8. ReactionForm
 
 `ReactionForm` is a representation/projection of the owning Reaction when the underlying transformation is the same.
@@ -327,9 +329,9 @@ Evidence/provenance must remain traceable through compiler output when a generat
 
 External generated artifacts remain contract-owned and reproducible. The four compatibility coordinates remain independent:
 
-| Coordinate | M12 value |
+| Coordinate | Current value |
 | --- | --- |
-| source schema | `3.4.0` |
+| source schema | `3.5.0` |
 | Rule DSL | `1.3.0` |
 | internal RulePlan | `1.3.0` |
 | external artifact format | `1.4.0` |
