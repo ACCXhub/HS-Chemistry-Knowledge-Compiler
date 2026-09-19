@@ -60,6 +60,7 @@ records:
         parent_path_key: D03/reaction-types
         members:
           - rxn_m16_caco3_heated_decomposition
+          - rxn_m17_nahco3_heated_decomposition
       - path_key: D03/reaction-types/neutralization
         parent_path_key: D03/reaction-types
         members:
@@ -251,6 +252,8 @@ records:
           - ent_substance_fe_oh_3
           - ent_substance_caco3
           - ent_substance_cao
+          - ent_substance_nahco3
+          - ent_substance_na2co3
       - path_key: D10/elements-and-compounds/nitrogen-compounds
         parent_path_key: D10/elements-and-compounds
         members:

@@ -1,0 +1,12 @@
+records:
+  - id: rxn_m17_nahco3_heated_decomposition
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_nahco3, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_na2co3, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+      - {target_id: ent_substance_co2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+    conditions:
+      - {key: temperature_regime, value: heated, evidence_ids: [ev_m17_nahco3_heated_decomposition]}
+    forms: []
+    evidence_ids: [ev_m17_nahco3_heated_decomposition]

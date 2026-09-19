@@ -140,7 +140,7 @@ Categories are primary and mutually exclusive in the matrices below:
 | Family or cluster | Primary | Current assessment and required coverage evidence |
 |---|:---:|---|
 | carbonate thermal decomposition | B | M16 implements one exact CaCO3(s) `heated` pilot with canonical CaO(s) + CO2(g). The broader family remains unsupported because substrate-derived oxide selection is not modeled and products must not be dynamically fabricated. |
-| bicarbonate thermal decomposition | B | The `heated` value is now controlled, but products still require a separate bounded design and must remain canonical and cation-specific rather than dynamically fabricated. |
+| bicarbonate thermal decomposition | B | M17 implements exact NaHCO3(s) under `heated` as Na2CO3(s) + H2O(g) + CO2(g), reusing the generic condition path and canonical products. The broader family remains unsupported: KHCO3 is a negative boundary, and cation-derived carbonate selection must not be dynamically fabricated. |
 | nitrate thermal decomposition | C | Product families vary by cation and can involve nitrites, oxides, NO2, and O2; generic selection requires classification and redox decisions. |
 | chlorate / permanganate decomposition | C | Catalyst/heat context and redox-dependent products exceed current controlled conditions and simple eligibility facts. |
 | ammonium-salt decomposition | C | Products vary substantially by anion and conditions; no single safe generic family exists. |

@@ -188,14 +188,26 @@ The slice adds only the missing canonical CaO identity, one canonical Reaction, 
 
 The generic runtime already carries scalar context through applicability, canonical comparison, proof trace, and condition-evidence provenance, so there is no heated-specific or CaCO3-specific Python branch. Source schema advances to `3.5.0` solely for the controlled value; Rule DSL and RulePlan remain `1.3.0`, and artifact format remains `1.4.0`.
 
-This is not a generic carbonate-decomposition family. Substrate-derived oxide selection, MgCO3/ZnCO3 decomposition, bicarbonate/nitrate decomposition, numeric temperature, catalyst semantics, steam, kinetics, equilibrium, and redox remain deferred until they have explicit semantic owners.
+This is not a generic carbonate-decomposition family. Substrate-derived oxide selection, MgCO3/ZnCO3 decomposition, generic bicarbonate/nitrate decomposition, numeric temperature, catalyst semantics, steam, kinetics, equilibrium, and redox remain deferred until they have explicit semantic owners.
+
+## M17 — Heated-condition reuse with exact NaHCO3 decomposition
+
+M17 reuses M16's unchanged `temperature_regime = heated` contract for a second real high-school thermal Reaction:
+
+```text
+2 NaHCO3(s) --heated--> Na2CO3(s) + H2O(g) + CO2(g)
+```
+
+The slice reuses all existing substance and element identities, adds one evidence-backed canonical Reaction and one exact declarative Rule, and requires exact solid NaHCO3 under `heated`. Missing temperature remains UNKNOWN; `ambient`, `warmed`, the wrong phase, and KHCO3 do not match. Exact balancing derives `2:1:1:1`, atom and charge conservation remain mandatory, and the Reaction has no ionic forms. The H2O(g) representation follows the cited Triton College laboratory manual, which explicitly presents both water and carbon dioxide as gases released while sodium carbonate remains solid.
+
+M17 adds no condition vocabulary and changes no compiler, schema, Rule DSL, RulePlan, or artifact behavior. It is an exact reuse proof, not a generic bicarbonate family: cation-derived carbonate selection and KHCO3 decomposition remain unsupported.
 
 ## Still out of scope
 
 - full high-school chemistry population or wholesale legacy migration;
 - transition-metal redox, concentrated-acid/passivation, or organic families;
 - variable-valence metal product selection, arbitrary metal/salt displacement, broader metal/water reactions, or general activity-series/electrode-potential reasoning;
-- generic carbonate-to-oxide product mapping or broader thermal-decomposition inference beyond the exact M16 CaCO3 pilot;
+- generic carbonate-to-oxide or bicarbonate-to-carbonate product mapping, or broader thermal-decomposition inference beyond the exact M16 CaCO3 and M17 NaHCO3 pilots;
 - universal equilibrium/speciation solving;
 - nitric-acid/thiosulfate prediction, oxidation-number/electrode-potential inference, or broader thiosulfate/redox chemistry;
 - UI integration, database services, Neo4j, or RETE;

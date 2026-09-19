@@ -1,0 +1,18 @@
+records:
+  - id: rule_m17_nahco3_heated_decomposition
+    record_type: rule
+    version: 1.0.0
+    decision_domain: thermal_decomposition
+    match:
+      reactants:
+        - bind: sodium_hydrogen_carbonate
+          target_id: ent_substance_nahco3
+          phase: solid
+    context:
+      temperature_regime: heated
+    products:
+      - {target_id: ent_substance_na2co3, phase: solid}
+      - {target_id: ent_substance_h2o, phase: gas}
+      - {target_id: ent_substance_co2, phase: gas}
+    validators: [atoms_conserved, charge_conserved]
+    evidence_ids: [ev_m17_nahco3_heated_decomposition]

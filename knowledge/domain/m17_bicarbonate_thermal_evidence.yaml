@@ -1,0 +1,11 @@
+records:
+  - id: src_libretexts_triton_baking_soda_decomposition
+    record_type: source
+    source_type: textbook
+    citation: "Triton College, Fundamentals of Chemistry (Lab Manual), Decomposition Of Baking Soda: thermal decomposition of solid sodium bicarbonate to solid sodium carbonate, gaseous water, and gaseous carbon dioxide. https://chem.libretexts.org/Courses/Triton_College/Fundamentals_of_Chemistry_(Lab_Manual)/09%3A_Decomposition_Of_Baking_Soda (accessed 2026-09-19)"
+
+  - id: ev_m17_nahco3_heated_decomposition
+    record_type: evidence
+    source_id: src_libretexts_triton_baking_soda_decomposition
+    claim_summary: "The Triton College laboratory manual gives the balanced heated decomposition 2 NaHCO3(s) -> Na2CO3(s) + H2O(g) + CO2(g), explicitly describing water and carbon dioxide as gases released while sodium carbonate remains solid."
+    stance: supports
