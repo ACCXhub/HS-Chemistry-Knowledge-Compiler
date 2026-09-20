@@ -109,7 +109,7 @@ Categories are primary and mutually exclusive in the matrices below:
 | Mg/Zn + non-oxidizing acid | A | M10 already resolves relation-derived cations and acid-speciation-derived anions. Further cases are data-only only when acid redox character, products, and cation identity are unambiguous. |
 | Na/K + liquid water, ambient | A | M11 already uses phase-bounded participants, contextual reactivity, exact OH- and canonical hydroxides. Li could be a data-only extension if evidence is added. |
 | Ca + liquid water | B | Existing product construction is close, but Ca(OH)2 phase/solubility and ionic projection must be decided in one bounded slice. |
-| Mg + hot water/steam | B | Exact products are representable, but hot/steam context and phase/pathway distinctions are absent from the controlled Reaction condition vocabulary. |
+| Mg + hot water/steam | B | M18 implements exact Mg(s) + H2O(g) under `heated` as MgO(s) + H2(g), using canonical H2O with participant phase `gas`. Hot liquid water remains unsupported, and this exact pilot does not generalize metal + steam or authorize Fe/Zn/Ca pathways. |
 | Fe + steam | B | A bounded exact-product Rule is plausible after adding steam/temperature context; this does not authorize general iron redox or valence inference. |
 | aluminium behavior | C | Oxide film/passivation, amphoterism, medium, and product state create competing pathways beyond current one-hop facts. |
 | existing Zn/Mg + CuSO4 and AgNO3 | A | M12/M13 are complete bounded families and remain regression anchors. |

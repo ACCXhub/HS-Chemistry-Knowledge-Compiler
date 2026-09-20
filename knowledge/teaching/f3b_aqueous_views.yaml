@@ -101,6 +101,7 @@ records:
           - rxn_m12_mg_cuso4_displacement
           - rxn_m13_zn_agno3_displacement
           - rxn_m13_mg_agno3_displacement
+          - rxn_m18_magnesium_steam_hydrogen
       - path_key: D05/chemical-experiments/ammonium-ion-identification
         parent_path_key: D05/chemical-experiments
         members:
@@ -254,6 +255,7 @@ records:
           - ent_substance_cao
           - ent_substance_nahco3
           - ent_substance_na2co3
+          - ent_substance_mgo
       - path_key: D10/elements-and-compounds/nitrogen-compounds
         parent_path_key: D10/elements-and-compounds
         members:

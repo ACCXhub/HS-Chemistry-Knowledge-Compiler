@@ -344,7 +344,7 @@ def test_m15_new_identities_are_unique_and_exactly_evidenced() -> None:
 
 def test_m15_adds_one_rule_without_compatibility_drift() -> None:
     kb = load_knowledge(ROOT)
-    assert len(kb.rules) == 13
+    assert len(kb.rules) == 15
     assert SOURCE_SCHEMA_VERSION == "3.5.0"
     assert RULE_DSL_VERSION == "1.3.0"
     assert RULE_PLAN_VERSION == "1.3.0"

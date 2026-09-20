@@ -1,0 +1,25 @@
+records:
+  - id: src_rsc_magnesium_steam_experiment
+    record_type: source
+    source_type: textbook
+    citation: "Royal Society of Chemistry Education, The reaction of magnesium with steam: class experiment and teacher notes giving Mg(s) + H2O(g) -> MgO(s) + H2(g). https://edu.rsc.org/experiments/the-reaction-of-magnesium-with-steam/728.article (accessed 2026-09-20)"
+
+  - id: ev_m18_magnesium_steam_hydrogen
+    record_type: evidence
+    source_id: src_rsc_magnesium_steam_experiment
+    claim_summary: "Royal Society of Chemistry Education describes heated magnesium reacting with steam, identifies hydrogen gas and magnesium oxide as the products, and gives the balanced phase-explicit equation Mg(s) + H2O(g) -> MgO(s) + H2(g)."
+    stance: supports
+
+  - id: ent_substance_mgo
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: magnesium oxide}
+    semantic_keys: [{scheme: formula.unit, value: MgO}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_mg, count: 1}
+          - {element_id: ent_element_o, count: 1}
+        net_charge: 0
+    evidence_ids: [ev_m18_magnesium_steam_hydrogen]

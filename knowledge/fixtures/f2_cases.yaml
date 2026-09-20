@@ -580,3 +580,39 @@ cases:
     reactants:
       - {target_id: ent_substance_khco3, phase: solid}
     context: {temperature_regime: heated}
+
+  - id: case_m18_magnesium_steam_heated
+    reactants:
+      - {target_id: ent_substance_elemental_mg, phase: solid}
+      - {target_id: ent_substance_h2o, phase: gas}
+    context: {temperature_regime: heated}
+
+  - id: case_m18_magnesium_liquid_heated
+    reactants:
+      - {target_id: ent_substance_elemental_mg, phase: solid}
+      - {target_id: ent_substance_h2o, phase: liquid}
+    context: {temperature_regime: heated}
+
+  - id: case_m18_magnesium_liquid_ambient
+    reactants:
+      - {target_id: ent_substance_elemental_mg, phase: solid}
+      - {target_id: ent_substance_h2o, phase: liquid}
+    context: {temperature_regime: ambient}
+
+  - id: case_m18_magnesium_steam_ambient
+    reactants:
+      - {target_id: ent_substance_elemental_mg, phase: solid}
+      - {target_id: ent_substance_h2o, phase: gas}
+    context: {temperature_regime: ambient}
+
+  - id: case_m18_magnesium_steam_warmed
+    reactants:
+      - {target_id: ent_substance_elemental_mg, phase: solid}
+      - {target_id: ent_substance_h2o, phase: gas}
+    context: {temperature_regime: warmed}
+
+  - id: case_m18_magnesium_steam_missing_temperature
+    reactants:
+      - {target_id: ent_substance_elemental_mg, phase: solid}
+      - {target_id: ent_substance_h2o, phase: gas}
+    context: {}

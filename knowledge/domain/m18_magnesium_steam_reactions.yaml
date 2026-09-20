@@ -1,0 +1,12 @@
+records:
+  - id: rxn_m18_magnesium_steam_hydrogen
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_elemental_mg, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+      - {target_id: ent_substance_mgo, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_h2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+    conditions:
+      - {key: temperature_regime, value: heated, evidence_ids: [ev_m18_magnesium_steam_hydrogen]}
+    forms: []
+    evidence_ids: [ev_m18_magnesium_steam_hydrogen]

@@ -1,0 +1,20 @@
+records:
+  - id: rule_m18_magnesium_steam_hydrogen
+    record_type: rule
+    version: 1.0.0
+    decision_domain: metal_steam_hydrogen
+    match:
+      reactants:
+        - bind: magnesium
+          target_id: ent_substance_elemental_mg
+          phase: solid
+        - bind: water_vapor
+          target_id: ent_substance_h2o
+          phase: gas
+    context:
+      temperature_regime: heated
+    products:
+      - {target_id: ent_substance_mgo, phase: solid}
+      - {target_id: ent_substance_h2, phase: gas}
+    validators: [atoms_conserved, charge_conserved]
+    evidence_ids: [ev_m18_magnesium_steam_hydrogen]

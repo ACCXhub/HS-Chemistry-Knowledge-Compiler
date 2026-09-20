@@ -202,12 +202,25 @@ The slice reuses all existing substance and element identities, adds one evidenc
 
 M17 adds no condition vocabulary and changes no compiler, schema, Rule DSL, RulePlan, or artifact behavior. It is an exact reuse proof, not a generic bicarbonate family: cation-derived carbonate selection and KHCO3 decomposition remain unsupported.
 
+## M18 — Magnesium + steam phase/pathway pilot
+
+M18 proves that the existing participant-phase and condition contracts can represent one bounded steam pathway without a new steam Entity or condition:
+
+```text
+Mg(s) + H2O(g) --heated--> MgO(s) + H2(g)
+```
+
+Steam is canonical H2O used with reactant `phase = gas`; heating remains the existing distinct `temperature_regime = heated` value. One exact declarative Rule binds only elemental Mg(s) and H2O(g), selects exact canonical MgO(s) and H2(g), and relies on unchanged exact balancing and conservation validation for `1:1:1:1`. H2O(l) cannot enter the Rule, known `ambient` or `warmed` contexts fail it, and missing temperature remains UNKNOWN.
+
+MgO is the only new Entity. The Reaction owns no ionic forms and does not consume Mg's aqueous product-cation Relation or add `metal.water_reactivity` for Mg. Hot liquid water, generic metal + steam inference, Fe/Zn/Ca pathways, dynamic oxide construction, phase transitions, numeric temperature, and general redox reasoning remain unsupported. Compatibility coordinates and compiler/schema behavior remain unchanged.
+
 ## Still out of scope
 
 - full high-school chemistry population or wholesale legacy migration;
 - transition-metal redox, concentrated-acid/passivation, or organic families;
 - variable-valence metal product selection, arbitrary metal/salt displacement, broader metal/water reactions, or general activity-series/electrode-potential reasoning;
 - generic carbonate-to-oxide or bicarbonate-to-carbonate product mapping, or broader thermal-decomposition inference beyond the exact M16 CaCO3 and M17 NaHCO3 pilots;
+- generic metal + steam or hot-liquid-water inference beyond the exact M18 Mg + H2O(g) pilot;
 - universal equilibrium/speciation solving;
 - nitric-acid/thiosulfate prediction, oxidation-number/electrode-potential inference, or broader thiosulfate/redox chemistry;
 - UI integration, database services, Neo4j, or RETE;

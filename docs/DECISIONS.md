@@ -298,3 +298,11 @@ One exact declarative Rule matches only solid canonical CaCO3 under `heated` and
 The Rule does not classify or dynamically map carbonates to oxides. MgCO3 under `heated` remains unsupported, and generic carbonate, bicarbonate, nitrate, catalyst, steam, kinetics, equilibrium, and redox behavior remain deferred because substrate-derived product selection has no current semantic owner.
 
 Admitting `heated` changes the source contract, so source schema advances from `3.4.0` to `3.5.0`. Rule source syntax, lowered RulePlan shape, and emitted artifact shape are unchanged; Rule DSL and RulePlan therefore remain `1.3.0`, and artifact format remains `1.4.0`. `compiler/source.py` changes only its source-schema compatibility coordinate; compiler behavior does not change.
+
+## ADR-M18-001 — Steam as gaseous canonical H2O plus heated context
+
+M18 represents steam with the existing canonical H2O identity authored as a gas-phase reactant together with `temperature_regime = heated`. It does not create a steam Substance, add a `steam` condition value, or equate heated liquid water with gaseous water. Existing generic participant-phase matching rejects H2O(l), while generic scalar context evaluation preserves known FALSE for `ambient`/`warmed` and UNKNOWN for a missing temperature.
+
+One exact declarative Rule binds only elemental Mg(s) and H2O(g), then selects canonical MgO(s) and H2(g). MgO is the only new Entity. The Rule does not use Mg's aqueous `metal.product_cation` Relation, does not add or overload `metal.water_reactivity`, and does not construct oxides dynamically. Exact balancing derives `1:1:1:1`; atom and charge conservation remain structural validation rather than general redox inference; the canonical Reaction owns no ionic forms.
+
+This bounded phase/pathway proof changes no compiler, schema, Rule DSL, RulePlan, or artifact contract. Hot liquid water, phase-transition semantics, generic metal + steam inference, other metal/steam pathways, oxide selection, and redox prediction remain outside M18.

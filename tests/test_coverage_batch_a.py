@@ -484,7 +484,7 @@ def test_batch_a_uses_six_existing_rules_and_keeps_compatibility_frozen() -> Non
         "rule_m7_ammonium_strong_base_gas_evolution",
         "rule_m8_strong_acid_sulfite_gas_evolution",
     }
-    assert len(kb.rules) == 13
+    assert len(kb.rules) == 15
     assert SOURCE_SCHEMA_VERSION == "3.5.0"
     assert RULE_DSL_VERSION == "1.3.0"
     assert RULE_PLAN_VERSION == "1.3.0"
