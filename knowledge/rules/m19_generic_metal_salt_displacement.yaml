@@ -1,0 +1,57 @@
+records:
+  - id: rule_m19_generic_aqueous_metal_salt_displacement
+    record_type: rule
+    version: 1.0.0
+    decision_domain: aqueous_metal_salt_displacement
+    match:
+      reactants:
+        - bind: metal
+          entity_kind: substance
+          phase: solid
+          required_facets: [classification.metal]
+        - bind: salt
+          entity_kind: substance
+          phase: aqueous
+          required_facets: [classification.salt]
+    context:
+      medium: aqueous
+    predicates:
+      - {operator: equals, subject: property, binding: salt, key: electrolyte.strength, expected: strong}
+      - {operator: equals, subject: property, binding: salt, key: solubility.class, expected: soluble}
+      - operator: equals
+        subject: relation
+        binding: metal
+        key: metal.displaces_cation
+        target_source:
+          kind: speciation_ion
+          binding: salt
+          charge_sign: positive
+        expected: true
+    products:
+      - phase: aqueous
+        construct:
+          kind: ionic_pair
+          cation_source:
+            kind: relation_target
+            binding: metal
+            relation_key: metal.product_cation
+          anion_source:
+            kind: speciation
+            binding: salt
+      - phase: solid
+        construct:
+          kind: entity_source
+          source:
+            kind: relation_target
+            relation_key: ion.elemental_substance
+            source:
+              kind: speciation_ion
+              binding: salt
+              charge_sign: positive
+    validators: [atoms_conserved, charge_conserved]
+    evidence_ids:
+      - ev_m12_copper_sulfate_identity_and_speciation
+      - ev_m12_metal_copper_displacement
+      - ev_m13_silver_nitrate_identity_and_speciation
+      - ev_m13_metal_silver_displacement
+      - ev_batch_a_ionic_identity_and_solubility

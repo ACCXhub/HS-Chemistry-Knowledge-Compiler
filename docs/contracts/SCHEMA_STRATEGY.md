@@ -1,6 +1,6 @@
 # Schema Strategy
 
-Status: **M16 controlled heated source condition contract**
+Status: **M19 bounded entity-source contract**
 
 ## 1. Authoring boundary
 
@@ -14,7 +14,7 @@ The active source schema is:
 
 ```text
 schemas/knowledge-record.schema.json
-source schema version: 3.5.0
+source schema version: 3.6.0
 ```
 
 It covers the M4 executable subset of:
@@ -40,7 +40,7 @@ M4 validation is deliberately staged:
 3. stable-ID uniqueness and reference validation;
 4. entity/participant/relation domain/range semantic validation;
 5. typed predicate/operator and ion-source validation;
-6. Rule lowering to compiler-owned `RulePlan`/`IonSourcePlan`;
+6. Rule lowering to compiler-owned `RulePlan`/`IonSourcePlan`/`EntitySourcePlan`;
 7. rule relationship graph validation;
 8. conservative overlap/conflict analysis;
 9. inference-time product resolution;
@@ -80,11 +80,11 @@ A participant pattern may constrain a binding by:
 - required facets;
 - forbidden facets.
 
-Predicates use the versioned Rule DSL operator names rather than Python function names. The registry remains limited to `equals`, `not_equals`, `is_known`, and `in_set`. M12 permits Relation applicability only as `equals expected: true` with one source binding, one controlled relation key, and one exact canonical target ID; absence evaluates UNKNOWN.
+Predicates use the versioned Rule DSL operator names rather than Python function names. The registry remains limited to `equals`, `not_equals`, `is_known`, and `in_set`. Relation applicability uses `equals expected: true` with one source binding, one controlled relation key, and exactly one exact `target_id` or typed `target_source`; absence or failed dynamic resolution evaluates UNKNOWN.
 
 Rule relationships are explicit source semantics: `overrides`, `specializes`, `fallback_for`, `equivalent_to`, and `mutually_exclusive_with`.
 
-Product templates may use an exact canonical ID or bounded semantic-key, ionic-pair, and exchange-product resolvers. Ionic-pair products may source each ion from canonical speciation, a controlled one-hop relation target, or one exact canonical ion Species. Exact ion sources are reference-, kind-, and sign-validated; construction uses canonical compositions/speciation/relations and never creates a new canonical entity. Historical `cation_from`/`anion_from` syntax remains accepted and lowers to speciation ion sources.
+Product templates may use an exact canonical ID or bounded semantic-key, ionic-pair, exchange-product, and entity-source resolvers. `EntitySourcePlan` admits exact entity, binding, unique signed speciation ion, or one Relation target from a non-Relation source; recursive Relation hops are rejected. Ionic-pair products may source each ion from canonical speciation, a controlled one-hop relation target, or one exact canonical ion Species. Construction uses canonical identities/speciation/relations and never creates a new canonical entity. Historical `cation_from`/`anion_from` syntax remains accepted and lowers to speciation ion sources.
 
 ## 6. ReactionForm projection contract
 
@@ -105,18 +105,20 @@ M4 separates four compatibility coordinates:
 
 | Coordinate | Current value | Owner |
 | --- | --- | --- |
-| source schema | `3.5.0` | source/data contract |
-| Rule DSL | `1.3.0` | rule source contract |
-| compiler RulePlan | `1.3.0` | compiler internal contract |
-| external artifact format | `1.4.0` | external generated contract |
+| source schema | `3.6.0` | source/data contract |
+| Rule DSL | `1.4.0` | rule source contract |
+| compiler RulePlan | `1.4.0` | compiler internal contract |
+| external artifact format | `1.5.0` | external generated contract |
 
 These axes are intentionally independent. A source schema change does not automatically imply an external artifact-format change, and an internal RulePlan revision is not a source DSL revision by definition.
 
 M16 advances only the source schema because `temperature_regime` now admits the controlled value `heated`, distinct from `warmed`. The existing generic scalar context/condition path already validates, lowers, compares, and preserves that value, so Rule DSL, RulePlan, and artifact format do not change.
 
+M19 advances all four axes: the source schema admits dynamic Relation targets, source-derived products, and the `ion.elemental_substance` contract; Rule DSL and RulePlan add typed entity-source semantics; the emitted compiled plan carries those nested fields.
+
 M4 does not promise long-term backward compatibility beyond these explicit coordinates.
 
-The `1.4.0` reader accepts historical artifact formats `1.0.0`, `1.1.0`, `1.2.0`, and `1.3.0`. Existing source Reaction records may omit `conditions`, Entity records may omit `relation_assertions`, participant patterns may omit `phase`, and legacy ionic-pair Rules may retain `cation_from`/`anion_from`. The artifact bump is independently required because `compiled-rule-plans.json` now emits the exact relation-predicate `target_id` field that a `1.3.0` consumer cannot safely interpret.
+The `1.5.0` reader accepts historical artifact formats `1.0.0` through `1.4.0`. Existing source Reaction records may omit `conditions`, Entity records may omit `relation_assertions`, participant patterns may omit `phase`, and legacy ionic-pair Rules may retain `cation_from`/`anion_from`. The artifact bump is required because `compiled-rule-plans.json` now emits nested entity sources that a `1.4.0` consumer cannot safely interpret.
 
 ## 8. Generated artifacts
 

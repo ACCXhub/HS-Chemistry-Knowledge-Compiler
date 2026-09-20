@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import asdict
 from math import gcd
 from typing import Any
 
@@ -113,8 +114,12 @@ def _trace_predicate(
         "evidence_ids": list(fact.evidence_ids),
     }
     if predicate.subject == "relation":
-        item["target_id"] = predicate.target_id
+        item["target_id"] = fact.resolved_target_id or predicate.target_id
+        item["target_source"] = None if predicate.target_source is None else asdict(predicate.target_source)
         item["relation_assertions"] = list(fact.relation_assertions)
+        item["speciation_profiles"] = list(fact.speciation_profiles)
+        if fact.diagnostic is not None:
+            item["target_source_diagnostic"] = fact.diagnostic
     trace.append(item)
 
 
@@ -147,6 +152,8 @@ def infer_case(kb: KnowledgeBase, plans: tuple[RulePlan, ...], case: dict[str, A
     blocked_rules: list[str] = []
     applicable: dict[str, dict[str, str]] = {}
     applicable_relation_assertions: dict[str, tuple[dict[str, Any], ...]] = {}
+    applicable_speciation_profiles: dict[str, tuple[dict[str, Any], ...]] = {}
+    applicable_predicate_evidence_ids: dict[str, tuple[str, ...]] = {}
 
     for plan in plans:
         binding_candidates = bind_rule_candidates(plan, reactants, kb, reactant_phases)
@@ -160,10 +167,14 @@ def infer_case(kb: KnowledgeBase, plans: tuple[RulePlan, ...], case: dict[str, A
         for bindings in binding_candidates:
             predicate_results: list[Truth] = []
             predicate_relation_assertions: list[dict[str, Any]] = []
+            predicate_speciation_profiles: list[dict[str, Any]] = []
+            predicate_evidence_ids: set[str] = set()
             for predicate in plan.predicates:
                 truth, fact = evaluate_predicate(predicate, kb, bindings, context)
                 predicate_results.append(truth)
                 predicate_relation_assertions.extend(fact.relation_assertions)
+                predicate_speciation_profiles.extend(fact.speciation_profiles)
+                predicate_evidence_ids.update(fact.evidence_ids)
                 _trace_predicate(trace, "predicate.eval", plan, predicate, truth, fact)
             if Truth.FALSE in predicate_results:
                 continue
@@ -187,6 +198,14 @@ def infer_case(kb: KnowledgeBase, plans: tuple[RulePlan, ...], case: dict[str, A
             applicable_relation_assertions.setdefault(
                 plan.rule_id,
                 tuple(predicate_relation_assertions),
+            )
+            applicable_speciation_profiles.setdefault(
+                plan.rule_id,
+                tuple(predicate_speciation_profiles),
+            )
+            applicable_predicate_evidence_ids.setdefault(
+                plan.rule_id,
+                tuple(sorted(predicate_evidence_ids)),
             )
             break
 
@@ -258,6 +277,8 @@ def infer_case(kb: KnowledgeBase, plans: tuple[RulePlan, ...], case: dict[str, A
         trace,
         case,
         applicable_relation_assertions.get(selected_rule_id, ()),
+        applicable_speciation_profiles.get(selected_rule_id, ()),
+        applicable_predicate_evidence_ids.get(selected_rule_id, ()),
     )
 
 
@@ -271,6 +292,8 @@ def _construct_candidate(
     trace: list[dict[str, Any]],
     case: dict[str, Any],
     predicate_relation_assertions: tuple[dict[str, Any], ...],
+    predicate_speciation_profiles: tuple[dict[str, Any], ...],
+    predicate_evidence_ids: tuple[str, ...],
 ) -> dict[str, Any]:
     try:
         resolved_products = tuple(
@@ -287,8 +310,10 @@ def _construct_candidate(
     product_phases = {item.target_id: item.phase for item in resolved_products}
     profile_index = {
         (profile["target_id"], profile["profile_key"]): profile
-        for product in resolved_products
-        for profile in product.speciation_profiles
+        for profile in (
+            list(predicate_speciation_profiles)
+            + [profile for product in resolved_products for profile in product.speciation_profiles]
+        )
     }
     speciation_profiles = [profile_index[key] for key in sorted(profile_index)]
     relation_index = {
@@ -404,7 +429,7 @@ def _construct_candidate(
             "kind": "derived_reaction_candidate",
             "rule_id": plan.rule_id,
             "rule_version": plan.version,
-            "evidence_ids": sorted(set(plan.evidence_ids) | product_evidence_ids),
+            "evidence_ids": sorted(set(plan.evidence_ids) | product_evidence_ids | set(predicate_evidence_ids)),
             "speciation_profiles": speciation_profiles,
         },
         "proof_trace": trace,

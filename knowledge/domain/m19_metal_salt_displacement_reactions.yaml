@@ -1,0 +1,96 @@
+records:
+  - id: rxn_m19_zn_cucl2_displacement
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_elemental_zn, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_cucl2, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_zncl2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_elemental_cu, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+    forms:
+      - form_key: molecular
+        form_kind: molecular
+        participants:
+          - {target_id: ent_substance_elemental_zn, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+          - {target_id: ent_substance_cucl2, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+          - {target_id: ent_substance_zncl2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+          - {target_id: ent_substance_elemental_cu, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+        projection:
+          method: authored_molecular_v1
+          lifecycle: curated
+          required_assumptions: []
+          notes: ["Canonical molecular form for aqueous zinc and copper(II) chloride displacement through the generic M19 family."]
+      - form_key: complete_ionic
+        form_kind: complete_ionic
+        participants:
+          - {target_id: ent_substance_elemental_zn, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+          - {target_id: ent_species_cu_2plus, target_kind: species, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_cl_minus, target_kind: species, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_zn_2plus, target_kind: species, role: product, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_cl_minus, target_kind: species, role: product, coefficient: {numerator: 2, denominator: 1}, phase: dissolved}
+          - {target_id: ent_substance_elemental_cu, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+        projection:
+          method: aqueous_strong_electrolyte_v1
+          lifecycle: golden
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation]
+          notes: ["Golden complete ionic form expands only canonical CuCl2 and ZnCl2 speciation."]
+      - form_key: net_ionic
+        form_kind: net_ionic
+        participants:
+          - {target_id: ent_substance_elemental_zn, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+          - {target_id: ent_species_cu_2plus, target_kind: species, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_zn_2plus, target_kind: species, role: product, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_substance_elemental_cu, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+        projection:
+          method: cancel_spectator_ions_v1
+          lifecycle: golden
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation]
+          notes: ["Golden net ionic form after cancelling chloride as the sole spectator ion."]
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility, ev_m10_metal_identity_and_chloride_speciation, ev_m12_metal_copper_displacement]
+
+  - id: rxn_m19_mg_cucl2_displacement
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_elemental_mg, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_cucl2, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_mgcl2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_elemental_cu, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+    forms:
+      - form_key: molecular
+        form_kind: molecular
+        participants:
+          - {target_id: ent_substance_elemental_mg, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+          - {target_id: ent_substance_cucl2, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+          - {target_id: ent_substance_mgcl2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+          - {target_id: ent_substance_elemental_cu, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+        projection:
+          method: authored_molecular_v1
+          lifecycle: curated
+          required_assumptions: []
+          notes: ["Canonical molecular form for aqueous magnesium and copper(II) chloride displacement through the generic M19 family."]
+      - form_key: complete_ionic
+        form_kind: complete_ionic
+        participants:
+          - {target_id: ent_substance_elemental_mg, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+          - {target_id: ent_species_cu_2plus, target_kind: species, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_cl_minus, target_kind: species, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_mg_2plus, target_kind: species, role: product, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_cl_minus, target_kind: species, role: product, coefficient: {numerator: 2, denominator: 1}, phase: dissolved}
+          - {target_id: ent_substance_elemental_cu, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+        projection:
+          method: aqueous_strong_electrolyte_v1
+          lifecycle: golden
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation]
+          notes: ["Golden complete ionic form expands only canonical CuCl2 and MgCl2 speciation."]
+      - form_key: net_ionic
+        form_kind: net_ionic
+        participants:
+          - {target_id: ent_substance_elemental_mg, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+          - {target_id: ent_species_cu_2plus, target_kind: species, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_species_mg_2plus, target_kind: species, role: product, coefficient: {numerator: 1, denominator: 1}, phase: dissolved}
+          - {target_id: ent_substance_elemental_cu, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+        projection:
+          method: cancel_spectator_ions_v1
+          lifecycle: golden
+          required_assumptions: [aqueous_medium, strong_electrolyte_dissociation]
+          notes: ["Golden net ionic form after cancelling chloride as the sole spectator ion."]
+    evidence_ids: [ev_batch_a_ionic_identity_and_solubility, ev_m10_metal_identity_and_chloride_speciation, ev_m12_metal_copper_displacement]

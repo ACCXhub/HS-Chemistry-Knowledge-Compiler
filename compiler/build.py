@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
@@ -12,8 +13,10 @@ from .rules import RULE_DSL_VERSION, RULE_PLAN_VERSION, analyze_rule_overlaps, c
 from .source import SOURCE_SCHEMA_VERSION, KnowledgeBase, load_cases, load_knowledge
 
 
-ARTIFACT_FORMAT_VERSION = "1.4.0"
-SUPPORTED_ARTIFACT_FORMAT_VERSIONS = frozenset({"1.0.0", "1.1.0", "1.2.0", "1.3.0", ARTIFACT_FORMAT_VERSION})
+ARTIFACT_FORMAT_VERSION = "1.5.0"
+SUPPORTED_ARTIFACT_FORMAT_VERSIONS = frozenset(
+    {"1.0.0", "1.1.0", "1.2.0", "1.3.0", "1.4.0", ARTIFACT_FORMAT_VERSION}
+)
 
 
 def artifact_versions() -> dict[str, str]:
@@ -59,8 +62,8 @@ def _plan_projection(plans: tuple[Any, ...]) -> dict[str, Any]:
                 "version": plan.version,
                 "decision_domain": plan.decision_domain,
                 "patterns": [pattern.__dict__ for pattern in plan.patterns],
-                "predicates": [predicate.__dict__ for predicate in plan.predicates],
-                "blockers": [blocker.__dict__ for blocker in plan.blockers],
+                "predicates": [asdict(predicate) for predicate in plan.predicates],
+                "blockers": [asdict(blocker) for blocker in plan.blockers],
                 "products": [
                     {
                         "constructor": product.constructor,
@@ -77,6 +80,9 @@ def _plan_projection(plans: tuple[Any, ...]) -> dict[str, Any]:
                         "left_binding": product.left_binding,
                         "right_binding": product.right_binding,
                         "exchange_role": product.exchange_role,
+                        "entity_source": None
+                        if product.entity_source is None
+                        else asdict(product.entity_source),
                     }
                     for product in plan.products
                 ],

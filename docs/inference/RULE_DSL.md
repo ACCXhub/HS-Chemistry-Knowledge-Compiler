@@ -1,12 +1,12 @@
 # Declarative Reaction Rule DSL
 
-Status: **M12 exact-target Relation applicability**
+Status: **M19 bounded dynamic Relation targets and entity-source products**
 
 ## 1. Ownership and version
 
 Each authored Rule owns one stable `rule_*` ID, semantic version, evidence, and explicit resolution relationships. The Rule DSL version is independent from source-schema, compiler-plan, and external-artifact versions.
 
-M12 advances Rule DSL to `1.3.0` for the exact-target Relation predicate source shape. RulePlan advances independently to `1.3.0` for `PredicatePlan.target_id`. Reaction conditions and relation-family cardinality remain source/data contracts rather than Rule DSL fields.
+M19 advances Rule DSL to `1.4.0` for typed dynamic Relation targets and source-derived products. RulePlan advances independently to `1.4.0` for `EntitySourcePlan`, `PredicatePlan.target_source`, and `ProductPlan.entity_source`. Reaction conditions and relation-family cardinality remain source/data contracts rather than Rule DSL fields.
 
 ## 2. Participant patterns
 
@@ -47,18 +47,21 @@ predicates:
 
 Legacy F2 `context: {key: value}` authoring lowers to the same typed `equals/context` semantics. M6 intentionally has no arbitrary-expression or disjunction language.
 
-M12's Relation subject is deliberately narrower than the general `equals` row:
+The Relation subject is deliberately narrower than the general `equals` row. Exact targets remain valid; M19 also permits one typed target source:
 
 ```yaml
 - operator: equals
   subject: relation
   binding: metal
   key: metal.displaces_cation
-  target_id: ent_species_cu_2plus
+  target_source:
+    kind: speciation_ion
+    binding: salt
+    charge_sign: positive
   expected: true
 ```
 
-It requires exactly one valid source binding, a controlled relation key, one canonical target ID satisfying that relation's range, and literal `expected: true`. Lookup is exact-target, context-aware, and one hop. A matching evidence-backed assertion evaluates TRUE; no assertion evaluates UNKNOWN. Other operators, reverse lookup, chained traversal, and arbitrary graph expressions are rejected.
+It requires exactly one valid source binding, a controlled relation key, exactly one `target_id` or `target_source`, and literal `expected: true`. A matching evidence-backed assertion evaluates TRUE; no assertion or unavailable/ambiguous dynamic target evaluates UNKNOWN. Other operators, reverse lookup, recursive Relation sources, and arbitrary graph expressions are rejected.
 
 ## 4. Knowledge states
 
@@ -127,6 +130,22 @@ anion_source:
 `exact_entity` requires the target to resolve to one canonical ion Species whose charge sign matches its cation/anion position. It carries no participant binding and does not imply that any reactant dissociates into that ion.
 
 `exchange_product` reuses the same bounded exchange resolution to select the unique precipitate or soluble counterproduct. Zero or multiple product/ion/relation matches are explicit failures.
+
+M19 adds the `entity_source` product constructor:
+
+```yaml
+construct:
+  kind: entity_source
+  source:
+    kind: relation_target
+    relation_key: ion.elemental_substance
+    source:
+      kind: speciation_ion
+      binding: salt
+      charge_sign: positive
+```
+
+The shared entity-source forms are `exact_entity`, `binding`, `speciation_ion`, and `relation_target`. A Relation target must wrap a non-Relation source, enforcing at most one semantic hop. Resolution must select one existing canonical Entity and retains all consumed speciation and Relation evidence.
 
 Ionic-pair resolution returns speciation-profile provenance and relation-assertion provenance separately, including the evidence actually used. Successful Relation predicates contribute their matched assertions to the same deterministic candidate provenance and retain target/context/evidence in their predicate proof event. Failed or non-selected bindings do not pollute candidate provenance. This metadata is not a new chemistry truth owner or formula parser.
 

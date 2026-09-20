@@ -133,9 +133,9 @@ relation_assertions:
     evidence_ids: [ev_...]
 ```
 
-The relation key is controlled and its domain/range are validated semantically after reference resolution. For `metal.product_cation` and `metal.displaces_cation`, the source must be an elemental `Substance` with known-true `classification.metal`, and the target must be a positively charged ion `Species`. An ordinary embedded assertion has no durable relation UUID; deterministic lookup/provenance retains source ID, relation key, target ID, normalized context, and evidence IDs.
+The relation key is controlled and its domain/range are validated semantically after reference resolution. For `metal.product_cation` and `metal.displaces_cation`, the source must be an elemental `Substance` with known-true `classification.metal`, and the target must be a positively charged ion `Species`. For `ion.elemental_substance`, the source is a positively charged ion `Species` and the target is an elemental `Substance` with known-true `classification.metal`. An ordinary embedded assertion has no durable relation UUID; deterministic lookup/provenance retains source ID, relation key, target ID, normalized context, and evidence IDs.
 
-Each relation family declares cardinality. `metal.product_cation` permits one target per source/context, preserving its M10 uniqueness guarantee. `metal.displaces_cation` permits multiple distinct targets per source/context but rejects an exact duplicate source/key/target/context assertion. Exact-target resolution selects the most-specific matching assertions; equivalent equally specific assertions are combined deterministically with merged evidence rather than selected by file order. Absence remains an open-world fact state, not false.
+Each relation family declares cardinality. `metal.product_cation` and `ion.elemental_substance` permit one target per source/context. `metal.displaces_cation` permits multiple distinct targets per source/context but rejects an exact duplicate source/key/target/context assertion. Resolution selects the most-specific matching assertions; equivalent equally specific assertions are combined deterministically with merged evidence rather than selected by file order. Absence remains an open-world fact state, not false.
 
 ## 6. Embedded Context
 
@@ -246,7 +246,7 @@ M4 participant patterns may combine:
 - required facets;
 - forbidden facets.
 
-The typed predicate registry supports `equals`, `not_equals`, `is_known`, and `in_set` over their declared subjects. M12 adds only `equals expected: true` for an exact-target Relation predicate with one valid source binding, one controlled relation key, and one canonical target ID. This is a bounded executable vocabulary, not an arbitrary expression or graph-query language.
+The typed predicate registry supports `equals`, `not_equals`, `is_known`, and `in_set` over their declared subjects. A Relation predicate accepts `equals expected: true`, one valid source binding, one controlled relation key, and exactly one of an exact canonical `target_id` or typed `target_source`. A target source may resolve one signed ion from a bound participant's canonical speciation. This is a bounded executable vocabulary, not an arbitrary expression or graph-query language.
 
 Rule relationships are:
 
@@ -305,6 +305,8 @@ anion_source:
 
 The target must resolve to a canonical ion Species with the sign required by its cation/anion position. This source carries no reactant binding and does not create a speciation assertion for water or any other Entity.
 
+M19 adds a shared `EntitySourcePlan` with four closed forms: exact canonical entity, participant binding, unique signed ion from a bound participant's context-matching speciation, and one Relation target whose source is one of the non-Relation forms. Relation-to-Relation nesting is invalid. An `entity_source` product resolves exactly one existing canonical Entity and carries consumed speciation/assertion evidence; it never parses a formula or mints identity.
+
 ## 11. TeachingView
 
 ```yaml
@@ -331,13 +333,13 @@ External generated artifacts remain contract-owned and reproducible. The four co
 
 | Coordinate | Current value |
 | --- | --- |
-| source schema | `3.5.0` |
-| Rule DSL | `1.3.0` |
-| internal RulePlan | `1.3.0` |
-| external artifact format | `1.4.0` |
+| source schema | `3.6.0` |
+| Rule DSL | `1.4.0` |
+| internal RulePlan | `1.4.0` |
+| external artifact format | `1.5.0` |
 
 Manifests carry all four coordinates. External payloads carry `artifact_format_version`; consumers must reject unsupported artifact-format versions rather than inferring payload compatibility from compiler package version alone.
 
-Artifact `1.4.0` is required because externally emitted compiled plans now contain `PredicatePlan.target_id`; this is independent from the source/DSL/plan changes. The reference reader still accepts artifact formats `1.0.0`, `1.1.0`, `1.2.0`, and `1.3.0`.
+Artifact `1.5.0` is required because externally emitted compiled plans now contain nested `EntitySourcePlan` values in `PredicatePlan.target_source` and `ProductPlan.entity_source`. The reference reader still accepts artifact formats `1.0.0` through `1.4.0`.
 
 Compiler-internal plans, indexes, caches, and dense runtime IDs remain implementation details rather than canonical source contracts.

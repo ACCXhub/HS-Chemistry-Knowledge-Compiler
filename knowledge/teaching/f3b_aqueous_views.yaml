@@ -101,6 +101,8 @@ records:
           - rxn_m12_mg_cuso4_displacement
           - rxn_m13_zn_agno3_displacement
           - rxn_m13_mg_agno3_displacement
+          - rxn_m19_zn_cucl2_displacement
+          - rxn_m19_mg_cucl2_displacement
           - rxn_m18_magnesium_steam_hydrogen
       - path_key: D05/chemical-experiments/ammonium-ion-identification
         parent_path_key: D05/chemical-experiments
@@ -136,6 +138,8 @@ records:
           - rxn_m12_mg_cuso4_displacement
           - rxn_m13_zn_agno3_displacement
           - rxn_m13_mg_agno3_displacement
+          - rxn_m19_zn_cucl2_displacement
+          - rxn_m19_mg_cucl2_displacement
           - rxn_batch_a_hcl_koh_neutralization
           - rxn_batch_a_hno3_naoh_neutralization
           - rxn_batch_a_hcl_khco3_gas_evolution

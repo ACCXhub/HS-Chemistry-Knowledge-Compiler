@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from .aqueous import AqueousResolutionError, resolve_exchange, resolve_ionic_pair_from_sources
+from .entity_sources import EntitySourceResolutionError, resolve_entity_source
 from .model import ProductPlan
 from .source import KnowledgeBase, SourceError
 
@@ -108,6 +109,24 @@ def resolve_product_detail(
             f"unknown exchange product role: {plan.exchange_role}",
             code="schema_invalid",
             stage="product_resolution",
+        )
+    if plan.constructor == "entity_source":
+        assert plan.entity_source is not None
+        try:
+            resolution = resolve_entity_source(kb, bindings, plan.entity_source, context)
+        except EntitySourceResolutionError as exc:
+            raise ProductResolutionError(
+                str(exc),
+                code=exc.code,
+                stage=exc.stage,
+                details=exc.details,
+            ) from exc
+        return ResolvedProduct(
+            target_id=resolution.target_id,
+            phase=plan.phase,
+            speciation_profiles=resolution.speciation_profiles,
+            relation_assertions=resolution.relation_assertions,
+            evidence_ids=resolution.evidence_ids,
         )
     raise ProductResolutionError(
         f"unknown product constructor: {plan.constructor}",

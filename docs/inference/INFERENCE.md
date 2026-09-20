@@ -1,6 +1,6 @@
 # Deterministic Reaction Inference Semantics
 
-Status: **M12 exact-target Relation applicability and provenance**
+Status: **M19 dynamic-target Relation applicability and bounded entity sources**
 
 ## Pipeline
 
@@ -8,7 +8,7 @@ Status: **M12 exact-target Relation applicability and provenance**
 input normalization
 → reference/context resolution
 → structural participant identity/kind/phase binding candidates
-→ typed predicate evaluation, including bounded exact-target Relations (TRUE/FALSE/UNKNOWN)
+→ typed predicate evaluation, including bounded exact/dynamic-target Relations (TRUE/FALSE/UNKNOWN)
 → blockers
 → applicable-rule resolution graph
 → typed relation/speciation/exact-entity ion-source resolution
@@ -30,7 +30,7 @@ Participant binding uses canonical identity/kind/phase constraints. Required/for
 
 Missing/open-world knowledge is `UNKNOWN`, not false. Explicit `unknown`, `not_applicable`, and absent facts remain distinguishable in the trace.
 
-M12 Relation predicates resolve one exact `(source binding, controlled relation key, canonical target ID, context)` fact. Matching evidence-backed assertions are known true; no match is ABSENT/UNKNOWN. Only `equals expected: true` is accepted. Equally specific assertions for the same target are combined deterministically with merged evidence, and only assertions from the finally applicable binding enter candidate provenance.
+Relation predicates resolve `(source binding, controlled relation key, canonical target ID, context)` where the target is either exact or obtained from a typed entity source. M19 may select the unique positive ion from a bound salt's context-matching canonical speciation. Matching evidence-backed assertions are known true; no assertion or unavailable/ambiguous target source is ABSENT/UNKNOWN. Only `equals expected: true` is accepted. Equally specific assertions for the same target are combined deterministically with merged evidence, and only assertions from the finally applicable binding enter candidate provenance.
 
 ## Rule resolution
 
@@ -48,7 +48,9 @@ M10 uses this boundary for `elemental metal -> product cation` plus `acid -> spe
 
 M11 reuses the relation path for the metal cation and resolves OH- through an exact canonical ion source. The fixed ion is not attributed to water speciation. Solid-metal and liquid-water phase constraints are checked before predicates; `metal.water_reactivity` is a separate ambient contextual fact, so M10 activity relative to hydrogen cannot make Zn/Mg water positives. Missing reactivity remains UNKNOWN, while a missing cation relation or exact ion target is an explicit resolution failure once the Rule is otherwise applicable.
 
-M12 uses a Relation predicate to prove only that the generic incoming metal has an evidence-backed aqueous `metal.displaces_cation` assertion to exact Cu2+. A separate `metal.product_cation` relation still supplies the incoming cation, CuSO4 speciation supplies sulfate, and the existing ionic-pair resolver selects canonical ZnSO4 or MgSO4. Elemental Cu is an exact canonical product. No activity ranking, formula parsing, reverse relation, dynamic displaced-metal lookup, or product fabrication is involved.
+M19 uses one generic Rule for aqueous metal-salt displacement. The salt's canonical speciation supplies its unique positive ion to the dynamic `metal.displaces_cation` predicate and its negative ion to product construction. A separate `metal.product_cation` Relation supplies the incoming metal's cation, and the unchanged ionic-pair resolver selects the canonical neutral salt. The displaced cation reaches its elemental-metal Substance through exactly one `ion.elemental_substance` Relation hop. CuSO4, AgNO3, and CuCl2 therefore reuse the same family without activity ranking, formula parsing, reverse inference, valence guessing, or product fabrication.
+
+`EntitySourcePlan` has four closed forms: exact entity, participant binding, unique signed speciation ion, and one Relation target whose source cannot itself be a Relation target. Resolution preserves consumed profile/assertion/evidence provenance. Missing or ambiguous speciation, product cation, or ion-to-elemental mapping produces a structured indeterminate/resolution diagnostic; it never creates a target.
 
 Balancing receives fixed canonical reactants/products and uses exact arithmetic. The M6 carbonate family demonstrates that multi-proton molecular stoichiometry follows from canonical composition after product identities are fixed; no Rule or engine branch supplies coefficients. Atom and charge validation are separate stages and diagnostics.
 

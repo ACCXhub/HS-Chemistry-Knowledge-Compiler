@@ -281,6 +281,18 @@ cases:
       - {target_id: ent_substance_agno3, phase: aqueous}
     context: {medium: aqueous, temperature_regime: ambient}
 
+  - id: case_m19_zn_cucl2
+    reactants:
+      - {target_id: ent_substance_elemental_zn, phase: solid}
+      - {target_id: ent_substance_cucl2, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m19_mg_cucl2
+    reactants:
+      - {target_id: ent_substance_elemental_mg, phase: solid}
+      - {target_id: ent_substance_cucl2, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
   - id: case_batch_a_hcl_koh
     reactants:
       - {target_id: ent_substance_hcl, phase: aqueous}

@@ -306,3 +306,15 @@ M18 represents steam with the existing canonical H2O identity authored as a gas-
 One exact declarative Rule binds only elemental Mg(s) and H2O(g), then selects canonical MgO(s) and H2(g). MgO is the only new Entity. The Rule does not use Mg's aqueous `metal.product_cation` Relation, does not add or overload `metal.water_reactivity`, and does not construct oxides dynamically. Exact balancing derives `1:1:1:1`; atom and charge conservation remain structural validation rather than general redox inference; the canonical Reaction owns no ionic forms.
 
 This bounded phase/pathway proof changes no compiler, schema, Rule DSL, RulePlan, or artifact contract. Hot liquid water, phase-transition semantics, generic metal + steam inference, other metal/steam pathways, oxide selection, and redox prediction remain outside M18.
+
+## ADR-M19-001 — Bounded typed entity sources own generic displacement indirection
+
+M19 introduces one `EntitySourcePlan` shared by dynamic Relation-predicate targets and source-derived products. Its closed forms are exact canonical entity, bound participant, unique positive/negative ion from a context-matching canonical speciation profile, and one Relation target whose source is one of the non-Relation forms. Relation-to-Relation nesting is rejected, so this is not recursive traversal or a query language.
+
+The sole active aqueous metal-salt displacement Rule binds a generic solid metal and aqueous salt. The salt's canonical speciation supplies the displaced cation dynamically; the incoming metal must own an exact evidence-backed `metal.displaces_cation` assertion to that cation. Missing or ambiguous speciation and missing pairwise assertions remain UNKNOWN. `metal.product_cation` plus the unchanged `ionic_pair` constructor selects the incoming metal salt, so formulas and valence are never guessed.
+
+The controlled `ion.elemental_substance` Relation maps a positive ion Species to one canonical elemental-metal Substance and has `one_target_per_context` cardinality. M19 authors only the required Cu2+ -> Cu and Ag+ -> Ag mappings. The displaced product follows exactly one such Relation hop, preserves the consumed speciation/assertion evidence, and never performs reverse inference.
+
+The exact active M12 CuSO4 and M13 AgNO3 Rules are retired because the repository has no deprecation/alias mechanism and retaining them would duplicate semantics. Their Entity IDs, Reaction IDs, evidence, fixtures, TeachingView coverage, and historical ADRs remain. One M19 Rule now covers CuSO4, AgNO3, and CuCl2 for the authorized Zn/Mg pairwise facts. Activity ranking, transitivity, explicit known-negative ownership, water competition, variable valence, passivation, concentration effects, and general redox inference remain deferred.
+
+These source, DSL, lowered-plan, and emitted-plan additions advance source schema to `3.6.0`, Rule DSL and RulePlan to `1.4.0`, and artifact format to `1.5.0`. The reference reader intentionally retains formats `1.0.0` through `1.4.0`.

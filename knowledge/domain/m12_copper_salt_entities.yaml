@@ -22,6 +22,8 @@ records:
       composition:
         components: [{element_id: ent_element_cu, count: 1}]
         net_charge: 2
+    relation_assertions:
+      - {relation_key: ion.elemental_substance, target_id: ent_substance_elemental_cu, context: {}, evidence_ids: [ev_m12_metal_copper_displacement]}
     evidence_ids: [ev_m12_copper_sulfate_identity_and_speciation]
 
   - id: ent_substance_cuso4

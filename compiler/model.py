@@ -26,6 +26,19 @@ class FactValue:
     context: tuple[tuple[str, Any], ...] = ()
     evidence_ids: tuple[str, ...] = ()
     relation_assertions: tuple[dict[str, Any], ...] = ()
+    speciation_profiles: tuple[dict[str, Any], ...] = ()
+    resolved_target_id: str | None = None
+    diagnostic: dict[str, Any] | None = None
+
+
+@dataclass(frozen=True)
+class EntitySourcePlan:
+    kind: str
+    binding: str | None = None
+    target_id: str | None = None
+    charge_sign: str | None = None
+    relation_key: str | None = None
+    source: EntitySourcePlan | None = None
 
 
 @dataclass(frozen=True)
@@ -36,6 +49,7 @@ class PredicatePlan:
     bindings: tuple[str, ...] = ()
     key: str | None = None
     target_id: str | None = None
+    target_source: EntitySourcePlan | None = None
     expected: Any = None
 
 
@@ -70,6 +84,7 @@ class ProductPlan:
     left_binding: str | None = None
     right_binding: str | None = None
     exchange_role: str | None = None
+    entity_source: EntitySourcePlan | None = None
 
     @property
     def cation_from(self) -> str | None:

@@ -214,11 +214,19 @@ Steam is canonical H2O used with reactant `phase = gas`; heating remains the exi
 
 MgO is the only new Entity. The Reaction owns no ionic forms and does not consume Mg's aqueous product-cation Relation or add `metal.water_reactivity` for Mg. Hot liquid water, generic metal + steam inference, Fe/Zn/Ca pathways, dynamic oxide construction, phase transitions, numeric temperature, and general redox reasoning remain unsupported. Compatibility coordinates and compiler/schema behavior remain unchanged.
 
+## M19 — Generic aqueous metal-salt displacement architecture
+
+M19 retires the two active exact-salt M12/M13 Rules and replaces them with one declarative family, `rule_m19_generic_aqueous_metal_salt_displacement`. The bound aqueous salt supplies its unique positive and negative ions from canonical complete-dissociation speciation. Applicability then checks only an authored pairwise `metal.displaces_cation` assertion to that resolved cation; absence remains UNKNOWN and no activity ordering or transitivity is inferred.
+
+A shared typed `EntitySourcePlan` supports exact entities, participant bindings, one signed speciation ion, and at most one controlled Relation hop. The incoming salt product still uses `metal.product_cation` plus the existing `ionic_pair` constructor. The displaced product uses the evidence-backed `ion.elemental_substance` Relation, currently only for Cu2+ -> Cu and Ag+ -> Ag. No formula is parsed and no canonical identity is minted.
+
+The same Rule reproduces Zn/Mg + CuSO4 and Zn/Mg + AgNO3 and adds the third-salt proof Zn/Mg + CuCl2 without another salt-specific Rule. Existing M12/M13 Reaction IDs and regression fixtures remain canonical; only active Rule ownership moves to M19. Source schema advances to `3.6.0`, Rule DSL and RulePlan to `1.4.0`, and artifact format to `1.5.0`; the reader continues to accept artifact formats `1.0.0` through `1.4.0`.
+
 ## Still out of scope
 
 - full high-school chemistry population or wholesale legacy migration;
 - transition-metal redox, concentrated-acid/passivation, or organic families;
-- variable-valence metal product selection, arbitrary metal/salt displacement, broader metal/water reactions, or general activity-series/electrode-potential reasoning;
+- variable-valence metal product selection, displacement beyond evidence-backed pairwise aqueous salt cases, broader metal/water reactions, or general activity-series/electrode-potential reasoning;
 - generic carbonate-to-oxide or bicarbonate-to-carbonate product mapping, or broader thermal-decomposition inference beyond the exact M16 CaCO3 and M17 NaHCO3 pilots;
 - generic metal + steam or hot-liquid-water inference beyond the exact M18 Mg + H2O(g) pilot;
 - universal equilibrium/speciation solving;

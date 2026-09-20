@@ -3,13 +3,14 @@ from __future__ import annotations
 from itertools import permutations
 from typing import Any, Iterable
 
-from .model import IonSourcePlan, ParticipantPatternPlan, PredicatePlan, ProductPlan, RulePlan, RuleRelations
+from .entity_sources import compile_entity_source
+from .model import EntitySourcePlan, IonSourcePlan, ParticipantPatternPlan, PredicatePlan, ProductPlan, RulePlan, RuleRelations
 from .predicates import compile_predicate
 from .source import KnowledgeBase, SourceError
 
 
-RULE_DSL_VERSION = "1.3.0"
-RULE_PLAN_VERSION = "1.3.0"
+RULE_DSL_VERSION = "1.4.0"
+RULE_PLAN_VERSION = "1.4.0"
 _RELATION_FIELDS = (
     "overrides",
     "specializes",
@@ -112,6 +113,12 @@ def _compile_product(source: dict[str, Any], bindings: set[str]) -> ProductPlan:
             left_binding=_require_binding(construction["left_binding"], bindings, kind),
             right_binding=_require_binding(construction["right_binding"], bindings, kind),
             exchange_role=role,
+        )
+    if kind == "entity_source":
+        return ProductPlan(
+            constructor="entity_source",
+            phase=phase,
+            entity_source=compile_entity_source(construction["source"], bindings),
         )
     raise SourceError(
         f"unknown product constructor: {kind}",
@@ -313,6 +320,18 @@ def _participant_overlap(a: RulePlan, b: RulePlan) -> tuple[bool, str]:
 
 
 def _outcome_signature(plan: RulePlan) -> tuple[Any, ...]:
+    def entity_source_signature(source: EntitySourcePlan | None) -> tuple[Any, ...] | None:
+        if source is None:
+            return None
+        return (
+            source.kind,
+            source.binding,
+            source.target_id,
+            source.charge_sign,
+            source.relation_key,
+            entity_source_signature(source.source),
+        )
+
     products = tuple(
         sorted(
             (
@@ -340,6 +359,7 @@ def _outcome_signature(plan: RulePlan) -> tuple[Any, ...]:
                 product.left_binding,
                 product.right_binding,
                 product.exchange_role,
+                entity_source_signature(product.entity_source),
             )
             for product in plan.products
         )

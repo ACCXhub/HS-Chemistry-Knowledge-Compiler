@@ -143,11 +143,19 @@ def test_relation_predicate_absence_or_wrong_context_remains_unknown(
     assert fact.relation_assertions == ()
 
 
-def test_relation_predicate_requires_one_valid_binding_exact_target_and_true_equals() -> None:
+def test_relation_predicate_requires_one_valid_binding_one_target_source_and_true_equals() -> None:
     with pytest.raises(SourceError, match="requires one valid binding"):
         compile_predicate(_relation_predicate(), {"other"})
-    with pytest.raises(SourceError, match="requires exact target_id"):
+    with pytest.raises(SourceError, match="requires exactly one target_id or target_source"):
         compile_predicate({key: value for key, value in _relation_predicate().items() if key != "target_id"}, {"metal"})
+    with pytest.raises(SourceError, match="requires exactly one target_id or target_source"):
+        compile_predicate(
+            {
+                **_relation_predicate(),
+                "target_source": {"kind": "exact_entity", "target_id": "ent_species_cu_2plus"},
+            },
+            {"metal"},
+        )
     with pytest.raises(SourceError, match="supports only equals expected true"):
         compile_predicate({**_relation_predicate(), "expected": False}, {"metal"})
     with pytest.raises(SourceError, match="unsupported relation predicate key"):

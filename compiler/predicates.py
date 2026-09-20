@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from .aqueous import exchange_driving_force_fact
+from .entity_sources import EntitySourceResolutionError, compile_entity_source, resolve_entity_source
 from .model import FactValue, KnowledgeState, PredicatePlan, Truth
 from .source import RELATION_CONTRACTS, KnowledgeBase, SourceError
 
@@ -51,6 +52,8 @@ def compile_predicate(source: dict[str, Any], bindings: set[str]) -> PredicatePl
     predicate_bindings = tuple(source.get("bindings", []))
     key = source.get("key")
     target_id = source.get("target_id")
+    target_source_source = source.get("target_source")
+    target_source = None
     if not isinstance(key, str) or not key:
         raise SourceError("predicate key must be a non-empty string", code="schema_invalid", stage="rule_compile")
 
@@ -105,12 +108,16 @@ def compile_predicate(source: dict[str, Any], bindings: set[str]) -> PredicatePl
                 stage="rule_compile",
                 details={"key": key},
             )
-        if not isinstance(target_id, str) or not target_id:
+        has_target_id = isinstance(target_id, str) and bool(target_id)
+        has_target_source = isinstance(target_source_source, dict)
+        if has_target_id == has_target_source:
             raise SourceError(
-                "relation predicate requires exact target_id",
+                "relation predicate requires exactly one target_id or target_source",
                 code="schema_invalid",
                 stage="rule_compile",
             )
+        if has_target_source:
+            target_source = compile_entity_source(target_source_source, bindings)
     elif target_id is not None:
         raise SourceError(
             f"{subject} predicate cannot declare target_id",
@@ -169,6 +176,7 @@ def compile_predicate(source: dict[str, Any], bindings: set[str]) -> PredicatePl
         bindings=predicate_bindings,
         key=key,
         target_id=target_id,
+        target_source=target_source,
         expected=expected,
     )
 
@@ -196,12 +204,49 @@ def _fact_for(
         assert predicate.binding is not None
         return kb.property_fact(bindings[predicate.binding], predicate.key, context)
     if predicate.subject == "relation":
-        assert predicate.binding is not None and predicate.target_id is not None
-        return kb.relation_fact(
+        assert predicate.binding is not None
+        if predicate.target_source is None:
+            assert predicate.target_id is not None
+            return kb.relation_fact(
+                bindings[predicate.binding],
+                predicate.key,
+                predicate.target_id,
+                context,
+            )
+        try:
+            resolution = resolve_entity_source(kb, bindings, predicate.target_source, context)
+        except EntitySourceResolutionError as exc:
+            return FactValue(
+                KnowledgeState.ABSENT,
+                None,
+                "entity_source",
+                diagnostic=exc.diagnostic,
+            )
+        relation_fact = kb.relation_fact(
             bindings[predicate.binding],
             predicate.key,
-            predicate.target_id,
+            resolution.target_id,
             context,
+        )
+        return FactValue(
+            state=relation_fact.state,
+            value=relation_fact.value,
+            origin=relation_fact.origin,
+            context=relation_fact.context,
+            evidence_ids=tuple(sorted(set(relation_fact.evidence_ids) | set(resolution.evidence_ids))),
+            relation_assertions=tuple(
+                sorted(
+                    resolution.relation_assertions + relation_fact.relation_assertions,
+                    key=lambda item: (
+                        item["source_id"],
+                        item["relation_key"],
+                        item["target_id"],
+                        tuple(sorted(item["context"].items())),
+                    ),
+                )
+            ),
+            speciation_profiles=resolution.speciation_profiles,
+            resolved_target_id=resolution.target_id,
         )
     if predicate.subject == "ionic_exchange":
         left_binding, right_binding = predicate.bindings

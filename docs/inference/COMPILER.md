@@ -1,6 +1,6 @@
 # Knowledge Compiler Architecture
 
-Status: **M16 generic scalar context execution with a controlled heated value**
+Status: **M19 generic bounded entity-source execution**
 
 ## Responsibility
 
@@ -15,7 +15,7 @@ parse YAML safely
 → controlled relation-target validation
 → semantic indexes
 → Rule parse/type checking
-→ typed PredicatePlan / ParticipantPatternPlan / IonSourcePlan / ProductPlan lowering
+→ typed PredicatePlan / ParticipantPatternPlan / IonSourcePlan / EntitySourcePlan / ProductPlan lowering
 → rule relationship graph validation
 → static overlap analysis
 → deterministic runtime plan
@@ -27,7 +27,7 @@ Validation precedes derivation.
 
 ## Operator registry
 
-The compiler owns the implementation of the source-level typed operator registry. Source semantics are stable operator names and typed arguments, not Python function names. The registry remains small and rejects malformed arguments during compilation. M12 adds only exact-target, one-binding, one-hop Relation lookup under `equals expected: true`; it does not add graph traversal or a query language.
+The compiler owns the implementation of the source-level typed operator registry. Source semantics are stable operator names and typed arguments, not Python function names. The registry remains small and rejects malformed arguments during compilation. A Relation predicate under `equals expected: true` accepts one binding and exactly one exact target or typed target source. Dynamic target resolution preserves UNKNOWN on absent/ambiguous sources and does not add graph traversal or a query language.
 
 ## Overlap analysis
 
@@ -49,7 +49,7 @@ Precedence cycles are rejected. Runtime resolution uses transitive reachability 
 
 ## Product resolution
 
-`exact_entity`, `semantic_key`, `ionic_pair`, and `exchange_product` are bounded constructors. They resolve against canonical source indexes and canonical composition/speciation/relation records. Ionic-pair ion sources may be speciation-backed, one-hop relation-backed, or an exact canonical ion Species. Exact sources are reference- and sign-validated; after both ions resolve, the unchanged neutral composition/charge resolver selects a canonical Substance. Zero or multiple matches remain explicit; no constructor parses display formulas, guesses valence, or mints canonical identity.
+`exact_entity`, `semantic_key`, `ionic_pair`, `exchange_product`, and `entity_source` are bounded constructors. They resolve against canonical source indexes and canonical composition/speciation/relation records. `EntitySourcePlan` resolves an exact entity, binding, one signed speciation ion, or one Relation target from a non-Relation source. Ionic-pair ion sources remain speciation-, relation-, or exact-ion-backed; after both ions resolve, the unchanged neutral composition/charge resolver selects a canonical Substance. Zero or multiple matches remain explicit; no constructor parses display formulas, guesses valence, or mints canonical identity.
 
 ## ReactionForm projection
 
@@ -64,14 +64,14 @@ Rule context requirements and canonical Reaction conditions use the existing gen
 Version axes are separate:
 
 ```text
-source schema     3.5.0
-Rule DSL          1.3.0
-RulePlan          1.3.0
-artifact format   1.4.0
+source schema     3.6.0
+Rule DSL          1.4.0
+RulePlan          1.4.0
+artifact format   1.5.0
 ```
 
-External artifacts include `artifact_format_version`; manifests include all four. Artifact `1.4.0` reflects emitted `PredicatePlan.target_id`, independently of the source/DSL/plan bumps. The reader also accepts historical formats `1.0.0`, `1.1.0`, `1.2.0`, and `1.3.0`; consumers reject unknown versions.
+External artifacts include `artifact_format_version`; manifests include all four. Artifact `1.5.0` reflects emitted nested `PredicatePlan.target_source` and `ProductPlan.entity_source`. The reader also accepts historical formats `1.0.0` through `1.4.0`; consumers reject unknown versions.
 
 ## Performance policy
 
-Python-first remains the reference implementation. M12 adds no external dependency, RETE, database, native extension, generic graph engine, activity-ranking engine, or plugin runtime. Small typed indexes and compiled plans are preferred; optimization requires measured evidence.
+Python-first remains the reference implementation. M19 adds no external dependency, RETE, database, native extension, generic graph engine, activity-ranking engine, or plugin runtime. Small typed indexes and compiled plans are preferred; optimization requires measured evidence.

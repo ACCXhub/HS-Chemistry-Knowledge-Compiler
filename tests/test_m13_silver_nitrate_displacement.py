@@ -12,7 +12,7 @@ from compiler.source import SOURCE_SCHEMA_VERSION, load_knowledge
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RULE_ID = "rule_m13_metal_silver_nitrate_displacement"
+RULE_ID = "rule_m19_generic_aqueous_metal_salt_displacement"
 SILVER_EVIDENCE_ID = "ev_m13_silver_nitrate_identity_and_speciation"
 DISPLACEMENT_EVIDENCE_ID = "ev_m13_metal_silver_displacement"
 
@@ -139,7 +139,7 @@ def test_m13_zinc_and_magnesium_have_real_many_target_displacement_relations() -
         assert len(product_cations) == 1
 
 
-def test_m13_rule_is_agno3_bounded_and_reuses_m12_contracts() -> None:
+def test_m13_regression_uses_generic_salt_rule_and_reuses_m12_contracts() -> None:
     plan = next(plan for plan in compile_rules(load_knowledge(ROOT)) if plan.rule_id == RULE_ID)
     patterns = {pattern.bind: pattern for pattern in plan.patterns}
     relation = next(predicate for predicate in plan.predicates if predicate.subject == "relation")
@@ -148,11 +148,15 @@ def test_m13_rule_is_agno3_bounded_and_reuses_m12_contracts() -> None:
     assert patterns["metal"].entity_kind == "substance"
     assert patterns["metal"].phase == "solid"
     assert patterns["metal"].required_facets == ("classification.metal",)
-    assert patterns["silver_nitrate"].target_id == "ent_substance_agno3"
-    assert patterns["silver_nitrate"].phase == "aqueous"
+    assert patterns["salt"].target_id is None
+    assert patterns["salt"].phase == "aqueous"
+    assert patterns["salt"].required_facets == ("classification.salt",)
     assert relation.binding == "metal"
     assert relation.key == "metal.displaces_cation"
-    assert relation.target_id == "ent_species_ag_plus"
+    assert relation.target_id is None
+    assert relation.target_source.kind == "speciation_ion"
+    assert relation.target_source.binding == "salt"
+    assert relation.target_source.charge_sign == "positive"
     assert relation.operator == "equals"
     assert relation.expected is True
 
@@ -163,11 +167,15 @@ def test_m13_rule_is_agno3_bounded_and_reuses_m12_contracts() -> None:
     assert nitrate.cation_source.binding == "metal"
     assert nitrate.cation_source.relation_key == "metal.product_cation"
     assert nitrate.anion_source.kind == "speciation"
-    assert nitrate.anion_source.binding == "silver_nitrate"
-    assert [(product.constructor, product.target_id, product.phase) for product in plan.products[1:]] == [
-        ("exact_entity", "ent_substance_elemental_ag", "solid")
-    ]
-    assert plan.decision_domain == "aqueous_silver_nitrate_displacement"
+    assert nitrate.anion_source.binding == "salt"
+    displaced = plan.products[1]
+    assert displaced.constructor == "entity_source"
+    assert displaced.entity_source.kind == "relation_target"
+    assert displaced.entity_source.relation_key == "ion.elemental_substance"
+    assert displaced.entity_source.source.kind == "speciation_ion"
+    assert displaced.entity_source.source.binding == "salt"
+    assert displaced.phase == "solid"
+    assert plan.decision_domain == "aqueous_metal_salt_displacement"
 
 
 @pytest.mark.parametrize(
@@ -207,6 +215,13 @@ def test_m13_one_rule_infers_exact_balanced_reactions_with_full_provenance(
     )
     assert first["provenance"]["relation_assertions"] == [
         {
+            "source_id": "ent_species_ag_plus",
+            "relation_key": "ion.elemental_substance",
+            "target_id": "ent_substance_elemental_ag",
+            "context": {},
+            "evidence_ids": [DISPLACEMENT_EVIDENCE_ID],
+        },
+        {
             "source_id": metal_id,
             "relation_key": "metal.displaces_cation",
             "target_id": "ent_species_ag_plus",
@@ -236,7 +251,7 @@ def test_m13_one_rule_infers_exact_balanced_reactions_with_full_provenance(
     )
     assert relation_event["truth"] == "TRUE"
     assert relation_event["target_id"] == "ent_species_ag_plus"
-    assert relation_event["relation_assertions"] == first["provenance"]["relation_assertions"][:1]
+    assert relation_event["relation_assertions"] == first["provenance"]["relation_assertions"][1:2]
 
 
 @pytest.mark.parametrize(
@@ -317,16 +332,16 @@ def test_m13_missing_ag_displacement_knowledge_remains_open_world(metal: str) ->
     assert relation_event["knowledge_state"] == "absent"
 
 
-def test_m13_compatibility_coordinates_remain_frozen() -> None:
-    assert SOURCE_SCHEMA_VERSION == "3.5.0"
-    assert RULE_DSL_VERSION == "1.3.0"
-    assert RULE_PLAN_VERSION == "1.3.0"
-    assert ARTIFACT_FORMAT_VERSION == "1.4.0"
+def test_m13_compatibility_coordinates_follow_m19_contracts() -> None:
+    assert SOURCE_SCHEMA_VERSION == "3.6.0"
+    assert RULE_DSL_VERSION == "1.4.0"
+    assert RULE_PLAN_VERSION == "1.4.0"
+    assert ARTIFACT_FORMAT_VERSION == "1.5.0"
     assert artifact_versions() == {
-        "source_schema": "3.5.0",
-        "rule_dsl": "1.3.0",
-        "rule_plan": "1.3.0",
-        "artifact_format": "1.4.0",
+        "source_schema": "3.6.0",
+        "rule_dsl": "1.4.0",
+        "rule_plan": "1.4.0",
+        "artifact_format": "1.5.0",
     }
 
 
@@ -360,8 +375,8 @@ def test_m13_teaching_fixture_and_prior_family_regressions(tmp_path: Path) -> No
         assert "candidate_key" not in results[case_id]
 
     expected_prior = {
-        "case_m12_zn_cuso4": "rule_m12_metal_copper_sulfate_displacement",
-        "case_m12_mg_cuso4": "rule_m12_metal_copper_sulfate_displacement",
+        "case_m12_zn_cuso4": RULE_ID,
+        "case_m12_mg_cuso4": RULE_ID,
         "case_m10_zn_hcl": "rule_m10_active_metal_non_oxidizing_acid_hydrogen",
         "case_m10_mg_hcl": "rule_m10_active_metal_non_oxidizing_acid_hydrogen",
         "case_m11_na_water": "rule_m11_water_reactive_metal_hydrogen",

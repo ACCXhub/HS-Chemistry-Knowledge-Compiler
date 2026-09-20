@@ -12,25 +12,34 @@ from .model import FactValue, KnowledgeState
 
 
 SOURCE_DIRS = ("knowledge/domain", "knowledge/rules", "knowledge/teaching")
-SOURCE_SCHEMA_VERSION = "3.5.0"
+SOURCE_SCHEMA_VERSION = "3.6.0"
 RELATION_CONTRACTS = {
     "metal.product_cation": {
         "cardinality": "one_target_per_context",
-        "source_entity_kind": "substance",
-        "source_substance_kind": "elemental",
-        "source_required_facet": "classification.metal",
-        "target_entity_kind": "species",
-        "target_species_kind": "ion",
-        "target_charge_sign": "positive",
+        "source": {
+            "entity_kind": "substance",
+            "substance_kind": "elemental",
+            "required_facet": "classification.metal",
+        },
+        "target": {"entity_kind": "species", "species_kind": "ion", "charge_sign": "positive"},
     },
     "metal.displaces_cation": {
         "cardinality": "many_targets_per_context",
-        "source_entity_kind": "substance",
-        "source_substance_kind": "elemental",
-        "source_required_facet": "classification.metal",
-        "target_entity_kind": "species",
-        "target_species_kind": "ion",
-        "target_charge_sign": "positive",
+        "source": {
+            "entity_kind": "substance",
+            "substance_kind": "elemental",
+            "required_facet": "classification.metal",
+        },
+        "target": {"entity_kind": "species", "species_kind": "ion", "charge_sign": "positive"},
+    },
+    "ion.elemental_substance": {
+        "cardinality": "one_target_per_context",
+        "source": {"entity_kind": "species", "species_kind": "ion", "charge_sign": "positive"},
+        "target": {
+            "entity_kind": "substance",
+            "substance_kind": "elemental",
+            "required_facet": "classification.metal",
+        },
     },
 }
 
@@ -438,6 +447,58 @@ def load_knowledge(repo_root: Path) -> KnowledgeBase:
     return kb
 
 
+def _entity_satisfies_endpoint(entity: dict[str, Any], endpoint: dict[str, Any]) -> bool:
+    if entity.get("entity_kind") != endpoint.get("entity_kind"):
+        return False
+    payload = entity.get("payload", {})
+    if "substance_kind" in endpoint and payload.get("substance_kind") != endpoint["substance_kind"]:
+        return False
+    if "species_kind" in endpoint and payload.get("species_kind") != endpoint["species_kind"]:
+        return False
+    charge_sign = endpoint.get("charge_sign")
+    if charge_sign is not None:
+        formal_charge = payload.get("formal_charge")
+        if not isinstance(formal_charge, int) or isinstance(formal_charge, bool):
+            return False
+        if charge_sign == "positive" and formal_charge <= 0:
+            return False
+        if charge_sign == "negative" and formal_charge >= 0:
+            return False
+    required_facet = endpoint.get("required_facet")
+    if required_facet is not None and not any(
+        item["facet_key"] == required_facet
+        and item.get("value_state", "known") == "known"
+        and item.get("value") is True
+        for item in entity.get("facet_assertions", [])
+    ):
+        return False
+    return True
+
+
+def _endpoint_details(prefix: str, endpoint: dict[str, Any]) -> dict[str, Any]:
+    return {
+        f"{prefix}_{key}": value
+        for key, value in endpoint.items()
+    }
+
+
+def _validate_entity_source_references(kb: KnowledgeBase, source: dict[str, Any]) -> None:
+    kind = source.get("kind")
+    if kind == "exact_entity":
+        _require(kb.entities, source["target_id"], "entity")
+        return
+    if kind == "relation_target":
+        relation_key = source.get("relation_key")
+        if relation_key not in RELATION_CONTRACTS:
+            raise SourceError(
+                f"unsupported entity-source relation key: {relation_key}",
+                code="schema_invalid",
+                stage="reference_validation",
+                details={"relation_key": relation_key},
+            )
+        _validate_entity_source_references(kb, source["source"])
+
+
 def validate_references(kb: KnowledgeBase) -> None:
     for entity in kb.entities.values():
         composition = entity.get("payload", {}).get("composition")
@@ -461,19 +522,8 @@ def validate_references(kb: KnowledgeBase) -> None:
         for assertion in entity.get("relation_assertions", []):
             relation_key = assertion["relation_key"]
             contract = RELATION_CONTRACTS[relation_key]
-            source_payload = entity.get("payload", {})
-            required_facet = contract["source_required_facet"]
-            has_required_facet = any(
-                item["facet_key"] == required_facet
-                and item.get("value_state", "known") == "known"
-                and item.get("value") is True
-                for item in entity.get("facet_assertions", [])
-            )
-            if (
-                entity.get("entity_kind") != contract["source_entity_kind"]
-                or source_payload.get("substance_kind") != contract["source_substance_kind"]
-                or not has_required_facet
-            ):
+            source_contract = contract["source"]
+            if not _entity_satisfies_endpoint(entity, source_contract):
                 raise SourceError(
                     f"relation source does not satisfy {relation_key} contract: {entity['id']}",
                     code="schema_invalid",
@@ -481,12 +531,11 @@ def validate_references(kb: KnowledgeBase) -> None:
                     details={
                         "relation_key": relation_key,
                         "source_id": entity["id"],
-                        "source_entity_kind": contract["source_entity_kind"],
-                        "source_required_facet": required_facet,
-                        "source_substance_kind": contract["source_substance_kind"],
+                        **_endpoint_details("source", source_contract),
                     },
                 )
-            expected_kind = contract["target_entity_kind"]
+            target_contract = contract["target"]
+            expected_kind = target_contract["entity_kind"]
             target_id = assertion["target_id"]
             target = kb.entities.get(target_id)
             if not target or target.get("entity_kind") != expected_kind:
@@ -501,24 +550,16 @@ def validate_references(kb: KnowledgeBase) -> None:
                         "target_kind": expected_kind,
                     },
                 )
-            target_payload = target.get("payload", {})
-            formal_charge = target_payload.get("formal_charge")
-            if (
-                target_payload.get("species_kind") != contract["target_species_kind"]
-                or not isinstance(formal_charge, int)
-                or isinstance(formal_charge, bool)
-                or formal_charge <= 0
-            ):
+            if not _entity_satisfies_endpoint(target, target_contract):
                 raise SourceError(
-                    f"relation target does not satisfy {relation_key} positive-ion contract: {target_id}",
+                    f"relation target does not satisfy {relation_key} contract: {target_id}",
                     code="schema_invalid",
                     stage="reference_validation",
                     details={
                         "relation_key": relation_key,
                         "source_id": entity["id"],
-                        "target_charge_sign": contract["target_charge_sign"],
                         "target_id": target_id,
-                        "target_species_kind": contract["target_species_kind"],
+                        **_endpoint_details("target", target_contract),
                     },
                 )
             for evidence_id in assertion.get("evidence_ids", []):
@@ -559,6 +600,8 @@ def validate_references(kb: KnowledgeBase) -> None:
             if "target_id" in product:
                 _require(kb.entities, product["target_id"], "entity")
             construction = product.get("construct", {})
+            if construction.get("kind") == "entity_source":
+                _validate_entity_source_references(kb, construction["source"])
             if construction.get("kind") == "ionic_pair":
                 for field, ion_position in (
                     ("cation_source", "cation"),
@@ -602,8 +645,13 @@ def validate_references(kb: KnowledgeBase) -> None:
                     stage="reference_validation",
                     details={"relation_key": relation_key},
                 )
+            target_source = predicate.get("target_source")
+            if target_source is not None:
+                _validate_entity_source_references(kb, target_source)
+                continue
             target_id = predicate.get("target_id")
-            expected_kind = contract["target_entity_kind"]
+            target_contract = contract["target"]
+            expected_kind = target_contract["entity_kind"]
             target = kb.entities.get(target_id)
             if target is None or target.get("entity_kind") != expected_kind:
                 raise SourceError(
@@ -616,19 +664,16 @@ def validate_references(kb: KnowledgeBase) -> None:
                         "target_kind": expected_kind,
                     },
                 )
-            payload = target.get("payload", {})
-            charge = payload.get("formal_charge")
-            if (
-                payload.get("species_kind") != contract["target_species_kind"]
-                or not isinstance(charge, int)
-                or isinstance(charge, bool)
-                or charge <= 0
-            ):
+            if not _entity_satisfies_endpoint(target, target_contract):
                 raise SourceError(
-                    f"relation predicate target does not satisfy {relation_key} positive-ion contract: {target_id}",
+                    f"relation predicate target does not satisfy {relation_key} contract: {target_id}",
                     code="schema_invalid",
                     stage="reference_validation",
-                    details={"relation_key": relation_key, "target_id": target_id},
+                    details={
+                        "relation_key": relation_key,
+                        "target_id": target_id,
+                        **_endpoint_details("target", target_contract),
+                    },
                 )
         for evidence_id in rule.get("evidence_ids", []):
             _require(kb.evidence, evidence_id, "evidence")

@@ -4,7 +4,7 @@
 
 The canonical M13 revision `20ae98c6dc1911da46705600f04a33308c01504d` is a sound base for a data-first coverage expansion. The next implementation slice should be **Batch A**, a bounded cross-family addition of canonical chemistry data, evidence, fixtures, and TeachingView memberships that reuses the existing 11 Rules without changing `compiler/**`, `schemas/**`, or any compatibility coordinate.
 
-This audit does not authorize Batch A implementation. It also does not authorize a third salt-specific metal-displacement Rule. Generic metal/salt displacement must receive a separate architecture decision before that family is expanded beyond the existing CuSO4- and AgNO3-bounded Rules.
+Batch A is now historical input. M19 resolves the previously identified exact-salt duplication pressure with one bounded generic family; it does not authorize activity ordering or a general redox engine.
 
 ## Baseline and method
 
@@ -39,17 +39,17 @@ Raw record volume is diagnostic, not the KPI. The useful KPI is the number of im
 
 | Axis | Version |
 |---|---|
-| source schema | `3.5.0` |
-| Rule DSL | `1.3.0` |
-| RulePlan | `1.3.0` |
-| artifact format | `1.4.0` |
+| source schema | `3.6.0` |
+| Rule DSL | `1.4.0` |
+| RulePlan | `1.4.0` |
+| artifact format | `1.5.0` |
 
 ## What the current compiler actually supports
 
 The executable core is sufficient when all of the following are true:
 
-- reactants can be selected through exact identities, entity kinds, phases, facets, contextual property predicates, or the existing exact-target Relation predicate;
-- products are already canonical and can be selected by `exact_entity`, `semantic_key`, `ionic_pair`, or `exchange_product`;
+- reactants can be selected through exact identities, entity kinds, phases, facets, contextual property predicates, or exact/dynamic-target Relation predicates;
+- products are already canonical and can be selected by `exact_entity`, `semantic_key`, `ionic_pair`, `exchange_product`, or a bounded `entity_source`;
 - any required aqueous ions come from a unique evidence-bearing `strong_electrolyte_complete_dissociation` profile;
 - the products are fixed before balancing and the exact integer balance has one free variable;
 - canonical comparison is based on the balanced participant signature plus compatible stored Reaction conditions;
@@ -59,8 +59,9 @@ Important boundaries are equally concrete:
 
 - precipitation currently requires two aqueous `classification.salt` participants, unique complete-dissociation profiles, pre-existing cross-pair products, and exactly one insoluble driving product;
 - ionic projection does not model weak/partial equilibria, hydrolysis, or concentration-dependent speciation;
-- Relation execution is one-hop and exact-target only, for `metal.product_cation` and `metal.displaces_cation`; it is not graph traversal or activity ranking;
+- Relation execution remains one-hop: predicates may use an exact target or a target resolved from canonical speciation, and products may use one Relation target from a non-Relation entity source; it is not graph traversal or activity ranking;
 - `metal.product_cation` is one-target-per-context; `metal.displaces_cation` is many-target-per-context, but exact duplicate assertions are invalid;
+- `ion.elemental_substance` is one-target-per-context from a positive ion Species to an elemental-metal Substance;
 - canonical Reaction conditions are limited to `medium` and `temperature_regime`, with the currently admitted values `aqueous`, `ambient`, `warmed`, and `heated`; `heated` is distinct from `warmed`;
 - active source records do not include executable Structure or Experiment record families;
 - formula text, names, file placement, and TeachingView paths never create chemistry truth or identity.
@@ -209,23 +210,13 @@ The canonical-example counts below are exact canonical matches, not merely fixtu
 | `rule_m9_acid_thiosulfate_decomposition` | 2 | Existing Na/K thiosulfates already provide counterion coverage | HNO3 redox fact absent => UNKNOWN; sulfate contrast; missing medium | regressions only |
 | `rule_m10_active_metal_non_oxidizing_acid_hydrogen` | 2 | Additional cases only where cation and non-oxidizing acid behavior are unambiguous | Cu below H; HNO3 UNKNOWN; missing medium; no valence guessing | regressions only |
 | `rule_m11_water_reactive_metal_hydrogen` | 2 | Li is a possible later data-only case | Cu/Zn/Mg UNKNOWN; wrong water phase; missing temperature | regressions only |
-| `rule_m12_metal_copper_sulfate_displacement` | 2 | Existing Zn/Mg targets already prove reuse | Cu/Na/K and unsupported salt targets remain UNKNOWN | regressions only |
-| `rule_m13_metal_silver_nitrate_displacement` | 2 | Existing Zn/Mg multi-target assertions already prove reuse | Ag self-displacement and Na/K/Cu remain UNKNOWN | regressions only |
+| `rule_m19_generic_aqueous_metal_salt_displacement` | 6 | Zn/Mg reuse the same pairwise Cu2+/Ag+ assertions across CuSO4, AgNO3, and CuCl2 | self/reverse/Na/K and unsupported pairs remain UNKNOWN; missing/ambiguous speciation or product relations never mint products | active generic owner; M12/M13 reactions remain regressions |
 
 ## M12/M13 duplication threshold
 
-Do **not** add a third exact-salt displacement Rule.
+Resolved by M19 without a third exact-salt Rule. The bound salt exposes one positive ion through canonical complete-dissociation speciation; applicability compares that ion with an authored pairwise `metal.displaces_cation` assertion; the displaced metal follows one evidence-backed `ion.elemental_substance` hop; and the incoming salt still uses `metal.product_cation` plus `ionic_pair`.
 
-M12 and M13 were deliberately healthy bounded proofs: the same one-hop exact-target Relation predicate, relation-derived product cation, speciation-derived anion, and canonical `ionic_pair` resolver worked for Cu2+/SO4^2- and Ag+/NO3-. A third salt-specific Rule would copy participant discovery and displaced-product mapping while avoiding the real design questions. Before another salt target is added, a separate architecture slice must decide:
-
-1. how a bound salt exposes its displaced cation;
-2. how that ion maps to an existing elemental Substance without reverse/arbitrary traversal;
-3. how the incoming metal's product cation is chosen under variable valence;
-4. whether applicability is pairwise evidence, an ordered activity model, or another controlled relation;
-5. how aqueous water competition, passivation, and conditions override nominal activity;
-6. how known negatives differ from absent/open-world knowledge.
-
-Until then M12/M13 stay as regression anchors, not a template to multiply.
+M12/M13 remain historical chemistry and canonical-Reaction regression anchors, but their exact CuSO4/AgNO3 Rule records are no longer active. CuCl2 is the third-salt proof for the same M19 family. Still unresolved are activity ordering, explicit known-negative ownership, water competition, variable valence, passivation, concentration-sensitive redox, and a general redox engine.
 
 ## Proposed Batch A — data-first cross-family expansion
 
@@ -326,10 +317,8 @@ Every positive must prove exact balancing, atom/charge conservation, exact canon
 
 | Priority | Chemistry pressure | Missing primitive / why current model is insufficient | Likely canonical owner | Dependencies and recommended timing |
 |---|---|---|---|---|
-| P0 | generic metal + salt displacement | Bound-salt cation discovery plus dynamic displaced-metal and incoming-salt product resolution; exact-target M12/M13 Rules cannot generalize this safely | Rule DSL/RulePlan product and predicate contracts, Relation contracts, canonical domain assertions | Design before any third salt-specific Rule |
-| P0 | ion -> elemental Substance mapping | Current identities distinguish Element, ion Species, and elemental Substance; no controlled forward mapping exists and arbitrary reverse traversal is forbidden | source Relation contract and domain data, with one-hop runtime semantics if approved | Coordinate with generic displacement design |
 | P0 | variable-valence product selection | `metal.product_cation` is intentionally one target per context; Fe/Cu/Mn chemistry needs evidence-backed context/pathway selection rather than a guessed charge | domain facts/Relations plus applicability contract | Resolve before Fe/Cu displacement or broad redox |
-| P0 | activity ordering and known negatives | Pairwise positive Relations are non-transitive and absence is UNKNOWN; general ordering, self-displacement, water competition, and negative truth lack an owner | ontology/Relation and predicate semantics | Decide together with generic displacement, not as a numeric shortcut |
+| P0 | activity ordering and known negatives | Pairwise positive Relations are non-transitive and absence is UNKNOWN; general ordering, self-displacement, water competition, and negative truth lack an owner | ontology/Relation and predicate semantics | Separate future architecture; do not weaken M19's pairwise gate |
 | P1 | oxidizing-acid metal reactions | Concentration, passivation, metal identity, and NO/NO2/SO2 product competition are not represented | Context, reaction-family applicability, canonical redox model | After condition vocabulary and redox direction are settled |
 | P1 | passivation | Surface/material state and concentration-qualified reactivity cannot be represented by a global activity facet | contextual Fact/MaterialSystem design | Before Al/Fe concentrated-acid coverage |
 | P1 | broader redox semantics | Oxidation states, electron conservation, half-reaction composition, medium-dependent products, and competing pathways are absent | separate redox compiler/domain contract; exact balancer remains downstream | Dedicated architecture milestone; do not accrete exact-ID branches |

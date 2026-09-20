@@ -461,10 +461,10 @@ def test_m7_condition_semantics_remain_unchanged_with_current_versions() -> None
     assert result["status"] == "indeterminate"
     assert "candidate_key" not in result
     assert artifact_versions() == {
-        "source_schema": "3.5.0",
-        "rule_dsl": "1.3.0",
-        "rule_plan": "1.3.0",
-        "artifact_format": "1.4.0",
+        "source_schema": "3.6.0",
+        "rule_dsl": "1.4.0",
+        "rule_plan": "1.4.0",
+        "artifact_format": "1.5.0",
     }
 
 
