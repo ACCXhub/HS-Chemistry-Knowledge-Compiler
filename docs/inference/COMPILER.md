@@ -64,13 +64,15 @@ Rule context requirements and canonical Reaction conditions use the existing gen
 Version axes are separate:
 
 ```text
-source schema     3.6.0
+source schema     3.7.0
 Rule DSL          1.4.0
 RulePlan          1.4.0
 artifact format   1.5.0
 ```
 
 External artifacts include `artifact_format_version`; manifests include all four. Artifact `1.5.0` reflects emitted nested `PredicatePlan.target_source` and `ProductPlan.entity_source`. The reader also accepts historical formats `1.0.0` through `1.4.0`; consumers reject unknown versions.
+
+M20 changes only source Relation data: an applicable explicit `truth: false` assertion produces a known FALSE predicate result, while absence remains UNKNOWN. Rule DSL, RulePlan, and artifact format remain unchanged.
 
 ## Performance policy
 

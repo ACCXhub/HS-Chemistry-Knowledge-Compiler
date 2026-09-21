@@ -309,8 +309,9 @@ def test_copper_with_zinc_sulfate_does_not_trigger_generic_reverse_path() -> Non
         if item.get("rule_id") == RULE_ID and item.get("subject") == "relation"
     )
     assert relation_event["target_id"] == "ent_species_zn_2plus"
-    assert relation_event["truth"] == "UNKNOWN"
-    assert relation_event["knowledge_state"] == "absent"
+    assert relation_event["truth"] == "FALSE"
+    assert relation_event["knowledge_state"] == "known"
+    assert relation_event["relation_assertions"][0]["truth"] is False
 
 
 def test_missing_product_sulfate_is_explicit_and_never_fabricated() -> None:

@@ -11,6 +11,12 @@ records:
     claim_summary: "Supports the canonical elemental Zn, Mg, Cu and H2 identities, Zn2+/Mg2+ product-ion identities, ZnCl2/MgCl2 composition, and complete aqueous dissociation of the represented soluble ionic chlorides."
     stance: supports
 
+  - id: ev_m20_copper_zinc_non_displacement
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "OpenStax Chemistry 2e section 17.3 lists Cu2+/Cu at +0.337 V and Zn2+/Zn at -0.7618 V and explains predicting spontaneous redox reactions from standard potentials; together these support the bounded statement that Cu(s) does not displace Zn2+ from an aqueous salt under the represented conditions."
+    stance: supports
+
   - id: ent_element_mg
     record_type: entity
     entity_kind: element
@@ -107,6 +113,8 @@ records:
       - {facet_key: classification.metal, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m10_metal_hydrogen_activity]}
     property_assertions:
       - {property_key: metal.activity.relative_to_hydrogen, value_state: known, value: below, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m10_metal_hydrogen_activity]}
+    relation_assertions:
+      - {relation_key: metal.displaces_cation, target_id: ent_species_zn_2plus, truth: false, context: {medium: aqueous}, evidence_ids: [ev_m20_copper_zinc_non_displacement]}
     evidence_ids: [ev_m10_metal_identity_and_chloride_speciation, ev_m10_metal_hydrogen_activity]
 
   - id: ent_substance_elemental_zn

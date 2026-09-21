@@ -222,6 +222,14 @@ A shared typed `EntitySourcePlan` supports exact entities, participant bindings,
 
 The same Rule reproduces Zn/Mg + CuSO4 and Zn/Mg + AgNO3 and adds the third-salt proof Zn/Mg + CuCl2 without another salt-specific Rule. Existing M12/M13 Reaction IDs and regression fixtures remain canonical; only active Rule ownership moves to M19. Source schema advances to `3.6.0`, Rule DSL and RulePlan to `1.4.0`, and artifact format to `1.5.0`; the reader continues to accept artifact formats `1.0.0` through `1.4.0`.
 
+## M20 — Explicit negative Relation knowledge
+
+M20 extends the existing Entity-owned Relation assertion with optional `truth` (default `true`). An applicable positive assertion resolves TRUE, `truth: false` resolves FALSE, and no assertion remains UNKNOWN. Exact duplicates and same-tuple positive/negative contradictions are rejected deterministically; one-target cardinality continues to constrain only positive targets.
+
+The bounded proof adds one evidence-backed aqueous `Cu -> Zn2+` negative under `metal.displaces_cation`. Cu + ZnSO4 therefore makes the generic M19 predicate known FALSE, while Cu + MgSO4 remains unsupported/UNKNOWN and all six Zn/Mg positive proofs still use the one M19 Rule. The negative does not create a Reaction or assert global no reaction, and no ranking, transitivity, potential calculation, or redox engine is introduced.
+
+Only source schema advances to `3.7.0`; Rule DSL and RulePlan remain `1.4.0`, and artifact format remains `1.5.0`.
+
 ## Still out of scope
 
 - full high-school chemistry population or wholesale legacy migration;

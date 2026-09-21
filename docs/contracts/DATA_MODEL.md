@@ -129,13 +129,14 @@ M10's minimum executable Relation is embedded on its source Entity:
 relation_assertions:
   - relation_key: metal.product_cation
     target_id: ent_species_zn_2plus
+    truth: true  # optional; defaults to true
     context: {medium: aqueous}
     evidence_ids: [ev_...]
 ```
 
-The relation key is controlled and its domain/range are validated semantically after reference resolution. For `metal.product_cation` and `metal.displaces_cation`, the source must be an elemental `Substance` with known-true `classification.metal`, and the target must be a positively charged ion `Species`. For `ion.elemental_substance`, the source is a positively charged ion `Species` and the target is an elemental `Substance` with known-true `classification.metal`. An ordinary embedded assertion has no durable relation UUID; deterministic lookup/provenance retains source ID, relation key, target ID, normalized context, and evidence IDs.
+The relation key is controlled and its domain/range are validated semantically after reference resolution. For `metal.product_cation` and `metal.displaces_cation`, the source must be an elemental `Substance` with known-true `classification.metal`, and the target must be a positively charged ion `Species`. For `ion.elemental_substance`, the source is a positively charged ion `Species` and the target is an elemental `Substance` with known-true `classification.metal`. An ordinary embedded assertion has no durable relation UUID; deterministic lookup/provenance retains source ID, relation key, target ID, resolved truth, normalized context, and evidence IDs.
 
-Each relation family declares cardinality. `metal.product_cation` and `ion.elemental_substance` permit one target per source/context. `metal.displaces_cation` permits multiple distinct targets per source/context but rejects an exact duplicate source/key/target/context assertion. Resolution selects the most-specific matching assertions; equivalent equally specific assertions are combined deterministically with merged evidence rather than selected by file order. Absence remains an open-world fact state, not false.
+Each relation family declares positive-target cardinality. `metal.product_cation` and `ion.elemental_substance` permit one positive target per source/context. `metal.displaces_cation` permits multiple distinct positive targets per source/context. `truth: false` records a known negative without consuming positive-target cardinality. Exact duplicates and same-tuple positive/negative contradictions are rejected. Resolution selects the most-specific matching assertions; equally specific assertions with one truth value merge evidence, while mixed truth is an explicit semantic error. Target-producing resolution exposes only positive assertions. Absence remains an open-world fact state, not false.
 
 ## 6. Embedded Context
 
@@ -333,7 +334,7 @@ External generated artifacts remain contract-owned and reproducible. The four co
 
 | Coordinate | Current value |
 | --- | --- |
-| source schema | `3.6.0` |
+| source schema | `3.7.0` |
 | Rule DSL | `1.4.0` |
 | internal RulePlan | `1.4.0` |
 | external artifact format | `1.5.0` |

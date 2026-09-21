@@ -38,15 +38,15 @@ def _normalized(participants: list[dict]) -> list[tuple[str, str, str, int]]:
 def test_m16_source_contract_adds_heated_without_runtime_coordinate_drift() -> None:
     schema = json.loads((ROOT / "schemas" / "knowledge-record.schema.json").read_text(encoding="utf-8"))
 
-    assert SOURCE_SCHEMA_VERSION == "3.6.0"
-    assert schema["x-source-schema-version"] == "3.6.0"
+    assert SOURCE_SCHEMA_VERSION == "3.7.0"
+    assert schema["x-source-schema-version"] == "3.7.0"
     temperature_values = schema["$defs"]["reactionCondition"]["allOf"][1]["then"]["properties"]["value"]["enum"]
     assert temperature_values == ["ambient", "warmed", "heated"]
     assert RULE_DSL_VERSION == "1.4.0"
     assert RULE_PLAN_VERSION == "1.4.0"
     assert ARTIFACT_FORMAT_VERSION == "1.5.0"
     assert artifact_versions() == {
-        "source_schema": "3.6.0",
+        "source_schema": "3.7.0",
         "rule_dsl": "1.4.0",
         "rule_plan": "1.4.0",
         "artifact_format": "1.5.0",

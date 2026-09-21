@@ -240,12 +240,12 @@ def test_one_generic_rule_infers_copper_sulfate_silver_nitrate_and_copper_chlori
 
 
 def test_m19_versions_and_serialized_plan_track_dynamic_entity_sources(tmp_path: Path) -> None:
-    assert SOURCE_SCHEMA_VERSION == "3.6.0"
+    assert SOURCE_SCHEMA_VERSION == "3.7.0"
     assert RULE_DSL_VERSION == "1.4.0"
     assert RULE_PLAN_VERSION == "1.4.0"
     assert ARTIFACT_FORMAT_VERSION == "1.5.0"
     assert artifact_versions() == {
-        "source_schema": "3.6.0",
+        "source_schema": "3.7.0",
         "rule_dsl": "1.4.0",
         "rule_plan": "1.4.0",
         "artifact_format": "1.5.0",
@@ -285,7 +285,6 @@ def test_m19_versions_and_serialized_plan_track_dynamic_entity_sources(tmp_path:
     [
         ("ent_substance_elemental_cu", "ent_substance_cuso4"),
         ("ent_substance_elemental_ag", "ent_substance_agno3"),
-        ("ent_substance_elemental_cu", "ent_substance_znso4"),
         ("ent_substance_elemental_na", "ent_substance_cuso4"),
         ("ent_substance_elemental_k", "ent_substance_agno3"),
     ],

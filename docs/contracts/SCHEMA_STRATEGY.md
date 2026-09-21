@@ -1,6 +1,6 @@
 # Schema Strategy
 
-Status: **M19 bounded entity-source contract**
+Status: **M20 explicit Relation truth contract**
 
 ## 1. Authoring boundary
 
@@ -14,7 +14,7 @@ The active source schema is:
 
 ```text
 schemas/knowledge-record.schema.json
-source schema version: 3.6.0
+source schema version: 3.7.0
 ```
 
 It covers the M4 executable subset of:
@@ -105,7 +105,7 @@ M4 separates four compatibility coordinates:
 
 | Coordinate | Current value | Owner |
 | --- | --- | --- |
-| source schema | `3.6.0` | source/data contract |
+| source schema | `3.7.0` | source/data contract |
 | Rule DSL | `1.4.0` | rule source contract |
 | compiler RulePlan | `1.4.0` | compiler internal contract |
 | external artifact format | `1.5.0` | external generated contract |
@@ -115,6 +115,8 @@ These axes are intentionally independent. A source schema change does not automa
 M16 advances only the source schema because `temperature_regime` now admits the controlled value `heated`, distinct from `warmed`. The existing generic scalar context/condition path already validates, lowers, compares, and preserves that value, so Rule DSL, RulePlan, and artifact format do not change.
 
 M19 advances all four axes: the source schema admits dynamic Relation targets, source-derived products, and the `ion.elemental_substance` contract; Rule DSL and RulePlan add typed entity-source semantics; the emitted compiled plan carries those nested fields.
+
+M20 advances only source schema: Relation assertions admit optional boolean `truth`, defaulting to positive for historical source compatibility. Rule predicates, lowered plans, and the artifact container do not change, so the other three coordinates remain fixed.
 
 M4 does not promise long-term backward compatibility beyond these explicit coordinates.
 

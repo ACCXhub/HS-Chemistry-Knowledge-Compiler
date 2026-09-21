@@ -322,7 +322,7 @@ def test_m7_warmed_condition_remains_unchanged_with_current_versions() -> None:
     assert missing_warming["status"] == "indeterminate"
     assert "candidate_key" not in missing_warming
     assert artifact_versions() == {
-        "source_schema": "3.6.0",
+        "source_schema": "3.7.0",
         "rule_dsl": "1.4.0",
         "rule_plan": "1.4.0",
         "artifact_format": "1.5.0",

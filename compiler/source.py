@@ -12,7 +12,7 @@ from .model import FactValue, KnowledgeState
 
 
 SOURCE_DIRS = ("knowledge/domain", "knowledge/rules", "knowledge/teaching")
-SOURCE_SCHEMA_VERSION = "3.6.0"
+SOURCE_SCHEMA_VERSION = "3.7.0"
 RELATION_CONTRACTS = {
     "metal.product_cation": {
         "cardinality": "one_target_per_context",
@@ -201,7 +201,11 @@ class KnowledgeBase:
                 "evidence_ids": sorted(assertion.get("evidence_ids", [])),
             }
             for assertion in sorted(
-                most_specific,
+                (
+                    assertion
+                    for assertion in most_specific
+                    if assertion.get("truth", True) is True
+                ),
                 key=lambda item: (
                     item["target_id"],
                     _context_tuple(item.get("context")),
@@ -233,11 +237,25 @@ class KnowledgeBase:
             for assertion in matches
             if len(assertion.get("context", {})) == specificity
         ]
+        truths = {assertion.get("truth", True) for assertion in most_specific}
+        if len(truths) != 1:
+            raise SourceError(
+                f"ambiguous contextual relation fact: {entity_id}:{relation_key}:{target_id}",
+                code="contextual_relation_ambiguous",
+                stage="fact_resolution",
+                details={
+                    "entity_id": entity_id,
+                    "relation_key": relation_key,
+                    "target_id": target_id,
+                },
+            )
+        resolved_truth = truths.pop()
         projected = tuple(
             {
                 "source_id": entity_id,
                 "relation_key": assertion["relation_key"],
                 "target_id": assertion["target_id"],
+                **({"truth": False} if assertion.get("truth", True) is False else {}),
                 "context": dict(sorted(assertion.get("context", {}).items())),
                 "evidence_ids": sorted(assertion.get("evidence_ids", [])),
             }
@@ -258,7 +276,7 @@ class KnowledgeBase:
             }
         return FactValue(
             state=KnowledgeState.KNOWN,
-            value=True,
+            value=resolved_truth,
             origin="contextual_relation",
             context=_context_tuple(common_context),
             evidence_ids=tuple(
@@ -330,24 +348,55 @@ def _validate_assertion_uniqueness(record: dict[str, Any]) -> None:
             )
         property_keys.add(key)
 
-    relation_keys: set[tuple[Any, ...]] = set()
+    relation_assertion_keys: set[tuple[Any, ...]] = set()
+    relation_truths: dict[tuple[Any, ...], bool] = {}
+    positive_cardinality_keys: set[tuple[Any, ...]] = set()
     for assertion in record.get("relation_assertions", []):
         relation_key = assertion["relation_key"]
         contract = RELATION_CONTRACTS[relation_key]
-        key = (
-            (relation_key, _context_tuple(assertion.get("context")))
-            if contract["cardinality"] == "one_target_per_context"
-            else (relation_key, assertion["target_id"], _context_tuple(assertion.get("context")))
+        truth = assertion.get("truth", True)
+        semantic_key = (
+            relation_key,
+            assertion["target_id"],
+            _context_tuple(assertion.get("context")),
         )
-
-        if key in relation_keys:
+        assertion_key = (*semantic_key, truth)
+        if assertion_key in relation_assertion_keys:
             raise SourceError(
                 f"duplicate contextual relation assertion: {record['id']}:{relation_key}",
                 code="schema_invalid",
                 stage="source_load",
                 details={"entity_id": record["id"], "relation_key": relation_key},
             )
-        relation_keys.add(key)
+        if semantic_key in relation_truths and relation_truths[semantic_key] is not truth:
+            raise SourceError(
+                f"contradictory contextual relation assertion: {record['id']}:{relation_key}",
+                code="schema_invalid",
+                stage="source_load",
+                details={
+                    "entity_id": record["id"],
+                    "relation_key": relation_key,
+                    "target_id": assertion["target_id"],
+                },
+            )
+        relation_assertion_keys.add(assertion_key)
+        relation_truths[semantic_key] = truth
+
+        if truth is not True:
+            continue
+        cardinality_key = (
+            (relation_key, _context_tuple(assertion.get("context")))
+            if contract["cardinality"] == "one_target_per_context"
+            else semantic_key
+        )
+        if cardinality_key in positive_cardinality_keys:
+            raise SourceError(
+                f"duplicate contextual relation assertion: {record['id']}:{relation_key}",
+                code="schema_invalid",
+                stage="source_load",
+                details={"entity_id": record["id"], "relation_key": relation_key},
+            )
+        positive_cardinality_keys.add(cardinality_key)
 
     profile_keys: set[tuple[str, tuple[tuple[str, Any], ...]]] = set()
     for profile in record.get("speciation_profiles", []):
