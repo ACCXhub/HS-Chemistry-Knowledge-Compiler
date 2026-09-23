@@ -152,7 +152,7 @@ def test_missing_strong_acid_fact_keeps_gas_evolution_applicability_unknown(tmp_
     )
 
 
-def test_teaching_view_contains_both_reusable_gas_evolution_cases() -> None:
+def test_teaching_view_contains_reusable_gas_evolution_cases() -> None:
     view = load_knowledge(ROOT).teaching_views["view_f3b_hs_aqueous_core"]
     gas_node = next(node for node in view["nodes"] if node["path_key"] == "D03/reaction-types/gas-evolution")
     assert set(gas_node["members"]) == {
@@ -176,6 +176,12 @@ def test_teaching_view_contains_both_reusable_gas_evolution_cases() -> None:
         "rxn_batch_a_nh4_2so4_koh",
         "rxn_batch_a_nh4no3_naoh",
         "rxn_batch_a_nh4no3_koh",
+        "rxn_m21_hbr_nahco3_gas_evolution",
+        "rxn_m21_hbr_khco3_gas_evolution",
+        "rxn_m21_hbr_na2co3_gas_evolution",
+        "rxn_m21_hbr_k2co3_gas_evolution",
+        "rxn_m21_hbr_na2so3_gas_evolution",
+        "rxn_m21_hbr_k2so3_gas_evolution",
     }
 
 

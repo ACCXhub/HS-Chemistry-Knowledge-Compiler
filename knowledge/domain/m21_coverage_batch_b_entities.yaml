@@ -1,0 +1,33 @@
+records:
+  - id: ev_m21_hydrobromic_acid
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "Supports hydrogen bromide composition, hydrobromic acid as a common strong acid in water, and its strong-electrolyte aqueous treatment as hydrogen and bromide ions."
+    stance: supports
+
+  - id: ent_substance_hbr
+    record_type: entity
+    entity_kind: substance
+    terms: {preferred: hydrogen bromide}
+    semantic_keys: [{scheme: formula.molecular, value: HBr}]
+    payload:
+      substance_kind: pure_compound
+      composition:
+        components:
+          - {element_id: ent_element_h, count: 1}
+          - {element_id: ent_element_br, count: 1}
+        net_charge: 0
+    facet_assertions:
+      - {facet_key: classification.acid, value_state: known, value: true, fact_kind: intrinsic, evidence_ids: [ev_m21_hydrobromic_acid]}
+    property_assertions:
+      - {property_key: acid.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m21_hydrobromic_acid]}
+      - {property_key: electrolyte.strength, value_state: known, value: strong, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m21_hydrobromic_acid]}
+    speciation_profiles:
+      - profile_key: aqueous_complete_dissociation
+        context: {medium: aqueous}
+        model: strong_electrolyte_complete_dissociation
+        products:
+          - {target_id: ent_species_h_plus, coefficient: {numerator: 1, denominator: 1}}
+          - {target_id: ent_species_br_minus, coefficient: {numerator: 1, denominator: 1}}
+        evidence_ids: [ev_m21_hydrobromic_acid]
+    evidence_ids: [ev_m21_hydrobromic_acid]

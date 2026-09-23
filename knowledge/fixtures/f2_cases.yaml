@@ -628,3 +628,63 @@ cases:
       - {target_id: ent_substance_elemental_mg, phase: solid}
       - {target_id: ent_substance_h2o, phase: gas}
     context: {}
+
+  - id: case_m21_hbr_naoh
+    reactants:
+      - {target_id: ent_substance_hbr, phase: aqueous}
+      - {target_id: ent_substance_naoh, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m21_hbr_koh
+    reactants:
+      - {target_id: ent_substance_hbr, phase: aqueous}
+      - {target_id: ent_substance_koh, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m21_hbr_nahco3
+    reactants:
+      - {target_id: ent_substance_hbr, phase: aqueous}
+      - {target_id: ent_substance_nahco3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m21_hbr_khco3
+    reactants:
+      - {target_id: ent_substance_hbr, phase: aqueous}
+      - {target_id: ent_substance_khco3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m21_hbr_na2co3
+    reactants:
+      - {target_id: ent_substance_hbr, phase: aqueous}
+      - {target_id: ent_substance_na2co3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m21_hbr_k2co3
+    reactants:
+      - {target_id: ent_substance_hbr, phase: aqueous}
+      - {target_id: ent_substance_k2co3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m21_hbr_na2so3
+    reactants:
+      - {target_id: ent_substance_hbr, phase: aqueous}
+      - {target_id: ent_substance_na2so3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m21_hbr_k2so3
+    reactants:
+      - {target_id: ent_substance_hbr, phase: aqueous}
+      - {target_id: ent_substance_k2so3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m21_hbr_na2s2o3_unknown_redox
+    reactants:
+      - {target_id: ent_substance_hbr, phase: aqueous}
+      - {target_id: ent_substance_na2s2o3, phase: aqueous}
+    context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_m21_hbr_na2co3_unknown_medium
+    reactants:
+      - {target_id: ent_substance_hbr, phase: aqueous}
+      - {target_id: ent_substance_na2co3, phase: aqueous}
+    context: {temperature_regime: ambient}

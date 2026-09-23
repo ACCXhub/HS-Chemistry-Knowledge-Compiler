@@ -1,0 +1,86 @@
+records:
+  - id: rxn_m21_hbr_naoh_neutralization
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_hbr, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_naoh, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_nabr, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+    forms: []
+    evidence_ids: [ev_m21_hydrobromic_acid, ev_f3b_strong_acid_base]
+
+  - id: rxn_m21_hbr_koh_neutralization
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_hbr, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_koh, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_kbr, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+    forms: []
+    evidence_ids: [ev_m21_hydrobromic_acid, ev_f3b_strong_acid_base]
+
+  - id: rxn_m21_hbr_nahco3_gas_evolution
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_hbr, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_nahco3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_nabr, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_co2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+    forms: []
+    evidence_ids: [ev_m21_hydrobromic_acid, ev_f3b_carbonate_acid]
+
+  - id: rxn_m21_hbr_khco3_gas_evolution
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_hbr, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_khco3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_kbr, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_co2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+    forms: []
+    evidence_ids: [ev_m21_hydrobromic_acid, ev_f3b_carbonate_acid]
+
+  - id: rxn_m21_hbr_na2co3_gas_evolution
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_hbr, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_na2co3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_nabr, target_kind: substance, role: product, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_co2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+    forms: []
+    evidence_ids: [ev_m21_hydrobromic_acid, ev_f3b_carbonate_acid]
+
+  - id: rxn_m21_hbr_k2co3_gas_evolution
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_hbr, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_k2co3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_kbr, target_kind: substance, role: product, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_co2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+    forms: []
+    evidence_ids: [ev_m21_hydrobromic_acid, ev_f3b_carbonate_acid]
+
+  - id: rxn_m21_hbr_na2so3_gas_evolution
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_hbr, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_na2so3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_nabr, target_kind: substance, role: product, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_so2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+    forms: []
+    evidence_ids: [ev_m21_hydrobromic_acid, ev_m8_sulfite_acid]
+
+  - id: rxn_m21_hbr_k2so3_gas_evolution
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_hbr, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_k2so3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_kbr, target_kind: substance, role: product, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_so2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+    forms: []
+    evidence_ids: [ev_m21_hydrobromic_acid, ev_m8_sulfite_acid]

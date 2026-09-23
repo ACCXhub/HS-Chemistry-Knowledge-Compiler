@@ -1,37 +1,37 @@
-# Coverage & Migration Audit — Batch Planning 1
+# Coverage & Migration Audit — post-M21
 
 ## Decision
 
-The canonical M13 revision `20ae98c6dc1911da46705600f04a33308c01504d` is a sound base for a data-first coverage expansion. The next implementation slice should be **Batch A**, a bounded cross-family addition of canonical chemistry data, evidence, fixtures, and TeachingView memberships that reuses the existing 11 Rules without changing `compiler/**`, `schemas/**`, or any compatibility coordinate.
+M21 completes Coverage Reuse Batch B as a data-only expansion. One evidence-backed HBr Entity and eight canonical Reactions reuse four existing Rules across strong-acid neutralization and hydrogen-carbonate, carbonate, and sulfite gas evolution. No compiler, schema, Rule DSL, RulePlan, artifact-format, or active-Rule change is involved.
 
-Batch A is now historical input. M19 resolves the previously identified exact-salt duplication pressure with one bounded generic family; it does not authorize activity ordering or a general redox engine.
+Batch A remains historical input. M19 resolved exact-salt duplication pressure with one bounded generic family, and M20 added exact pairwise negative Relation truth; neither authorizes activity ordering, transitivity, or a general no-reaction/redox engine.
 
 ## Baseline and method
 
-The audit used the canonical YAML source, all 11 compiled Rules, all 47 fixtures, current contracts and architecture documents, the active schema, compiler product/balancing/aqueous-projection paths, and the sibling legacy inorganic package as read-only migration material. The sibling package was inspected at `a6311150436038ca06fa7b9d05de39da9e1de815`; it is not a source of canonical truth for this repository.
+The audit uses the canonical YAML source, all 14 compiled Rules, all 117 fixtures, current contracts and architecture documents, the active schema, and the compiler product/balancing/aqueous-projection paths. The earlier sibling-package migration scan remains read-only planning material, not canonical truth for this repository.
 
-Canonical Reaction coverage below was measured by submitting each Reaction's molecular reactants to the compiler with its required standard execution context. This matters because most Reaction records do not persist an aqueous/ambient condition while inference cases supply it; M7 and M11 do own explicit Reaction conditions. All 24 Reactions produced one exact canonical match under the applicable context.
+Canonical Reaction coverage was regenerated from source by submitting each Reaction's molecular reactants to the compiler with its required standard execution context. All 67 Reactions produced one exact canonical match under the applicable context.
 
 ### Current counts
 
 | Measure | Count |
 |---|---:|
-| all canonical records | 136 |
-| Entity | 73 |
-| Evidence | 22 |
-| Reaction | 24 |
-| Rule | 11 |
-| Source | 5 |
+| all canonical records | 224 |
+| Entity | 103 |
+| Evidence | 32 |
+| Reaction | 67 |
+| Rule | 14 |
+| Source | 7 |
 | TeachingView | 1 |
-| Element / Species / Substance / MaterialSystem | 13 / 18 / 41 / 1 |
-| inference cases | 47 |
-| speciation profiles | 27 |
-| facet assertions | 67 |
-| property assertions | 64 |
+| Element / Species / Substance / MaterialSystem | 17 / 22 / 63 / 1 |
+| inference cases | 117 |
+| speciation profiles | 38 |
+| facet assertions | 104 |
+| property assertions | 97 |
 | `metal.product_cation` assertions | 4 |
 | `metal.displaces_cation` assertions | 5 (4 positive, 1 negative) |
-| TeachingView paths / memberships / unique members | 14 / 115 / 70 |
-| fixture results: inferred / indeterminate / blocked | 22 / 24 / 1 |
+| TeachingView paths / memberships / unique members | 15 / 249 / 143 |
+| fixture results: inferred / indeterminate / no-match / blocked | 66 / 42 / 8 / 1 |
 
 Raw record volume is diagnostic, not the KPI. The useful KPI is the number of important high-school chemistry families that are correctly expressible, canonically matched, provenance-bearing, and conservative under missing knowledge.
 
@@ -115,7 +115,7 @@ Categories are primary and mutually exclusive in the matrices below:
 | aluminium behavior | C | Oxide film/passivation, amphoterism, medium, and product state create competing pathways beyond current one-hop facts. |
 | existing Zn/Mg + CuSO4 and AgNO3 | A | M12/M13 are complete bounded families and remain regression anchors. |
 | arbitrary metal + salt displacement | C | Needs dynamic salt-cation discovery, ion-to-elemental mapping, variable-valence product selection, activity/context competition, and water competition. |
-| self-displacement and general no-reaction truth | C | Missing pairwise assertions currently mean UNKNOWN. Known negatives need an explicit, auditable semantic owner rather than absence-as-false. |
+| self-displacement and general no-reaction truth | C | M20 supports auditable exact pairwise known-negative Relation assertions. Missing pairs remain UNKNOWN, and a failed Relation pathway is not a canonical or global no-reaction claim. |
 | variable-valence metals | C | A canonical product-cation cannot be selected safely from element identity alone. |
 | passivation | C | Requires material surface/state and acid concentration/context, not a global activity value. |
 | oxidizing-acid metal reactions | C | Products depend on acid identity/concentration and redox conditions; hydrogen evolution is not a safe default. |
@@ -152,12 +152,12 @@ Categories are primary and mutually exclusive in the matrices below:
 
 | Cluster | Primary | Current assessment |
 |---|:---:|---|
-| Na | A | Strong-electrolyte salts and Na + water are established; Batch A can deepen counterion coverage. |
+| Na | A | Strong-electrolyte salts, Na + water, and multiple acid/gas-evolution counterions are established. |
 | Mg | A | Acid, CuSO4, and AgNO3 paths are established; hot-water/steam is separately B. |
 | Al | C | Passivation, amphoterism, aluminate/speciation, and variable conditions dominate the missing coverage. |
 | Fe | C | Fe2+/Fe3+, steam, displacement, and redox selection need coordinated semantics; only a bounded steam case is plausibly B. |
 | Cu | C | Cu2+ is canonical, but Cu+/Cu2+, oxidizing acids, and displacement-product selection remain unresolved. |
-| Ag | A | Ag+, AgNO3, AgCl, and elemental Ag are reusable; Batch A can add AgBr/AgI as precipitation data. |
+| Ag | A | Ag+, AgNO3, AgCl/AgBr/AgI, and elemental Ag are established and reusable. |
 | C / CO / CO2 | B | Carbonate acid evolution is A, but combustion/CO oxidation and broader interconversion need a small bounded exact-product family. |
 | Si / SiO2 | B | Canonical identities and a few exact high-school transformations are feasible, but no current Rule family selects them. |
 | N / NH3 / NO / NO2 / HNO3 | C | Ammonia liberation is A; oxidation sequence, nitric-acid redox, and competing nitrogen oxides require new redox/condition semantics. |
@@ -184,11 +184,11 @@ TeachingView is a pedagogical projection, not ontology or inference ownership. T
 | Area | Primary | Current state and next use |
 |---|:---:|---|
 | D01 kinetics and equilibrium | D | No kinetics/equilibrium engine; retain as later domain expansion. |
-| D02 electrolyte solutions | C | Strong-electrolyte projection is mature, but the area as a whole needs weak/partial equilibrium semantics. Batch A may add strong-electrolyte memberships only. |
-| D03 reaction types | C | Eleven bounded families exist; broad redox and competing pathways keep the overall area architecture-limited. Batch A should deepen existing A families. |
+| D02 electrolyte solutions | C | Strong-electrolyte projection is mature, but the area as a whole needs weak/partial equilibrium semantics. |
+| D03 reaction types | C | Fourteen bounded Rules exist; broad redox and competing pathways keep the overall area architecture-limited. |
 | D04 chemical calculations | D | Exact equation balancing exists, but a general quantitative calculation engine is not in current scope. |
 | D05 chemical experiments | C | The ammonium test is mapped through Reactions; active schema has no executable Experiment owner. |
-| D06 notation and stoichiometry | A | Molecular, complete ionic, net ionic, exact balancing, and conservation are the strongest current coverage. Extend mappings with every Batch A Reaction. |
+| D06 notation and stoichiometry | A | Molecular, complete ionic, net ionic, exact balancing, and conservation are the strongest current coverage; all M21 Reactions are mapped. |
 | D07 solutions and colloids | D | One MaterialSystem and strong-electrolyte projection do not constitute a solution/colloid state model. |
 | D08 classification of substances | A | Faceted canonical classification is established; add only evidence-backed facets and memberships. |
 | D09 structure and periodicity | D | Active schema has no Structure record or structure-aware inference. Element identity alone is not D09 coverage. |
@@ -199,14 +199,14 @@ TeachingView is a pedagogical projection, not ontology or inference ownership. T
 
 The canonical-example counts below are exact canonical matches, not merely fixture matches.
 
-| Existing Rule | Canonical positives | High-value reuse | Required negative / UNKNOWN pressure | Batch A disposition |
+| Existing Rule | Canonical positives | Current reuse | Required negative / UNKNOWN pressure | Post-M21 result |
 |---|---:|---|---|---|
-| `rule_f2_agcl_precipitation` | 2 | AgCl/AgBr/AgI, BaSO4, Ca/Ba/Mg/Zn carbonates | all-soluble pairs; missing medium; unknown product solubility; insoluble input; two-precipitate ambiguity | 17 new Reactions |
-| `rule_f2_strong_acid_base_neutralization` | 2 | HCl + KOH; HNO3 + NaOH | missing medium; weak/absent strength; non-base salt contrast | 2 new Reactions plus HNO3 + KOH fixture |
-| `rule_m5_strong_acid_hydrogen_carbonate_gas_evolution` | 2 | HCl/HNO3 + KHCO3 | missing medium; carbonate/sulfite must not bind | 2 new Reactions |
-| `rule_m6_strong_acid_carbonate_gas_evolution` | 3 | HNO3 + K2CO3 | missing medium; hydrogen carbonate and sulfate contrasts | 1 new Reaction |
-| `rule_m7_ammonium_strong_base_gas_evolution` | 2 | NH4Cl/(NH4)2SO4 + KOH; NH4NO3 + NaOH/KOH | missing warmed condition; non-ammonium salt; missing speciation | 4 new Reactions |
-| `rule_m8_strong_acid_sulfite_gas_evolution` | 3 | HNO3 + K2SO3 | missing medium; sulfate and thiosulfate contrasts | 1 new Reaction |
+| `rule_f2_agcl_precipitation` | 19 | AgCl/AgBr/AgI, BaSO4, Ca/Ba/Mg/Zn carbonates | all-soluble pairs; missing medium; unknown product solubility; insoluble input; two-precipitate ambiguity | Batch A data reuse |
+| `rule_f2_strong_acid_base_neutralization` | 6 | HCl/HNO3/HBr across NaOH/KOH | missing medium; weak/absent strength; non-base salt contrast | 2 M21 Reactions |
+| `rule_m5_strong_acid_hydrogen_carbonate_gas_evolution` | 6 | HCl/HNO3/HBr across NaHCO3/KHCO3 | missing medium; carbonate/sulfite must not bind | 2 M21 Reactions |
+| `rule_m6_strong_acid_carbonate_gas_evolution` | 6 | HCl/HNO3/HBr across Na2CO3/K2CO3 | missing medium; hydrogen carbonate and sulfate contrasts | 2 M21 Reactions |
+| `rule_m7_ammonium_strong_base_gas_evolution` | 6 | NH4Cl/(NH4)2SO4/NH4NO3 across NaOH/KOH | missing warmed condition; non-ammonium salt; missing speciation | unchanged regression coverage |
+| `rule_m8_strong_acid_sulfite_gas_evolution` | 6 | HCl/HNO3/HBr across Na2SO3/K2SO3 | missing medium; sulfate and thiosulfate contrasts | 2 M21 Reactions |
 | `rule_m9_acid_thiosulfate_decomposition` | 2 | Existing Na/K thiosulfates already provide counterion coverage | HNO3 redox fact absent => UNKNOWN; sulfate contrast; missing medium | regressions only |
 | `rule_m10_active_metal_non_oxidizing_acid_hydrogen` | 2 | Additional cases only where cation and non-oxidizing acid behavior are unambiguous | Cu below H; HNO3 UNKNOWN; missing medium; no valence guessing | regressions only |
 | `rule_m11_water_reactive_metal_hydrogen` | 2 | Li is a possible later data-only case | Cu/Zn/Mg UNKNOWN; wrong water phase; missing temperature | regressions only |
@@ -216,13 +216,13 @@ The canonical-example counts below are exact canonical matches, not merely fixtu
 
 Resolved by M19 without a third exact-salt Rule. The bound salt exposes one positive ion through canonical complete-dissociation speciation; applicability compares that ion with an authored pairwise `metal.displaces_cation` assertion; the displaced metal follows one evidence-backed `ion.elemental_substance` hop; and the incoming salt still uses `metal.product_cation` plus `ionic_pair`.
 
-M12/M13 remain historical chemistry and canonical-Reaction regression anchors, but their exact CuSO4/AgNO3 Rule records are no longer active. CuCl2 is the third-salt proof for the same M19 family. Still unresolved are activity ordering, explicit known-negative ownership, water competition, variable valence, passivation, concentration-sensitive redox, and a general redox engine.
+M12/M13 remain historical chemistry and canonical-Reaction regression anchors, but their exact CuSO4/AgNO3 Rule records are no longer active. CuCl2 is the third-salt proof for the same M19 family. M20 now owns exact pairwise known-negative Relation facts through `relation_assertions[].truth`; still unresolved are general no-reaction truth, activity ordering/transitivity, water competition, variable valence, passivation, concentration-sensitive redox, and a general redox engine.
 
-## Proposed Batch A — data-first cross-family expansion
+## Historical Batch A — data-first cross-family expansion
 
 ### Scope and acceptance
 
-Batch A should add approximately **21 new canonical Entities** and **27 canonical Reactions**, plus authoritative evidence, focused positive/negative/UNKNOWN cases, and TeachingView memberships. It should reuse six existing Rules and expect zero changes to compiler, schema, DSL, RulePlan, and artifact format. Exact IDs below are planning candidates following current conventions; implementation must reconcile identity and evidence before authoring.
+Batch A added **21 canonical Entities** and **27 canonical Reactions**, plus authoritative evidence, focused positive/negative/UNKNOWN cases, and TeachingView memberships. Its accepted scope was designed to reuse six existing Rules with zero changes to compiler, schema, DSL, RulePlan, and artifact format. The retained list below records that accepted scope.
 
 ### Candidate Entity set (21)
 
@@ -318,7 +318,7 @@ Every positive must prove exact balancing, atom/charge conservation, exact canon
 | Priority | Chemistry pressure | Missing primitive / why current model is insufficient | Likely canonical owner | Dependencies and recommended timing |
 |---|---|---|---|---|
 | P0 | variable-valence product selection | `metal.product_cation` is intentionally one target per context; Fe/Cu/Mn chemistry needs evidence-backed context/pathway selection rather than a guessed charge | domain facts/Relations plus applicability contract | Resolve before Fe/Cu displacement or broad redox |
-| P0 | activity ordering and known negatives | Pairwise positive Relations are non-transitive and absence is UNKNOWN; general ordering, self-displacement, water competition, and negative truth lack an owner | ontology/Relation and predicate semantics | Separate future architecture; do not weaken M19's pairwise gate |
+| P0 | activity ordering and general no-reaction truth | Pairwise positive/negative Relations are non-transitive and absence is UNKNOWN; general ordering, self-displacement, water competition, and global pathway exclusion remain unowned | ontology/Relation and pathway semantics | Separate future architecture; do not weaken M19/M20's pairwise gate |
 | P1 | oxidizing-acid metal reactions | Concentration, passivation, metal identity, and NO/NO2/SO2 product competition are not represented | Context, reaction-family applicability, canonical redox model | After condition vocabulary and redox direction are settled |
 | P1 | passivation | Surface/material state and concentration-qualified reactivity cannot be represented by a global activity facet | contextual Fact/MaterialSystem design | Before Al/Fe concentrated-acid coverage |
 | P1 | broader redox semantics | Oxidation states, electron conservation, half-reaction composition, medium-dependent products, and competing pathways are absent | separate redox compiler/domain contract; exact balancer remains downstream | Dedicated architecture milestone; do not accrete exact-ID branches |
@@ -390,8 +390,8 @@ Any future importer must be deterministic and idempotent and must stop for human
 11. repeated-run byte determinism and no generated-source contamination;
 12. a review report for every skipped, merged, split, or downgraded record.
 
-## Batch A readiness decision
+## Current reuse decision
 
-**READY_FOR_BATCH_A**, subject to a new explicitly authorized implementation task.
+**M21 DATA REUSE COMPLETE.**
 
-Batch A should remain a data/evidence/test/TeachingView slice with zero production compiler and schema changes. Any discovered need for a new predicate, constructor, Relation family, condition vocabulary, or compatibility bump is a stop signal: remove that case from Batch A or promote it to the architecture backlog instead of expanding scope in place.
+M21 confirms that bounded coverage can continue through data/evidence/fixture/TeachingView reuse with zero production compiler or schema changes. Any later candidate needing a new predicate, constructor, Relation execution mode, condition vocabulary, or compatibility bump belongs in a separate architecture milestone.

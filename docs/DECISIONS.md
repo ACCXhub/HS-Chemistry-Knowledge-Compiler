@@ -330,3 +330,11 @@ The bounded chemistry proof authors only `Cu(s) metal.displaces_cation Zn2+ = fa
 A negative Relation assertion only establishes that one Rule predicate/pathway is inapplicable. It does not create a negative Reaction, a canonical no-reaction record, or global no-reaction truth; other matched families may still leave the overall case indeterminate. Proof trace retains the resolved target, truth, context, and evidence. Positive candidate provenance keeps its prior projection shape; negative assertion diagnostics add `truth: false`.
 
 The new authoring field advances source schema to `3.7.0`. Rule authoring syntax, lowered RulePlan, and emitted artifact container shape are unchanged, so Rule DSL and RulePlan remain `1.4.0` and artifact format remains `1.5.0`; the historical artifact reader remains compatible with formats `1.0.0` through `1.4.0`.
+
+## ADR-M21-001 — HBr counterion coverage through existing Rule families
+
+M21 chooses HBr as one compact counterion-diversity addition because canonical Br-, NaBr, and KBr already exist from Batch A. One OpenStax-backed HBr Entity owns its composition, strong-acid/strong-electrolyte aqueous facts, and complete-dissociation profile. Eight canonical Reactions then cover Na/K variants in neutralization plus hydrogen-carbonate, carbonate, and sulfite gas evolution.
+
+All products are selected by existing `ionic_pair` or exact-product paths and balanced by the existing solver. The aqueous projector dissociates HBr and the soluble bromide salts, then cancels Br- to the already-established family net ionic forms. HBr + thiosulfate deliberately remains UNKNOWN because `acid.redox_character` is absent; M21 does not generalize acid displacement or redox behavior.
+
+This is a data/evidence/fixture/TeachingView decision only. It adds no Rule, Relation family, constructor, Python chemistry branch, or compatibility change; source schema remains `3.7.0`, Rule DSL and RulePlan remain `1.4.0`, and artifact format remains `1.5.0`.

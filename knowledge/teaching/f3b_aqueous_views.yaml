@@ -32,6 +32,7 @@ records:
           - ent_substance_cucl2
           - ent_substance_cacl2
           - ent_substance_fecl3
+          - ent_substance_hbr
       - path_key: D03/reaction-types/precipitation
         parent_path_key: D03/reaction-types
         members:
@@ -67,6 +68,8 @@ records:
           - rxn_f3b_hno3_koh_neutralization
           - rxn_batch_a_hcl_koh_neutralization
           - rxn_batch_a_hno3_naoh_neutralization
+          - rxn_m21_hbr_naoh_neutralization
+          - rxn_m21_hbr_koh_neutralization
       - path_key: D03/reaction-types/gas-evolution
         parent_path_key: D03/reaction-types
         members:
@@ -90,6 +93,12 @@ records:
           - rxn_batch_a_nh4_2so4_koh
           - rxn_batch_a_nh4no3_naoh
           - rxn_batch_a_nh4no3_koh
+          - rxn_m21_hbr_nahco3_gas_evolution
+          - rxn_m21_hbr_khco3_gas_evolution
+          - rxn_m21_hbr_na2co3_gas_evolution
+          - rxn_m21_hbr_k2co3_gas_evolution
+          - rxn_m21_hbr_na2so3_gas_evolution
+          - rxn_m21_hbr_k2so3_gas_evolution
       - path_key: D03/reaction-types/single-displacement
         parent_path_key: D03/reaction-types
         members:
@@ -170,11 +179,20 @@ records:
           - rxn_m15_cuso4_naoh_precipitation
           - rxn_m15_mgcl2_naoh_precipitation
           - rxn_m15_fecl3_naoh_precipitation
+          - rxn_m21_hbr_naoh_neutralization
+          - rxn_m21_hbr_koh_neutralization
+          - rxn_m21_hbr_nahco3_gas_evolution
+          - rxn_m21_hbr_khco3_gas_evolution
+          - rxn_m21_hbr_na2co3_gas_evolution
+          - rxn_m21_hbr_k2co3_gas_evolution
+          - rxn_m21_hbr_na2so3_gas_evolution
+          - rxn_m21_hbr_k2so3_gas_evolution
       - path_key: D08/substance-classification/acids
         parent_path_key: D08/substance-classification
         members:
           - ent_substance_hno3
           - ent_material_hydrochloric_acid_aqueous
+          - ent_substance_hbr
       - path_key: D08/substance-classification/bases
         parent_path_key: D08/substance-classification
         members: [ent_substance_naoh, ent_substance_koh, ent_substance_cu_oh_2, ent_substance_mg_oh_2, ent_substance_fe_oh_3]
@@ -249,6 +267,7 @@ records:
           - ent_species_br_minus
           - ent_element_i
           - ent_species_i_minus
+          - ent_substance_hbr
           - ent_element_ca
           - ent_species_ca_2plus
           - ent_element_fe

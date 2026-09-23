@@ -230,6 +230,12 @@ The bounded proof adds one evidence-backed aqueous `Cu -> Zn2+` negative under `
 
 Only source schema advances to `3.7.0`; Rule DSL and RulePlan remain `1.4.0`, and artifact format remains `1.5.0`.
 
+## M21 — Coverage Reuse Batch B
+
+M21 adds one evidence-backed HBr Entity and eight canonical aqueous Reactions. The same HBr/Br- speciation is reused across Na/K counterions in four existing families: strong-acid/strong-base neutralization, hydrogen-carbonate gas evolution, carbonate gas evolution, and sulfite gas evolution. Exact balancing, canonical matching, complete/net ionic projection, bromide spectator cancellation, and TeachingView projection all use existing paths.
+
+HBr + thiosulfate remains UNKNOWN because M21 does not author an acid redox-character fact, and missing aqueous medium remains UNKNOWN. No Rule, Relation, constructor, compiler primitive, schema, or compatibility coordinate changes. Source schema remains `3.7.0`, Rule DSL and RulePlan remain `1.4.0`, and artifact format remains `1.5.0`.
+
 ## Still out of scope
 
 - full high-school chemistry population or wholesale legacy migration;
