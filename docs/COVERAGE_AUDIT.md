@@ -1,8 +1,8 @@
-# Coverage & Migration Audit — post-M24
+# Coverage & Migration Audit — post-M25
 
 ## Decision
 
-M24 adds a bounded Reaction-reconciliation layer over the M22/M23 identity owner. Its 18-record real cohort maps 16 legacy Reactions to exactly one existing canonical Reaction and skips two unsupported cases; it creates no canonical Reaction, Rule, Entity, Evidence, or ReactionForm.
+M25 runs the M24 reconciliation owner over all 152 declared legacy Reactions. After one bounded, independently evidenced canonical curation, 20 map to existing canonical Reactions, 123 remain explicit unsupported cases, and nine reversible records remain outside the current architecture boundary. The audit itself creates no canonical truth.
 
 Batch A remains historical input. M19 resolved exact-salt duplication pressure with one bounded generic family, and M20 added exact pairwise negative Relation truth; neither authorizes activity ordering, transitivity, or a general no-reaction/redox engine.
 
@@ -10,16 +10,16 @@ Batch A remains historical input. M19 resolved exact-salt duplication pressure w
 
 The audit uses the canonical YAML source, all 14 compiled Rules, all 117 fixtures, current contracts and architecture documents, the active schema, and the compiler product/balancing/aqueous-projection paths. The sibling package remains explicit offline migration input, not canonical truth or a runtime dependency.
 
-Canonical Reaction coverage was regenerated from source by submitting each Reaction's molecular reactants to the compiler with its required standard execution context. All 67 Reactions produced one exact canonical match under the applicable context.
+The canonical corpus now contains 68 Reactions. M25's added solid-CaCO3/HCl Reaction is intentionally canonical coverage only: its canonical signature and derived ionic forms validate, while the existing soluble-carbonate Rule remains unchanged and does not infer the solid-carbonate case.
 
 ### Current counts
 
 | Measure | Count |
 |---|---:|
-| all canonical records | 226 |
+| all canonical records | 227 |
 | Entity | 104 |
 | Evidence | 33 |
-| Reaction | 67 |
+| Reaction | 68 |
 | Rule | 14 |
 | Source | 7 |
 | TeachingView | 1 |
@@ -30,7 +30,7 @@ Canonical Reaction coverage was regenerated from source by submitting each React
 | property assertions | 97 |
 | `metal.product_cation` assertions | 4 |
 | `metal.displaces_cation` assertions | 5 (4 positive, 1 negative) |
-| TeachingView paths / memberships / unique members | 15 / 249 / 143 |
+| TeachingView paths / memberships / unique members | 15 / 251 / 144 |
 | fixture results: inferred / indeterminate / no-match / blocked | 66 / 42 / 8 / 1 |
 
 Raw record volume is diagnostic, not the KPI. The useful KPI is the number of important high-school chemistry families that are correctly expressible, canonically matched, provenance-bearing, and conservative under missing knowledge.
@@ -412,8 +412,16 @@ Only explicit `s/l/g/aq` phases and the existing `aqueous`, `warmed`, and `heate
 
 M25 pressure is therefore evidence rather than authorization: missing canonical Reaction ownership, catalyst/light and richer condition vocabulary, and broader polyatomic-ion identity support require separate bounded contracts. M24 does not bulk-process all 152 records or create any missing truth.
 
+### M25 full Reaction audit and bounded curation
+
+The full-corpus mode in `migration/legacy_reaction.py` consumes every Reaction file declared by the fixed legacy manifest revision and emits one sorted decision for each of 152 records. Before bounded curation it found 19 mappings, 124 unsupported skips, and nine rejected records; final dispositions are 20 `mapped_existing`, 123 `skipped_unsupported`, nine `rejected_invalid`, and zero ambiguous or automatically created results. Non-mapped records are classified as 88 `identity_gap`, 25 `context_gap`, ten `curation_gap`, nine `chemistry_architecture_gap`, and zero `invalid_legacy`. The nine reversible records are architecture gaps because equilibrium/reversibility is not owned by the current model; their migration disposition remains the existing fail-closed rejection.
+
+The one Layer B curation is `rxn_m25_hcl_caco3_gas_evolution`: `CaCO3(s) + 2 HCl(aq) -> CaCl2(aq) + CO2(g) + H2O(l)`. Every participant and phase already existed, exact atom/charge conservation passes, and existing OpenStax-backed carbonate/acid and identity evidence supports the record independently of legacy data. No Evidence or Rule is added. CaCO3 remains known insoluble, so the soluble-carbonate Rule is neither weakened nor generalized; complete and net ionic forms are derived by the canonical projector.
+
+ReactionForm diagnostics remain review material rather than a coverage KPI: among the 20 mappings, one legacy projection is compatible, 12 are unavailable, and seven are unsupported/inconsistent. Unresolved polyatomic ions in those diagnostics do not authorize identity expansion.
+
 ## Current migration decision
 
-**M24 LEGACY REACTION MIGRATION PILOT A COMPLETE.**
+**M25 REACTION MIGRATION AUDIT COMPLETE; M6 EXIT READY.**
 
-M24 establishes deterministic, idempotent reconciliation to existing canonical Reactions without bulk import, new chemistry truth, runtime dependency, or compatibility changes. `created_canonical` remains zero; unsupported semantics remain explicit future review inputs.
+`M6_EXIT_READY = true`. Identity and Reaction migration are deterministic; all 152 legacy Reactions have explicit outcomes and future-action buckets; canonical source remains independently evidence-gated; and legacy data remains outside runtime. The remaining gaps are ordinary future curation or explicit context/identity/equilibrium architecture work, not missing migration machinery. No M26 is required to close M6.

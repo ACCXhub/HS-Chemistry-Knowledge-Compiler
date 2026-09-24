@@ -254,9 +254,17 @@ M24 processes 18 real legacy Reactions through one offline reconciliation owner.
 
 Legacy ionic equations remain non-authoritative diagnostics against canonically derived ReactionForms. Reverse direction, incompatible phase, missing/conflicting required conditions, unresolved participants, ambiguity, malformed coefficients, and conservation failures all fail closed. The report is byte-deterministic and migration does not mutate canonical source or enter runtime compiler dependencies. Catalyst/light semantics, richer controlled conditions, broader polyatomic identity, missing canonical Reactions, and full-corpus migration remain M25-or-later pressures. Compatibility coordinates remain `3.7.0`, `1.4.0`, `1.4.0`, and `1.5.0`.
 
+## M25 — Reaction Migration Audit and M6 Exit Candidate
+
+M25 extends the same Reaction owner to a deterministic read-only audit of all 152 legacy Reactions. Final outcomes are 20 mappings, 123 unsupported skips, nine fail-closed reversible records, zero ambiguities, and zero automatic creations. The 132 non-mapped records are partitioned into 88 identity gaps, 25 context gaps, ten ordinary curation gaps, nine chemistry-architecture gaps, and zero structurally invalid legacy records. Legacy ionic projections remain diagnostics only.
+
+One high-value curation gap is closed independently of legacy authority: canonical `CaCO3(s) + 2 HCl(aq) -> CaCl2(aq) + CO2(g) + H2O(l)` reuses existing identities, phases, speciation, and authoritative evidence. It adds no Evidence or Rule. The soluble-carbonate Rule remains unchanged and does not infer solid CaCO3; canonical coverage and executable inference coverage remain distinct.
+
+The full audit leaves no high-value current-schema-compatible case blocked by migration machinery. Remaining work requires ordinary evidence curation or separately authorized identity, context, equilibrium, and pathway architecture. `M6_EXIT_READY = true`; no M26 is required for M6 closure. Compatibility remains source schema `3.7.0`, Rule DSL `1.4.0`, RulePlan `1.4.0`, and artifact format `1.5.0`.
+
 ## Still out of scope
 
-- full high-school chemistry population or wholesale legacy migration beyond the M22/M23/M24 bounded cohorts;
+- full high-school chemistry population or automatic legacy-to-canonical import beyond the audited M22–M25 boundaries;
 - transition-metal redox, concentrated-acid/passivation, or organic families;
 - variable-valence metal product selection, displacement beyond evidence-backed pairwise aqueous salt cases, broader metal/water reactions, or general activity-series/electrode-potential reasoning;
 - generic carbonate-to-oxide or bicarbonate-to-carbonate product mapping, or broader thermal-decomposition inference beyond the exact M16 CaCO3 and M17 NaHCO3 pilots;

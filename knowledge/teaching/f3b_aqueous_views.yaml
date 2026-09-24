@@ -78,6 +78,7 @@ records:
           - rxn_m6_hcl_na2co3_gas_evolution
           - rxn_m6_hno3_na2co3_gas_evolution
           - rxn_m6_hcl_k2co3_gas_evolution
+          - rxn_m25_hcl_caco3_gas_evolution
           - rxn_m7_nh4cl_naoh_ammonia_liberation
           - rxn_m7_nh4_2so4_naoh_ammonia_liberation
           - rxn_m8_hcl_na2so3_gas_evolution
@@ -132,6 +133,7 @@ records:
           - rxn_m6_hcl_na2co3_gas_evolution
           - rxn_m6_hno3_na2co3_gas_evolution
           - rxn_m6_hcl_k2co3_gas_evolution
+          - rxn_m25_hcl_caco3_gas_evolution
           - rxn_m7_nh4cl_naoh_ammonia_liberation
           - rxn_m7_nh4_2so4_naoh_ammonia_liberation
           - rxn_m8_hcl_na2so3_gas_evolution

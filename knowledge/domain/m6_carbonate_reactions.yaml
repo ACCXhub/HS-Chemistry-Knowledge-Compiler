@@ -154,3 +154,14 @@ records:
           required_assumptions: [aqueous_medium, strong_electrolyte_dissociation]
           notes: ["Golden shared net ionic form for strong-acid carbonate gas evolution."]
     evidence_ids: [ev_f3b_carbonate_acid, ev_f3b_strong_acid_base]
+
+  - id: rxn_m25_hcl_caco3_gas_evolution
+    record_type: reaction
+    participants:
+      - {target_id: ent_substance_hcl, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_caco3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: solid}
+      - {target_id: ent_substance_cacl2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
+      - {target_id: ent_substance_co2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
+      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
+    forms: []
+    evidence_ids: [ev_f3b_carbonate_acid, ev_f3b_strong_acid_base, ev_batch_a_ionic_identity_and_solubility]

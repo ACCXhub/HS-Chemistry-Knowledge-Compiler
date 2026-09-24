@@ -26,6 +26,13 @@ CONDITIONS = {
     "加热": ("temperature_regime", "heated"),
     "加热可促进氨逸出": ("temperature_regime", "warmed"),
 }
+FUTURE_ACTION_BUCKETS = (
+    "curation_gap",
+    "identity_gap",
+    "context_gap",
+    "chemistry_architecture_gap",
+    "invalid_legacy",
+)
 
 
 def _identity_policy(record: dict[str, Any], declared: dict[str, Any]) -> dict[str, Any] | None:
@@ -356,6 +363,28 @@ def reconcile_reaction(
     }
 
 
+def _future_action_bucket(decision: dict[str, Any]) -> str:
+    reason_code = decision.get("reason_code")
+    if reason_code == "reversible_reaction_not_supported":
+        return "chemistry_architecture_gap"
+    if decision["disposition"] == "rejected_invalid":
+        return "invalid_legacy"
+    if reason_code == "unresolved_participant":
+        return "identity_gap"
+    if reason_code in {
+        "unsupported_condition",
+        "unsupported_phase",
+        "incompatible_canonical_conditions",
+    }:
+        return "context_gap"
+    if reason_code in {
+        "canonical_reaction_no_match",
+        "multiple_compatible_canonical_reactions",
+    }:
+        return "curation_gap"
+    return "chemistry_architecture_gap"
+
+
 def build_report(
     records: Iterable[dict[str, Any]],
     cohort: Iterable[dict[str, Any]],
@@ -366,6 +395,10 @@ def build_report(
     legacy_revision: str,
     legacy_manifest: dict[str, Any],
     input_files: Iterable[str],
+    milestone: str = "M24",
+    report_version: str = "1.0.0",
+    classify_future_actions: bool = False,
+    m6_exit_ready: bool | None = None,
 ) -> dict[str, Any]:
     records = list(records)
     index = {record.get("id"): record for record in records}
@@ -387,13 +420,20 @@ def build_report(
             continue
         selected.append(record)
         decisions.append(reconcile_reaction(record, kb, identity_records, identity_policies))
+    if classify_future_actions:
+        decisions = [
+            decision
+            if decision["disposition"] == "mapped_existing"
+            else {**decision, "future_action_bucket": _future_action_bucket(decision)}
+            for decision in decisions
+        ]
     counts = {name: 0 for name in DISPOSITIONS}
     for decision in decisions:
         counts[decision["disposition"]] += 1
     digest = hashlib.sha256(
         canonical_json_bytes(sorted(selected, key=lambda item: item["id"]))
     ).hexdigest()
-    return {
+    report = {
         "canonical_source_digest": kb.source_digest,
         "decisions": sorted(decisions, key=lambda item: item["legacy_id"]),
         "disposition_counts": counts,
@@ -409,9 +449,20 @@ def build_report(
             "package_version": legacy_manifest.get("version"),
             "revision": legacy_revision,
         },
-        "milestone": "M24",
-        "report_version": "1.0.0",
+        "milestone": milestone,
+        "report_version": report_version,
     }
+    if classify_future_actions:
+        bucket_counts = {name: 0 for name in FUTURE_ACTION_BUCKETS}
+        for decision in decisions:
+            bucket = decision.get("future_action_bucket")
+            if bucket is not None:
+                bucket_counts[bucket] += 1
+        report["audit_scope"] = "full_corpus"
+        report["future_action_bucket_counts"] = bucket_counts
+        report["input_summary"]["full_input_sha256"] = digest
+        report["m6_exit_ready"] = bool(m6_exit_ready)
+    return report
 
 
 def _read_jsonl(package_root: Path, files: Iterable[str]) -> list[dict[str, Any]]:
@@ -453,15 +504,26 @@ def run_reaction_pilot(repo_root: Path, legacy_root: Path, cohort_path: Path) ->
     identity_records = {record["id"]: record for record in identity_list}
     if len(identity_records) != len(identity_list):
         raise ValueError("duplicate legacy identity record")
+    audit_scope = cohort_doc.get("audit_scope", "cohort")
+    if audit_scope == "cohort":
+        cohort = cohort_doc["records"]
+    elif audit_scope == "full_corpus":
+        cohort = [{"legacy_id": record["id"]} for record in reactions]
+    else:
+        raise ValueError(f"unsupported Reaction audit scope: {audit_scope}")
     return build_report(
         reactions,
-        cohort_doc["records"],
+        cohort,
         load_knowledge(repo_root),
         identity_records,
         identity_policies=cohort_doc.get("identity_policies", {}),
         legacy_revision=revision,
         legacy_manifest=manifest,
         input_files=reaction_files,
+        milestone=cohort_doc.get("milestone", "M24"),
+        report_version=cohort_doc.get("report_version", "1.0.0"),
+        classify_future_actions=audit_scope == "full_corpus",
+        m6_exit_ready=cohort_doc.get("m6_exit_ready"),
     )
 
 
@@ -478,7 +540,10 @@ def main(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
     repo_root = args.repo_root.resolve()
     cohort = args.cohort or repo_root / "migration" / "m24_reaction_pilot_cohort.json"
-    output = args.output or repo_root / "migration" / "reports" / "m24_reaction_pilot_report.json"
+    cohort_doc = json.loads(cohort.read_text(encoding="utf-8"))
+    output = args.output or repo_root / cohort_doc.get(
+        "report_path", "migration/reports/m24_reaction_pilot_report.json"
+    )
     report = run_reaction_pilot(repo_root, args.legacy_root.resolve(), cohort.resolve())
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_bytes(report_bytes(report))

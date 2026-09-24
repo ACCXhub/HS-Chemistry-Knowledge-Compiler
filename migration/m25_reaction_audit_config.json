@@ -1,0 +1,36 @@
+{
+  "audit_scope": "full_corpus",
+  "config_version": "1.0.0",
+  "expected_legacy_revision": "a6311150436038ca06fa7b9d05de39da9e1de815",
+  "identity_policies": {
+    "substance:copper": {
+      "identity_profile": "strict_elemental_substance_v1",
+      "referent_shape": "single_elemental_substance_referent"
+    },
+    "substance:hydrogen": {
+      "identity_profile": "strict_elemental_substance_v1",
+      "referent_shape": "single_elemental_substance_referent"
+    },
+    "substance:magnesium": {
+      "identity_profile": "strict_elemental_substance_v1",
+      "referent_shape": "single_elemental_substance_referent"
+    },
+    "substance:silver": {
+      "identity_profile": "strict_elemental_substance_v1",
+      "referent_shape": "single_elemental_substance_referent"
+    },
+    "substance:sodium": {
+      "identity_profile": "strict_elemental_substance_v1",
+      "referent_shape": "single_elemental_substance_referent"
+    },
+    "substance:zinc": {
+      "identity_profile": "strict_elemental_substance_v1",
+      "referent_shape": "single_elemental_substance_referent"
+    }
+  },
+  "legacy_package_path": "packages/inorganic",
+  "m6_exit_ready": true,
+  "milestone": "M25",
+  "report_path": "migration/reports/m25_reaction_audit_report.json",
+  "report_version": "1.0.0"
+}
