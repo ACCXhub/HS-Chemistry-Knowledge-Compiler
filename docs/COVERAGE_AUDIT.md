@@ -1,8 +1,8 @@
-# Coverage & Migration Audit — post-M21
+# Coverage & Migration Audit — post-M22
 
 ## Decision
 
-M21 completes Coverage Reuse Batch B as a data-only expansion. One evidence-backed HBr Entity and eight canonical Reactions reuse four existing Rules across strong-acid neutralization and hydrogen-carbonate, carbonate, and sulfite gas evolution. No compiler, schema, Rule DSL, RulePlan, artifact-format, or active-Rule change is involved.
+M22 completes Legacy Migration Pilot A over 20 real records from the sibling inorganic package. Sixteen records map to existing canonical identities, one evidence-backed lithium Element is created, and three unsupported records are explicitly skipped. The deterministic crosswalk remains outside runtime inference and does not make the legacy package a second source of truth.
 
 Batch A remains historical input. M19 resolved exact-salt duplication pressure with one bounded generic family, and M20 added exact pairwise negative Relation truth; neither authorizes activity ordering, transitivity, or a general no-reaction/redox engine.
 
@@ -16,14 +16,14 @@ Canonical Reaction coverage was regenerated from source by submitting each React
 
 | Measure | Count |
 |---|---:|
-| all canonical records | 224 |
-| Entity | 103 |
-| Evidence | 32 |
+| all canonical records | 226 |
+| Entity | 104 |
+| Evidence | 33 |
 | Reaction | 67 |
 | Rule | 14 |
 | Source | 7 |
 | TeachingView | 1 |
-| Element / Species / Substance / MaterialSystem | 17 / 22 / 63 / 1 |
+| Element / Species / Substance / MaterialSystem | 18 / 22 / 63 / 1 |
 | inference cases | 117 |
 | speciation profiles | 38 |
 | facet assertions | 104 |
@@ -390,8 +390,16 @@ Any future importer must be deterministic and idempotent and must stop for human
 11. repeated-run byte determinism and no generated-source contamination;
 12. a review report for every skipped, merged, split, or downgraded record.
 
-## Current reuse decision
+### M22 implemented pilot
 
-**M21 DATA REUSE COMPLETE.**
+The tracked cohort contains seven Element projections, six monatomic ions, and seven simple substances. Reconciliation is independent of legacy file order and verifies canonical referent facts rather than trusting formula/name lookup signals. Its five closed dispositions are `mapped_existing`, `created_canonical`, `skipped_unsupported`, `ambiguous`, and `rejected_invalid`; every decision is retained in `migration/reports/m22_pilot_report.json`.
 
-M21 confirms that bounded coverage can continue through data/evidence/fixture/TeachingView reuse with zero production compiler or schema changes. Any later candidate needing a new predicate, constructor, Relation execution mode, condition vocabulary, or compatibility bump belongs in a separate architecture milestone.
+Li is the sole canonical creation (`ent_element_li`, atomic number 3), supported by `ev_m22_lithium_identity` from the existing OpenStax source. Cu(I), aqueous/weak-equilibrium carbonic acid, and chlorine without authoritative creation evidence remain explicit skips. Synthetic proof covers equal-valid-candidate ambiguity and invalid legacy shapes. Reordered inputs and repeated runs produce byte-identical reports and never mutate canonical source.
+
+Bulk migration, legacy Reactions, formula-derived creation, variable-valence selection, weak-equilibrium/speciation semantics, and Concept/Phenomenon/Experiment/ExamTag ownership remain unsafe and deferred.
+
+## Current migration decision
+
+**M22 LEGACY MIGRATION PILOT A COMPLETE.**
+
+M22 establishes a bounded, deterministic migration path without bulk import or runtime dependency on legacy data. Any later cohort needing a new canonical owner, equilibrium model, identity primitive, compiler behavior, or compatibility bump belongs in a separate architecture milestone.

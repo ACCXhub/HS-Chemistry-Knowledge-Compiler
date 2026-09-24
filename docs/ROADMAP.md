@@ -236,9 +236,15 @@ M21 adds one evidence-backed HBr Entity and eight canonical aqueous Reactions. T
 
 HBr + thiosulfate remains UNKNOWN because M21 does not author an acid redox-character fact, and missing aqueous medium remains UNKNOWN. No Rule, Relation, constructor, compiler primitive, schema, or compatibility coordinate changes. Source schema remains `3.7.0`, Rule DSL and RulePlan remain `1.4.0`, and artifact format remains `1.5.0`.
 
+## M22 — Legacy Migration Pilot A
+
+M22 processes a fixed 20-record cohort from the real sibling inorganic package at revision `a6311150436038ca06fa7b9d05de39da9e1de815`. Element, monatomic-ion, and simple-substance records are reconciled by referent-level kind, composition, charge, symbol, and atomic-number facts; formula/name values are lookup signals only. Sixteen identities are reused, Li is created as one OpenStax-backed canonical Element, and Cu(I), carbonic acid, and chlorine are explicitly skipped at unsupported/evidence boundaries.
+
+The migration tool reads the external package only when explicitly invoked with `--legacy-root` and emits a byte-stable tracked report. It does not mutate canonical source, load legacy data at runtime, overload aliases, or enter Rule DSL/artifacts. Ambiguous and invalid synthetic cases fail closed, and repeated/reordered execution is idempotent. Source schema remains `3.7.0`, Rule DSL and RulePlan remain `1.4.0`, and artifact format remains `1.5.0`.
+
 ## Still out of scope
 
-- full high-school chemistry population or wholesale legacy migration;
+- full high-school chemistry population or wholesale legacy migration beyond the M22 bounded cohort;
 - transition-metal redox, concentrated-acid/passivation, or organic families;
 - variable-valence metal product selection, displacement beyond evidence-backed pairwise aqueous salt cases, broader metal/water reactions, or general activity-series/electrode-potential reasoning;
 - generic carbonate-to-oxide or bicarbonate-to-carbonate product mapping, or broader thermal-decomposition inference beyond the exact M16 CaCO3 and M17 NaHCO3 pilots;

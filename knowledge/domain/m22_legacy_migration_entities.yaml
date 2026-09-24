@@ -1,0 +1,14 @@
+records:
+  - id: ev_m22_lithium_identity
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "OpenStax Chemistry 2e section 2.5 and its periodic table identify lithium as Li with atomic number 3."
+    stance: supports
+
+  - id: ent_element_li
+    record_type: entity
+    entity_kind: element
+    terms: {preferred: lithium}
+    semantic_keys: [{scheme: element.symbol, value: Li}]
+    payload: {atomic_number: 3, symbol: Li}
+    evidence_ids: [ev_m22_lithium_identity]

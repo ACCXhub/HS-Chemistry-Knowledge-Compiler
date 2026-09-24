@@ -338,3 +338,13 @@ M21 chooses HBr as one compact counterion-diversity addition because canonical B
 All products are selected by existing `ionic_pair` or exact-product paths and balanced by the existing solver. The aqueous projector dissociates HBr and the soluble bromide salts, then cancels Br- to the already-established family net ionic forms. HBr + thiosulfate deliberately remains UNKNOWN because `acid.redox_character` is absent; M21 does not generalize acid displacement or redox behavior.
 
 This is a data/evidence/fixture/TeachingView decision only. It adds no Rule, Relation family, constructor, Python chemistry branch, or compatibility change; source schema remains `3.7.0`, Rule DSL and RulePlan remain `1.4.0`, and artifact format remains `1.5.0`.
+
+## ADR-M22-001 — Migration crosswalk is operational provenance, not chemistry truth
+
+M22 keeps the sibling inorganic package as explicit offline input. A fixed cohort manifest selects 20 legacy IDs, and the migration tool emits exactly one sorted decision per input using five closed dispositions. Legacy IDs, package revision, input digest, reconciliation basis, creation evidence basis, and skip/error codes belong to the report; none are Entity aliases, Rule facts, or compiled artifacts.
+
+Candidate lookup never establishes identity by formula/name alone. Elements require matching kind, symbol, and atomic number; monatomic ions require Species/ion kind, exact elemental composition, and charge; simple compounds require Substance/pure-compound kind, exact composition, and neutral charge. Multiple verified candidates are `ambiguous`, invalid shapes are `rejected_invalid`, and no source ordering breaks ties.
+
+Canonical creation is represented only after the separately authored canonical record passes normal source/reference validation and the migration evidence gate confirms non-fixture authoritative evidence. This admits only `ent_element_li` with `ev_m22_lithium_identity`. Legacy review status and verification targets cannot satisfy that gate. The tool writes only its deterministic report, so reruns cannot duplicate Entities and the compiler never depends on the legacy repository.
+
+This offline migration boundary changes no inference semantics or compatibility coordinate: source schema remains `3.7.0`, Rule DSL and RulePlan remain `1.4.0`, and artifact format remains `1.5.0`.

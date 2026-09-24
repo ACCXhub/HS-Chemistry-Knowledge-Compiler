@@ -1,0 +1,48 @@
+{
+  "cohort_version": "1.0.0",
+  "expected_legacy_revision": "a6311150436038ca06fa7b9d05de39da9e1de815",
+  "legacy_package_path": "packages/inorganic",
+  "records": [
+    {"intent": "reconcile", "legacy_id": "element-scope:ag", "record_family": "element_scope"},
+    {"intent": "reconcile", "legacy_id": "element-scope:br", "record_family": "element_scope"},
+    {"intent": "reconcile", "legacy_id": "element-scope:ca", "record_family": "element_scope"},
+    {"intent": "reconcile", "legacy_id": "element-scope:fe", "record_family": "element_scope"},
+    {"intent": "reconcile", "legacy_id": "element-scope:h", "record_family": "element_scope"},
+    {
+      "canonical_id": "ent_element_li",
+      "evidence_ids": ["ev_m22_lithium_identity"],
+      "intent": "create_canonical",
+      "legacy_id": "element-scope:li",
+      "record_family": "element_scope"
+    },
+    {"intent": "reconcile", "legacy_id": "element-scope:na", "record_family": "element_scope"},
+    {"intent": "reconcile", "legacy_id": "ion:bromide", "record_family": "ion"},
+    {"intent": "reconcile", "legacy_id": "ion:calcium", "record_family": "ion"},
+    {"intent": "reconcile", "legacy_id": "ion:chloride", "record_family": "ion"},
+    {
+      "intent": "skip",
+      "legacy_id": "ion:copper-i",
+      "reason_code": "variable_valence_evidence_not_owned",
+      "record_family": "ion"
+    },
+    {"intent": "reconcile", "legacy_id": "ion:copper-ii", "record_family": "ion"},
+    {"intent": "reconcile", "legacy_id": "ion:sodium", "record_family": "ion"},
+    {"intent": "reconcile", "legacy_id": "substance:ammonia", "record_family": "substance"},
+    {"intent": "reconcile", "legacy_id": "substance:barium-chloride", "record_family": "substance"},
+    {
+      "intent": "skip",
+      "legacy_id": "substance:carbonic-acid",
+      "reason_code": "weak_equilibrium_aqueous_referent_not_owned",
+      "record_family": "substance"
+    },
+    {"intent": "reconcile", "legacy_id": "substance:carbon-dioxide", "record_family": "substance"},
+    {
+      "intent": "skip",
+      "legacy_id": "substance:chlorine",
+      "reason_code": "legacy_review_status_is_not_authoritative_evidence",
+      "record_family": "substance"
+    },
+    {"intent": "reconcile", "legacy_id": "substance:hydrogen-chloride", "record_family": "substance"},
+    {"intent": "reconcile", "legacy_id": "substance:sodium-chloride", "record_family": "substance"}
+  ]
+}

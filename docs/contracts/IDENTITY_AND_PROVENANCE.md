@@ -27,3 +27,7 @@ A persistent review ID identifies a review workflow object, not the pure compile
 Legacy IDs and paths are migration aliases only. Migration may merge multiple legacy records into one canonical record or split a conflated legacy record into multiple canonical identities.
 
 No legacy schema field is required to survive as a permanent canonical field.
+
+The migration layer owns only a durable legacy-to-canonical crosswalk or an explicit bounded disposition (`mapped_existing`, `created_canonical`, `skipped_unsupported`, `ambiguous`, or `rejected_invalid`). Formula, name, and legacy path may locate candidates but cannot establish identity without referent-level kind, composition, charge, symbol, or atomic-number checks as applicable. Ambiguity never selects a winner by record or file order.
+
+Canonical creation remains a separate evidence-gated source-curation action. Legacy `reviewed` state, consolidation readiness, editorial sources, and verification targets are not authoritative evidence. Migration status does not enter Entity aliases, Rule DSL, or compiled inference artifacts.

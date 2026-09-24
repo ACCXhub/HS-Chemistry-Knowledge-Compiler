@@ -1,6 +1,6 @@
 # Schema Strategy
 
-Status: **M20 explicit Relation truth contract**
+Status: **M22 legacy migration boundary**
 
 ## 1. Authoring boundary
 
@@ -129,6 +129,8 @@ M4 emits deterministic JSON artifacts under caller-selected build output. Manife
 Consumers must reject an artifact format version they do not support. The reference compiler exposes validation for this compatibility gate.
 
 Generated artifacts remain reproducible outputs and never become editable chemistry truth.
+
+M22 migration reports are deterministic provenance outputs outside the compiler runtime and artifact contract. They reconcile bounded external legacy inputs against canonical source, but neither the reports nor the legacy package are loaded by validation, compilation, audit, or inference. Consequently M22 changes none of the four compatibility coordinates.
 
 ## 9. Deterministic serialization
 
