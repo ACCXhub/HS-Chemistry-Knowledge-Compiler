@@ -17,7 +17,7 @@ def test_reactant_pattern_phase_is_lowered_and_rejects_a_different_input_phase(
     tmp_path: Path,
 ) -> None:
     work = tmp_path / "repo"
-    shutil.copytree(ROOT, work)
+    shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns(".git", "build", "__pycache__", ".pytest_cache"))
     rule = {
         "id": FIXTURE_RULE_ID,
         "record_type": "rule",

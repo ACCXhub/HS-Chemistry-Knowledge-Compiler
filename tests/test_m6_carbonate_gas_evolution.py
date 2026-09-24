@@ -224,7 +224,7 @@ def test_missing_aqueous_context_keeps_carbonate_applicability_unknown() -> None
 
 def test_missing_acid_strength_keeps_carbonate_applicability_unknown(tmp_path: Path) -> None:
     work = tmp_path / "repo"
-    shutil.copytree(ROOT, work)
+    shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns(".git", "build", "__pycache__", ".pytest_cache"))
     path = work / "knowledge" / "domain" / "f3b_aqueous_entities.yaml"
     document = yaml.safe_load(path.read_text(encoding="utf-8"))
     acid = next(record for record in document["records"] if record.get("id") == "ent_substance_hno3")

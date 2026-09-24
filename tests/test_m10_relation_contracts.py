@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def _copy(tmp_path: Path) -> Path:
     work = tmp_path / "repo"
-    shutil.copytree(ROOT, work)
+    shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns(".git", "build", "__pycache__", ".pytest_cache"))
     return work
 
 

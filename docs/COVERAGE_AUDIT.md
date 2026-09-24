@@ -6,6 +6,24 @@ M25 runs the M24 reconciliation owner over all 152 declared legacy Reactions. Af
 
 Batch A remains historical input. M19 resolved exact-salt duplication pressure with one bounded generic family, and M20 added exact pairwise negative Relation truth; neither authorizes activity ordering, transitivity, or a general no-reaction/redox engine.
 
+## Post-M25 equation-integrity pass
+
+This bounded pass reviewed the implemented compiler, Rules and canonical data across the foundation–M25 history, source/artifact contracts, offline migration, regression tests, and current documentation. It adds no chemistry family, milestone, or migration scope.
+
+- Canonical matching now honors rational denominators and merges repeated role/entity/phase terms before primitive-integer normalization. Numerator-only signatures could previously conflate unequal equations.
+- Eight early aqueous Rules now constrain reagent phases explicitly (and solid metal for M10), with Rule patch versions `1.0.1`. Aqueous context alone previously admitted gaseous reagents. All 66 positive fixture equations and canonical matches are unchanged; four invalid/unrelated pathways now terminate as `no_match` instead of `indeterminate`.
+- Source validation now checks atom/charge conservation of all canonical Reactions, stored ReactionForms, and speciation profiles, and rejects duplicate composition elements, duplicate facets, and inconsistent formal/net charge. The current 68 Reactions and 38 profiles pass.
+- Product Relation lookup rejects equally specific TRUE/FALSE contradictions before discarding negatives. An independently UNKNOWN rule path is no longer hidden by a blocked path. Rule evaluation is sorted by durable Rule ID so caller ordering cannot change the proof trace.
+- Exact rational normalization and participant conservation reuse `compiler/balance.py`; duplicate ReactionForm arithmetic was removed. Test repository copies exclude Git metadata, generated builds, and caches (the local build directory alone contained about 40 MB). One duplicate candidate-key snapshot test was removed; the retained superset checks legacy keys and deliberate Rule-version invalidation. The M5 TeachingView test now asserts its own membership instead of freezing every later family.
+
+Compiler patch version is `0.3.1`; the four format/DSL/schema coordinates are unchanged. No fields or constructors were added. Existing integer participant signatures remain stable, while corrected Rule versions intentionally change their candidate keys.
+
+M22–M25 were rerun twice against the pinned legacy revision. Outputs were byte-identical within each pair. M22/M23/M25 decisions match their tracked historical reports. Current M24 maps 17 instead of its historical 16 because M25 already added CaCO3/HCl; this is expected canonical-data evolution, not a new migration action. Tracked reports retain their original source digests and remain historical snapshots.
+
+Validation: the full suite exercised 406 tests (401 passed initially; five stale assertions were then corrected or consolidated and rechecked with the new integrity tests). All 18 added integrity regressions pass, including all 117 cases under reversed reactant and RulePlan order. `validate` passes; compile/audit byte determinism and migration reproducibility are checked separately. The final suite contains 406 tests.
+
+The highest-value next bounded work is executable coverage for already-curated high-school equations, starting with solid CaCO3 + acid after its phase/solubility boundary is explicitly designed. That work has not started. Weak-acid/equilibrium behavior, variable-valence selection, concentrated acids/passivation, and generic thermal/steam families remain unsupported.
+
 ## Baseline and method
 
 The audit uses the canonical YAML source, all 14 compiled Rules, all 117 fixtures, current contracts and architecture documents, the active schema, and the compiler product/balancing/aqueous-projection paths. The sibling package remains explicit offline migration input, not canonical truth or a runtime dependency.
@@ -31,7 +49,7 @@ The canonical corpus now contains 68 Reactions. M25's added solid-CaCO3/HCl Reac
 | `metal.product_cation` assertions | 4 |
 | `metal.displaces_cation` assertions | 5 (4 positive, 1 negative) |
 | TeachingView paths / memberships / unique members | 15 / 251 / 144 |
-| fixture results: inferred / indeterminate / no-match / blocked | 66 / 42 / 8 / 1 |
+| fixture results: inferred / indeterminate / no-match / blocked | 66 / 38 / 12 / 1 |
 
 Raw record volume is diagnostic, not the KPI. The useful KPI is the number of important high-school chemistry families that are correctly expressible, canonically matched, provenance-bearing, and conservative under missing knowledge.
 
@@ -424,4 +442,4 @@ ReactionForm diagnostics remain review material rather than a coverage KPI: amon
 
 **M25 REACTION MIGRATION AUDIT COMPLETE; M6 EXIT READY.**
 
-`M6_EXIT_READY = true`. Identity and Reaction migration are deterministic; all 152 legacy Reactions have explicit outcomes and future-action buckets; canonical source remains independently evidence-gated; and legacy data remains outside runtime. The remaining gaps are ordinary future curation or explicit context/identity/equilibrium architecture work, not missing migration machinery. No M26 is required to close M6.
+`M6_EXIT_READY = true`. Identity and Reaction migration are deterministic; all 152 legacy Reactions have explicit outcomes and future-action buckets; canonical source remains independently evidence-gated; and legacy data remains outside runtime. The remaining gaps are ordinary future curation or explicit context/identity/equilibrium architecture work, not missing migration machinery. No further migration milestone is required. The historical `M6_EXIT_READY` flag denotes migration exit, not completion of the M6 carbonate family or universal equation generation.

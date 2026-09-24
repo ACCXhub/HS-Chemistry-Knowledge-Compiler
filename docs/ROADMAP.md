@@ -2,11 +2,11 @@
 
 ## Current state
 
-Historical F1/F2 and F3A/F3B workstreams established the ontology, executable compiler contracts, and the bounded aqueous pilot. Their provenance and branch names remain historical facts.
+Main has completed the bounded work through M25. No next milestone is started. Historical F1/F2 and F3A/F3B workstreams established the ontology, executable compiler contracts, and the bounded aqueous pilot. Their provenance and branch names remain historical facts.
 
 ## M4 — Chemistry Model Convergence
 
-M4 integrates those workstreams on `workstream/f3-convergence` and verifies this pipeline:
+M4 integrated those workstreams on the historical `workstream/f3-convergence` branch and verified this pipeline:
 
 ```text
 canonical YAML source
@@ -254,13 +254,13 @@ M24 processes 18 real legacy Reactions through one offline reconciliation owner.
 
 Legacy ionic equations remain non-authoritative diagnostics against canonically derived ReactionForms. Reverse direction, incompatible phase, missing/conflicting required conditions, unresolved participants, ambiguity, malformed coefficients, and conservation failures all fail closed. The report is byte-deterministic and migration does not mutate canonical source or enter runtime compiler dependencies. Catalyst/light semantics, richer controlled conditions, broader polyatomic identity, missing canonical Reactions, and full-corpus migration remain M25-or-later pressures. Compatibility coordinates remain `3.7.0`, `1.4.0`, `1.4.0`, and `1.5.0`.
 
-## M25 — Reaction Migration Audit and M6 Exit Candidate
+## M25 — Completed Reaction Migration Audit
 
 M25 extends the same Reaction owner to a deterministic read-only audit of all 152 legacy Reactions. Final outcomes are 20 mappings, 123 unsupported skips, nine fail-closed reversible records, zero ambiguities, and zero automatic creations. The 132 non-mapped records are partitioned into 88 identity gaps, 25 context gaps, ten ordinary curation gaps, nine chemistry-architecture gaps, and zero structurally invalid legacy records. Legacy ionic projections remain diagnostics only.
 
 One high-value curation gap is closed independently of legacy authority: canonical `CaCO3(s) + 2 HCl(aq) -> CaCl2(aq) + CO2(g) + H2O(l)` reuses existing identities, phases, speciation, and authoritative evidence. It adds no Evidence or Rule. The soluble-carbonate Rule remains unchanged and does not infer solid CaCO3; canonical coverage and executable inference coverage remain distinct.
 
-The full audit leaves no high-value current-schema-compatible case blocked by migration machinery. Remaining work requires ordinary evidence curation or separately authorized identity, context, equilibrium, and pathway architecture. `M6_EXIT_READY = true`; no M26 is required for M6 closure. Compatibility remains source schema `3.7.0`, Rule DSL `1.4.0`, RulePlan `1.4.0`, and artifact format `1.5.0`.
+The full audit leaves no high-value current-schema-compatible case blocked by migration machinery. Remaining work requires ordinary evidence curation or separately authorized identity, context, equilibrium, and pathway architecture. The historical report flag `M6_EXIT_READY = true` refers to migration exit, not completion of all carbonate inference in the M6 chemistry slice. No additional migration milestone is required. Compatibility remains source schema `3.7.0`, Rule DSL `1.4.0`, RulePlan `1.4.0`, and artifact format `1.5.0`.
 
 ## Still out of scope
 

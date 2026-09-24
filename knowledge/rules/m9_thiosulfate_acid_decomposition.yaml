@@ -1,15 +1,17 @@
 records:
   - id: rule_m9_acid_thiosulfate_decomposition
     record_type: rule
-    version: 1.0.0
+    version: 1.0.1
     decision_domain: aqueous_acid_base
     match:
       reactants:
         - bind: acid
           entity_kind: substance
+          phase: aqueous
           required_facets: [classification.acid]
         - bind: thiosulfate
           entity_kind: substance
+          phase: aqueous
           required_facets: [classification.salt, classification.thiosulfate]
     context:
       medium: aqueous

@@ -1,6 +1,6 @@
 # Deterministic Reaction Inference Semantics
 
-Status: **M19 dynamic-target Relation applicability and bounded entity sources**
+Status: **M25 baseline with equation-integrity corrections**
 
 ## Pipeline
 
@@ -26,7 +26,7 @@ The implementation may short-circuit only where the observable result and proof 
 
 ## Matching and UNKNOWN
 
-Participant binding uses canonical identity/kind/phase constraints. Required/forbidden facets and context conditions use the typed predicate registry. Multiple possible participant bindings are evaluated deterministically; a failed arbitrary binding cannot suppress another valid binding.
+Participant binding uses canonical identity/kind/phase constraints. All aqueous-only families require aqueous reagent phases; M10 additionally requires solid metal. Aqueous medium alone does not dissolve an input or convert its phase. Required/forbidden facets and context conditions use the typed predicate registry. Multiple possible participant bindings are evaluated deterministically; a failed arbitrary binding cannot suppress another valid binding.
 
 Missing/open-world knowledge is `UNKNOWN`, not false. Explicit `unknown`, `not_applicable`, and absent facts remain distinguishable in the trace.
 
@@ -34,7 +34,7 @@ Relation predicates resolve `(source binding, controlled relation key, canonical
 
 ## Rule resolution
 
-All fully applicable rules are considered before a winner is selected. Explicit `overrides`, `specializes`, and `fallback_for` edges define precedence; transitive precedence is respected. If multiple non-equivalent winners remain, inference returns structured `ambiguous_rule_resolution` rather than selecting by source order.
+All fully applicable rules are considered before a winner is selected. Explicit `overrides`, `specializes`, and `fallback_for` edges define precedence; transitive precedence is respected. A blocked path does not suppress an independent UNKNOWN path: without a fully applicable rule, that result remains indeterminate. If multiple non-equivalent winners remain, inference returns structured `ambiguous_rule_resolution` rather than selecting by source order.
 
 A declared `mutually_exclusive_with` pair that becomes simultaneously applicable is a runtime ambiguity, because the authored exclusivity assumption was violated by the actual inputs.
 
@@ -42,7 +42,7 @@ A declared `mutually_exclusive_with` pair that becomes simultaneously applicable
 
 Products resolve only through bounded canonical constructors. Ionic-pair construction uses canonical ion charge/composition plus exact positive integer coefficients and must resolve one existing neutral Substance. Unresolved or ambiguous lookup is explicit and cannot fabricate an Entity.
 
-When ionic-pair construction consumes bound aqueous reactants, the generated candidate and `products.constructed` proof event retain the normalized profile key, model, target, and evidence IDs for each speciation profile used. When it consumes a one-hop relation target, they separately retain source ID, controlled relation key, target ID, normalized context, and evidence IDs. Relation provenance is omitted for candidates that did not use a relation. This metadata is deterministic and does not create a second source of chemistry truth.
+When ionic-pair construction consumes bound aqueous reactants, the generated candidate and `products.constructed` proof event retain the normalized profile key, model, target, and evidence IDs for each speciation profile used. When it consumes a one-hop relation target, they separately retain source ID, controlled relation key, target ID, normalized context, and evidence IDs. Relation target construction checks equally specific TRUE/FALSE contradictions before filtering positives. Relation provenance is omitted for candidates that did not use a relation. This metadata is deterministic and does not create a second source of chemistry truth.
 
 M10 uses this boundary for `elemental metal -> product cation` plus `acid -> speciated anion`. Solid metals never receive fake aqueous speciation, and the compiler does not guess oxidation state or valence. Missing or ambiguous relation targets produce structured relation-resolution diagnostics before balancing.
 
@@ -58,7 +58,7 @@ Balancing receives fixed canonical reactants/products and uses exact arithmetic.
 
 ## Canonical comparison
 
-Canonical comparison happens after validation. The existing normalized participant signature retrieves chemical matches; each canonical Reaction's embedded conditions are then treated as required key/value constraints. Extra candidate context is ignored for compatibility, while missing/conflicting required conditions reject that canonical match. `none`, exact single match, and multi-match conflict remain distinguishable. Condition evidence and compatibility decisions remain in generated proof/provenance. Even an exact match remains a generated `ReactionCandidate` until separate curation changes canonical source.
+Canonical comparison happens after validation. The normalized participant signature merges identical role/entity/phase terms and reduces exact rational coefficients to primitive integers before retrieving chemical matches; each canonical Reaction's embedded conditions are then treated as required key/value constraints. Extra candidate context is ignored for compatibility, while missing/conflicting required conditions reject that canonical match. `none`, exact single match, and multi-match conflict remain distinguishable. Condition evidence and compatibility decisions remain in generated proof/provenance. Even an exact match remains a generated `ReactionCandidate` until separate curation changes canonical source.
 
 ## ReactionForm projection
 

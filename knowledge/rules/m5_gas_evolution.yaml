@@ -1,15 +1,17 @@
 records:
   - id: rule_m5_strong_acid_hydrogen_carbonate_gas_evolution
     record_type: rule
-    version: 1.0.0
+    version: 1.0.1
     decision_domain: aqueous_acid_base
     match:
       reactants:
         - bind: acid
           entity_kind: substance
+          phase: aqueous
           required_facets: [classification.acid]
         - bind: hydrogen_carbonate
           entity_kind: substance
+          phase: aqueous
           required_facets: [classification.hydrogen_carbonate, classification.salt]
     context:
       medium: aqueous

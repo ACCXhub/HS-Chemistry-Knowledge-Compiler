@@ -1,15 +1,17 @@
 records:
   - id: rule_f2_agcl_precipitation
     record_type: rule
-    version: 1.0.0
+    version: 1.0.1
     decision_domain: aqueous_exchange
     match:
       reactants:
         - bind: left_salt
           entity_kind: substance
+          phase: aqueous
           required_facets: [classification.salt]
         - bind: right_salt
           entity_kind: substance
+          phase: aqueous
           required_facets: [classification.salt]
     context:
       medium: aqueous
@@ -29,15 +31,17 @@ records:
 
   - id: rule_f2_strong_acid_base_neutralization
     record_type: rule
-    version: 1.0.0
+    version: 1.0.1
     decision_domain: aqueous_acid_base
     match:
       reactants:
         - bind: acid
           entity_kind: substance
+          phase: aqueous
           required_facets: [classification.acid]
         - bind: base
           entity_kind: substance
+          phase: aqueous
           required_facets: [classification.base]
     context:
       medium: aqueous

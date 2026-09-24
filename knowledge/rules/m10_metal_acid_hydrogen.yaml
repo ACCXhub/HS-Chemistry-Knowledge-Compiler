@@ -1,15 +1,17 @@
 records:
   - id: rule_m10_active_metal_non_oxidizing_acid_hydrogen
     record_type: rule
-    version: 1.0.0
+    version: 1.0.1
     decision_domain: aqueous_redox_displacement
     match:
       reactants:
         - bind: metal
           entity_kind: substance
+          phase: solid
           required_facets: [classification.metal]
         - bind: acid
           entity_kind: substance
+          phase: aqueous
           required_facets: [classification.acid]
     context:
       medium: aqueous

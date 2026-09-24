@@ -1,6 +1,6 @@
 # Architecture Decision Log
 
-Status: **M11 bounded alkali-metal/liquid-water hydrogen-evolution decisions**
+Status: **Implemented decisions through M25; earlier sections retain historical context**
 
 ## ADR-F1-001 — Entity-kind alignment
 

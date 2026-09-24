@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from collections import defaultdict
 from fractions import Fraction
-from math import gcd, lcm
 from typing import Any, Iterable
 
+from .balance import participant_conservation, primitive_coefficients
 from .source import KnowledgeBase, SourceError
 
 
@@ -14,29 +14,6 @@ def _coefficient(source: dict[str, Any]) -> Fraction:
 
 def _coefficient_dict(value: Fraction) -> dict[str, int]:
     return {"numerator": value.numerator, "denominator": value.denominator}
-
-
-def _entity_charge_and_atoms(kb: KnowledgeBase, entity_id: str) -> tuple[dict[str, int], int]:
-    entity = kb.entities[entity_id]
-    if entity.get("entity_kind") == "material_system":
-        raise SourceError(
-            f"material_system cannot enter exact ionic-form validation: {entity_id}",
-            code="stoichiometric_basis_required",
-            stage="reaction_form_projection",
-            details={"target_id": entity_id},
-        )
-    payload = entity.get("payload", {})
-    composition = payload.get("composition")
-    if not composition:
-        raise SourceError(
-            f"missing exact composition for reaction-form participant: {entity_id}",
-            code="projection_unavailable",
-            stage="reaction_form_projection",
-            details={"target_id": entity_id},
-        )
-    atoms = {item["element_id"]: item["count"] for item in composition["components"]}
-    charge = int(payload.get("formal_charge", composition.get("net_charge", 0)))
-    return atoms, charge
 
 
 def _merge_participants(kb: KnowledgeBase, entries: list[tuple[str, str, str, Fraction]]) -> list[dict[str, Any]]:
@@ -81,40 +58,16 @@ def _cancel_spectators(kb: KnowledgeBase, participants: list[dict[str, Any]]) ->
 
 
 def _normalize_participants(participants: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    coefficients = [_coefficient(item["coefficient"]) for item in participants]
-    denominator_lcm = 1
-    for coefficient in coefficients:
-        denominator_lcm = lcm(denominator_lcm, coefficient.denominator)
-    integers = [coefficient.numerator * (denominator_lcm // coefficient.denominator) for coefficient in coefficients]
-    common = 0
-    for integer in integers:
-        common = gcd(common, integer)
-    common = common or 1
+    integers = primitive_coefficients(_coefficient(item["coefficient"]) for item in participants)
     normalized: list[dict[str, Any]] = []
     for participant, integer in zip(participants, integers, strict=True):
         normalized.append(
             {
                 **participant,
-                "coefficient": {"numerator": integer // common, "denominator": 1},
+                "coefficient": {"numerator": integer, "denominator": 1},
             }
         )
     return normalized
-
-
-def _validate_participant_conservation(kb: KnowledgeBase, participants: list[dict[str, Any]]) -> dict[str, bool]:
-    atom_totals: dict[str, Fraction] = defaultdict(Fraction)
-    charge_total = Fraction(0)
-    for participant in participants:
-        atoms, charge = _entity_charge_and_atoms(kb, participant["target_id"])
-        coefficient = _coefficient(participant["coefficient"])
-        sign = 1 if participant["role"] == "reactant" else -1
-        for element_id, count in atoms.items():
-            atom_totals[element_id] += sign * coefficient * count
-        charge_total += sign * coefficient * charge
-    return {
-        "atoms": all(total == 0 for total in atom_totals.values()),
-        "charge": charge_total == 0,
-    }
 
 
 def _unavailable(reaction_id: str, form_kind: str, code: str, message: str, **details: Any) -> dict[str, Any]:
@@ -216,7 +169,7 @@ def derive_aqueous_ionic_form(
 
     complete = _merge_participants(kb, entries)
     projected = complete if form_kind == "complete_ionic" else _normalize_participants(_cancel_spectators(kb, complete))
-    validation = _validate_participant_conservation(kb, projected)
+    validation = participant_conservation(kb, projected)
     if not validation["atoms"] or not validation["charge"]:
         return {
             "status": "invalid",

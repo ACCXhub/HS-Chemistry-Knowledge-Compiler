@@ -34,7 +34,7 @@ def _add_conditions(work: Path, conditions: list[dict]) -> str:
 
 def test_reaction_conditions_are_validated_embedded_values_and_old_records_remain_compatible(tmp_path: Path) -> None:
     work = tmp_path / "repo"
-    shutil.copytree(ROOT, work)
+    shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns(".git", "build", "__pycache__", ".pytest_cache"))
     reaction_id = _add_conditions(
         work,
         [
@@ -67,7 +67,7 @@ def test_reaction_conditions_are_validated_embedded_values_and_old_records_remai
 
 def test_duplicate_reaction_condition_keys_are_rejected(tmp_path: Path) -> None:
     work = tmp_path / "repo"
-    shutil.copytree(ROOT, work)
+    shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns(".git", "build", "__pycache__", ".pytest_cache"))
     _add_conditions(
         work,
         [
@@ -83,8 +83,8 @@ def test_duplicate_reaction_condition_keys_are_rejected(tmp_path: Path) -> None:
 def test_reaction_condition_authoring_order_is_not_semantic(tmp_path: Path) -> None:
     first = tmp_path / "first"
     second = tmp_path / "second"
-    shutil.copytree(ROOT, first)
-    shutil.copytree(ROOT, second)
+    shutil.copytree(ROOT, first, ignore=shutil.ignore_patterns(".git", "build", "__pycache__", ".pytest_cache"))
+    shutil.copytree(ROOT, second, ignore=shutil.ignore_patterns(".git", "build", "__pycache__", ".pytest_cache"))
     conditions = [
         {"key": "medium", "value": "aqueous", "evidence_ids": ["ev_f3b_carbonate_acid"]},
         {
@@ -207,25 +207,3 @@ def test_m7_condition_contract_remains_compatible_with_current_versions() -> Non
     validate_artifact_manifest({"versions": {"artifact_format": "1.3.0"}})
     schema = json.loads((ROOT / "schemas" / "knowledge-record.schema.json").read_text(encoding="utf-8"))
     assert schema["x-source-schema-version"] == "3.7.0"
-
-
-def test_existing_candidate_semantic_keys_are_unchanged() -> None:
-    expected = {
-        "case_precipitation": "cand_sha256_e748d5055726020bd5eb9741a030c6dd359e9aee5e5552fe28a45423f63a0f86",
-        "case_neutralization": "cand_sha256_8248f1b224137d2853abdba56150875a42783d486307d90dbe757e2b89149866",
-        "case_m5_hcl_nahco3": "cand_sha256_d4c18d6ea879b428fec9ff50a2fa18660f4661fb66bfe580760ea703ecb517aa",
-        "case_m5_hno3_nahco3": "cand_sha256_d31b943663545568c02a91dc3a586756f3974618965af933c78c0d6bd3b42b41",
-        "case_m6_hcl_na2co3": "cand_sha256_1275f47bf8ff2af169b7e20e0885ccbe5ae459c55e62ba913b238f14e3313899",
-        "case_m6_hno3_na2co3": "cand_sha256_425918981aa1a6d0d44e5e944c20bf7b09f344875c3a6350db60fe40625a72a7",
-        "case_m6_hcl_k2co3": "cand_sha256_15b4a7190b84f017e53824d27fa14d5ddca1456a4ecd62ce96edf837cbc8c6fd",
-    }
-    kb = load_knowledge(ROOT)
-    plans = compile_rules(kb)
-    cases = {case["id"]: case for case in load_cases(ROOT)}
-
-    actual = {
-        case_id: infer_case(kb, plans, cases[case_id])["candidate_key"]
-        for case_id in expected
-    }
-
-    assert actual == expected

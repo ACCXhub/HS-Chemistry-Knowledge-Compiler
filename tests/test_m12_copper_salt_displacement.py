@@ -300,7 +300,7 @@ def test_copper_with_zinc_sulfate_does_not_trigger_generic_reverse_path() -> Non
         _case("cu-znso4", "ent_substance_elemental_cu", "ent_substance_znso4"),
     )
 
-    assert result["status"] == "indeterminate"
+    assert result["status"] == "no_match"
     assert result.get("rule_id") != RULE_ID
     assert "candidate_key" not in result
     relation_event = next(

@@ -18,7 +18,7 @@ RULE_ID = "rule_m19_generic_aqueous_metal_salt_displacement"
 
 def _copy(tmp_path: Path) -> Path:
     work = tmp_path / "repo"
-    shutil.copytree(ROOT, work)
+    shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns(".git", "build", "__pycache__", ".pytest_cache"))
     return work
 
 
@@ -206,8 +206,8 @@ def test_dynamic_m19_target_distinguishes_false_from_unknown() -> None:
         for item in unknown["proof_trace"]
         if item.get("rule_id") == RULE_ID and item.get("subject") == "relation"
     )
-    assert known_false["status"] == "indeterminate"
-    assert known_false["diagnostic"]["code"] == "unknown_applicability"
+    assert known_false["status"] == "no_match"
+    assert known_false["diagnostic"]["code"] == "no_rule_match"
     assert "candidate_key" not in known_false
     assert false_event["truth"] == "FALSE"
     assert false_event["knowledge_state"] == "known"

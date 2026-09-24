@@ -22,7 +22,7 @@ FIXTURE_RULE_ID = "rule_fixture_exact_entity_ion_source"
 
 def _copy(tmp_path: Path) -> Path:
     work = tmp_path / "repo"
-    shutil.copytree(ROOT, work)
+    shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns(".git", "build", "__pycache__", ".pytest_cache"))
     return work
 
 

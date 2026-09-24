@@ -192,6 +192,10 @@ class KnowledgeBase:
             for assertion in matches
             if len(assertion.get("context", {})) == specificity
         ]
+        # Resolve truth before filtering positives: an equally specific negative
+        # must not disappear on the product-construction path.
+        for target_id in sorted({assertion["target_id"] for assertion in most_specific}):
+            self.relation_fact(entity_id, relation_key, target_id, context)
         return tuple(
             {
                 "source_id": entity_id,
@@ -747,6 +751,56 @@ def validate_references(kb: KnowledgeBase) -> None:
                         stage="reference_validation",
                         details={"view_id": view["id"], "target_id": member},
                     )
+
+    _validate_chemistry(kb)
+
+
+def _validate_chemistry(kb: KnowledgeBase) -> None:
+    # Local import keeps the source/balancing dependency at the validation seam.
+    from .balance import BalanceError, participant_conservation
+
+    def reject(owner: str, message: str) -> None:
+        raise SourceError(
+            f"{message}: {owner}", code="schema_invalid",
+            stage="chemistry_validation", details={"owner": owner},
+        )
+
+    def conserved(owner: str, participants: list[dict[str, Any]]) -> None:
+        if {item["role"] for item in participants} != {"reactant", "product"}:
+            reject(owner, "equation requires both reactants and products")
+        try:
+            validation = participant_conservation(kb, participants)
+        except BalanceError as exc:
+            reject(owner, str(exc))
+        if not all(validation.values()):
+            reject(owner, f"atom/charge conservation failed ({validation})")
+
+    for entity_id, entity in kb.entities.items():
+        payload = entity.get("payload", {})
+        composition = payload.get("composition")
+        if composition:
+            elements = [item["element_id"] for item in composition["components"]]
+            if len(elements) != len(set(elements)):
+                reject(entity_id, "duplicate composition element")
+            if "formal_charge" in payload and payload["formal_charge"] != composition["net_charge"]:
+                reject(entity_id, "formal_charge disagrees with composition net_charge")
+        facets = [item["facet_key"] for item in entity.get("facet_assertions", [])]
+        if len(facets) != len(set(facets)):
+            reject(entity_id, "duplicate facet assertion")
+
+    for entity_id, entity in kb.entities.items():
+        for profile in entity.get("speciation_profiles", []):
+            participants = [
+                {"target_id": entity_id, "role": "reactant",
+                 "coefficient": {"numerator": 1, "denominator": 1}},
+                *[{**product, "role": "product"} for product in profile["products"]],
+            ]
+            conserved(f"{entity_id}:{profile['profile_key']}", participants)
+
+    for reaction_id, reaction in kb.reactions.items():
+        conserved(reaction_id, reaction["participants"])
+        for form in reaction.get("forms", []):
+            conserved(f"{reaction_id}:{form['form_key']}", form["participants"])
 
 
 def _validate_participants(kb: KnowledgeBase, participants: list[dict[str, Any]], owner: str) -> None:

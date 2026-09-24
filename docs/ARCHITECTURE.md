@@ -1,10 +1,10 @@
 # Architecture
 
-Status: **F1 Architecture Master**
+Status: **F1 design baseline with implemented boundaries through M25**
 
 ## 1. Purpose
 
-HS-Chemistry-Knowledge-Compiler is a source-to-artifact knowledge system for high-school chemistry. It preserves stable chemistry identity, explicit semantics, context, evidence, and deterministic derivation while keeping curriculum organization and runtime layout from becoming the domain model.
+HS-Chemistry-Knowledge-Compiler generates high-school chemistry equations and performs bounded deterministic reaction inference. Its supporting source-to-artifact model serves that goal. It preserves stable chemistry identity, explicit semantics, context, evidence, and deterministic derivation while keeping curriculum organization and runtime layout from becoming the domain model.
 
 The repository replaces `chem-knowledge-data`; legacy data may be migrated through adapters but does not constrain the canonical model.
 

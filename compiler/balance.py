@@ -3,7 +3,7 @@ from __future__ import annotations
 from fractions import Fraction
 from functools import reduce
 from math import gcd
-from typing import Iterable
+from typing import Any, Iterable
 
 from .model import BalanceResult
 from .source import KnowledgeBase, SourceError
@@ -60,6 +60,30 @@ def _lcm(a: int, b: int) -> int:
     return abs(a * b) // gcd(a, b) if a and b else 0
 
 
+def primitive_coefficients(coefficients: Iterable[Fraction]) -> tuple[int, ...]:
+    """Reduce exact rational coefficients to one primitive integer scale."""
+    values = tuple(coefficients)
+    denominator = reduce(_lcm, (value.denominator for value in values), 1)
+    integers = tuple(int(value * denominator) for value in values)
+    common = reduce(gcd, integers, 0) or 1
+    return tuple(value // common for value in integers)
+
+
+def participant_conservation(kb: KnowledgeBase, participants: list[dict[str, Any]]) -> dict[str, bool]:
+    """Check authored or derived participants without rebalancing their ratios."""
+    atom_totals: dict[str, Fraction] = {}
+    charge_total = Fraction(0)
+    for participant in participants:
+        atoms, charge = _composition(kb, participant["target_id"])
+        value = participant["coefficient"]
+        coefficient = Fraction(value["numerator"], value["denominator"])
+        sign = 1 if participant["role"] == "reactant" else -1
+        for element_id, count in atoms.items():
+            atom_totals[element_id] = atom_totals.get(element_id, Fraction(0)) + sign * coefficient * count
+        charge_total += sign * coefficient * charge
+    return {"atoms": all(total == 0 for total in atom_totals.values()), "charge": charge_total == 0}
+
+
 def balance(kb: KnowledgeBase, reactants: Iterable[str], products: Iterable[str]) -> BalanceResult:
     reactants = tuple(reactants)
     products = tuple(products)
@@ -93,11 +117,7 @@ def balance(kb: KnowledgeBase, reactants: Iterable[str], products: Iterable[str]
     if any(value <= 0 for value in vector):
         raise BalanceError("no strictly positive balancing solution")
 
-    common_denominator = reduce(_lcm, (value.denominator for value in vector), 1)
-    ints = [int(value * common_denominator) for value in vector]
-    common_gcd = reduce(gcd, ints)
-    ints = [value // common_gcd for value in ints]
-    return BalanceResult(coefficients=tuple(ints), reactant_count=len(reactants))
+    return BalanceResult(coefficients=primitive_coefficients(vector), reactant_count=len(reactants))
 
 
 def validate_conservation(

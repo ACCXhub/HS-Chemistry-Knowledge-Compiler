@@ -468,7 +468,7 @@ def test_m7_condition_semantics_remain_unchanged_with_current_versions() -> None
     }
 
 
-def test_m4_through_m9_candidate_keys_remain_stable() -> None:
+def test_legacy_candidate_keys_stay_stable_and_rule_patches_change_identity() -> None:
     expected = {
         "case_precipitation": "cand_sha256_e748d5055726020bd5eb9741a030c6dd359e9aee5e5552fe28a45423f63a0f86",
         "case_neutralization": "cand_sha256_8248f1b224137d2853abdba56150875a42783d486307d90dbe757e2b89149866",
@@ -489,9 +489,15 @@ def test_m4_through_m9_candidate_keys_remain_stable() -> None:
     plans = compile_rules(kb)
     cases = {case["id"]: case for case in load_cases(ROOT)}
 
+    legacy_plans = tuple(replace(plan, version="1.0.0") for plan in plans)
     actual = {
-        case_id: infer_case(kb, plans, cases[case_id])["candidate_key"]
+        case_id: infer_case(kb, legacy_plans, cases[case_id])["candidate_key"]
         for case_id in expected
     }
 
     assert actual == expected
+
+    for case_id, old_key in expected.items():
+        current = infer_case(kb, plans, cases[case_id])
+        assert current["rule_version"] == "1.0.1"
+        assert current["candidate_key"] != old_key

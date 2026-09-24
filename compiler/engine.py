@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+from collections import defaultdict
 from dataclasses import asdict
-from math import gcd
+from fractions import Fraction
 from typing import Any
 
-from .balance import BalanceError, balance, validate_conservation
+from .balance import BalanceError, balance, primitive_coefficients, validate_conservation
 from .canonical import sha256_hex
 from .diagnostics import diagnostic
 from .model import RulePlan, Truth
@@ -15,22 +16,17 @@ from .source import KnowledgeBase
 
 
 def _normalize_coefficients(participants: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    coefficients = [item["coefficient"]["numerator"] for item in participants]
-    common = 0
-    for coefficient in coefficients:
-        common = gcd(common, coefficient)
-    common = common or 1
-    normalized: list[dict[str, Any]] = []
+    totals: dict[tuple[str, str, str], Fraction] = defaultdict(Fraction)
     for item in participants:
-        normalized.append(
-            {
-                "role": item["role"],
-                "target_id": item["target_id"],
-                "phase": item.get("phase", "unknown"),
-                "coefficient": item["coefficient"]["numerator"] // common,
-            }
-        )
-    return sorted(normalized, key=lambda item: (item["role"], item["target_id"], item["phase"]))
+        key = (item["role"], item["target_id"], item.get("phase", "unknown"))
+        value = item["coefficient"]
+        totals[key] += Fraction(value["numerator"], value["denominator"])
+    keys = sorted(totals)
+    coefficients = primitive_coefficients(totals[key] for key in keys)
+    return [
+        {"role": role, "target_id": target_id, "phase": phase, "coefficient": coefficient}
+        for (role, target_id, phase), coefficient in zip(keys, coefficients, strict=True)
+    ]
 
 
 def reaction_signature(participants: list[dict[str, Any]]) -> str:
@@ -155,7 +151,7 @@ def infer_case(kb: KnowledgeBase, plans: tuple[RulePlan, ...], case: dict[str, A
     applicable_speciation_profiles: dict[str, tuple[dict[str, Any], ...]] = {}
     applicable_predicate_evidence_ids: dict[str, tuple[str, ...]] = {}
 
-    for plan in plans:
+    for plan in sorted(plans, key=lambda item: item.rule_id):
         binding_candidates = bind_rule_candidates(plan, reactants, kb, reactant_phases)
         if not binding_candidates:
             continue
@@ -225,7 +221,7 @@ def infer_case(kb: KnowledgeBase, plans: tuple[RulePlan, ...], case: dict[str, A
         )
 
     if not applicable:
-        if blocked_rules:
+        if blocked_rules and not indeterminate:
             return _terminal(
                 case,
                 "blocked",

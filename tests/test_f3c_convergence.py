@@ -53,7 +53,7 @@ def test_structured_contextual_property_preserves_true_false_unknown(tmp_path: P
     assert missing_context.state.value == "absent"
 
     work = tmp_path / "repo"
-    shutil.copytree(ROOT, work)
+    shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns(".git", "build", "__pycache__", ".pytest_cache"))
     path = work / "knowledge" / "domain" / "f3b_aqueous_entities.yaml"
     doc = yaml.safe_load(path.read_text(encoding="utf-8"))
     entity = next(record for record in doc["records"] if record.get("id") == "ent_substance_hno3")
@@ -93,7 +93,7 @@ def test_teaching_view_is_loaded_and_dangling_member_is_rejected(tmp_path: Path)
     assert len(set(members)) < len(members)
 
     work = tmp_path / "repo"
-    shutil.copytree(ROOT, work)
+    shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns(".git", "build", "__pycache__", ".pytest_cache"))
     path = work / "knowledge" / "teaching" / "f3b_aqueous_views.yaml"
     doc = yaml.safe_load(path.read_text(encoding="utf-8"))
     doc["records"][0]["nodes"][0]["members"].append("ent_missing")
@@ -156,7 +156,7 @@ def test_ionic_pair_composition_scales_polyvalent_ion_coefficients() -> None:
 
 def test_ionic_pair_constructor_never_fabricates_unknown_or_ambiguous_product(tmp_path: Path) -> None:
     work = tmp_path / "repo"
-    shutil.copytree(ROOT, work)
+    shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns(".git", "build", "__pycache__", ".pytest_cache"))
     entity_path = work / "knowledge" / "domain" / "f3b_aqueous_entities.yaml"
     doc = yaml.safe_load(entity_path.read_text(encoding="utf-8"))
     duplicate = copy.deepcopy(next(record for record in doc["records"] if record.get("id") == "ent_substance_baso4"))
@@ -199,7 +199,7 @@ def test_aqueous_speciation_profiles_and_derived_forms_match_f3b_golden() -> Non
 
 def test_missing_speciation_profile_is_explicitly_unavailable(tmp_path: Path) -> None:
     work = tmp_path / "repo"
-    shutil.copytree(ROOT, work)
+    shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns(".git", "build", "__pycache__", ".pytest_cache"))
     path = work / "knowledge" / "domain" / "f3b_aqueous_entities.yaml"
     doc = yaml.safe_load(path.read_text(encoding="utf-8"))
     entity = next(record for record in doc["records"] if record.get("id") == "ent_substance_bacl2")

@@ -1,15 +1,17 @@
 records:
   - id: rule_m8_strong_acid_sulfite_gas_evolution
     record_type: rule
-    version: 1.0.0
+    version: 1.0.1
     decision_domain: aqueous_acid_base
     match:
       reactants:
         - bind: acid
           entity_kind: substance
+          phase: aqueous
           required_facets: [classification.acid]
         - bind: sulfite
           entity_kind: substance
+          phase: aqueous
           required_facets: [classification.salt, classification.sulfite]
     context:
       medium: aqueous

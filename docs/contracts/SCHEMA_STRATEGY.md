@@ -1,6 +1,6 @@
 # Schema Strategy
 
-Status: **M22 legacy migration boundary**
+Status: **Current source/artifact contracts and M22–M25 offline migration boundary**
 
 ## 1. Authoring boundary
 
@@ -38,7 +38,7 @@ M4 validation is deliberately staged:
 1. safe YAML parsing with duplicate-key rejection;
 2. JSON Schema validation;
 3. stable-ID uniqueness and reference validation;
-4. entity/participant/relation domain/range semantic validation;
+4. entity/participant/relation domain/range validation, unique composition/facet keys, charge consistency, and authored Reaction/ReactionForm/speciation conservation;
 5. typed predicate/operator and ion-source validation;
 6. Rule lowering to compiler-owned `RulePlan`/`IonSourcePlan`/`EntitySourcePlan`;
 7. rule relationship graph validation;

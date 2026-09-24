@@ -1,6 +1,6 @@
 # Canonical Data Model
 
-Status: **M16 controlled heated condition and bounded thermal-decomposition pilot**
+Status: **Executable source contract through M25**
 
 This document defines canonical source-record semantics. M4 converges the executable Rule/fact/speciation/TeachingView/ReactionForm/artifact subset without narrowing the broader model.
 
@@ -62,7 +62,7 @@ composition:
   net_charge: 0
 ```
 
-Exact composition/charge supplies the conservation data used by deterministic balancing. Non-stoichiometric mixtures/material systems use appropriate quantitative components rather than fake integer formula counts.
+Exact composition/charge supplies the conservation data used by deterministic balancing. Source validation rejects repeated element components, disagreement between formal and net charge, duplicate facet keys, and atom/charge imbalance in canonical Reactions, ReactionForms, and speciation profiles. Non-stoichiometric mixtures/material systems use appropriate quantitative components rather than fake integer formula counts.
 
 ## 4. Structure
 

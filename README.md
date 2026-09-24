@@ -1,71 +1,47 @@
 # HS-Chemistry-Knowledge-Compiler
 
-Canonical architecture for a deterministic, evidence-aware high-school chemistry knowledge compiler.
+Generate high-school chemistry equations and infer reactions deterministically from curated canonical data and bounded declarative Rules. Ontology, Entity/Relation facts, evidence, migration, and TeachingView support this equation-generation pipeline.
 
-This repository replaces the legacy `chem-knowledge-data` architecture. Legacy schemas, paths, identifiers, and package boundaries are migration/reference material only and are not compatibility constraints.
+## Current executable scope
 
-## F1 architecture master
+The F1/F2/F3 foundations and completed M4–M25 slices are recorded in the [roadmap](docs/ROADMAP.md). The current corpus has 68 canonical Reactions, 14 active Rules, 117 inference fixtures, and 38 aqueous speciation profiles. Canonical coverage and executable inference coverage are distinct: the solid CaCO3 + HCl Reaction is curated, but the soluble-carbonate Rule does not generate it.
 
-F1 converges four architecture workstreams into one source model:
+Supported families include bounded neutralization, precipitation, acid-driven gas evolution, ammonium/base, metal/acid and metal/water hydrogen evolution, aqueous metal-salt displacement, and exact thermal/steam pilots. Missing knowledge remains UNKNOWN; explicit FALSE rejects a particular pathway without asserting a global negative Reaction.
 
-- stable chemical and knowledge identity;
-- shallow ontology + faceted classification;
-- intrinsic, contextual, derived, unknown, false, and not-applicable semantics;
-- typed relations;
-- canonical reactions separated from inferred candidates;
-- deterministic declarative inference;
-- teaching/curriculum views that never own chemistry identity;
-- evidence/provenance that survives compilation;
-- human-reviewable Git source separated from generated runtime artifacts.
+```text
+canonical YAML → schema/reference/chemistry validation → RulePlan matching
+→ canonical product resolution → exact balancing → atom/charge validation
+→ canonical Reaction comparison → ReactionCandidate + proof trace
+```
 
-The architecture is language-neutral. Python remains a provisional reference implementation choice; optimization follows profiling.
+## Run
+
+Python 3.11+ is required. Install with `python -m pip install -e .`; install `pytest` separately for development checks.
+
+```powershell
+python -m compiler.cli validate
+python -m compiler.cli compile --output build/compile --source-revision WORKTREE
+python -m compiler.cli audit --output build/audit --source-revision WORKTREE
+python -m pytest -q
+```
+
+`audit` runs the checked-in fixtures; `compiler.engine.infer_case` is the bounded Python inference entry point. Build outputs are generated artifacts, never editable chemistry truth. Use an exact Git SHA instead of WORKTREE when recording a verified build.
 
 ## Canonical ownership
 
-| Concern | Canonical owner |
+| Concern | Owner |
 | --- | --- |
-| Cross-workstream boundaries and decisions | `docs/ARCHITECTURE.md`, `docs/DECISIONS.md` |
-| Domain ontology | `docs/domain/**` |
-| Pedagogy / teaching views | `docs/pedagogy/**` |
-| Source and external artifact contracts | `docs/contracts/**`, future `schemas/**` |
-| Inference, rule semantics, compiler internals | `docs/inference/**`, future `knowledge/rules/**`, `compiler/**` |
-| Next executable phase | `docs/ROADMAP.md` |
+| Chemical identities, composition, contextual facts, one-hop Relations | `knowledge/domain/`, `compiler/source.py` |
+| Curated transformations and subordinate ReactionForms | Reaction records in `knowledge/domain/`, `compiler/reaction_forms.py` |
+| Applicability and canonical product construction | `knowledge/rules/`, `compiler/rules.py`, `compiler/products.py` |
+| Exact balancing and conservation | `compiler/balance.py` |
+| Runtime inference and proof traces | `compiler/engine.py` |
+| Source and artifact contracts | `schemas/`, `docs/contracts/` |
+| Teaching projections | `knowledge/teaching/`; excluded from inference |
+| Offline legacy reconciliation | `migration/`; excluded from runtime |
 
-## Canonical semantic shape
+The compiler never guesses formulas or valences, fabricates product identities, or promotes inferred candidates into canonical Reactions. Formula/name values are lookup signals, not identity owners. Broader equilibrium, redox, activity-series reasoning, UI, and automatic bulk migration remain outside the implemented scope.
 
-```text
-editable Git source
-  ├─ identity-bearing domain records
-  ├─ assertions / relations / reactions
-  ├─ teaching views
-  ├─ evidence / provenance
-  └─ declarative rules
-          │
-          ▼
-canonical contracts + deterministic compiler
-  validate → resolve → normalize → infer → balance → validate → compare → trace
-          │
-          ▼
-generated runtime artifacts
-```
+Compatibility coordinates remain source schema `3.7.0`, Rule DSL `1.4.0`, RulePlan `1.4.0`, and artifact format `1.5.0`; compiler patch versions are independent. Historical artifacts `1.0.0`–`1.5.0` remain admitted by the format gate.
 
-Generated artifacts are reproducible outputs and never become editable chemistry truth.
-
-## Core identity decisions
-
-- `Element`, `Species`, `Substance`, and `MaterialSystem` are distinct identity kinds.
-- `Ion` is a `Species` subtype, not a competing peer entity kind.
-- `Solution` and `Mixture` are `MaterialSystem` kinds, not `Substance` subtypes.
-- `Structure` is a stable identity-bearing domain record when the structural model needs durable reference.
-- a `Bond` is an embedded structure component by default; it receives only a structure-local key unless an independent lifecycle is later demonstrated.
-- formulas, names, SMILES, Lewis drawings, images, teaching paths, and runtime dense IDs are representations/locators, not canonical identity.
-
-## Reaction decisions
-
-A canonical `Reaction` owns one chemical transformation. It may expose multiple `ReactionForm` projections such as molecular, complete ionic, net ionic, symbolic, or thermochemical forms when those are representations of the same transformation.
-
-A chemically distinct half-reaction is a separate related `Reaction`, not merely another display form. This is required for electrochemistry.
-
-Generated `ReactionCandidate` values use deterministic content-derived candidate keys. A separately persisted review/curation candidate may receive a durable `rcand_*` ID while retaining its immutable deterministic candidate key.
-
-See [Architecture](docs/ARCHITECTURE.md), [Decisions](docs/DECISIONS.md), and [Roadmap](docs/ROADMAP.md).
+See [Architecture](docs/ARCHITECTURE.md), [Inference](docs/inference/INFERENCE.md), [Coverage audit](docs/COVERAGE_AUDIT.md), and [Roadmap](docs/ROADMAP.md).

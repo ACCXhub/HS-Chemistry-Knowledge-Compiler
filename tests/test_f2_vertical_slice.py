@@ -23,7 +23,7 @@ def _results() -> dict[str, dict]:
 
 def test_schema_rejects_invalid_fixture(tmp_path: Path) -> None:
     work = tmp_path / "repo"
-    shutil.copytree(ROOT, work)
+    shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns(".git", "build", "__pycache__", ".pytest_cache"))
     bad = work / "knowledge" / "domain" / "bad.yaml"
     bad.write_text("records:\n  - id: broken\n    record_type: entity\n", encoding="utf-8")
     with pytest.raises(SourceError, match="schema validation failed"):
@@ -143,7 +143,7 @@ def test_proof_trace_contains_required_stages() -> None:
 
 def test_file_traversal_order_does_not_change_semantic_output(tmp_path: Path) -> None:
     work = tmp_path / "repo"
-    shutil.copytree(ROOT, work)
+    shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns(".git", "build", "__pycache__", ".pytest_cache"))
     original = audit_repository(ROOT, tmp_path / "original", "same-revision")
     domain = work / "knowledge" / "domain"
     (domain / "f2_entities.yaml").rename(domain / "z_entities.yaml")
