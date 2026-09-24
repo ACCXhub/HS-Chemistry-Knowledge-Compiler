@@ -242,9 +242,15 @@ M22 processes a fixed 20-record cohort from the real sibling inorganic package a
 
 The migration tool reads the external package only when explicitly invoked with `--legacy-root` and emits a byte-stable tracked report. It does not mutate canonical source, load legacy data at runtime, overload aliases, or enter Rule DSL/artifacts. Ambiguous and invalid synthetic cases fail closed, and repeated/reordered execution is idempotent. Source schema remains `3.7.0`, Rule DSL and RulePlan remain `1.4.0`, and artifact format remains `1.5.0`.
 
+## M23 — Legacy Identity Migration Batch B
+
+M23 promotes `migration/legacy_identity.py` as the single identity-migration owner and retains the M22 entry point as a thin compatibility delegate. One explicit 100-record cohort spans all 48 legacy Element projections, all 32 monatomic ions, and 20 representative neutral Substance records. It maps 45 existing identities and records 55 evidence/referent-shape skips, with no automatic or M23 canonical creation.
+
+The larger cohort strengthens simple-Substance reconciliation with a curated referent-shape gate plus exact canonical formula semantic-key corroboration after kind, neutral charge, and composition checks. Network, allotrope, complex/speciation, weak-equilibrium, and uncurated-evidence cases remain skipped. M22 output remains reproducible, runtime inference imports no migration code, and no Reaction data is migrated. Source schema remains `3.7.0`, Rule DSL and RulePlan remain `1.4.0`, and artifact format remains `1.5.0`.
+
 ## Still out of scope
 
-- full high-school chemistry population or wholesale legacy migration beyond the M22 bounded cohort;
+- full high-school chemistry population or wholesale legacy migration beyond the M22/M23 bounded cohorts;
 - transition-metal redox, concentrated-acid/passivation, or organic families;
 - variable-valence metal product selection, displacement beyond evidence-backed pairwise aqueous salt cases, broader metal/water reactions, or general activity-series/electrode-potential reasoning;
 - generic carbonate-to-oxide or bicarbonate-to-carbonate product mapping, or broader thermal-decomposition inference beyond the exact M16 CaCO3 and M17 NaHCO3 pilots;

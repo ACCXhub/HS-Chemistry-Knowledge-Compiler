@@ -1,8 +1,8 @@
-# Coverage & Migration Audit — post-M22
+# Coverage & Migration Audit — post-M23
 
 ## Decision
 
-M22 completes Legacy Migration Pilot A over 20 real records from the sibling inorganic package. Sixteen records map to existing canonical identities, one evidence-backed lithium Element is created, and three unsupported records are explicitly skipped. The deterministic crosswalk remains outside runtime inference and does not make the legacy package a second source of truth.
+M23 reuses the M22 migration semantics over a 100-record real identity cohort: all 48 legacy Element projections, all 32 monatomic ions, and 20 representative substances. Forty-five records map to existing canonical identities and 55 remain explicit unsupported skips; no canonical knowledge is created from legacy data.
 
 Batch A remains historical input. M19 resolved exact-salt duplication pressure with one bounded generic family, and M20 added exact pairwise negative Relation truth; neither authorizes activity ordering, transitivity, or a general no-reaction/redox engine.
 
@@ -398,8 +398,16 @@ Li is the sole canonical creation (`ent_element_li`, atomic number 3), supported
 
 Bulk migration, legacy Reactions, formula-derived creation, variable-valence selection, weak-equilibrium/speciation semantics, and Concept/Phenomenon/Experiment/ExamTag ownership remain unsafe and deferred.
 
+### M23 identity Batch B
+
+M23 promotes `migration/legacy_identity.py` as the sole reconciliation owner while retaining the M22 module as a compatibility entry point. The explicit 100-record cohort covers 48 Element, 32 monatomic-ion, and 20 simple-neutral-Substance candidates. Existing results are 18 Element, 13 ion, and 14 Substance mappings; the remaining 55 records are skipped with deterministic evidence or referent-shape reason codes. No M23 Entity or Evidence is added.
+
+The strict Substance profile requires canonical Substance/pure-compound kind, neutral charge, exact composition, an exact canonical formula semantic key as a corroborating lookup signal, and an explicit curated simple-neutral referent-shape gate. It therefore cannot collapse Element into elemental Substance, Species into Substance, MaterialSystem into pure compound, or a network/allotrope/complex shape into a composition-only match. Synthetic ambiguity/invalid proofs remain in the shared M22 regression suite because the selected real records contain no natural collision or invalid row.
+
+Reaction and ReactionForm migration remain deferred: participant identity, conditions, phase/context, stoichiometry, evidence, and canonical Reaction ownership require a separate bounded review rather than reuse of identity-only matching.
+
 ## Current migration decision
 
-**M22 LEGACY MIGRATION PILOT A COMPLETE.**
+**M23 LEGACY IDENTITY MIGRATION BATCH B COMPLETE.**
 
-M22 establishes a bounded, deterministic migration path without bulk import or runtime dependency on legacy data. Any later cohort needing a new canonical owner, equilibrium model, identity primitive, compiler behavior, or compatibility bump belongs in a separate architecture milestone.
+M23 scales the same deterministic crosswalk without bulk import, new chemistry truth, runtime dependency, Reaction migration, or compatibility changes. Remaining identities require ordinary authoritative source curation or explicit referent-shape ownership before their migration disposition may change.

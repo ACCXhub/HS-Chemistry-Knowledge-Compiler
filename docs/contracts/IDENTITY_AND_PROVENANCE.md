@@ -31,3 +31,5 @@ No legacy schema field is required to survive as a permanent canonical field.
 The migration layer owns only a durable legacy-to-canonical crosswalk or an explicit bounded disposition (`mapped_existing`, `created_canonical`, `skipped_unsupported`, `ambiguous`, or `rejected_invalid`). Formula, name, and legacy path may locate candidates but cannot establish identity without referent-level kind, composition, charge, symbol, or atomic-number checks as applicable. Ambiguity never selects a winner by record or file order.
 
 Canonical creation remains a separate evidence-gated source-curation action. Legacy `reviewed` state, consolidation readiness, editorial sources, and verification targets are not authoritative evidence. Migration status does not enter Entity aliases, Rule DSL, or compiled inference artifacts.
+
+`migration/legacy_identity.py` is the single canonical owner of offline identity reconciliation and deterministic crosswalk generation. Milestone-specific cohort manifests and immutable reports may remain separate; compatibility entry points must delegate to this owner rather than implement parallel matching semantics.

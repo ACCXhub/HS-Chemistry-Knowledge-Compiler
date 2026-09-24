@@ -348,3 +348,11 @@ Candidate lookup never establishes identity by formula/name alone. Elements requ
 Canonical creation is represented only after the separately authored canonical record passes normal source/reference validation and the migration evidence gate confirms non-fixture authoritative evidence. This admits only `ent_element_li` with `ev_m22_lithium_identity`. Legacy review status and verification targets cannot satisfy that gate. The tool writes only its deterministic report, so reruns cannot duplicate Entities and the compiler never depends on the legacy repository.
 
 This offline migration boundary changes no inference semantics or compatibility coordinate: source schema remains `3.7.0`, Rule DSL and RulePlan remain `1.4.0`, and artifact format remains `1.5.0`.
+
+## ADR-M23-001 — One reusable identity-migration owner with a strict Substance profile
+
+M23 renames the reusable engine owner to `migration/legacy_identity.py`; the historical M22 module delegates to it and owns no matching implementation. Milestone manifests and reports stay explicit and immutable. The new cohort selects exactly 100 real records—48 Element projections, 32 monatomic ions, and 20 substances—without scanning or importing the full legacy corpus.
+
+Element and ion contracts remain unchanged. For selected simple neutral substances, M23 adds a strict opt-in profile: canonical kind/pure-compound status, neutral charge, and exact composition remain final referent facts, while an exact canonical formula semantic key corroborates the lookup and an explicit curated referent-shape gate excludes network, allotrope, and complex/speciation cases. Formula alone never creates or selects an Entity, and multiple fact-valid candidates remain ambiguous.
+
+The batch maps 45 existing canonical identities and skips 55 records because canonical authoritative identity evidence or a safe referent shape is not yet curated. It adds no Entity or Evidence, mutates no canonical source, and migrates no Reaction. M22 report semantics remain reproducible through the compatibility entry point. Runtime compiler modules do not import migration code, so all compatibility coordinates remain `3.7.0`, `1.4.0`, `1.4.0`, and `1.5.0`.
