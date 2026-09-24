@@ -1,14 +1,14 @@
-# Coverage & Migration Audit — post-M23
+# Coverage & Migration Audit — post-M24
 
 ## Decision
 
-M23 reuses the M22 migration semantics over a 100-record real identity cohort: all 48 legacy Element projections, all 32 monatomic ions, and 20 representative substances. Forty-five records map to existing canonical identities and 55 remain explicit unsupported skips; no canonical knowledge is created from legacy data.
+M24 adds a bounded Reaction-reconciliation layer over the M22/M23 identity owner. Its 18-record real cohort maps 16 legacy Reactions to exactly one existing canonical Reaction and skips two unsupported cases; it creates no canonical Reaction, Rule, Entity, Evidence, or ReactionForm.
 
 Batch A remains historical input. M19 resolved exact-salt duplication pressure with one bounded generic family, and M20 added exact pairwise negative Relation truth; neither authorizes activity ordering, transitivity, or a general no-reaction/redox engine.
 
 ## Baseline and method
 
-The audit uses the canonical YAML source, all 14 compiled Rules, all 117 fixtures, current contracts and architecture documents, the active schema, and the compiler product/balancing/aqueous-projection paths. The earlier sibling-package migration scan remains read-only planning material, not canonical truth for this repository.
+The audit uses the canonical YAML source, all 14 compiled Rules, all 117 fixtures, current contracts and architecture documents, the active schema, and the compiler product/balancing/aqueous-projection paths. The sibling package remains explicit offline migration input, not canonical truth or a runtime dependency.
 
 Canonical Reaction coverage was regenerated from source by submitting each Reaction's molecular reactants to the compiler with its required standard execution context. All 67 Reactions produced one exact canonical match under the applicable context.
 
@@ -404,10 +404,16 @@ M23 promotes `migration/legacy_identity.py` as the sole reconciliation owner whi
 
 The strict Substance profile requires canonical Substance/pure-compound kind, neutral charge, exact composition, an exact canonical formula semantic key as a corroborating lookup signal, and an explicit curated simple-neutral referent-shape gate. It therefore cannot collapse Element into elemental Substance, Species into Substance, MaterialSystem into pure compound, or a network/allotrope/complex shape into a composition-only match. Synthetic ambiguity/invalid proofs remain in the shared M22 regression suite because the selected real records contain no natural collision or invalid row.
 
-Reaction and ReactionForm migration remain deferred: participant identity, conditions, phase/context, stoichiometry, evidence, and canonical Reaction ownership require a separate bounded review rather than reuse of identity-only matching.
+### M24 Reaction Pilot A
+
+`migration/legacy_reaction.py` orchestrates participant resolution through `migration/legacy_identity.py`, validates roles, positive integral coefficients, common-factor normalization, exact atom/charge conservation, explicit phases, and the existing canonical Reaction signature/condition comparison. The 18 selected records span neutralization, precipitation, carbonate/hydrogen-carbonate and sulfite gas evolution, ammonium/base reactions, Zn/CuSO4 displacement, and CaCO3/NaHCO3 thermal decomposition. Sixteen map to existing canonical Reactions; calcium carbonate + HCl has no canonical Reaction and catalytic ammonia oxidation requires unsupported catalyst vocabulary, so both are deterministic `skipped_unsupported` results. Ambiguity and rejection remain zero in the real cohort and are covered synthetically.
+
+Only explicit `s/l/g/aq` phases and the existing `aqueous`, `warmed`, and `heated` context meanings are admitted. Missing or conflicting required conditions, reverse direction, incompatible phase, unresolved identity, malformed coefficients, and failed conservation all fail closed. Legacy net-ionic data is diagnostic only: the cohort contains `compatible`, `unavailable`, and `unsupported_inconsistent` comparisons, while canonical ReactionForms continue to be derived exclusively from canonical Reaction/speciation data.
+
+M25 pressure is therefore evidence rather than authorization: missing canonical Reaction ownership, catalyst/light and richer condition vocabulary, and broader polyatomic-ion identity support require separate bounded contracts. M24 does not bulk-process all 152 records or create any missing truth.
 
 ## Current migration decision
 
-**M23 LEGACY IDENTITY MIGRATION BATCH B COMPLETE.**
+**M24 LEGACY REACTION MIGRATION PILOT A COMPLETE.**
 
-M23 scales the same deterministic crosswalk without bulk import, new chemistry truth, runtime dependency, Reaction migration, or compatibility changes. Remaining identities require ordinary authoritative source curation or explicit referent-shape ownership before their migration disposition may change.
+M24 establishes deterministic, idempotent reconciliation to existing canonical Reactions without bulk import, new chemistry truth, runtime dependency, or compatibility changes. `created_canonical` remains zero; unsupported semantics remain explicit future review inputs.

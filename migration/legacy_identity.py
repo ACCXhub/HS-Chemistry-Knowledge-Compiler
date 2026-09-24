@@ -75,7 +75,7 @@ def _validate_legacy_record(record_family: str, record: dict[str, Any]) -> None:
         if isinstance(charge, bool) or not isinstance(charge, int) or charge == 0:
             raise ValueError("ion charge must be a non-zero integer")
         if record.get("ion_type") != "monatomic" or len(composition) != 1 or composition[0][1] != 1:
-            raise ValueError("M22 supports only one-atom monatomic ions")
+            raise ValueError("identity migration supports only one-atom monatomic ions")
 
 
 def _canonical_composition(
@@ -132,11 +132,15 @@ def _verified_candidates(
                 "species_kind": "ion",
             }
         else:
+            identity_profile = policy.get("identity_profile")
+            substance_kind = (
+                "elemental" if identity_profile == "strict_elemental_substance_v1" else "pure_compound"
+            )
             candidates = [
                 entity_id
                 for entity_id, entity in entities.items()
                 if entity.get("entity_kind") == "substance"
-                and entity.get("payload", {}).get("substance_kind") == "pure_compound"
+                and entity.get("payload", {}).get("substance_kind") == substance_kind
                 and entity.get("payload", {}).get("composition", {}).get("net_charge") == 0
                 and _canonical_composition(entity, entities) == composition
             ]
@@ -144,9 +148,9 @@ def _verified_candidates(
                 "composition": [[symbol, count] for symbol, count in composition],
                 "entity_kind": "substance",
                 "net_charge": 0,
-                "substance_kind": "pure_compound",
+                "substance_kind": substance_kind,
             }
-            if policy.get("identity_profile") == "strict_simple_substance_v1":
+            if identity_profile == "strict_simple_substance_v1":
                 referent_shape = policy.get("referent_shape")
                 if referent_shape != "simple_neutral_pure_compound":
                     raise ValueError("strict substance reconciliation requires an explicit referent shape gate")
@@ -158,6 +162,24 @@ def _verified_candidates(
                     for entity_id in candidates
                     if any(
                         key.get("scheme") in {"formula.molecular", "formula.unit"}
+                        and key.get("value") == formula
+                        for key in entities[entity_id].get("semantic_keys", [])
+                    )
+                ]
+                facts["formula_semantic_key"] = formula
+                facts["referent_shape_gate"] = referent_shape
+            elif identity_profile == "strict_elemental_substance_v1":
+                referent_shape = policy.get("referent_shape")
+                if referent_shape != "single_elemental_substance_referent":
+                    raise ValueError("elemental substance reconciliation requires an explicit referent shape gate")
+                formula = record.get("formula")
+                if not isinstance(formula, str) or not formula:
+                    raise ValueError("elemental substance reconciliation requires a formula lookup signal")
+                candidates = [
+                    entity_id
+                    for entity_id in candidates
+                    if any(
+                        key.get("scheme") in {"formula.elemental_basis", "formula.molecular"}
                         and key.get("value") == formula
                         for key in entities[entity_id].get("semantic_keys", [])
                     )

@@ -1,0 +1,38 @@
+{
+  "cohort_version": "1.0.0",
+  "expected_legacy_revision": "a6311150436038ca06fa7b9d05de39da9e1de815",
+  "identity_policies": {
+    "substance:copper": {
+      "identity_profile": "strict_elemental_substance_v1",
+      "referent_shape": "single_elemental_substance_referent"
+    },
+    "substance:zinc": {
+      "identity_profile": "strict_elemental_substance_v1",
+      "referent_shape": "single_elemental_substance_referent"
+    }
+  },
+  "legacy_package_path": "packages/inorganic",
+  "milestone": "M24",
+  "records": [
+    {"legacy_id": "reaction:agno3-kbr"},
+    {"legacy_id": "reaction:agno3-ki"},
+    {"legacy_id": "reaction:agno3-nacl"},
+    {"legacy_id": "reaction:ammonia-catalytic-oxidation"},
+    {"legacy_id": "reaction:ammonium-sulfate-naoh"},
+    {"legacy_id": "reaction:bacl2-na2so4"},
+    {"legacy_id": "reaction:caco3-thermal"},
+    {"legacy_id": "reaction:calcium-carbonate-hcl"},
+    {"legacy_id": "reaction:cuso4-naoh"},
+    {"legacy_id": "reaction:hcl-naoh"},
+    {"legacy_id": "reaction:k2co3-hcl"},
+    {"legacy_id": "reaction:khco3-hcl"},
+    {"legacy_id": "reaction:na2so3-hcl"},
+    {"legacy_id": "reaction:nahco3-thermal"},
+    {"legacy_id": "reaction:nh4cl-naoh"},
+    {"legacy_id": "reaction:sodium-bicarbonate-hcl"},
+    {"legacy_id": "reaction:sodium-carbonate-hcl"},
+    {"legacy_id": "reaction:zinc-cuso4"}
+  ],
+  "report_path": "migration/reports/m24_reaction_pilot_report.json",
+  "report_version": "1.0.0"
+}

@@ -248,9 +248,15 @@ M23 promotes `migration/legacy_identity.py` as the single identity-migration own
 
 The larger cohort strengthens simple-Substance reconciliation with a curated referent-shape gate plus exact canonical formula semantic-key corroboration after kind, neutral charge, and composition checks. Network, allotrope, complex/speciation, weak-equilibrium, and uncurated-evidence cases remain skipped. M22 output remains reproducible, runtime inference imports no migration code, and no Reaction data is migrated. Source schema remains `3.7.0`, Rule DSL and RulePlan remain `1.4.0`, and artifact format remains `1.5.0`.
 
+## M24 — Legacy Reaction Migration Pilot A
+
+M24 processes 18 real legacy Reactions through one offline reconciliation owner. Participant identities reuse `migration/legacy_identity.py`; roles, positive coefficients, common-factor scaling, phases, controlled conditions, atom/charge conservation, and direction are validated before the existing canonical Reaction comparison is used. Sixteen records map to existing canonical Reactions across neutralization, precipitation, gas-evolution, ammonium/base, bounded displacement, and thermal-decomposition families. Calcium carbonate + HCl and catalytic ammonia oxidation are explicit unsupported skips. No canonical Reaction or Rule is created.
+
+Legacy ionic equations remain non-authoritative diagnostics against canonically derived ReactionForms. Reverse direction, incompatible phase, missing/conflicting required conditions, unresolved participants, ambiguity, malformed coefficients, and conservation failures all fail closed. The report is byte-deterministic and migration does not mutate canonical source or enter runtime compiler dependencies. Catalyst/light semantics, richer controlled conditions, broader polyatomic identity, missing canonical Reactions, and full-corpus migration remain M25-or-later pressures. Compatibility coordinates remain `3.7.0`, `1.4.0`, `1.4.0`, and `1.5.0`.
+
 ## Still out of scope
 
-- full high-school chemistry population or wholesale legacy migration beyond the M22/M23 bounded cohorts;
+- full high-school chemistry population or wholesale legacy migration beyond the M22/M23/M24 bounded cohorts;
 - transition-metal redox, concentrated-acid/passivation, or organic families;
 - variable-valence metal product selection, displacement beyond evidence-backed pairwise aqueous salt cases, broader metal/water reactions, or general activity-series/electrode-potential reasoning;
 - generic carbonate-to-oxide or bicarbonate-to-carbonate product mapping, or broader thermal-decomposition inference beyond the exact M16 CaCO3 and M17 NaHCO3 pilots;
