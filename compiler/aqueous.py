@@ -163,8 +163,8 @@ def _resolve_ion_source(
         assert source.binding is not None and source.relation_key is not None
         source_id = bindings[source.binding]
         assertions = kb.relation_assertions(source_id, source.relation_key, context)
-        if len(assertions) != 1:
-            candidates = sorted(assertion["target_id"] for assertion in assertions)
+        candidates = sorted({assertion["target_id"] for assertion in assertions})
+        if len(candidates) != 1:
             raise AqueousResolutionError(
                 f"relation target is {'ambiguous' if assertions else 'unavailable'} for {source_id}:{source.relation_key}",
                 code="relation_ambiguous" if assertions else "relation_unavailable",
@@ -175,12 +175,11 @@ def _resolve_ion_source(
                     "candidates": candidates,
                 },
             )
-        assertion = assertions[0]
         return (
-            assertion["target_id"],
+            candidates[0],
             (),
-            (assertion,),
-            tuple(assertion["evidence_ids"]),
+            assertions,
+            tuple(sorted({evidence_id for assertion in assertions for evidence_id in assertion["evidence_ids"]})),
         )
     if source.kind == "exact_entity":
         assert source.target_id is not None

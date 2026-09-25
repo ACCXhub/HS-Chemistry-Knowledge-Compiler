@@ -200,8 +200,8 @@ def resolve_entity_source(
         assert source.source is not None and source.relation_key is not None
         resolved_source = resolve_entity_source(kb, bindings, source.source, context)
         assertions = kb.relation_assertions(resolved_source.target_id, source.relation_key, context)
-        if len(assertions) != 1:
-            candidates = sorted(assertion["target_id"] for assertion in assertions)
+        candidates = sorted({assertion["target_id"] for assertion in assertions})
+        if len(candidates) != 1:
             raise EntitySourceResolutionError(
                 f"relation target is {'ambiguous' if assertions else 'unavailable'} for "
                 f"{resolved_source.target_id}:{source.relation_key}",
@@ -213,10 +213,9 @@ def resolve_entity_source(
                     "candidates": candidates,
                 },
             )
-        assertion = assertions[0]
         relation_assertions = tuple(
             sorted(
-                resolved_source.relation_assertions + (assertion,),
+                resolved_source.relation_assertions + assertions,
                 key=lambda item: (
                     item["source_id"],
                     item["relation_key"],
@@ -226,11 +225,13 @@ def resolve_entity_source(
             )
         )
         return EntityResolution(
-            target_id=assertion["target_id"],
+            target_id=candidates[0],
             speciation_profiles=resolved_source.speciation_profiles,
             relation_assertions=relation_assertions,
             evidence_ids=tuple(
-                sorted(set(resolved_source.evidence_ids) | set(assertion["evidence_ids"]))
+                sorted(set(resolved_source.evidence_ids) | {
+                    evidence_id for assertion in assertions for evidence_id in assertion["evidence_ids"]
+                })
             ),
         )
     raise EntitySourceResolutionError(

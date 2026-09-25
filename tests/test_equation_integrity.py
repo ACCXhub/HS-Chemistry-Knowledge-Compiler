@@ -105,3 +105,34 @@ def test_reactant_and_rule_order_do_not_change_results_or_proof_traces(source):
     for case in cases.values():
         reordered = {**case, "reactants": list(reversed(case["reactants"]))}
         assert infer_case(kb, plans, case) == infer_case(kb, tuple(reversed(plans)), reordered), case["id"]
+
+
+@pytest.mark.parametrize("case_id", ["case_m10_zn_hcl", "case_m12_zn_cuso4"])
+def test_multiple_supporting_assertions_do_not_make_one_product_ambiguous(source, case_id):
+    kb, plans, cases = source
+    kb = deepcopy(kb)
+    relation_sources = [("ent_substance_elemental_zn", "metal.product_cation")]
+    if case_id == "case_m12_zn_cuso4":
+        relation_sources.append(("ent_species_cu_2plus", "ion.elemental_substance"))
+    for entity_id, relation_key in relation_sources:
+        assertions = kb.entities[entity_id]["relation_assertions"]
+        original = next(item for item in assertions if item["relation_key"] == relation_key)
+        original["context"] = {"medium": "aqueous"}
+        assertions.append({
+            **deepcopy(original),
+            "context": {"temperature_regime": "ambient"},
+            "evidence_ids": ["ev_f2_reactions"],
+        })
+    case = cases[case_id]
+    result = infer_case(kb, plans, case)
+    assert result["status"] == "inferred"
+    assert result["validation"] == {"atoms": True, "charge": True}
+    assert result["canonical_match"]["state"] == "exact"
+    assert "ev_f2_reactions" in result["provenance"]["evidence_ids"]
+    for entity_id, relation_key in relation_sources:
+        proof = [item for item in result["provenance"]["relation_assertions"]
+                 if item["source_id"] == entity_id and item["relation_key"] == relation_key]
+        assert len(proof) == 2
+        assert len({item["target_id"] for item in proof}) == 1
+        kb.entities[entity_id]["relation_assertions"].reverse()
+    assert infer_case(kb, plans, case) == result

@@ -18,13 +18,21 @@ This bounded pass reviewed the implemented compiler, Rules and canonical data ac
 
 The installation follow-up fixes setuptools flat-layout auto-discovery by explicitly packaging `compiler` and `migration`; schemas and canonical knowledge remain repository inputs. Editable installation and wheel installation both pass in an isolated verification environment, including the installed `hs-chem-compiler validate` entry point from outside the repository. Generated egg metadata is ignored.
 
-Compiler patch version is `0.3.1`; the four format/DSL/schema coordinates are unchanged. No fields or constructors were added. Existing integer participant signatures remain stable, while corrected Rule versions intentionally change their candidate keys.
+Compiler patch version is `0.3.2`; the four format/DSL/schema coordinates are unchanged. No fields or constructors were added. Existing integer participant signatures remain stable, while corrected Rule versions intentionally change their candidate keys.
 
 M22–M25 were rerun twice against the pinned legacy revision. Outputs were byte-identical within each pair. M22/M23/M25 decisions match their tracked historical reports. Current M24 maps 17 instead of its historical 16 because M25 already added CaCO3/HCl; this is expected canonical-data evolution, not a new migration action. Tracked reports retain their original source digests and remain historical snapshots.
 
-Validation follow-up on 2026-09-25: the final full suite passes all 406 tests in 341.82 seconds. All 18 added integrity regressions pass, including all 117 cases under reversed reactant and RulePlan order. `validate` and both installed CLI modes pass; the previously verified compile/audit byte determinism and M22–M25 migration reproducibility remain applicable because this follow-up changes packaging and documentation only.
+Installation validation on 2026-09-25 passed all 406 tests in 341.82 seconds. All 18 integrity regressions passed, including all 117 cases under reversed reactant and RulePlan order. `validate` and both installed CLI modes passed; that packaging-only follow-up retained the earlier compile/audit determinism and M22–M25 migration evidence.
 
 The highest-value next bounded work is executable coverage for already-curated high-school equations, starting with solid CaCO3 + acid after its phase/solubility boundary is explicitly designed. That work has not started. Weak-acid/equilibrium behavior, variable-valence selection, concentrated acids/passivation, and generic thermal/steam families remain unsupported.
+
+## Rule product-resolution follow-up
+
+Two equally specific positive Relation assertions may support the same canonical target. Ionic-pair and entity-source construction previously counted assertions and incorrectly returned `relation_ambiguous`. Both now count distinct target IDs, retain every supporting assertion, and union their evidence deterministically. Zero targets still fail unavailable; genuinely different targets still fail ambiguous. Context specificity and TRUE/FALSE/UNKNOWN ownership are unchanged. The M10 Zn/HCl and M19 Zn/CuSO4 regressions cover both construction paths and evidence-order invariance. No Rule, chemistry family, source record, or format coordinate changes.
+
+Verification on 2026-09-25: all 20 equation-integrity tests pass; the full suite passes all 408 tests in 343.07 seconds. `validate` passes. Compile and audit each produce six byte-identical files under two different `PYTHONHASHSEED` values; all 117 existing case outputs are byte-identical to the previous audit. The source semantic digest remains `a2b1e55ba04f680371c1a29c2ee315290e8932c1001c1044181cd0e81cafe6c1`. Migration source, reconciliation code, and tracked reports are unchanged, so migration audits were not repeated for this fix.
+
+The proposed chem-wiki integration and database boundary is recorded in [the integration note](contracts/CHEM_WIKI_INTEGRATION.md); it is not an implemented adapter or migration.
 
 ## Baseline and method
 
