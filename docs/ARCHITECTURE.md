@@ -1,5 +1,7 @@
 # Architecture
 
+[简体中文](ARCHITECTURE.zh-CN.md)
+
 Status: **F1 design baseline with implemented boundaries through M25**
 
 ## 1. Purpose

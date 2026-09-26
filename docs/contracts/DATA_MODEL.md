@@ -1,5 +1,7 @@
 # Canonical Data Model
 
+[简体中文](DATA_MODEL.zh-CN.md)
+
 Status: **Executable source contract through M25**
 
 This document defines canonical source-record semantics. M4 converges the executable Rule/fact/speciation/TeachingView/ReactionForm/artifact subset without narrowing the broader model.

@@ -1,5 +1,7 @@
 # Roadmap
 
+[简体中文](ROADMAP.zh-CN.md)
+
 ## Current state
 
 Main has completed the bounded work through M25. No next milestone is started. Historical F1/F2 and F3A/F3B workstreams established the ontology, executable compiler contracts, and the bounded aqueous pilot. Their provenance and branch names remain historical facts.

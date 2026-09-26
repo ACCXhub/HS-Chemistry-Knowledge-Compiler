@@ -1,5 +1,7 @@
 # Coverage & Migration Audit — post-M25
 
+[简体中文](COVERAGE_AUDIT.zh-CN.md)
+
 ## Decision
 
 M25 runs the M24 reconciliation owner over all 152 declared legacy Reactions. After one bounded, independently evidenced canonical curation, 20 map to existing canonical Reactions, 123 remain explicit unsupported cases, and nine reversible records remain outside the current architecture boundary. The audit itself creates no canonical truth.

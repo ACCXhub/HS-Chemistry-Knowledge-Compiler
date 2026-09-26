@@ -1,5 +1,7 @@
 # Deterministic Reaction Inference Semantics
 
+[简体中文](INFERENCE.zh-CN.md)
+
 Status: **M25 baseline with equation-integrity corrections**
 
 ## Pipeline

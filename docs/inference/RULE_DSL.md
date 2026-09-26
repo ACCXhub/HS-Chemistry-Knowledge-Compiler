@@ -1,5 +1,7 @@
 # Declarative Reaction Rule DSL
 
+[简体中文](RULE_DSL.zh-CN.md)
+
 Status: **M19 bounded dynamic Relation targets and entity-source products**
 
 ## 1. Ownership and version

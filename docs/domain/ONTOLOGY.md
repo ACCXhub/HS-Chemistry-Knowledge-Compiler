@@ -1,5 +1,7 @@
 # Canonical Domain Ontology
 
+[简体中文](ONTOLOGY.zh-CN.md)
+
 Status: **M12 canonical ontology with bounded metal/copper-salt displacement**
 
 ## 1. Modeling rule

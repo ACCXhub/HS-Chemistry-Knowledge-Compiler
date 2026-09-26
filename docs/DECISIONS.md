@@ -1,5 +1,7 @@
 # Architecture Decision Log
 
+[简体中文](DECISIONS.zh-CN.md)
+
 Status: **Implemented decisions through M25; earlier sections retain historical context**
 
 ## ADR-F1-001 — Entity-kind alignment

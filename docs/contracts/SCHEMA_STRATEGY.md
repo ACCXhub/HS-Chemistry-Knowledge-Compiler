@@ -1,5 +1,7 @@
 # Schema Strategy
 
+[简体中文](SCHEMA_STRATEGY.zh-CN.md)
+
 Status: **Current source/artifact contracts and M22–M25 offline migration boundary**
 
 ## 1. Authoring boundary

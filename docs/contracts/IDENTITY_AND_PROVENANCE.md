@@ -1,5 +1,7 @@
 # Identity and Provenance
 
+[简体中文](IDENTITY_AND_PROVENANCE.zh-CN.md)
+
 Status: **F1 canonical policy**
 
 ## 1. Identity rule

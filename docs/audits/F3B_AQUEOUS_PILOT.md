@@ -1,5 +1,7 @@
 # F3B Aqueous Chemistry Pilot Audit
 
+[简体中文](F3B_AQUEOUS_PILOT.zh-CN.md)
+
 Starting canonical main: `8d92d19b8ebbbcb0f8a9fdaceb7eb895da381447`
 
 Branch: `workstream/f3b-aqueous-chemistry-pilot`

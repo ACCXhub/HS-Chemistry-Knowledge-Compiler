@@ -1,5 +1,7 @@
 # Knowledge Compiler Architecture
 
+[简体中文](COMPILER.zh-CN.md)
+
 Status: **M19 generic bounded entity-source execution**
 
 ## Responsibility

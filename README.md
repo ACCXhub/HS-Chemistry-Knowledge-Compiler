@@ -1,5 +1,7 @@
 # HS-Chemistry-Knowledge-Compiler
 
+[简体中文](README.zh-CN.md)
+
 Generate high-school chemistry equations and infer reactions deterministically from curated canonical data and bounded declarative Rules. Ontology, Entity/Relation facts, evidence, migration, and TeachingView support this equation-generation pipeline.
 
 ## Current executable scope

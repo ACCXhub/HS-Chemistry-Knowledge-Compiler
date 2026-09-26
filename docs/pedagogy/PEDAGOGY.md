@@ -1,5 +1,7 @@
 # Canonical Pedagogical View Model
 
+[简体中文](PEDAGOGY.zh-CN.md)
+
 Status: **F1 canonical**
 
 ## 1. Purpose
