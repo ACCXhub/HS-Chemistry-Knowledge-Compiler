@@ -764,3 +764,112 @@ cases:
     context:
       medium: aqueous
       temperature_regime: ambient
+
+  - id: case_curriculum_iron_hcl
+    reactants:
+    - target_id: ent_substance_elemental_fe
+      phase: solid
+    - target_id: ent_substance_hcl
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_iron_cuso4
+    reactants:
+    - target_id: ent_substance_elemental_fe
+      phase: solid
+    - target_id: ent_substance_cuso4
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_iron_cucl2
+    reactants:
+    - target_id: ent_substance_elemental_fe
+      phase: solid
+    - target_id: ent_substance_cucl2
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_zinc_feso4
+    reactants:
+    - target_id: ent_substance_elemental_zn
+      phase: solid
+    - target_id: ent_substance_feso4
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_magnesium_feso4
+    reactants:
+    - target_id: ent_substance_elemental_mg
+      phase: solid
+    - target_id: ent_substance_feso4
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_fecl2_naoh
+    reactants:
+    - target_id: ent_substance_fecl2
+      phase: aqueous
+    - target_id: ent_substance_naoh
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_fecl2_koh
+    reactants:
+    - target_id: ent_substance_fecl2
+      phase: aqueous
+    - target_id: ent_substance_koh
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_feso4_naoh
+    reactants:
+    - target_id: ent_substance_feso4
+      phase: aqueous
+    - target_id: ent_substance_naoh
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_feso4_koh
+    reactants:
+    - target_id: ent_substance_feso4
+      phase: aqueous
+    - target_id: ent_substance_koh
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_fecl3_koh
+    reactants:
+    - target_id: ent_substance_fecl3
+      phase: aqueous
+    - target_id: ent_substance_koh
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_iron_zinc_negative
+    reactants:
+    - target_id: ent_substance_elemental_fe
+      phase: solid
+    - target_id: ent_substance_znso4
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_iron_nitric_unknown
+    reactants:
+    - target_id: ent_substance_elemental_fe
+      phase: solid
+    - target_id: ent_substance_hno3
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient

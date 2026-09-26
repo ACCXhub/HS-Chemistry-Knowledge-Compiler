@@ -4,7 +4,7 @@
 
 The acceptance target is mainland China's compulsory and selective-compulsory high-school chemistry. **Coverage is incomplete; arbitrary reactions cannot be inferred from element tags.** This engineering checklist groups common teaching topics; it is not an official curriculum or a textbook's exhaustive equation inventory.
 
-There are 73 canonical Reactions, 15 Rules and 126 fixtures. The 74 inferred cases cover all 73 canonical Reactions plus one unstored equation. The remaining 39 indeterminate, 12 no_match and one blocked outcomes are boundary proofs, not covered equations.
+There are 83 canonical Reactions, 15 Rules and 138 fixtures. The 84 inferred cases cover all 83 canonical Reactions plus one unstored equation. The remaining 41 indeterminate, 12 no_match and one blocked outcomes are boundary proofs, not covered equations.
 
 ## Coverage checklist
 
@@ -14,20 +14,20 @@ Partial coverage applies only to admitted identities, properties, phases and con
 | --- | --- | --- |
 | Strong acid/base neutralization | Partial | HCl/HNO3/HBr with NaOH/KOH |
 | Salt exchange precipitation | Partial | AgCl/AgBr, BaSO4 and selected carbonates; all cross-products require identity/solubility facts |
-| Salt/base hydroxide precipitation | Partial | Cu/Zn/Mg hydroxides; Fe/Al and excess-base paths missing |
+| Salt/base hydroxide precipitation | Partial | Cu/Mg/Fe(II)/Fe(III) hydroxides; Zn/Al and excess-base paths missing |
 | Acid/bicarbonate and soluble carbonate | Partial | HCl/HNO3/HBr and Na/K salts; reagent-ratio intermediates missing |
 | Acid/solid carbonate | Partial; extended here | Solid CaCO3/HCl now inferred; other solids, weak acids and coatings remain outside scope |
 | Non-oxidizing acid/sulfite | Partial; corrected here | HCl/HBr and Na/K salts; two insufficiently supported nitric-acid gas-evolution records withdrawn |
 | Acid/thiosulfate | Partial | Two HCl cases and unstored HBr/Na2S2O3; HNO3 UNKNOWN |
 | Ammonium/strong base | Partial | Explicit warmed condition; missing heat does not assert ammonia evolution |
-| Metal/non-oxidizing acid | Partial | Zn/Mg with HCl; Fe/Al, passivation and variable valence missing |
+| Metal/non-oxidizing acid | Partial | Zn/Mg/Fe with HCl; Al, passivation and variable valence missing |
 | Metal/water or steam | Partial | Na/K ambient liquid water, exact Mg/heated steam; Fe/steam missing |
-| Metal/salt displacement | Partial | Six Zn/Mg with Cu2+/Ag+ cases; explicit Cu-to-Zn2+ negative; missing relations UNKNOWN |
+| Metal/salt displacement | Partial | Ten curated Zn/Mg/Fe cases; explicit Cu/Fe-to-Zn2+ negatives; missing relations UNKNOWN |
 | Thermal decomposition | Exact pilots | CaCO3 and NaHCO3; permanganate/chlorate, nitrates and hydroxides missing |
 | Basic oxide/acid and acidic oxide/base | Partial | Six Na2O/MgO/CaO acid cases; CuO and CO2/NaOH still missing |
 | Sodium oxides/peroxides | Partial | Na2O/water implemented; Na2O2 with water/CO2 still missing |
 | Aluminum and amphoteric chemistry | Missing | Al/base, Al(OH)3 with acid/base, excess-reagent pathways |
-| Iron and Fe2+/Fe3+ interconversion | Missing | Oxidation, reduction, precipitation and observation evidence |
+| Iron and Fe2+/Fe3+ interconversion | Partial | Fe/acid, Cu salt displacement and Fe(II)/Fe(III) hydroxides; interconversion/oxidation still missing |
 | Halogens and halide redox | Missing | Chlorine water/bleaching, Cl2/base, displacement and reversibility |
 | Sulfur redox | Missing | SO2 oxidation/reduction, concentrated H2SO4/Cu, selected H2S chemistry |
 | Nitrogen chemistry | Missing | Ammonia synthesis/oxidation, NO/NO2, dilute/concentrated HNO3 with metals |
@@ -43,7 +43,7 @@ Partial coverage applies only to admitted identities, properties, phases and con
 
 The pipeline matches identity/classification/phase and contextual facts or one-hop Relations, selects a Rule, resolves canonical products, balances and validates atoms/charge, then compares with stored Reactions. Stored equations do not select products.
 
-Removing every Reaction and recompiling still generates all 74 positive cases across all 19 Rules with unchanged participants/candidate keys and canonical_match none. An evidence-backed HBr non-oxidizing-acid fact enables existing M9 to generate the unstored `2 HBr + Na2S2O3 -> 2 NaBr + SO2 + S + H2O`; no Reaction was added for it.
+Removing every Reaction and recompiling still generates all 84 positive cases across all 19 Rules with unchanged participants/candidate keys and canonical_match none. An evidence-backed HBr non-oxidizing-acid fact enables existing M9 to generate the unstored `2 HBr + Na2S2O3 -> 2 NaBr + SO2 + S + H2O`; no Reaction was added for it.
 
 New combinations therefore work when identity/composition, classifications, contextual properties, speciation/Relations, canonical products and evidence are sufficient. A tag such as “active metal” or “oxidant” alone does not determine valence, selectivity or products. Conservation is necessary but does not establish chemical feasibility.
 
@@ -54,3 +54,5 @@ Recommend **curriculum coverage batch A** as the next milestone: freeze a finite
 See the [application contract](contracts/APPLICATION_API.md) and [Chinese chem-wiki database integration note](contracts/CHEM_WIKI_INTEGRATION.md).
 
 2026-09-27 oxide batch: one Na2O identity, six oxide/strong-acid equations, one Na2O/water special case and four Rules. Independent conservation supplies the missing coefficient (2 NaOH) in the printed OpenStax 18.9 example. All 443 tests pass. The curriculum and prediction objective remains ongoing; see [continuation](CONTINUATION.md).
+
+2026-09-27 ferrous batch: five identities and ten canonical equations reuse M10/M15/M19 without new Rules. Added a pathway-local Fe-to-Zn2+ negative and Fe/HNO3 UNKNOWN boundary; later oxygen oxidation of Fe(OH)2 is a separate process. All 70 relevant tests pass.

@@ -7,7 +7,7 @@
 - chem-wiki 当前 HEAD 为 `7776bc6c2b9f70ebd2c350085e05175287d85da4`，有未提交的前端改动，本轮未修改。
 - `backend/src/chem_wiki/modules/knowledge_catalog/release.py` 锁定旧仓库的 `consolidated-1.1.0` 与 `a631115...`，校验固定 JSONL 文件、计数和哈希；不能只改目录指向本编译器。
 - `knowledge_catalog` 已有 PostgreSQL / SQLAlchemy 导入、stable application UUID、来源 crosswalk、Reaction catalog、物态和热化学表。`reaction_core` 负责应用 Reaction 聚合和配平；`reaction_builder` 当前按物质 UUID 查找、排序已知 Reaction，尚不执行本编译器规则。
-- 编译器当前有 73 条 canonical Reaction、19 条 Rule；旧应用 release 声明 183 条 Reaction、309 条 species。两个数字的口径与覆盖不同，不能整库替换，也不能丢弃旧库的结构和热化学内容。
+- 编译器当前有 83 条 canonical Reaction、19 条 Rule；旧应用 release 声明 183 条 Reaction、309 条 species。两个数字的口径与覆盖不同，不能整库替换，也不能丢弃旧库的结构和热化学内容。
 
 ## 推荐接法：先接推断，再扩展数据发布
 

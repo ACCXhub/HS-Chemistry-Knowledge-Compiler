@@ -1,0 +1,653 @@
+records:
+- id: ev_curriculum_iron_ii_paths
+  record_type: evidence
+  source_id: src_openstax_chemistry_2e
+  claim_summary: OpenStax Chemistry 2e 17.3, Table 17.1 (https://openstax.org/books/chemistry-2e/pages/17-3-electrode-and-cell-potentials,
+    checked 2026-09-27) gives Fe2+/Fe -0.447 V, H+/H2 0.00 V, Cu2+/Cu +0.34 V, Zn2+/Zn -0.7618 V and Mg2+/Mg -2.372 V. Curated
+    combinations support Fe to Fe(II) with non-oxidizing acid or Cu(II), Zn/Mg displacement of Fe(II), and no Fe-to-Zn(II)
+    displacement in the represented ordinary aqueous pathways. Only these explicit pairwise facts are authored; the runtime
+    does not extrapolate an activity ordering, compute potentials, or choose Fe(III). Nitric-acid, passivation and competing
+    oxidants remain outside these facts.
+  stance: supports
+- id: ev_curriculum_iron_ii_solubility
+  record_type: evidence
+  source_id: src_openstax_chemistry_2e
+  claim_summary: OpenStax Chemistry 2e 4.2 Table 4.1 (https://openstax.org/books/chemistry-2e/pages/4-2-classifying-chemical-reactions,
+    checked 2026-09-27) lists soluble chlorides and sulfates with exceptions not including Fe(II), and insoluble hydroxides
+    with exceptions not including Fe(II). Combined with the explicit Fe2+ identity in section 17.3 this supports FeCl2 and
+    FeSO4 composition, aqueous dissociation, and immediate Fe(OH)2 precipitation. Subsequent oxidation of Fe(OH)2 by oxygen
+    is a separate unmodeled step.
+  stance: supports
+- id: ent_substance_elemental_fe
+  record_type: entity
+  entity_kind: substance
+  terms:
+    preferred: iron metal
+    aliases:
+    - 铁
+  semantic_keys:
+  - scheme: formula.unit
+    value: Fe
+  payload:
+    substance_kind: elemental
+    composition:
+      components:
+      - element_id: ent_element_fe
+        count: 1
+      net_charge: 0
+  facet_assertions:
+  - facet_key: classification.metal
+    value_state: known
+    value: true
+    fact_kind: intrinsic
+    evidence_ids:
+    - ev_curriculum_iron_ii_paths
+  property_assertions:
+  - property_key: metal.activity.relative_to_hydrogen
+    value_state: known
+    value: above
+    fact_kind: contextual
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_ii_paths
+  relation_assertions:
+  - relation_key: metal.product_cation
+    target_id: ent_species_fe_2plus
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_ii_paths
+  - relation_key: metal.displaces_cation
+    target_id: ent_species_cu_2plus
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_ii_paths
+  - relation_key: metal.displaces_cation
+    target_id: ent_species_zn_2plus
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_ii_paths
+    truth: false
+  evidence_ids:
+  - ev_curriculum_iron_ii_paths
+- id: ent_species_fe_2plus
+  record_type: entity
+  entity_kind: species
+  terms:
+    preferred: iron(II) ion
+    aliases:
+    - 亚铁离子
+  semantic_keys:
+  - scheme: formula.ion
+    value: Fe2+
+  payload:
+    species_kind: ion
+    formal_charge: 2
+    composition:
+      components:
+      - element_id: ent_element_fe
+        count: 1
+      net_charge: 2
+  relation_assertions:
+  - relation_key: ion.elemental_substance
+    target_id: ent_substance_elemental_fe
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_ii_paths
+  evidence_ids:
+  - ev_curriculum_iron_ii_paths
+- id: ent_substance_fecl2
+  record_type: entity
+  entity_kind: substance
+  terms:
+    preferred: iron(II) chloride
+  semantic_keys:
+  - scheme: formula.unit
+    value: FeCl2
+  payload:
+    substance_kind: pure_compound
+    composition:
+      components:
+      - element_id: ent_element_fe
+        count: 1
+      - element_id: ent_element_cl
+        count: 2
+      net_charge: 0
+  facet_assertions:
+  - facet_key: classification.salt
+    value_state: known
+    value: true
+    fact_kind: intrinsic
+    evidence_ids:
+    - ev_curriculum_iron_ii_solubility
+  property_assertions:
+  - property_key: electrolyte.strength
+    value_state: known
+    value: strong
+    fact_kind: contextual
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_ii_solubility
+  - property_key: solubility.class
+    value_state: known
+    value: soluble
+    fact_kind: contextual
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_ii_solubility
+  speciation_profiles:
+  - profile_key: aqueous_complete_dissociation
+    context:
+      medium: aqueous
+    model: strong_electrolyte_complete_dissociation
+    products:
+    - target_id: ent_species_fe_2plus
+      coefficient:
+        numerator: 1
+        denominator: 1
+    - target_id: ent_species_cl_minus
+      coefficient:
+        numerator: 2
+        denominator: 1
+    evidence_ids:
+    - ev_curriculum_iron_ii_solubility
+  evidence_ids:
+  - ev_curriculum_iron_ii_paths
+  - ev_curriculum_iron_ii_solubility
+- id: ent_substance_feso4
+  record_type: entity
+  entity_kind: substance
+  terms:
+    preferred: iron(II) sulfate
+  semantic_keys:
+  - scheme: formula.unit
+    value: FeSO4
+  payload:
+    substance_kind: pure_compound
+    composition:
+      components:
+      - element_id: ent_element_fe
+        count: 1
+      - element_id: ent_element_s
+        count: 1
+      - element_id: ent_element_o
+        count: 4
+      net_charge: 0
+  facet_assertions:
+  - facet_key: classification.salt
+    value_state: known
+    value: true
+    fact_kind: intrinsic
+    evidence_ids:
+    - ev_curriculum_iron_ii_solubility
+  property_assertions:
+  - property_key: electrolyte.strength
+    value_state: known
+    value: strong
+    fact_kind: contextual
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_ii_solubility
+  - property_key: solubility.class
+    value_state: known
+    value: soluble
+    fact_kind: contextual
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_ii_solubility
+  speciation_profiles:
+  - profile_key: aqueous_complete_dissociation
+    context:
+      medium: aqueous
+    model: strong_electrolyte_complete_dissociation
+    products:
+    - target_id: ent_species_fe_2plus
+      coefficient:
+        numerator: 1
+        denominator: 1
+    - target_id: ent_species_so4_2minus
+      coefficient:
+        numerator: 1
+        denominator: 1
+    evidence_ids:
+    - ev_curriculum_iron_ii_solubility
+  evidence_ids:
+  - ev_curriculum_iron_ii_paths
+  - ev_curriculum_iron_ii_solubility
+- id: ent_substance_fe_oh_2
+  record_type: entity
+  entity_kind: substance
+  terms:
+    preferred: iron(II) hydroxide
+    aliases:
+    - 氢氧化亚铁
+  semantic_keys:
+  - scheme: formula.unit
+    value: Fe(OH)2
+  payload:
+    substance_kind: pure_compound
+    composition:
+      components:
+      - element_id: ent_element_fe
+        count: 1
+      - element_id: ent_element_o
+        count: 2
+      - element_id: ent_element_h
+        count: 2
+      net_charge: 0
+  facet_assertions:
+  - facet_key: classification.base
+    value_state: known
+    value: true
+    fact_kind: intrinsic
+    evidence_ids:
+    - ev_curriculum_iron_ii_solubility
+  property_assertions:
+  - property_key: solubility.class
+    value_state: known
+    value: insoluble
+    fact_kind: contextual
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_ii_solubility
+  evidence_ids:
+  - ev_curriculum_iron_ii_solubility
+- id: rxn_curriculum_iron_hcl
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_elemental_fe
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_hcl
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_fecl2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_h2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: gas
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_ii_paths
+  forms: []
+  evidence_ids:
+  - ev_curriculum_iron_ii_paths
+- id: rxn_curriculum_iron_cuso4
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_elemental_fe
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_cuso4
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_feso4
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_elemental_cu
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_ii_paths
+  forms: []
+  evidence_ids:
+  - ev_curriculum_iron_ii_paths
+- id: rxn_curriculum_iron_cucl2
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_elemental_fe
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_cucl2
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_fecl2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_elemental_cu
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_ii_paths
+  forms: []
+  evidence_ids:
+  - ev_curriculum_iron_ii_paths
+- id: rxn_curriculum_zinc_feso4
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_elemental_zn
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_feso4
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_znso4
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_elemental_fe
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_ii_paths
+  forms: []
+  evidence_ids:
+  - ev_curriculum_iron_ii_paths
+- id: rxn_curriculum_magnesium_feso4
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_elemental_mg
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_feso4
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_mgso4
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_elemental_fe
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_ii_paths
+  forms: []
+  evidence_ids:
+  - ev_curriculum_iron_ii_paths
+- id: rxn_curriculum_fecl2_naoh
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_fecl2
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_naoh
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_fe_oh_2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_nacl
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_ii_solubility
+  forms: []
+  evidence_ids:
+  - ev_curriculum_iron_ii_solubility
+- id: rxn_curriculum_fecl2_koh
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_fecl2
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_koh
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_fe_oh_2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_kcl
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_ii_solubility
+  forms: []
+  evidence_ids:
+  - ev_curriculum_iron_ii_solubility
+- id: rxn_curriculum_feso4_naoh
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_feso4
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_naoh
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_fe_oh_2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_na2so4
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_ii_solubility
+  forms: []
+  evidence_ids:
+  - ev_curriculum_iron_ii_solubility
+- id: rxn_curriculum_feso4_koh
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_feso4
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_koh
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_fe_oh_2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_k2so4
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_ii_solubility
+  forms: []
+  evidence_ids:
+  - ev_curriculum_iron_ii_solubility
+- id: rxn_curriculum_fecl3_koh
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_fecl3
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_koh
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 3
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_fe_oh_3
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_kcl
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 3
+      denominator: 1
+    phase: aqueous
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_m15_hydroxide_precipitation
+  forms: []
+  evidence_ids:
+  - ev_m15_hydroxide_precipitation
