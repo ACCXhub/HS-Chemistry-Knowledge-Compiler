@@ -700,3 +700,67 @@ cases:
       - {target_id: ent_substance_bacl2, phase: aqueous}
       - {target_id: ent_substance_na2so4, phase: aqueous}
     context: {medium: aqueous, temperature_regime: ambient}
+
+  - id: case_basic_oxide_na2o_hcl
+    reactants:
+    - target_id: ent_substance_na2o
+      phase: solid
+    - target_id: ent_substance_hcl
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_basic_oxide_na2o_hno3
+    reactants:
+    - target_id: ent_substance_na2o
+      phase: solid
+    - target_id: ent_substance_hno3
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_basic_oxide_na2o_hbr
+    reactants:
+    - target_id: ent_substance_na2o
+      phase: solid
+    - target_id: ent_substance_hbr
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_basic_oxide_mgo_hcl
+    reactants:
+    - target_id: ent_substance_mgo
+      phase: solid
+    - target_id: ent_substance_hcl
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_basic_oxide_mgo_hno3
+    reactants:
+    - target_id: ent_substance_mgo
+      phase: solid
+    - target_id: ent_substance_hno3
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_basic_oxide_cao_hcl
+    reactants:
+    - target_id: ent_substance_cao
+      phase: solid
+    - target_id: ent_substance_hcl
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_sodium_oxide_water
+    reactants:
+    - target_id: ent_substance_na2o
+      phase: solid
+    - target_id: ent_substance_h2o
+      phase: liquid
+    context:
+      medium: aqueous
+      temperature_regime: ambient

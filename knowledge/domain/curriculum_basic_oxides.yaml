@@ -1,0 +1,333 @@
+records:
+- id: ev_curriculum_basic_oxides
+  record_type: evidence
+  source_id: src_openstax_chemistry_2e
+  claim_summary: OpenStax Chemistry 2e section 18.9, Metal Oxides and Hydroxides (https://openstax.org/books/chemistry-2e/pages/18-9-occurrence-preparation-and-compounds-of-oxygen,
+    checked 2026-09-26), describes representative-metal oxides reacting with acids to form salts and water, explicitly CaO/HCl
+    and Na2O/HNO3, and alkali-metal oxides forming hydroxides with water. This batch admits only Na2O, MgO and CaO with strong
+    aqueous acids and known soluble canonical salts, plus Na2O with liquid water. Oxidation state is fixed by each reviewed
+    oxide identity, not guessed from an element tag. The printed Na2O/water example omits a coefficient; atom conservation
+    independently requires two NaOH. No general oxide hydration, amphoteric or peroxide pathway is inferred.
+  stance: supports
+- id: ent_substance_na2o
+  record_type: entity
+  entity_kind: substance
+  terms:
+    preferred: sodium oxide
+    aliases:
+    - 氧化钠
+  semantic_keys:
+  - scheme: formula.unit
+    value: Na2O
+  payload:
+    substance_kind: pure_compound
+    composition:
+      components:
+      - element_id: ent_element_na
+        count: 2
+      - element_id: ent_element_o
+        count: 1
+      net_charge: 0
+  facet_assertions:
+  - facet_key: classification.basic_oxide
+    value_state: known
+    value: true
+    fact_kind: intrinsic
+    evidence_ids:
+    - ev_curriculum_basic_oxides
+  evidence_ids:
+  - ev_curriculum_basic_oxides
+- id: rxn_basic_oxide_na2o_hcl
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_na2o
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_hcl
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_nacl
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: liquid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_basic_oxides
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_basic_oxides
+  forms: []
+  evidence_ids:
+  - ev_curriculum_basic_oxides
+- id: rxn_basic_oxide_na2o_hno3
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_na2o
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_hno3
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_nano3
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: liquid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_basic_oxides
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_basic_oxides
+  forms: []
+  evidence_ids:
+  - ev_curriculum_basic_oxides
+- id: rxn_basic_oxide_na2o_hbr
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_na2o
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_hbr
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_nabr
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: liquid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_basic_oxides
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_basic_oxides
+  forms: []
+  evidence_ids:
+  - ev_curriculum_basic_oxides
+- id: rxn_basic_oxide_mgo_hcl
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_mgo
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_hcl
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_mgcl2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: liquid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_basic_oxides
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_basic_oxides
+  forms: []
+  evidence_ids:
+  - ev_curriculum_basic_oxides
+- id: rxn_basic_oxide_mgo_hno3
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_mgo
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_hno3
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_mg_no3_2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: liquid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_basic_oxides
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_basic_oxides
+  forms: []
+  evidence_ids:
+  - ev_curriculum_basic_oxides
+- id: rxn_basic_oxide_cao_hcl
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_cao
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_hcl
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_cacl2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: liquid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_basic_oxides
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_basic_oxides
+  forms: []
+  evidence_ids:
+  - ev_curriculum_basic_oxides
+- id: rxn_sodium_oxide_water
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_na2o
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: liquid
+  - target_id: ent_substance_naoh
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_basic_oxides
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_basic_oxides
+  forms: []
+  evidence_ids:
+  - ev_curriculum_basic_oxides
