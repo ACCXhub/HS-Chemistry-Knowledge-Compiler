@@ -1,0 +1,527 @@
+records:
+- id: ev_curriculum_copper_oxide_nitrates
+  record_type: evidence
+  source_id: src_openstax_chemistry_2e
+  claim_summary: OpenStax Chemistry 2e 19.1 (https://openstax.org/books/chemistry-2e/pages/19-1-occurrence-preparation-and-properties-of-transition-metals-and-their-compounds,
+    checked 2026-09-27) identifies copper(II) oxide CuO and transition-metal oxides reacting with acids. Section 4.2 Table
+    4.1 supports nitrate solubility, and existing canonical Ca2+/Cu2+/NO3- identities establish Ca(NO3)2 and Cu(NO3)2 stoichiometry.
+    These records close product identities for already bounded oxide/carbonate acidification, hydroxide precipitation and
+    curated Cu2+ displacement; nitrate here is a spectator salt anion, not permission to treat nitric acid as non-oxidizing.
+  stance: supports
+- id: ent_substance_cuo
+  record_type: entity
+  entity_kind: substance
+  terms:
+    preferred: copper(II) oxide
+    aliases:
+    - 氧化铜
+  semantic_keys:
+  - scheme: formula.unit
+    value: CuO
+  payload:
+    substance_kind: pure_compound
+    composition:
+      components:
+      - element_id: ent_element_cu
+        count: 1
+      - element_id: ent_element_o
+        count: 1
+      net_charge: 0
+  facet_assertions:
+  - facet_key: classification.basic_oxide
+    value_state: known
+    value: true
+    fact_kind: intrinsic
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  evidence_ids:
+  - ev_curriculum_copper_oxide_nitrates
+- id: ent_substance_ca_no3_2
+  record_type: entity
+  entity_kind: substance
+  terms:
+    preferred: calcium nitrate
+    aliases:
+    - 硝酸钙
+  semantic_keys:
+  - scheme: formula.unit
+    value: Ca(NO3)2
+  payload:
+    substance_kind: pure_compound
+    composition:
+      components:
+      - element_id: ent_element_ca
+        count: 1
+      - element_id: ent_element_n
+        count: 2
+      - element_id: ent_element_o
+        count: 6
+      net_charge: 0
+  facet_assertions:
+  - facet_key: classification.salt
+    value_state: known
+    value: true
+    fact_kind: intrinsic
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  - facet_key: classification.nitrate
+    value_state: known
+    value: true
+    fact_kind: intrinsic
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  property_assertions:
+  - property_key: electrolyte.strength
+    value_state: known
+    value: strong
+    fact_kind: contextual
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  - property_key: solubility.class
+    value_state: known
+    value: soluble
+    fact_kind: contextual
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  speciation_profiles:
+  - profile_key: aqueous_complete_dissociation
+    context:
+      medium: aqueous
+    model: strong_electrolyte_complete_dissociation
+    products:
+    - target_id: ent_species_ca_2plus
+      coefficient:
+        numerator: 1
+        denominator: 1
+    - target_id: ent_species_no3_minus
+      coefficient:
+        numerator: 2
+        denominator: 1
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  evidence_ids:
+  - ev_curriculum_copper_oxide_nitrates
+- id: ent_substance_cu_no3_2
+  record_type: entity
+  entity_kind: substance
+  terms:
+    preferred: copper(II) nitrate
+    aliases:
+    - 硝酸铜
+  semantic_keys:
+  - scheme: formula.unit
+    value: Cu(NO3)2
+  payload:
+    substance_kind: pure_compound
+    composition:
+      components:
+      - element_id: ent_element_cu
+        count: 1
+      - element_id: ent_element_n
+        count: 2
+      - element_id: ent_element_o
+        count: 6
+      net_charge: 0
+  facet_assertions:
+  - facet_key: classification.salt
+    value_state: known
+    value: true
+    fact_kind: intrinsic
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  - facet_key: classification.nitrate
+    value_state: known
+    value: true
+    fact_kind: intrinsic
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  property_assertions:
+  - property_key: electrolyte.strength
+    value_state: known
+    value: strong
+    fact_kind: contextual
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  - property_key: solubility.class
+    value_state: known
+    value: soluble
+    fact_kind: contextual
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  speciation_profiles:
+  - profile_key: aqueous_complete_dissociation
+    context:
+      medium: aqueous
+    model: strong_electrolyte_complete_dissociation
+    products:
+    - target_id: ent_species_cu_2plus
+      coefficient:
+        numerator: 1
+        denominator: 1
+    - target_id: ent_species_no3_minus
+      coefficient:
+        numerator: 2
+        denominator: 1
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  evidence_ids:
+  - ev_curriculum_copper_oxide_nitrates
+- id: rxn_curriculum_cuo_hcl
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_cuo
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_hcl
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_cucl2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: liquid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  forms: []
+  evidence_ids:
+  - ev_curriculum_copper_oxide_nitrates
+- id: rxn_curriculum_cuo_hno3
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_cuo
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_hno3
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_cu_no3_2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: liquid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  forms: []
+  evidence_ids:
+  - ev_curriculum_copper_oxide_nitrates
+- id: rxn_curriculum_cao_hno3
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_cao
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_hno3
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_ca_no3_2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: liquid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  forms: []
+  evidence_ids:
+  - ev_curriculum_copper_oxide_nitrates
+- id: rxn_curriculum_caco3_hno3
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_caco3
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_hno3
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_ca_no3_2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: liquid
+  - target_id: ent_substance_co2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: gas
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  forms: []
+  evidence_ids:
+  - ev_curriculum_copper_oxide_nitrates
+- id: rxn_curriculum_zinc_copper_nitrate
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_elemental_zn
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_cu_no3_2
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_zn_no3_2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_elemental_cu
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  forms: []
+  evidence_ids:
+  - ev_curriculum_copper_oxide_nitrates
+- id: rxn_curriculum_magnesium_copper_nitrate
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_elemental_mg
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_cu_no3_2
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_mg_no3_2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_elemental_cu
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  forms: []
+  evidence_ids:
+  - ev_curriculum_copper_oxide_nitrates
+- id: rxn_curriculum_copper_nitrate_naoh
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_cu_no3_2
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_naoh
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_cu_oh_2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_nano3
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  forms: []
+  evidence_ids:
+  - ev_curriculum_copper_oxide_nitrates
+- id: rxn_curriculum_copper_nitrate_koh
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_cu_no3_2
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_koh
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_cu_oh_2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_kno3
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_copper_oxide_nitrates
+  forms: []
+  evidence_ids:
+  - ev_curriculum_copper_oxide_nitrates

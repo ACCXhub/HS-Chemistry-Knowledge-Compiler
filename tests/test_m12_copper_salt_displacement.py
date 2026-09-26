@@ -91,18 +91,12 @@ def test_zinc_and_magnesium_own_evidence_backed_aqueous_displacement_relations()
     for metal in ("zn", "mg"):
         metal_id = f"ent_substance_elemental_{metal}"
         assert "speciation_profiles" not in kb.entities[metal_id]
-        assert kb.relation_assertions(
+        assertions = kb.relation_assertions(
             metal_id,
             "metal.displaces_cation",
             {"medium": "aqueous", "temperature_regime": "ambient"},
-        ) == (
-            {
-                "source_id": metal_id,
-                "relation_key": "metal.displaces_cation",
-                "target_id": "ent_species_ag_plus",
-                "context": {"medium": "aqueous"},
-                "evidence_ids": ["ev_m13_metal_silver_displacement"],
-            },
+        )
+        assert tuple(item for item in assertions if item["target_id"] == "ent_species_cu_2plus") == (
             {
                 "source_id": metal_id,
                 "relation_key": "metal.displaces_cation",

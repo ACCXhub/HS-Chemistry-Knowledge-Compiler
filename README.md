@@ -6,7 +6,7 @@ Generate high-school chemistry equations and infer reactions deterministically f
 
 ## Current executable scope
 
-The F1/F2/F3 foundations, M4–M25 and follow-up corrections are recorded in the [roadmap](docs/ROADMAP.md). The corpus has 83 canonical Reactions, 19 active Rules, 138 fixtures and 38 aqueous profiles, including newly executable solid CaCO3/HCl. Mainland compulsory and selective-compulsory curriculum coverage remains incomplete; see the [coverage checklist](docs/CURRICULUM_COVERAGE.md).
+The F1/F2/F3 foundations, M4–M25 and follow-up corrections are recorded in the [roadmap](docs/ROADMAP.md). The corpus has 91 canonical Reactions, 20 active Rules, 146 fixtures and 42 aqueous profiles, including newly executable solid CaCO3/HCl. Mainland compulsory and selective-compulsory curriculum coverage remains incomplete; see the [coverage checklist](docs/CURRICULUM_COVERAGE.md).
 
 Supported families include bounded neutralization, precipitation, acid-driven gas evolution, ammonium/base, metal/acid and metal/water hydrogen evolution, aqueous metal-salt displacement, and exact thermal/steam pilots. Missing knowledge remains UNKNOWN; explicit FALSE rejects a particular pathway without asserting a global negative Reaction.
 

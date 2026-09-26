@@ -2,7 +2,9 @@
 
 [简体中文](COVERAGE_AUDIT.zh-CN.md)
 
-## Current correction and application pass — 2026-09-26
+This is a historical audit snapshot from 2026-09-26. Current counts, compiler version and verification are maintained in [continuation](CONTINUATION.md) and [curriculum coverage](CURRICULUM_COVERAGE.md).
+
+## Correction and application pass — 2026-09-26
 
 Compiler 0.4.0 now exports a complete versioned application bundle and loads it through a validated Python inference session. The source and bundle loaders share one schema/reference/chemistry boundary; Rules are compiled once per session. No SQL rule engine, new ontology or migration framework is introduced.
 

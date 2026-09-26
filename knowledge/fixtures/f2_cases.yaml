@@ -873,3 +873,76 @@ cases:
     context:
       medium: aqueous
       temperature_regime: ambient
+
+  - id: case_curriculum_cuo_hcl
+    reactants:
+    - target_id: ent_substance_cuo
+      phase: solid
+    - target_id: ent_substance_hcl
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_cuo_hno3
+    reactants:
+    - target_id: ent_substance_cuo
+      phase: solid
+    - target_id: ent_substance_hno3
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_cao_hno3
+    reactants:
+    - target_id: ent_substance_cao
+      phase: solid
+    - target_id: ent_substance_hno3
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_caco3_hno3
+    reactants:
+    - target_id: ent_substance_caco3
+      phase: solid
+    - target_id: ent_substance_hno3
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_zinc_copper_nitrate
+    reactants:
+    - target_id: ent_substance_elemental_zn
+      phase: solid
+    - target_id: ent_substance_cu_no3_2
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_magnesium_copper_nitrate
+    reactants:
+    - target_id: ent_substance_elemental_mg
+      phase: solid
+    - target_id: ent_substance_cu_no3_2
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_copper_nitrate_naoh
+    reactants:
+    - target_id: ent_substance_cu_no3_2
+      phase: aqueous
+    - target_id: ent_substance_naoh
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_copper_nitrate_koh
+    reactants:
+    - target_id: ent_substance_cu_no3_2
+      phase: aqueous
+    - target_id: ent_substance_koh
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient

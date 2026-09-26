@@ -4,32 +4,27 @@
 
 ## 长期目标（未完成）
 
-覆盖中国大陆高中必修＋选择性必修的元素、物质、方程式、规则与特例；三类数据可分别发布并保持可关联身份。样本积累后，用有证据的案例迁移/模型提出未收录反应，解释支持、排除和缺失知识；预测与审核事实分开，UNKNOWN 不是“不可能”。面向未来网站数据库，不扩成大学化学或通用平台。用户已允许 GitHub 操作和安全的提交推送；不启动子代理。
+覆盖中国大陆高中必修＋选择性必修的元素、物质、方程式、规则与特例；元素、物质、方程数据分别发布并保持共享身份。后续支持有证据的案例迁移和预测解释；预测不得冒充规范事实，UNKNOWN 不等于不可能。已授权安全提交推送 main；不启动子代理，不重复 M0–M25 审计，不 reset/stash/rebase。
 
-## 已完成
+## 当前成果：2026-09-27 铜氧化物与硝酸盐批次
 
-- `a4dcce2`：化学边界修正、完整 bundle 1.0.0、Python InferenceSession、中文文档和课程缺口清单。
-- 2026-09-27 氧化物批次：Na2O 身份；Na2O/HCl、HNO3、HBr，MgO/HCl、HNO3，CaO/HCl，共六条酸反应；Na2O/水特例。四条声明式 Rule，未改运行时或 schema。规则的金属价态来自明确氧化物身份，不做价态猜测。
-- 已验证：针对性36项通过；完整443项通过（346.17秒），日志 `build/oxide-batch-pytest.txt`。无需重跑已完成全套。
-- 当前规范源：73 Reaction、19 Rule、126 cases、105 Entity；74正例（含一条未存储方程）、39 UNKNOWN、12 no_match、1 blocked。
+- 在 `0db354e2aae013f0b8ca36e6be0028057b8f01b9` 亚铁批次上，新增 CuO、Ca(NO3)2、Cu(NO3)2 三个身份，八条 Reaction、一条 CuO/强酸 Rule、八个正例。其余七条路径复用原有规则；硝酸盐作旁观离子不赋予硝酸非氧化性。
+- 272记录、113 Entity、91 Reaction、20 Rule、146案例、42解离配置。92 inferred 覆盖全部91规范方程和1条未存储方程；41 indeterminate、12 no_match、1 blocked。
+- compiler 0.5.0；完整 application-bundle 是 InferenceSession 输入。独立模块：elements 18主记录/6依赖，substances 95/59，equations 111/155。接入见[数据模块契约](contracts/DATA_PACKAGES.zh-CN.md)、[Python API](contracts/APPLICATION_API.zh-CN.md)、[chem-wiki数据库说明](contracts/CHEM_WIKI_INTEGRATION.md)。HTTP适配器和实际数据库导入尚未实现。
+- 无运行时/schema改动。修正 M12/M13 测试对全部置换关系的过度冻结，只检查各自负责的目标及证据。同步中英文数量、路线图和历史审计定位。
 
-模块交付：elements 18主记录/6依赖，substances 87主记录/56依赖，equations 92主记录/144依赖。三个包均独立通过规范验证；模块与完整bundle针对性16项通过。
+## 验证与保存
 
-## 最小下一步
+validate、18项铜批次/独立生成测试通过；移除全部 Reaction 后仍可生成全部92正例。完整466项已执行：464通过，两处旧关系列表断言失败，随后已修正；随后受影响的 M12/M13 两文件27项全部通过；此后未修改运行时或规则。完整日志 `build/current-final-pytest.txt`，不需要重跑全套。
 
-1. 三个数据模块已由 compiler 0.5.0 的 export-modules 实现；完整 bundle 继续作为推断部署入口。后续网站按[数据模块契约](contracts/DATA_PACKAGES.zh-CN.md)接入。
-2. 继续课程清单中的常见无机缺口，优先 CuO/酸、Fe/Al、非金属和实验制备。每批先给数据/规则/正例，再补必要边界；不批量相信旧库或网页上的系数。
-3. 冻结可核查的教材章节逐式目录；当前主题矩阵不是“全部教材已覆盖”的证据。
-4. 增加可审查的案例类比候选和可能性解释，禁止由原子守恒直接推出反应能发生；浓度、过量、催化、可逆和电极条件须有明确语义。
+PYTHONHASHSEED 3/941 下 compile、audit、bundle、modules 字节一致，证据在 `build/copper-verification/`。M25两次复现相同：21映射、122不支持、9拒绝；历史报告保留，迁移范围未变。提交后从最终 SHA 重新导出 `build/application-bundle` 和 `build/data-modules`；通过 manifest.source_revision 检查发布身份。
 
-## 自动续作与额度
+## 精确下一步
 
-本线程 heartbeat `automation` 保持 ACTIVE，每5小时触发。每次先检查真实额度及重置时间；额度不足时保存当前最小成果和续作点，不暂停或删除任务。2026-09-27 03:43（北京时间）已实际触发，额度已恢复，先前运行的测试也已确认完成。任务依赖 Codex 调度运行；漏过一次或额度未恢复时，下一次触发继续，不将长期目标标记完成。
+1. 先执行 `git status --short --branch`、`git diff --stat`、`git rev-parse HEAD`，查询真实额度；保留任何未提交内容。本批无需重复广泛调查。
+2. 冻结大陆高中教材的有限逐式目录。现有[课程覆盖表](CURRICULUM_COVERAGE.zh-CN.md)只是主题矩阵，不能证明教材全覆盖。优先 Fe 价态互转、Al 和非金属的高价值小批次，证据、条件、正例和边界一起补。
+3. 浓度、过量、催化、可逆、电极式需要先确定必要语义。案例自动推广尚未实现；已有规则可以推导知识充分但未存储的方程，不能仅凭标签或守恒猜产物。
 
-恢复入口仅需 `git status --short --branch`、`git diff --stat`、`git rev-parse HEAD`，然后阅读此文件；保留脏改动，不 reset/stash/rebase。已运行的进程先确认句柄状态，不能凭等待超时重启。
+## 额度与自动续作
 
-## 最新续作点：亚铁数据批次
-
-五个新身份（Fe、Fe2+、FeCl2、FeSO4、Fe(OH)2），十条规范反应，两个否定/未知输入；只扩充实体事实和现有M10/M15/M19的组合。64项针对性测试和6项显式否定测试均通过。当前259记录、110 Entity、83 Reaction、19 Rule、138 cases、40解离配置；84 inferred、41 indeterminate、12 no_match、1 blocked。已有原子/电荷、离子式及无存储Reaction推导验证。上一轮443项全量结果属于氧化物批次；本轮数据差异只跑相关测试。下一项优先 CuO/酸、Fe价态互转或有限教材逐式清单；模型/案例自动推广还未实现，完整高中覆盖仍未完成。
-
-铁批次确定性：两个哈希种子下 compile/audit/modules 相同。M25当前复现为21映射、122不支持、9拒绝；新增映射仅 reaction:fecl2-naoh，因本轮补齐其规范反应。历史报告不改写，迁移机制与范围不变。
+本次5小时额度已达93%，停止新工作流，仅收尾保存。重置时间为北京时间2026-09-27 08:43:54。heartbeat `automation` 保持 ACTIVE，每5小时在50分触发，为本次刷新留余量；后续按真实重置时间检查。额度未恢复则安静等待，不暂停/删除任务，不将长期目标标记完成。旧测试进程14838已结束；不要重新启动该全套。
