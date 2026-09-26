@@ -19,6 +19,7 @@ from .source import SourceError, knowledge_from_records, load_knowledge
 
 
 BUNDLE_FORMAT_VERSION = "1.0.0"
+MODULE_FORMAT_VERSION = "1.0.0"
 _FILES = ("knowledge.json", "knowledge-record.schema.json", "inference-request.schema.json")
 
 
@@ -54,6 +55,78 @@ def export_bundle(repo_root: Path, output_dir: Path, source_revision: str) -> di
         "artifacts": artifacts,
     }
     manifest["release_id"] = "hschem_" + sha256_hex(manifest)
+    write_canonical_json(output_dir / "manifest.json", manifest)
+    return manifest
+
+
+def export_modules(repo_root: Path, output_dir: Path, source_revision: str) -> dict[str, Any]:
+    """Export three dictionaries, each containing its canonical reference closure.
+
+    Shared dependencies are identical read-only projections, not new identities.
+    The full bundle remains the deployment input for InferenceSession.
+    """
+    kb = load_knowledge(repo_root)
+    compile_rules(kb)
+    records = {record["id"]: record for record in kb.records}
+
+    def references(value: Any) -> set[str]:
+        if isinstance(value, str):
+            return {value} if value in records else set()
+        if isinstance(value, dict):
+            return set().union(*(references(item) for item in value.values()))
+        if isinstance(value, list):
+            return set().union(*(references(item) for item in value))
+        return set()
+
+    roots = {
+        "elements": {key for key, item in kb.entities.items() if item["entity_kind"] == "element"},
+        "substances": {key for key, item in kb.entities.items() if item["entity_kind"] != "element"},
+        "equations": set(kb.reactions) | set(kb.rules),
+    }
+    schema = json.loads((repo_root / "schemas/knowledge-record.schema.json").read_text(encoding="utf-8"))
+    artifacts = {"knowledge-record.schema.json": write_canonical_json(
+        output_dir / "knowledge-record.schema.json", schema,
+    )}
+    modules = {}
+    for name, root_ids in roots.items():
+        closure = set(root_ids)
+        pending = sorted(root_ids)
+        while pending:
+            record_id = pending.pop()
+            added = references(records[record_id]) - closure
+            closure.update(added)
+            pending.extend(sorted(added))
+        selected = [record for record in kb.records if record["id"] in closure]
+        # Reuse the same validation gate to prove the exported module stands alone.
+        module_kb = knowledge_from_records(
+            ((output_dir / f"{name}.json", record) for record in selected),
+            Draft202012Validator(schema),
+        )
+        compile_rules(module_kb)
+        document = {
+            "module_format_version": MODULE_FORMAT_VERSION,
+            "module_id": name,
+            "source_schema_version": artifact_versions()["source_schema"],
+            "source_semantic_digest": kb.source_digest,
+            "record_digest": module_kb.source_digest,
+            "root_ids": sorted(root_ids),
+            "dependency_ids": sorted(closure - root_ids),
+            "records": selected,
+        }
+        filename = f"{name}.json"
+        artifacts[filename] = write_canonical_json(output_dir / filename, document)
+        modules[name] = {"file": filename, "root_count": len(root_ids),
+                         "dependency_count": len(closure - root_ids), "record_count": len(selected)}
+    manifest = {
+        "module_format_version": MODULE_FORMAT_VERSION,
+        "compiler": {"name": "hs-chem-compiler", "version": __version__},
+        "versions": artifact_versions(),
+        "source_revision": source_revision,
+        "source_semantic_digest": kb.source_digest,
+        "modules": modules,
+        "artifacts": artifacts,
+    }
+    manifest["release_id"] = "hschem_modules_" + sha256_hex(manifest)
     write_canonical_json(output_dir / "manifest.json", manifest)
     return manifest
 

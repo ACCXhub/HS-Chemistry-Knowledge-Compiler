@@ -7,7 +7,7 @@
 - chem-wiki 当前 HEAD 为 `7776bc6c2b9f70ebd2c350085e05175287d85da4`，有未提交的前端改动，本轮未修改。
 - `backend/src/chem_wiki/modules/knowledge_catalog/release.py` 锁定旧仓库的 `consolidated-1.1.0` 与 `a631115...`，校验固定 JSONL 文件、计数和哈希；不能只改目录指向本编译器。
 - `knowledge_catalog` 已有 PostgreSQL / SQLAlchemy 导入、stable application UUID、来源 crosswalk、Reaction catalog、物态和热化学表。`reaction_core` 负责应用 Reaction 聚合和配平；`reaction_builder` 当前按物质 UUID 查找、排序已知 Reaction，尚不执行本编译器规则。
-- 编译器当前有 66 条 canonical Reaction、15 条 Rule；旧应用 release 声明 183 条 Reaction、309 条 species。两个数字的口径与覆盖不同，不能整库替换，也不能丢弃旧库的结构和热化学内容。
+- 编译器当前有 73 条 canonical Reaction、19 条 Rule；旧应用 release 声明 183 条 Reaction、309 条 species。两个数字的口径与覆盖不同，不能整库替换，也不能丢弃旧库的结构和热化学内容。
 
 ## 推荐接法：先接推断，再扩展数据发布
 
@@ -22,7 +22,7 @@ EquationDraft（application UUID + 显式物态/条件）
 
 保持当前已知 Reaction 查询接口；另设计显式的推断请求，例如拟议的 `POST /v1/reaction-builder/infer`。现有 `/candidates` 只接受两侧 UUID 列表，无法表达相态或 warmed/heated 条件，不应暗中把它当完整推断输入。
 
-第一步把 compiler 0.4.0 作为固定 Python 依赖，启动时通过 `InferenceSession(bundle_dir)` 加载一次已发布数据包，随后复用 `session.infer(request)`。固定代码版本、source digest 与版本坐标；不要逐请求读 YAML、拉 Git 或查库拼装规则。chem-wiki 要求 Python 3.13，实际接入时需在其锁定环境验证依赖和全部公共调用。
+第一步把 compiler 0.5.0 作为固定 Python 依赖，启动时通过 `InferenceSession(bundle_dir)` 加载一次已发布数据包，随后复用 `session.infer(request)`。固定代码版本、source digest 与版本坐标；不要逐请求读 YAML、拉 Git 或查库拼装规则。chem-wiki 要求 Python 3.13，实际接入时需在其锁定环境验证依赖和全部公共调用。
 
 `export` 现已生成完整 `knowledge.json`（含 Entity、Reaction、Rule、Evidence、Source、TeachingView）、两个 schema 和 manifest；加载器检查版本、哈希、引用、计数及化学守恒。用法和请求/响应见[应用接口契约](APPLICATION_API.zh-CN.md)。`compile` 仍保留原有派生产物职责，`audit` 的 fixture 候选不是反应数据库。下一步只需为已有 knowledge_catalog 增加专用 release adapter。
 

@@ -25,6 +25,7 @@ python -m compiler.cli validate
 python -m compiler.cli compile --output build/compile --source-revision WORKTREE
 python -m compiler.cli audit --output build/audit --source-revision WORKTREE
 python -m compiler.cli export --output build/application-bundle --source-revision WORKTREE
+python -m compiler.cli export-modules --output build/data-modules --source-revision WORKTREE
 python -m pytest -q
 ```
 
@@ -48,3 +49,5 @@ The compiler never guesses formulas or valences, fabricates product identities, 
 Compatibility coordinates remain source schema `3.7.0`, Rule DSL `1.4.0`, RulePlan `1.4.0`, and artifact format `1.5.0`; compiler versions are independent. Historical artifacts `1.0.0`–`1.5.0` remain admitted by the format gate.
 
 See [Architecture](docs/ARCHITECTURE.md), [Inference](docs/inference/INFERENCE.md), [Coverage audit](docs/COVERAGE_AUDIT.md), and [Roadmap](docs/ROADMAP.md).
+
+See [data modules](docs/contracts/DATA_PACKAGES.md) for independent dataset and website import contracts, and [continuation](docs/CONTINUATION.md) for ongoing work.

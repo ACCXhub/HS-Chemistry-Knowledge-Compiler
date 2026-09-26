@@ -2,7 +2,7 @@
 
 [English](APPLICATION_API.md)
 
-状态：compiler 0.4.0 已实现离线导出和 Python 接口；HTTP 路由、chem-wiki 适配器和数据库迁移尚未实现。
+状态：compiler 0.5.0 已实现离线导出和 Python 接口；HTTP 路由、chem-wiki 适配器和数据库迁移尚未实现。
 
 ## 发布、安装和加载
 

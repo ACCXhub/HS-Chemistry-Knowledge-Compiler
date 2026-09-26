@@ -2,7 +2,7 @@
 
 [简体中文](APPLICATION_API.zh-CN.md)
 
-Compiler 0.4.0 implements offline export and a Python API. HTTP routes, the chem-wiki adapter and database migrations are not implemented.
+Compiler 0.5.0 implements offline export and a Python API. HTTP routes, the chem-wiki adapter and database migrations are not implemented.
 
 ## Publish and load
 

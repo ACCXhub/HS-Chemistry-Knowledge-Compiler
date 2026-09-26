@@ -27,6 +27,7 @@ python -m compiler.cli validate
 python -m compiler.cli compile --output build/compile --source-revision WORKTREE
 python -m compiler.cli audit --output build/audit --source-revision WORKTREE
 python -m compiler.cli export --output build/application-bundle --source-revision WORKTREE
+python -m compiler.cli export-modules --output build/data-modules --source-revision WORKTREE
 python -m pytest -q
 ```
 
@@ -71,3 +72,5 @@ python -m pytest -q
 | [chem-wiki 接入建议](docs/contracts/CHEM_WIKI_INTEGRATION.md) | 原文已为中文 |
 | [课程覆盖清单](docs/CURRICULUM_COVERAGE.zh-CN.md) | 必修＋选择性必修现状与缺口 |
 | [应用接口](docs/contracts/APPLICATION_API.zh-CN.md) | 数据包、Python 调用与 HTTP 适配 |
+
+三个独立数据包的格式与网站导入契约见[数据模块](docs/contracts/DATA_PACKAGES.zh-CN.md)；长期工作状态见[续作记录](docs/CONTINUATION.zh-CN.md)。

@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 from .build import audit_repository, compile_repository, validate
-from .application import export_bundle
+from .application import export_bundle, export_modules
 from .source import SourceError
 
 
@@ -18,6 +18,9 @@ def parser() -> argparse.ArgumentParser:
     export_cmd = sub.add_parser("export")
     export_cmd.add_argument("--output", type=Path, default=Path("build/application-bundle"))
     export_cmd.add_argument("--source-revision", default="WORKTREE")
+    modules_cmd = sub.add_parser("export-modules")
+    modules_cmd.add_argument("--output", type=Path, default=Path("build/data-modules"))
+    modules_cmd.add_argument("--source-revision", default="WORKTREE")
     compile_cmd = sub.add_parser("compile")
     compile_cmd.add_argument("--output", type=Path, default=Path("build/m4-compile"))
     compile_cmd.add_argument("--source-revision", default="WORKTREE")
@@ -37,7 +40,9 @@ def main(argv: list[str] | None = None) -> int:
             output = args.output
             if not output.is_absolute():
                 output = root / output
-            if args.command == "export":
+            if args.command == "export-modules":
+                result = export_modules(root, output, args.source_revision)
+            elif args.command == "export":
                 result = export_bundle(root, output, args.source_revision)
             elif args.command == "compile":
                 result = compile_repository(root, output, args.source_revision)
