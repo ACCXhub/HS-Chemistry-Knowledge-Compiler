@@ -128,6 +128,14 @@ def infer_case(kb: KnowledgeBase, plans: tuple[RulePlan, ...], case: dict[str, A
         {"event": "input.normalized", "reactants": normalized_reactants, "context": context},
         {"event": "refs.resolved", "resolved": all(entity_id in kb.entities for entity_id in reactants)},
     ]
+    if len(reactants) != len(set(reactants)):
+        return _terminal(
+            case, "invalid", trace,
+            diagnostic_obj=diagnostic(
+                "duplicate_reactant", "input_resolution",
+                "repeated reactant identities are not supported, including across phases",
+            ),
+        )
     unresolved = sorted(entity_id for entity_id in reactants if entity_id not in kb.entities)
     if unresolved:
         return _terminal(

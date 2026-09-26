@@ -79,3 +79,7 @@ Runtime/source failures use deterministic objects containing `code`, `stage`, `m
 ## Proof trace
 
 Trace events retain normalized inputs, rule IDs/versions, predicate operator/subject/key/target/expected value, truth result, knowledge state, fact origin, matched Relation assertions and evidence, blocker checks, rule resolution, speciation/relation product inputs, balancing, conservation validation, canonical comparison, and emitted candidate key.
+
+## Application inputs and product phases
+
+Applications use [InferenceSession](../contracts/APPLICATION_API.md). Repeated reactant identities, including across phases, are rejected. An aqueous ionic_pair product requires a known soluble contextual property; absent/incompatible evidence yields product_phase_unverified/product_phase_conflict without a candidate. Liquid water is not subject to this salt-solubility gate. M8 additionally requires acid.redox_character = non_oxidizing.

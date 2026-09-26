@@ -52,17 +52,6 @@ records:
     forms: []
     evidence_ids: [ev_f3b_carbonate_acid, ev_f3b_strong_acid_base]
 
-  - id: rxn_batch_a_hno3_k2so3_gas_evolution
-    record_type: reaction
-    participants:
-      - {target_id: ent_substance_hno3, target_kind: substance, role: reactant, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
-      - {target_id: ent_substance_k2so3, target_kind: substance, role: reactant, coefficient: {numerator: 1, denominator: 1}, phase: aqueous}
-      - {target_id: ent_substance_kno3, target_kind: substance, role: product, coefficient: {numerator: 2, denominator: 1}, phase: aqueous}
-      - {target_id: ent_substance_so2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
-      - {target_id: ent_substance_h2o, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: liquid}
-    forms: []
-    evidence_ids: [ev_f3b_strong_acid_base, ev_m8_sulfite_identity_speciation, ev_m8_sulfite_acid]
-
   - id: rxn_batch_a_nh4cl_koh
     record_type: reaction
     participants:

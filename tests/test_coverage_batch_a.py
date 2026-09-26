@@ -84,14 +84,6 @@ EARLY_CASES = (
         "rxn_batch_a_hno3_k2co3_gas_evolution",
         [("reactant", "ent_substance_hno3", "aqueous", 2), ("reactant", "ent_substance_k2co3", "aqueous", 1), ("product", "ent_substance_kno3", "aqueous", 2), ("product", "ent_substance_co2", "gas", 1), ("product", "ent_substance_h2o", "liquid", 1)],
     ),
-    (
-        "batch_a_hno3_k2so3",
-        "ent_substance_hno3",
-        "ent_substance_k2so3",
-        "rule_m8_strong_acid_sulfite_gas_evolution",
-        "rxn_batch_a_hno3_k2so3_gas_evolution",
-        [("reactant", "ent_substance_hno3", "aqueous", 2), ("reactant", "ent_substance_k2so3", "aqueous", 1), ("product", "ent_substance_kno3", "aqueous", 2), ("product", "ent_substance_so2", "gas", 1), ("product", "ent_substance_h2o", "liquid", 1)],
-    ),
 )
 
 
@@ -136,10 +128,6 @@ def test_batch_a_neutralization_and_gas_cases_are_exact_and_deterministic(
         (
             "rxn_batch_a_hno3_k2co3_gas_evolution",
             [("reactant", "ent_species_h_plus", "dissolved", 2), ("reactant", "ent_species_co3_2minus", "dissolved", 1), ("product", "ent_substance_co2", "gas", 1), ("product", "ent_substance_h2o", "liquid", 1)],
-        ),
-        (
-            "rxn_batch_a_hno3_k2so3_gas_evolution",
-            [("reactant", "ent_species_h_plus", "dissolved", 2), ("reactant", "ent_species_so3_2minus", "dissolved", 1), ("product", "ent_substance_so2", "gas", 1), ("product", "ent_substance_h2o", "liquid", 1)],
         ),
     ],
 )
@@ -459,7 +447,7 @@ def test_batch_a_teaching_view_reuses_existing_paths() -> None:
     view = kb.teaching_views["view_f3b_hs_aqueous_core"]
     by_path = {node["path_key"]: set(node.get("members", [])) for node in view["nodes"]}
     new_reactions = {reaction_id for reaction_id in kb.reactions if reaction_id.startswith("rxn_batch_a_")}
-    assert len(new_reactions) == 27
+    assert len(new_reactions) == 26
     assert new_reactions <= by_path["D06/notation/ionic-equations"]
     assert {reaction_id for reaction_id in new_reactions if "neutralization" in reaction_id} <= by_path["D03/reaction-types/neutralization"]
     assert {reaction_id for reaction_id in new_reactions if any(token in reaction_id for token in ("gas_evolution", "nh4"))} <= by_path["D03/reaction-types/gas-evolution"]
@@ -467,7 +455,7 @@ def test_batch_a_teaching_view_reuses_existing_paths() -> None:
     assert set(NEW_ENTITY_KEYS.values()) <= set().union(*by_path.values())
 
 
-def test_batch_a_uses_six_existing_rules_and_tracks_current_compatibility() -> None:
+def test_batch_a_retained_cases_use_existing_rules_and_track_current_compatibility() -> None:
     kb = load_knowledge(ROOT)
     plans = compile_rules(kb)
     cases = [case for case in load_cases(ROOT) if case["id"].startswith("case_batch_a_")]
@@ -482,9 +470,8 @@ def test_batch_a_uses_six_existing_rules_and_tracks_current_compatibility() -> N
         "rule_m5_strong_acid_hydrogen_carbonate_gas_evolution",
         "rule_m6_strong_acid_carbonate_gas_evolution",
         "rule_m7_ammonium_strong_base_gas_evolution",
-        "rule_m8_strong_acid_sulfite_gas_evolution",
     }
-    assert len(kb.rules) == 14
+    assert {plan.rule_id for plan in compile_rules(kb)} == set(kb.rules)
     assert SOURCE_SCHEMA_VERSION == "3.7.0"
     assert RULE_DSL_VERSION == "1.4.0"
     assert RULE_PLAN_VERSION == "1.4.0"

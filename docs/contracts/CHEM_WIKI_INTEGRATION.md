@@ -1,13 +1,13 @@
 # chem-wiki 联立建议
 
-状态：2026-09-25 基于两仓库源码的接入建议，尚未实现适配器、API 或数据库迁移；未核查运行中数据库的数据量。
+状态：2026-09-26 编译器已实现完整数据包和 Python 推断接口；chem-wiki 的 HTTP 适配器、Catalog 导入和数据库迁移尚未实施。以下 wiki 结构基于 2026-09-25 源码检查，未核查运行中数据库的数据量。
 
 ## 当前可复用的边界
 
 - chem-wiki 当前 HEAD 为 `7776bc6c2b9f70ebd2c350085e05175287d85da4`，有未提交的前端改动，本轮未修改。
 - `backend/src/chem_wiki/modules/knowledge_catalog/release.py` 锁定旧仓库的 `consolidated-1.1.0` 与 `a631115...`，校验固定 JSONL 文件、计数和哈希；不能只改目录指向本编译器。
 - `knowledge_catalog` 已有 PostgreSQL / SQLAlchemy 导入、stable application UUID、来源 crosswalk、Reaction catalog、物态和热化学表。`reaction_core` 负责应用 Reaction 聚合和配平；`reaction_builder` 当前按物质 UUID 查找、排序已知 Reaction，尚不执行本编译器规则。
-- 编译器当前有 68 条 canonical Reaction、14 条 Rule；旧应用 release 声明 183 条 Reaction、309 条 species。两个数字的口径与覆盖不同，不能整库替换，也不能丢弃旧库的结构和热化学内容。
+- 编译器当前有 66 条 canonical Reaction、15 条 Rule；旧应用 release 声明 183 条 Reaction、309 条 species。两个数字的口径与覆盖不同，不能整库替换，也不能丢弃旧库的结构和热化学内容。
 
 ## 推荐接法：先接推断，再扩展数据发布
 
@@ -22,9 +22,9 @@ EquationDraft（application UUID + 显式物态/条件）
 
 保持当前已知 Reaction 查询接口；另设计显式的推断请求，例如拟议的 `POST /v1/reaction-builder/infer`。现有 `/candidates` 只接受两侧 UUID 列表，无法表达相态或 warmed/heated 条件，不应暗中把它当完整推断输入。
 
-第一步可把编译器作为 Python 依赖接入，在应用启动时对固定 source SHA 的只读快照执行一次 `load_knowledge` / `compile_rules`，随后复用 `infer_case`。固定代码版本、source digest 与版本坐标；不要逐请求读 YAML、拉 Git 或查库拼装规则。chem-wiki 要求 Python 3.13，实际接入时需在其锁定环境验证依赖和全部公共调用。
+第一步把 compiler 0.4.0 作为固定 Python 依赖，启动时通过 `InferenceSession(bundle_dir)` 加载一次已发布数据包，随后复用 `session.infer(request)`。固定代码版本、source digest 与版本坐标；不要逐请求读 YAML、拉 Git 或查库拼装规则。chem-wiki 要求 Python 3.13，实际接入时需在其锁定环境验证依赖和全部公共调用。
 
-当前 `compile` 没有导出完整 Entity、canonical Reaction、Evidence/Source 清单，也没有完整的产物加载器；`audit` 的 fixture 候选不是反应数据库。后续正式发布只需补齐一个有 manifest、文件哈希、引用闭包的应用数据包，再为 `knowledge_catalog` 增加专用 release adapter；无需另建通用知识平台。
+`export` 现已生成完整 `knowledge.json`（含 Entity、Reaction、Rule、Evidence、Source、TeachingView）、两个 schema 和 manifest；加载器检查版本、哈希、引用、计数及化学守恒。用法和请求/响应见[应用接口契约](APPLICATION_API.zh-CN.md)。`compile` 仍保留原有派生产物职责，`audit` 的 fixture 候选不是反应数据库。下一步只需为已有 knowledge_catalog 增加专用 release adapter。
 
 ## 数据字典必须明确的内容
 
@@ -63,4 +63,4 @@ Species(ion) 可映射到既有 IonId，Substance 到 SubstanceId；Element 复�
 1. 保持现有数据库，用少量已有物质建立经审核的双向 ID 映射。
 2. 接入推断适配器，验证中和、沉淀、Zn/HCl 三条正例，以及未知事实、错误物态、Cu/Zn 否定与缺少加热条件；前端只展示 DTO。
 3. 验证同一 release 重复导入不改 UUID、不增重复记录，所有参与者解析成功，错误哈希/版本拒绝，Candidate 不变成 published Reaction。
-4. 再按需求补齐正式数据发布和 Catalog 导入。更新 chem-wiki 当前冻结的 upstream/owner 契约之后，才逐步迁移受支持的数据；本轮尚未执行这些步骤。
+4. 用已实现的数据包补齐 Catalog release adapter 和导入。更新 chem-wiki 当前冻结的 upstream/owner 契约之后，才逐步迁移受支持的数据；本轮尚未执行这些步骤。

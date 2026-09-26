@@ -480,7 +480,6 @@ def test_legacy_candidate_keys_stay_stable_and_rule_patches_change_identity() ->
         "case_m7_nh4cl_naoh": "cand_sha256_1c1a6fc2bbe6318d0b9ef95a9bd5db7ba0c803cb0323b687bdee697cab916891",
         "case_m7_nh4_2so4_naoh": "cand_sha256_3a6887b9420c7e44d478b32d1846b8156f40a2cebc9181a0cd7f318109c472de",
         "case_m8_hcl_na2so3": "cand_sha256_70bcdc14447a9f306546a0cf8301e889ac12dd0ef7d0acddbbf38b285d63a378",
-        "case_m8_hno3_na2so3": "cand_sha256_75ead4d58201fd52dca019459d689a4479a708b70449882ea616163839142d1d",
         "case_m8_hcl_k2so3": "cand_sha256_96c707940e3848579f8828b8247d46a84d179c63986bbbeddb44ac7e0bf22e85",
         "case_m9_hcl_na2s2o3": "cand_sha256_27fda74a000a136188f60cc6d8b6addb929dd8950a35f3796a2b3405b2c09f5f",
         "case_m9_hcl_k2s2o3": "cand_sha256_a1267ef389ad852b453746fd7da4f5f232ceb885ddbc3f7dc664ef2c0b299138",
@@ -499,5 +498,5 @@ def test_legacy_candidate_keys_stay_stable_and_rule_patches_change_identity() ->
 
     for case_id, old_key in expected.items():
         current = infer_case(kb, plans, cases[case_id])
-        assert current["rule_version"] == "1.0.1"
+        assert current["rule_version"] == ("1.0.2" if case_id.startswith("case_m8_") else "1.0.1")
         assert current["candidate_key"] != old_key

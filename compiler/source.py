@@ -430,48 +430,55 @@ def _validate_reaction_condition_uniqueness(record: dict[str, Any]) -> None:
 
 
 def load_knowledge(repo_root: Path) -> KnowledgeBase:
-    validator = _validator(repo_root)
-    records: list[dict[str, Any]] = []
-    seen_ids: set[str] = set()
+    entries = []
     for path in _iter_record_files(repo_root):
         doc = load_yaml(path)
         if not isinstance(doc, dict) or not isinstance(doc.get("records"), list):
             raise SourceError(
                 f"{path} must contain a top-level records list",
-                code="schema_invalid",
-                stage="source_load",
+                code="schema_invalid", stage="source_load",
                 details={"path": path.as_posix()},
             )
-        for record in doc["records"]:
-            errors = sorted(validator.iter_errors(record), key=lambda e: list(e.absolute_path))
-            if errors:
-                error = errors[0]
-                location = "/".join(str(part) for part in error.absolute_path)
-                raise SourceError(
-                    f"schema validation failed at {path}:{location}: {error.message}",
-                    code="schema_invalid",
-                    stage="source_schema",
-                    details={"path": path.as_posix(), "location": location},
+        entries.extend((path, record) for record in doc["records"])
+    return knowledge_from_records(entries, _validator(repo_root))
+
+
+def knowledge_from_records(
+    entries: Iterable[tuple[Path, Any]], validator: Draft202012Validator,
+) -> KnowledgeBase:
+    """Single schema, reference and chemistry validation boundary for source records."""
+    records: list[dict[str, Any]] = []
+    seen_ids: set[str] = set()
+    for path, record in entries:
+        errors = sorted(validator.iter_errors(record), key=lambda e: list(e.absolute_path))
+        if errors:
+            error = errors[0]
+            location = "/".join(str(part) for part in error.absolute_path)
+            raise SourceError(
+                f"schema validation failed at {path}:{location}: {error.message}",
+                code="schema_invalid",
+                stage="source_schema",
+                details={"path": path.as_posix(), "location": location},
+            )
+        record_id = record["id"]
+        if record_id in seen_ids:
+            raise SourceError(
+                f"duplicate durable id: {record_id}",
+                code="schema_invalid",
+                stage="source_load",
+                details={"id": record_id},
+            )
+        if record.get("record_type") == "entity":
+            _validate_assertion_uniqueness(record)
+        if record.get("record_type") == "reaction":
+            _validate_reaction_condition_uniqueness(record)
+            if "conditions" in record:
+                record["conditions"] = sorted(
+                    record["conditions"],
+                    key=lambda condition: (condition["key"], condition["value"]),
                 )
-            record_id = record["id"]
-            if record_id in seen_ids:
-                raise SourceError(
-                    f"duplicate durable id: {record_id}",
-                    code="schema_invalid",
-                    stage="source_load",
-                    details={"id": record_id},
-                )
-            if record.get("record_type") == "entity":
-                _validate_assertion_uniqueness(record)
-            if record.get("record_type") == "reaction":
-                _validate_reaction_condition_uniqueness(record)
-                if "conditions" in record:
-                    record["conditions"] = sorted(
-                        record["conditions"],
-                        key=lambda condition: (condition["key"], condition["value"]),
-                    )
-            seen_ids.add(record_id)
-            records.append(record)
+        seen_ids.add(record_id)
+        records.append(record)
 
     records.sort(key=lambda record: (record["record_type"], record["id"]))
     by_type: dict[str, dict[str, dict[str, Any]]] = {

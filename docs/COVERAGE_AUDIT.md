@@ -2,6 +2,20 @@
 
 [简体中文](COVERAGE_AUDIT.zh-CN.md)
 
+## Current correction and application pass — 2026-09-26
+
+Compiler 0.4.0 now exports a complete versioned application bundle and loads it through a validated Python inference session. The source and bundle loaders share one schema/reference/chemistry boundary; Rules are compiled once per session. No SQL rule engine, new ontology or migration framework is introduced.
+
+The M8 sulfite Rule now requires a known non-oxidizing acid (Rule 1.0.2). The unsupported simple gas-evolution records `rxn_m8_hno3_na2so3_gas_evolution` and `rxn_batch_a_hno3_k2so3_gas_evolution` are withdrawn; their inputs remain UNKNOWN boundary fixtures. HBr gains evidence-backed non-oxidizing character, enabling an unstored thiosulfate equation through M9. Aqueous ionic-pair products require known soluble contextual evidence. Repeated input identities, including across phases, fail explicitly instead of losing phase information.
+
+A declarative solid-CaCO3/acid Rule closes the already-curated HCl inference gap without weakening soluble-carbonate constraints or assigning CaCO3 a false dissociation profile. A missing BaCl2/Na2SO4 fixture closes executable checks for the last previously unexercised canonical equation. All 66 canonical equations now have positive fixtures, plus one unstored HBr equation. Removing all stored Reactions still generates the same 67 positive equations across all 15 Rules.
+
+Scope remains bounded: [curriculum coverage](CURRICULUM_COVERAGE.md) records substantial compulsory/selective-compulsory gaps. The [application API](contracts/APPLICATION_API.md) is implemented; chem-wiki HTTP/database adaptation is not. Broad test assertions freezing unrelated total Rule counts were replaced by compiler/source consistency checks; Rule-specific chemical assertions remain.
+
+The following M25 and September 25 verification sections describe historical results. Current counts below supersede their historical corpus numbers.
+
+Verification: all 431 tests were executed; 429 passed initially and two evidence expectations were corrected. The affected M10/M11 files then passed all 11 tests; no runtime change followed the full run. `validate` passes. Compile, audit and bundle output are byte-identical under PYTHONHASHSEED 1 and 937. M25 replay is byte-identical across both runs and retains all 152 historical decisions (20 mapped, 123 unsupported, 9 rejected). The wheel built and installed successfully; isolated Python loaded it outside the repository and inferred the unstored HBr equation from the portable bundle. All 33 Markdown files pass local-link/fence checks and every English document has a Chinese edition. Source digest: `1a780bc299fc280bf5e70cbd95b88c8a0746853de3d402084f74781fa7e02eba`.
+
 ## Decision
 
 M25 runs the M24 reconciliation owner over all 152 declared legacy Reactions. After one bounded, independently evidenced canonical curation, 20 map to existing canonical Reactions, 123 remain explicit unsupported cases, and nine reversible records remain outside the current architecture boundary. The audit itself creates no canonical truth.
@@ -26,7 +40,7 @@ M22–M25 were rerun twice against the pinned legacy revision. Outputs were byte
 
 Installation validation on 2026-09-25 passed all 406 tests in 341.82 seconds. All 18 integrity regressions passed, including all 117 cases under reversed reactant and RulePlan order. `validate` and both installed CLI modes passed; that packaging-only follow-up retained the earlier compile/audit determinism and M22–M25 migration evidence.
 
-The highest-value next bounded work is executable coverage for already-curated high-school equations, starting with solid CaCO3 + acid after its phase/solubility boundary is explicitly designed. That work has not started. Weak-acid/equilibrium behavior, variable-valence selection, concentrated acids/passivation, and generic thermal/steam families remain unsupported.
+The previously recommended solid CaCO3/HCl inference gap is closed by the September 26 pass above. Weak-acid/equilibrium behavior, variable-valence selection, concentrated acids/passivation, and generic thermal/steam families remain unsupported.
 
 ## Rule product-resolution follow-up
 
@@ -38,30 +52,30 @@ The proposed chem-wiki integration and database boundary is recorded in [the int
 
 ## Baseline and method
 
-The audit uses the canonical YAML source, all 14 compiled Rules, all 117 fixtures, current contracts and architecture documents, the active schema, and the compiler product/balancing/aqueous-projection paths. The sibling package remains explicit offline migration input, not canonical truth or a runtime dependency.
+The audit uses the canonical YAML source, all 15 compiled Rules, all 119 fixtures, current contracts and architecture documents, the active schema, and the compiler product/balancing/aqueous-projection paths. The sibling package remains explicit offline migration input, not canonical truth or a runtime dependency.
 
-The canonical corpus now contains 68 Reactions. M25's added solid-CaCO3/HCl Reaction is intentionally canonical coverage only: its canonical signature and derived ionic forms validate, while the existing soluble-carbonate Rule remains unchanged and does not infer the solid-carbonate case.
+The canonical corpus now contains 66 Reactions after withdrawing two nitric-acid/sulfite records. The solid-CaCO3/HCl Reaction is generated by its bounded solid-reactant Rule; the soluble-carbonate Rule remains unchanged.
 
 ### Current counts
 
 | Measure | Count |
 |---|---:|
-| all canonical records | 227 |
+| all canonical records | 229 |
 | Entity | 104 |
-| Evidence | 33 |
-| Reaction | 68 |
-| Rule | 14 |
+| Evidence | 36 |
+| Reaction | 66 |
+| Rule | 15 |
 | Source | 7 |
 | TeachingView | 1 |
 | Element / Species / Substance / MaterialSystem | 18 / 22 / 63 / 1 |
-| inference cases | 117 |
+| inference cases | 119 |
 | speciation profiles | 38 |
 | facet assertions | 104 |
-| property assertions | 97 |
+| property assertions | 98 |
 | `metal.product_cation` assertions | 4 |
 | `metal.displaces_cation` assertions | 5 (4 positive, 1 negative) |
-| TeachingView paths / memberships / unique members | 15 / 251 / 144 |
-| fixture results: inferred / indeterminate / no-match / blocked | 66 / 38 / 12 / 1 |
+| TeachingView paths / memberships / unique members | 15 / 247 / 142 |
+| fixture results: inferred / indeterminate / no-match / blocked | 67 / 39 / 12 / 1 |
 
 Raw record volume is diagnostic, not the KPI. The useful KPI is the number of important high-school chemistry families that are correctly expressible, canonically matched, provenance-bearing, and conservative under missing knowledge.
 

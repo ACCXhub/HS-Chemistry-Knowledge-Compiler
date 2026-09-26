@@ -4,6 +4,8 @@
 
 Status: **Implemented decisions through M25; earlier sections retain historical context**
 
+Current corrections: these ADRs retain their historical scope. M8 nitric-acid applicability, M21 HBr redox knowledge and M25 solid-CaCO3 inference limits are superseded by the [2026-09-26 audit](COVERAGE_AUDIT.md). The [application bundle](contracts/APPLICATION_API.md) reuses existing chemistry validation and inference ownership.
+
 ## ADR-F1-001 — Entity-kind alignment
 
 Canonical `entity_kind` is `element | species | substance | material_system`. `Ion` is `species_kind: ion`; solution/mixture are `material_system_kind` values.

@@ -116,7 +116,7 @@ def test_m21_unsupported_neighbors_remain_unknown() -> None:
     kb = load_knowledge(ROOT)
     plans = compile_rules(kb)
     cases = {case["id"]: case for case in load_cases(ROOT)}
-    for case_id in ("case_m21_hbr_na2s2o3_unknown_redox", "case_m21_hbr_na2co3_unknown_medium"):
+    for case_id in ("case_m21_hbr_na2co3_unknown_medium",):
         result = infer_case(kb, plans, cases[case_id])
         assert result["status"] == "indeterminate"
         assert "candidate_key" not in result
@@ -137,7 +137,7 @@ def test_m21_is_data_only_and_preserves_compatibility() -> None:
         "rule_m6_strong_acid_carbonate_gas_evolution",
         "rule_m8_strong_acid_sulfite_gas_evolution",
     }
-    assert len(kb.rules) == 14
+    assert {plan.rule_id for plan in compile_rules(kb)} == set(kb.rules)
     assert SOURCE_SCHEMA_VERSION == "3.7.0"
     assert RULE_DSL_VERSION == "1.4.0"
     assert RULE_PLAN_VERSION == "1.4.0"

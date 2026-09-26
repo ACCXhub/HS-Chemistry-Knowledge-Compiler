@@ -35,10 +35,23 @@ def test_signature_respects_rational_ratios_and_merges_repeated_terms(source):
     assert reaction_signature(list(reversed(split))) == reaction_signature(original)
 
 
+def test_repeated_reactant_identity_cannot_erase_phase_information(source):
+    kb, plans, _ = source
+    result = infer_case(kb, plans, {
+        "id": "duplicate_input", "reactants": [
+            {"target_id": "ent_substance_hcl", "phase": "aqueous"},
+            {"target_id": "ent_substance_hcl", "phase": "gas"},
+        ], "context": {"medium": "aqueous"},
+    })
+    assert result["status"] == "invalid"
+    assert result["diagnostic"]["code"] == "duplicate_reactant"
+    assert "candidate_key" not in result
+
+
 @pytest.mark.parametrize("case_id", [
     "case_precipitation", "case_neutralization", "case_batch_a_hcl_khco3",
     "case_batch_a_hno3_k2co3", "case_batch_a_nh4_2so4_koh",
-    "case_batch_a_hno3_k2so3", "case_m9_hcl_k2s2o3", "case_m10_mg_hcl",
+    "case_m21_hbr_k2so3", "case_m9_hcl_k2s2o3", "case_m10_mg_hcl",
 ])
 def test_aqueous_families_reject_wrong_participant_phases(source, case_id):
     kb, plans, cases = source

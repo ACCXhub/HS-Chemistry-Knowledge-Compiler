@@ -81,3 +81,7 @@ M7 仍只覆盖有界强电解质水溶液投影。铵盐/碱家族仅在 aqueou
 ## 证明轨迹
 
 轨迹事件保留规范化输入、规则 ID/版本、谓词算子/主体/键/目标/期望值、真值、知识状态、事实来源、匹配关系断言及证据、阻断检查、规则消解、物种组成/关系产物输入、配平、守恒校验、规范比较和输出候选键。
+
+## 应用输入与产物物态
+
+应用入口为 [InferenceSession](../contracts/APPLICATION_API.zh-CN.md)。重复反应物身份（含不同物态）显式拒绝。ionic_pair 构造 aqueous 产物必须有请求上下文中 known soluble 的属性证据；缺失/不兼容分别返回 product_phase_unverified/product_phase_conflict，不输出候选。液态水不受此盐溶解性门槛限制。M8 另要求 acid.redox_character = non_oxidizing。

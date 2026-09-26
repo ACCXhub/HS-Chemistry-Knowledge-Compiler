@@ -146,6 +146,7 @@ def test_relation_cation_and_speciation_anion_reuse_neutral_ionic_pair_resolutio
     assert resolved.evidence_ids == (
         "ev_f2_reactions",
         "ev_m10_metal_hydrogen_activity",
+        "ev_m10_metal_identity_and_chloride_speciation",
     )
 
 

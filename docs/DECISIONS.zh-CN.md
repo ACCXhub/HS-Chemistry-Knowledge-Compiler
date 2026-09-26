@@ -6,6 +6,8 @@
 
 状态：**截至 M25 的已实现决策；早期章节保留历史上下文**
 
+当前纠正：以下 ADR 保留作出决策时的范围。M8 硝酸适用性、M21 HBr 非氧化性知识及 M25 固体 CaCO3 推断限制，已由 [2026-09-26 审计](COVERAGE_AUDIT.zh-CN.md)更新；[应用数据包](contracts/APPLICATION_API.zh-CN.md)共用原有化学验证与推断责任。
+
 ## ADR-F1-001 — Entity 类型对齐
 
 规范 entity_kind 为 element | species | substance | material_system。Ion 使用 species_kind: ion；溶液/混合物使用 material_system_kind。

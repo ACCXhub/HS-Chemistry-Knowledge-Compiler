@@ -86,7 +86,7 @@ def test_exact_entity_ion_source_lowers_and_reuses_canonical_ionic_pair_resoluti
         },
     )
     assert resolved.relation_assertions == ()
-    assert resolved.evidence_ids == ("ev_f2_reactions",)
+    assert resolved.evidence_ids == ("ev_f2_reactions", "ev_m15_alkali_hydroxide_solubility")
 
 
 @pytest.mark.parametrize(

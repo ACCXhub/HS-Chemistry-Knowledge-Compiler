@@ -8,7 +8,7 @@
 
 ## 当前可执行范围
 
-F1/F2/F3 基础与已完成的 M4–M25 工作见[路线图](docs/ROADMAP.zh-CN.md)。当前包含 68 条规范 Reaction、14 条有效 Rule、117 个推断测试案例和 38 个水溶液物种组成配置。规范反应覆盖与可执行推断覆盖不同：固体 CaCO3 + HCl 已有规范 Reaction，但可溶性碳酸盐 Rule 不生成该反应。
+F1/F2/F3 基础与 M4–M25 及本轮修正见[路线图](docs/ROADMAP.zh-CN.md)。当前 66 条规范 Reaction、15 条 Rule、119 个案例和 38 个水溶液配置；已补固体 CaCO3/HCl 推导。尚未覆盖大陆高中全部必修＋选择性必修内容，逐项现状见[课程清单](docs/CURRICULUM_COVERAGE.zh-CN.md)。
 
 支持有界的中和、沉淀、酸驱动放气、铵盐/碱、金属/酸和金属/水放氢、水溶液金属盐置换，以及限定身份的热分解/水蒸气试点。缺失知识保持 UNKNOWN；显式 FALSE 只否定具体路径，不声明全局负面 Reaction。
 
@@ -26,10 +26,11 @@ F1/F2/F3 基础与已完成的 M4–M25 工作见[路线图](docs/ROADMAP.zh-CN.
 python -m compiler.cli validate
 python -m compiler.cli compile --output build/compile --source-revision WORKTREE
 python -m compiler.cli audit --output build/audit --source-revision WORKTREE
+python -m compiler.cli export --output build/application-bundle --source-revision WORKTREE
 python -m pytest -q
 ```
 
-`audit` 运行仓库内的测试案例；`compiler.engine.infer_case` 是有界 Python 推断入口。构建输出是生成产物，不可作为可编辑的化学事实。记录已验证构建时，用精确 Git SHA 替代 WORKTREE。
+`audit` 运行仓库内的测试案例；应用通过 `compiler.application.InferenceSession` 加载固定数据包并推断，见[接口契约](docs/contracts/APPLICATION_API.zh-CN.md)。`infer_case` 是内部执行层。构建输出是生成产物，不可作为可编辑的化学事实。记录已验证构建时，用精确 Git SHA 替代 WORKTREE。
 
 ## 规范责任边界
 
@@ -46,7 +47,7 @@ python -m pytest -q
 
 编译器不猜测化学式或化合价，不虚构产物身份，也不把推断候选提升为规范 Reaction。化学式/名称仅用于查找，不拥有身份。更广泛的平衡、氧化还原、活动性顺序推理、UI 和自动批量迁移均不在已实现范围内。
 
-兼容坐标保持为：源 schema `3.7.0`、Rule DSL `1.4.0`、RulePlan `1.4.0`、产物格式 `1.5.0`；编译器补丁版本独立。格式检查仍接受历史产物 `1.0.0`–`1.5.0`。
+兼容坐标保持为：源 schema `3.7.0`、Rule DSL `1.4.0`、RulePlan `1.4.0`、产物格式 `1.5.0`；编译器版本独立。格式检查仍接受历史产物 `1.0.0`–`1.5.0`。
 
 参见[架构](docs/ARCHITECTURE.zh-CN.md)、[推断语义](docs/inference/INFERENCE.zh-CN.md)、[覆盖审计](docs/COVERAGE_AUDIT.zh-CN.md)、[路线图](docs/ROADMAP.zh-CN.md)和[chem-wiki 接入建议](docs/contracts/CHEM_WIKI_INTEGRATION.md)。
 
@@ -68,3 +69,5 @@ python -m pytest -q
 | [声明式反应规则 DSL](docs/inference/RULE_DSL.zh-CN.md) | docs/inference/RULE_DSL.md |
 | [规范教学视图模型](docs/pedagogy/PEDAGOGY.zh-CN.md) | docs/pedagogy/PEDAGOGY.md |
 | [chem-wiki 接入建议](docs/contracts/CHEM_WIKI_INTEGRATION.md) | 原文已为中文 |
+| [课程覆盖清单](docs/CURRICULUM_COVERAGE.zh-CN.md) | 必修＋选择性必修现状与缺口 |
+| [应用接口](docs/contracts/APPLICATION_API.zh-CN.md) | 数据包、Python 调用与 HTTP 适配 |

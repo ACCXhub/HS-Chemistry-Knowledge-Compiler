@@ -33,8 +33,8 @@ def test_schema_rejects_invalid_fixture(tmp_path: Path) -> None:
 def test_reference_resolution_and_validation_summary() -> None:
     summary = validate(ROOT)
     assert summary["record_count"] > 0
-    assert summary["rule_count"] == 14
-    assert summary["case_count"] == 117
+    assert summary["rule_count"] == len(compile_rules(load_knowledge(ROOT)))
+    assert summary["case_count"] == len(load_cases(ROOT))
 
 
 def test_three_valued_unknown_is_not_false() -> None:

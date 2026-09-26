@@ -1,7 +1,7 @@
 records:
   - id: rule_m8_strong_acid_sulfite_gas_evolution
     record_type: rule
-    version: 1.0.1
+    version: 1.0.2
     decision_domain: aqueous_acid_base
     match:
       reactants:
@@ -18,6 +18,7 @@ records:
     predicates:
       - {operator: equals, subject: property, binding: acid, key: acid.strength, expected: strong}
       - {operator: equals, subject: property, binding: acid, key: electrolyte.strength, expected: strong}
+      - {operator: equals, subject: property, binding: acid, key: acid.redox_character, expected: non_oxidizing}
       - {operator: equals, subject: property, binding: sulfite, key: electrolyte.strength, expected: strong}
       - {operator: equals, subject: property, binding: sulfite, key: solubility.class, expected: soluble}
     blockers:
@@ -28,7 +29,7 @@ records:
       - {target_id: ent_substance_so2, phase: gas}
       - {target_id: ent_substance_h2o, phase: liquid}
     validators: [atoms_conserved, charge_conserved]
-    evidence_ids: [ev_f2_reactions, ev_f3b_strong_acid_base, ev_m8_sulfite_acid]
+    evidence_ids: [ev_f2_reactions, ev_f3b_strong_acid_base, ev_m8_sulfite_acid, ev_sulfite_non_oxidizing_boundary]
     specializes: [rule_f2_strong_acid_base_neutralization]
     mutually_exclusive_with:
       - rule_m5_strong_acid_hydrogen_carbonate_gas_evolution

@@ -5,7 +5,7 @@ from typing import Any
 
 from .aqueous import AqueousResolutionError, resolve_exchange, resolve_ionic_pair_from_sources
 from .entity_sources import EntitySourceResolutionError, resolve_entity_source
-from .model import ProductPlan
+from .model import KnowledgeState, ProductPlan
 from .source import KnowledgeBase, SourceError
 
 
@@ -74,12 +74,25 @@ def resolve_product_detail(
                 plan.anion_source,
                 context,
             )
+            evidence_ids = set(resolution.evidence_ids)
+            if plan.phase == "aqueous":
+                solubility = kb.property_fact(resolution.target_id, "solubility.class", context)
+                if solubility.state is not KnowledgeState.KNOWN or solubility.value != "soluble":
+                    raise ProductResolutionError(
+                        "aqueous ionic product requires known contextual solubility",
+                        code="product_phase_unverified" if solubility.state is not KnowledgeState.KNOWN
+                        else "product_phase_conflict",
+                        stage="product_resolution",
+                        details={"target_id": resolution.target_id, "phase": plan.phase,
+                                 "knowledge_state": solubility.state.value, "solubility": solubility.value},
+                    )
+                evidence_ids.update(solubility.evidence_ids)
             return ResolvedProduct(
                 target_id=resolution.target_id,
                 phase=plan.phase,
                 speciation_profiles=resolution.speciation_profiles,
                 relation_assertions=resolution.relation_assertions,
-                evidence_ids=resolution.evidence_ids,
+                evidence_ids=tuple(sorted(evidence_ids)),
             )
         except AqueousResolutionError as exc:
             raise _translate_aqueous_error(exc) from exc

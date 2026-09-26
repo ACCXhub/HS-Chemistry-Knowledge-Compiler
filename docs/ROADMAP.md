@@ -6,6 +6,12 @@
 
 Main has completed the bounded work through M25. No next milestone is started. Historical F1/F2 and F3A/F3B workstreams established the ontology, executable compiler contracts, and the bounded aqueous pilot. Their provenance and branch names remain historical facts.
 
+## 2026-09-26 corrections and application delivery
+
+M8 now requires a non-oxidizing acid; the HNO3/Na2SO3 and HNO3/K2SO3 simple gas-evolution records are withdrawn. An HBr non-oxidizing fact enables an unstored M9 equation. A bounded solid-CaCO3 Rule now covers HCl without weakening M6 aqueous constraints. A complete bundle and validated Python API ship with compiler 0.4.0 and bundle 1.0.0; the existing four compatibility coordinates are unchanged.
+
+M4–M25 below describe historical scope; the M8/M21/M25 limitations are superseded above. See [current curriculum coverage](CURRICULUM_COVERAGE.md) and the [application contract](contracts/APPLICATION_API.md). The recommended next milestone is curriculum coverage batch A; it has not started.
+
 ## M4 — Chemistry Model Convergence
 
 M4 integrated those workstreams on the historical `workstream/f3-convergence` branch and verified this pipeline:

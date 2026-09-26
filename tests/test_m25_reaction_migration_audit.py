@@ -131,9 +131,11 @@ def test_caco3_forms_are_derived_but_existing_soluble_rule_is_not_weakened() -> 
             "context": {"medium": "aqueous", "temperature_regime": "ambient"},
         },
     )
-    assert inference["status"] == "indeterminate"
-    assert "rule_id" not in inference
-    assert len(compile_rules(kb)) == 14
+    assert inference["status"] == "inferred"
+    assert inference["rule_id"] == "rule_solid_calcium_carbonate_acid"
+    assert inference["canonical_match"]["reaction_ids"] == [REACTION_ID]
+    soluble_rule = next(plan for plan in compile_rules(kb) if plan.rule_id == "rule_m6_strong_acid_carbonate_gas_evolution")
+    assert soluble_rule.patterns[1].phase == "aqueous"
 
 
 def test_reaction_form_diagnostics_are_not_a_mapping_kpi() -> None:

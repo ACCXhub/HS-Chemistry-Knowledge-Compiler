@@ -1,0 +1,18 @@
+records:
+  - id: ev_solid_calcium_carbonate_acid
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "OpenStax Chemistry 2e section 18.11, Properties of the Hydrogen Halides (https://openstax.org/books/chemistry-2e/pages/18-11-occurrence-preparation-and-properties-of-halogens, checked 2026-09-26), explicitly gives CaCO3(s) + 2 HCl(aq) -> CaCl2(aq) + CO2(g) + H2O(l). Together with carbonate acidification evidence, this supports a solid CaCO3/strong-acid pathway only when a unique canonical soluble calcium salt product is available. CaCO3 is not assigned aqueous complete dissociation; coating, weak-acid kinetics and insoluble salt products are outside this Rule."
+    stance: supports
+
+  - id: ev_sulfite_non_oxidizing_boundary
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "OpenStax Chemistry 2e section 18.10 (https://openstax.org/books/chemistry-2e/pages/18-10-occurrence-preparation-and-properties-of-sulfur, checked 2026-09-26) describes nitric acid as an oxidizing reagent in sulfur chemistry. Together with the acidification preparation evidence, this qualifies the simple sulfite-to-SO2 Rule to known non-oxidizing acids. General strong-acid evidence does not establish nitric-acid/sulfite products or exclude competing oxidation. No nitrate reduction product is inferred by this restriction."
+    stance: qualifies
+
+  - id: ev_hbr_non_oxidizing_acid
+    record_type: evidence
+    source_id: src_openstax_chemistry_2e
+    claim_summary: "OpenStax Chemistry 2e section 18.11, Properties of the Hydrogen Halides (https://openstax.org/books/chemistry-2e/pages/18-11-occurrence-preparation-and-properties-of-halogens, checked 2026-09-26), describes aqueous hydrogen halides as acids yielding halide salts and hydrogen with active metals, explicitly including HBr. This supports aqueous HBr as a non-oxidizing acid in the represented proton-driven pathways; external oxidants or concentrated mixed-acid chemistry are not modeled."
+    stance: supports
