@@ -22,7 +22,7 @@ EquationDraft（application UUID + 显式物态/条件）
 
 保持当前已知 Reaction 查询接口；另设计显式的推断请求，例如拟议的 `POST /v1/reaction-builder/infer`。现有 `/candidates` 只接受两侧 UUID 列表，无法表达相态或 warmed/heated 条件，不应暗中把它当完整推断输入。
 
-第一步把 compiler 0.5.0 作为固定 Python 依赖，启动时通过 `InferenceSession(bundle_dir)` 加载一次已发布数据包，随后复用 `session.infer(request)`。固定代码版本、source digest 与版本坐标；不要逐请求读 YAML、拉 Git 或查库拼装规则。chem-wiki 要求 Python 3.13，实际接入时需在其锁定环境验证依赖和全部公共调用。
+第一步把 compiler 0.6.0 作为固定 Python 依赖，启动时通过 `InferenceSession(bundle_dir)` 加载一次已发布数据包，随后复用 `session.infer(request)`。固定代码版本、source digest 与版本坐标；不要逐请求读 YAML、拉 Git 或查库拼装规则。chem-wiki 要求 Python 3.13，实际接入时需在其锁定环境验证依赖和全部公共调用。
 
 `export` 现已生成完整 `knowledge.json`（含 Entity、Reaction、Rule、Evidence、Source、TeachingView）、两个 schema 和 manifest；加载器检查版本、哈希、引用、计数及化学守恒。用法和请求/响应见[应用接口契约](APPLICATION_API.zh-CN.md)。`compile` 仍保留原有派生产物职责，`audit` 的 fixture 候选不是反应数据库。下一步只需为已有 knowledge_catalog 增加专用 release adapter。
 

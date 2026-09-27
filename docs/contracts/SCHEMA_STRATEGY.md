@@ -16,7 +16,7 @@ The active source schema is:
 
 ```text
 schemas/knowledge-record.schema.json
-source schema version: 3.7.0
+source schema version: 3.8.0
 ```
 
 It covers the M4 executable subset of:
@@ -107,7 +107,7 @@ M4 separates four compatibility coordinates:
 
 | Coordinate | Current value | Owner |
 | --- | --- | --- |
-| source schema | `3.7.0` | source/data contract |
+| source schema | `3.8.0` | source/data contract |
 | Rule DSL | `1.4.0` | rule source contract |
 | compiler RulePlan | `1.4.0` | compiler internal contract |
 | external artifact format | `1.5.0` | external generated contract |

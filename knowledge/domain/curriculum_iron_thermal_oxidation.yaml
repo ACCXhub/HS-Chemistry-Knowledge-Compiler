@@ -1,0 +1,325 @@
+records:
+- id: src_chemguide_iron_chemistry
+  record_type: source
+  source_type: textbook
+  citation: 'Jim Clark, Chemguide, Iron: iron(II) and iron(III) chemistry, https://www.chemguide.co.uk/inorganic/transition/iron.html
+    (accessed 2026-09-27).'
+- id: src_ncert_metals_nonmetals
+  record_type: source
+  source_type: textbook
+  citation: NCERT Science, Metals and Non-metals, section 3.2.2, PDF page 7, reprint 2026-27. https://www.ncert.nic.in/textbook/pdf/jesc103.pdf
+    (accessed 2026-09-27). Used as evidence for the iron/steam equation, not as the mainland curriculum scope.
+- id: ev_iron_magnetite_paths
+  record_type: evidence
+  source_id: src_openstax_chemistry_2e
+  claim_summary: OpenStax Chemistry 2e 19.1 identifies Fe3O4 among oxides prepared by heating transition metals
+    in air, and describes oxide acid dissolution. The authored magnetite identity is iron(II,III) oxide; its selected
+    hydrochloric-acid products retain Fe(II) and Fe(III) in a 1:2 ratio. Balancing verifies Fe3O4 + 8HCl -> FeCl2
+    + 2FeCl3 + 4H2O. This is an exact mixed-valence case, not a guessed single-valence cation or permission to substitute
+    nitric acid.
+  stance: supports
+- id: ev_iron_hydroxide_oxygen
+  record_type: evidence
+  source_id: src_chemguide_iron_chemistry
+  claim_summary: Chemguide explicitly describes oxygen in air oxidizing the iron(II) hydroxide precipitate to iron(III)
+    hydroxide in the aqueous precipitation experiment. Using the existing school-level hydroxide identities, independent
+    atom/charge balance gives 4Fe(OH)2 + O2 + 2H2O -> 4Fe(OH)3. Oxygen and liquid water are explicit inputs; the
+    engine does not assume atmospheric exposure or rewrite the earlier Fe(OH)2 precipitation step.
+  stance: supports
+- id: ev_iron_steam_magnetite
+  record_type: evidence
+  source_id: src_ncert_metals_nonmetals
+  claim_summary: NCERT section 3.2.2 explicitly distinguishes iron not reacting with cold/hot liquid water from
+    its reaction with steam, and prints 3Fe(s) + 4H2O(g) -> Fe3O4(s) + 4H2(g). The illustrated experiment supplies
+    heat. The exact Rule requires heated steam and does not generalize the magnesium steam oxide product.
+  stance: supports
+- id: ev_iron_heated_conversions
+  record_type: evidence
+  source_id: src_openstax_chemistry_2e
+  claim_summary: OpenStax Chemistry 2e 19.1 prints 2Fe(s) + 3Cl2(g) -> 2FeCl3(s), identifies Fe3O4 as the oxide
+    formed when iron is heated in air, and describes preparation of transition-metal oxides by heating hydroxides.
+    These authored school-level cases represent the balanced iron/chlorine and iron/oxygen reactions and 2Fe(OH)3
+    -> Fe2O3 + 3H2O(g). Heated is required; ordinary aqueous-medium inputs are excluded. Fe(OH)3 uses the existing
+    pedagogical identity rather than a new hydration-phase model. These are reaction equations, not predictions
+    of the final mixture under arbitrary reagent ratios.
+  stance: supports
+- id: ent_substance_fe3o4
+  record_type: entity
+  entity_kind: substance
+  terms:
+    preferred: iron(II,III) oxide
+    aliases:
+    - 四氧化三铁
+  semantic_keys:
+  - scheme: formula.unit
+    value: Fe3O4
+  payload:
+    substance_kind: pure_compound
+    composition:
+      components:
+      - element_id: ent_element_fe
+        count: 3
+      - element_id: ent_element_o
+        count: 4
+      net_charge: 0
+  evidence_ids:
+  - ev_iron_magnetite_paths
+- id: ent_substance_o2
+  record_type: entity
+  entity_kind: substance
+  terms:
+    preferred: oxygen
+    aliases:
+    - 氧气
+  semantic_keys:
+  - scheme: formula.unit
+    value: O2
+  payload:
+    substance_kind: elemental
+    composition:
+      components:
+      - element_id: ent_element_o
+        count: 2
+      net_charge: 0
+  evidence_ids:
+  - ev_iron_hydroxide_oxygen
+- id: rxn_curriculum_magnetite_hcl
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_fe3o4
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_hcl
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 8
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_fecl2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_fecl3
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 4
+      denominator: 1
+    phase: liquid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_iron_magnetite_paths
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_iron_magnetite_paths
+  forms: []
+  evidence_ids:
+  - ev_iron_magnetite_paths
+- id: rxn_curriculum_ferrous_hydroxide_oxidation
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_fe_oh_2
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 4
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_o2
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: gas
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: liquid
+  - target_id: ent_substance_fe_oh_3
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 4
+      denominator: 1
+    phase: solid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_iron_hydroxide_oxygen
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_iron_hydroxide_oxygen
+  forms: []
+  evidence_ids:
+  - ev_iron_hydroxide_oxygen
+- id: rxn_curriculum_iron_steam
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_elemental_fe
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 3
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 4
+      denominator: 1
+    phase: gas
+  - target_id: ent_substance_fe3o4
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_h2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 4
+      denominator: 1
+    phase: gas
+  conditions:
+  - key: temperature_regime
+    value: heated
+    evidence_ids:
+    - ev_iron_steam_magnetite
+  - key: medium
+    value: non_aqueous
+    evidence_ids: &id001
+    - ev_iron_steam_magnetite
+  forms: []
+  evidence_ids: *id001
+- id: rxn_curriculum_iron_oxygen
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_elemental_fe
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 3
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_o2
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: gas
+  - target_id: ent_substance_fe3o4
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  conditions:
+  - key: temperature_regime
+    value: heated
+    evidence_ids:
+    - ev_iron_heated_conversions
+  - key: medium
+    value: non_aqueous
+    evidence_ids: &id002
+    - ev_iron_heated_conversions
+  forms: []
+  evidence_ids: *id002
+- id: rxn_curriculum_iron_chlorine
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_elemental_fe
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_cl2
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 3
+      denominator: 1
+    phase: gas
+  - target_id: ent_substance_fecl3
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: solid
+  conditions:
+  - key: temperature_regime
+    value: heated
+    evidence_ids:
+    - ev_iron_heated_conversions
+  - key: medium
+    value: non_aqueous
+    evidence_ids: &id003
+    - ev_iron_heated_conversions
+  forms: []
+  evidence_ids: *id003
+- id: rxn_curriculum_ferric_hydroxide_decomposition
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_fe_oh_3
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_fe2o3
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 3
+      denominator: 1
+    phase: gas
+  conditions:
+  - key: temperature_regime
+    value: heated
+    evidence_ids:
+    - ev_iron_heated_conversions
+  - key: medium
+    value: non_aqueous
+    evidence_ids: &id004
+    - ev_iron_heated_conversions
+  forms: []
+  evidence_ids: *id004

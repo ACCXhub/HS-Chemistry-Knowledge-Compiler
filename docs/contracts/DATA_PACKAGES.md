@@ -2,7 +2,7 @@
 
 [简体中文](DATA_PACKAGES.zh-CN.md)
 
-Compiler 0.5.0 implements `export-modules`. All modules reuse canonical IDs, record schemas, evidence and exact coefficients rather than creating parallel knowledge stores.
+Compiler 0.6.0 implements `export-modules`. All modules reuse canonical IDs, record schemas, evidence and exact coefficients rather than creating parallel knowledge stores.
 
 ```powershell
 python -m compiler.cli export-modules --output build/data-modules --source-revision WORKTREE
@@ -18,7 +18,7 @@ Use a verified clean checkout and full commit SHA for release. Output contains m
 
 MaterialSystems remain distinct from directly balanceable pure substances. Each module includes its transitive reference closure and can be distributed independently. Shared dependencies retain identical IDs/content. TeachingViews remain available in the full bundle but are not roots of these datasets.
 
-Each document contains module_format_version (1.0.0), module_id, source_schema_version (3.7.0), source_semantic_digest (full snapshot), record_digest (this module), sorted root_ids, sorted dependency_ids and records sorted by record_type/id. Root and dependency IDs are disjoint and together identify exactly the exported records.
+Each document contains module_format_version (1.0.0), module_id, source_schema_version (3.8.0), source_semantic_digest (full snapshot), record_digest (this module), sorted root_ids, sorted dependency_ids and records sorted by record_type/id. Root and dependency IDs are disjoint and together identify exactly the exported records.
 
 The manifest records source revision, compiler/version coordinates, file SHA-256 hashes, counts and release_id. Its ID is `hschem_modules_` plus the canonical manifest hash excluding release_id. Record digests exclude trailing newlines; file hashes include LF. Export reuses schema, uniqueness, reference, chemistry and Rule compilation checks for every standalone module.
 

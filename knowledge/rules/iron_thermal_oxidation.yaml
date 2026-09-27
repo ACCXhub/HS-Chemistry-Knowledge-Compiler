@@ -1,0 +1,147 @@
+records:
+- id: rule_curriculum_magnetite_hcl
+  record_type: rule
+  version: 1.0.0
+  decision_domain: iron_aqueous_conversion
+  match:
+    reactants:
+    - bind: magnetite
+      target_id: ent_substance_fe3o4
+      phase: solid
+    - bind: acid
+      target_id: ent_substance_hcl
+      phase: aqueous
+  context:
+    medium: aqueous
+    temperature_regime: ambient
+  products:
+  - target_id: ent_substance_fecl2
+    phase: aqueous
+  - target_id: ent_substance_fecl3
+    phase: aqueous
+  - target_id: ent_substance_h2o
+    phase: liquid
+  validators:
+  - atoms_conserved
+  - charge_conserved
+  evidence_ids:
+  - ev_iron_magnetite_paths
+- id: rule_curriculum_ferrous_hydroxide_oxidation
+  record_type: rule
+  version: 1.0.0
+  decision_domain: iron_aqueous_conversion
+  match:
+    reactants:
+    - bind: hydroxide
+      target_id: ent_substance_fe_oh_2
+      phase: solid
+    - bind: oxygen
+      target_id: ent_substance_o2
+      phase: gas
+    - bind: water
+      target_id: ent_substance_h2o
+      phase: liquid
+  context:
+    medium: aqueous
+    temperature_regime: ambient
+  products:
+  - target_id: ent_substance_fe_oh_3
+    phase: solid
+  validators:
+  - atoms_conserved
+  - charge_conserved
+  evidence_ids:
+  - ev_iron_hydroxide_oxygen
+- id: rule_curriculum_iron_steam
+  record_type: rule
+  version: 1.0.0
+  decision_domain: iron_thermal_conversion
+  match:
+    reactants:
+    - bind: iron
+      target_id: ent_substance_elemental_fe
+      phase: solid
+    - bind: steam
+      target_id: ent_substance_h2o
+      phase: gas
+  context:
+    temperature_regime: heated
+    medium: non_aqueous
+  products:
+  - target_id: ent_substance_fe3o4
+    phase: solid
+  - target_id: ent_substance_h2
+    phase: gas
+  validators:
+  - atoms_conserved
+  - charge_conserved
+  evidence_ids:
+  - ev_iron_steam_magnetite
+- id: rule_curriculum_iron_oxygen
+  record_type: rule
+  version: 1.0.0
+  decision_domain: iron_thermal_conversion
+  match:
+    reactants:
+    - bind: iron
+      target_id: ent_substance_elemental_fe
+      phase: solid
+    - bind: oxygen
+      target_id: ent_substance_o2
+      phase: gas
+  context:
+    temperature_regime: heated
+    medium: non_aqueous
+  products:
+  - target_id: ent_substance_fe3o4
+    phase: solid
+  validators:
+  - atoms_conserved
+  - charge_conserved
+  evidence_ids:
+  - ev_iron_heated_conversions
+- id: rule_curriculum_iron_chlorine
+  record_type: rule
+  version: 1.0.0
+  decision_domain: iron_thermal_conversion
+  match:
+    reactants:
+    - bind: iron
+      target_id: ent_substance_elemental_fe
+      phase: solid
+    - bind: chlorine
+      target_id: ent_substance_cl2
+      phase: gas
+  context:
+    temperature_regime: heated
+    medium: non_aqueous
+  products:
+  - target_id: ent_substance_fecl3
+    phase: solid
+  validators:
+  - atoms_conserved
+  - charge_conserved
+  evidence_ids:
+  - ev_iron_heated_conversions
+- id: rule_curriculum_ferric_hydroxide_decomposition
+  record_type: rule
+  version: 1.0.0
+  decision_domain: iron_thermal_conversion
+  match:
+    reactants:
+    - bind: hydroxide
+      target_id: ent_substance_fe_oh_3
+      phase: solid
+  context:
+    temperature_regime: heated
+    medium: non_aqueous
+  products:
+  - target_id: ent_substance_fe2o3
+    phase: solid
+  - target_id: ent_substance_h2o
+    phase: gas
+  validators:
+  - atoms_conserved
+  - charge_conserved
+  evidence_ids:
+  - ev_iron_heated_conversions

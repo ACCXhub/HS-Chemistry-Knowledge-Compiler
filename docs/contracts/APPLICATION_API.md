@@ -2,7 +2,7 @@
 
 [简体中文](APPLICATION_API.zh-CN.md)
 
-Compiler 0.5.0 implements offline export and a Python API. HTTP routes, the chem-wiki adapter and database migrations are not implemented.
+Compiler 0.6.0 implements offline export and a Python API. HTTP routes, the chem-wiki adapter and database migrations are not implemented.
 
 ## Publish and load
 
@@ -45,8 +45,8 @@ Load once per backend worker and reuse validated knowledge and RulePlans. Infere
 ## Request
 
 - `id` matches `^[a-z][a-z0-9_:-]+$` and correlates requests without affecting candidate chemistry identity.
-- `reactants` currently accepts 1–2 canonical Entity IDs with explicit solid/liquid/gas/aqueous/dissolved/unknown phases. Repeated IDs, including across phases, are rejected rather than losing phase information.
-- `context` is required but may be empty. Only `medium: aqueous` and `temperature_regime: ambient|warmed|heated|frozen` are supported. Missing conditions stay UNKNOWN; heated differs from warmed. Frozen exercises existing blockers.
+- `reactants` accepts a nonempty list of canonical Entity IDs; current Rules cover 1–3 inputs with explicit solid/liquid/gas/aqueous/dissolved/unknown phases. Repeated IDs, including across phases, are rejected rather than losing phase information.
+- `context` is required but may be empty. Only `medium: aqueous|non_aqueous` and `temperature_regime: ambient|warmed|heated|frozen` are supported. Missing conditions stay UNKNOWN; heated differs from warmed. Frozen exercises existing blockers.
 - Free-text formulas, supplied products, reagent amounts/ratios, concentrations, catalysts, electrolysis, light and pressure are rejected. Stoichiometry describes the selected pathway, not limiting-reagent, excess-reagent or equilibrium behavior. Such conditions require implemented semantics before admission.
 - Malformed inputs raise `SourceError(code="request_invalid", stage="request_validation")`. Unresolved canonical IDs return the chemistry outcome `invalid/reference_unresolved`.
 
@@ -70,3 +70,9 @@ An aqueous ionic-pair product with absent solubility yields product_phase_unveri
 `POST /v1/reaction-builder/infer` should live in the existing reaction_builder owner. Map application UUIDs through the reviewed knowledge_catalog crosswalk to compiler IDs, then map results back to application DTOs. Catalog owns released facts and evidence; reaction_core owns application Reaction materialization; frontend EquationDraft owns no chemical truth.
 
 Suggested HTTP behavior: 200 for all six chemistry outcomes; 422 for invalid requests or unmapped UUIDs; failed startup/503 for unavailable pinned bundles. Avoid exposing local paths. Keep detailed traces expandable. See the [Chinese integration/database note](CHEM_WIKI_INTEGRATION.md) for table reuse, exact coefficients, idempotency and rollback constraints.
+
+## Explicit non-aqueous medium (compiler 0.6.0)
+
+Source schema 3.8.0 adds `medium: non_aqueous` to canonical Reaction conditions and the public request. It excludes an aqueous solution, not gaseous water: the new iron/steam, iron/oxygen, iron/chlorine and ferric hydroxide thermal Rules require `{"medium": "non_aqueous", "temperature_regime": "heated"}` plus their exact phases. Missing medium stays UNKNOWN; `aqueous` does not satisfy these Rules. No default medium is inferred from omission. Existing M16–M18 retain their previous heated-only contract pending a separate compatibility update.
+
+Bundle/module formats, Rule DSL/plan and artifact format are unchanged. Export and deploy matching compiler 0.6.0 plus schema-3.8.0 bundles; the strict loader rejects older compiler/version coordinates. Regenerate bundles rather than editing manifests or hashes. The three-reactant Fe(OH)2/O2/H2O path uses the existing request list and matching engine; no API shape change is needed.

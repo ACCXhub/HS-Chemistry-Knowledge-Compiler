@@ -138,12 +138,12 @@ def test_m21_is_data_only_and_preserves_compatibility() -> None:
         "rule_m8_strong_acid_sulfite_gas_evolution",
     }
     assert {plan.rule_id for plan in compile_rules(kb)} == set(kb.rules)
-    assert SOURCE_SCHEMA_VERSION == "3.7.0"
+    assert SOURCE_SCHEMA_VERSION == "3.8.0"
     assert RULE_DSL_VERSION == "1.4.0"
     assert RULE_PLAN_VERSION == "1.4.0"
     assert ARTIFACT_FORMAT_VERSION == "1.5.0"
     assert artifact_versions() == {
-        "source_schema": "3.7.0",
+        "source_schema": "3.8.0",
         "rule_dsl": "1.4.0",
         "rule_plan": "1.4.0",
         "artifact_format": "1.5.0",

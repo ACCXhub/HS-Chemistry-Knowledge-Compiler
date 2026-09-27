@@ -12,6 +12,10 @@ M8 now requires a non-oxidizing acid; the HNO3/Na2SO3 and HNO3/K2SO3 simple gas-
 
 M4–M25 below describe historical scope; the M8/M21/M25 limitations are superseded above. See [current curriculum coverage](CURRICULUM_COVERAGE.md) and the [application contract](contracts/APPLICATION_API.md). The oxide, ferrous, copper-nitrate, iron-chloride redox and iron solid-acid batches extend equation coverage. Compiler 0.5.0 also exports independent data modules. Next acceptance priority: a finite textbook equation checklist and its remaining gaps.
 
+## 2026-09-27 explicit medium and iron conversions
+
+Compiler 0.6.0/source schema 3.8.0 add explicit non_aqueous medium for the new iron thermal pathways. Mixed-valence magnetite dissolution and oxygen-driven hydroxide oxidation reuse existing matching/balancing. Missing medium stays UNKNOWN. See the current API contract for compatibility and the older M16–M18 medium-alignment follow-up.
+
 ## M4 — Chemistry Model Convergence
 
 M4 integrated those workstreams on the historical `workstream/f3-convergence` branch and verified this pipeline:

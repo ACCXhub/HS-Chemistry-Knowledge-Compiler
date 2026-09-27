@@ -35,7 +35,7 @@ def export_bundle(repo_root: Path, output_dir: Path, source_revision: str) -> di
     request_schema["properties"]["context"] = {
         "type": "object", "additionalProperties": False,
         "properties": {
-            "medium": {"enum": ["aqueous"]},
+            "medium": {"enum": ["aqueous", "non_aqueous"]},
             "temperature_regime": {"enum": ["ambient", "warmed", "heated", "frozen"]},
         },
     }

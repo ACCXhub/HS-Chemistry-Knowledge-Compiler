@@ -2,7 +2,7 @@
 
 [English](DATA_PACKAGES.md)
 
-compiler 0.5.0 已实现 `export-modules`。三个模块使用同一套源记录格式、规范ID、证据和精确系数，不创建平行知识库。
+compiler 0.6.0 已实现 `export-modules`。三个模块使用同一套源记录格式、规范ID、证据和精确系数，不创建平行知识库。
 
 ```powershell
 python -m compiler.cli export-modules --output build/data-modules --source-revision WORKTREE
@@ -26,7 +26,7 @@ python -m compiler.cli export-modules --output build/data-modules --source-revis
 | --- | --- |
 | module_format_version | 当前1.0.0，与源schema/DSL及完整bundle版本独立 |
 | module_id | elements、substances或equations |
-| source_schema_version | 当前3.7.0，records使用随包的规范记录schema |
+| source_schema_version | 当前3.8.0，records使用随包的规范记录schema |
 | source_semantic_digest | 完整审核知识快照的摘要；三个包必须相同才属于同一快照 |
 | record_digest | 本包全部records的规范JSON摘要 |
 | root_ids | 本模块直接负责的主记录ID，排序、无重复 |

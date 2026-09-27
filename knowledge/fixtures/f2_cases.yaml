@@ -1063,3 +1063,75 @@ cases:
     context:
       medium: aqueous
       temperature_regime: ambient
+  - id: case_curriculum_magnetite_hcl
+    reactants:
+    - target_id: ent_substance_fe3o4
+      phase: solid
+    - target_id: ent_substance_hcl
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_ferrous_hydroxide_oxidation
+    reactants:
+    - target_id: ent_substance_fe_oh_2
+      phase: solid
+    - target_id: ent_substance_o2
+      phase: gas
+    - target_id: ent_substance_h2o
+      phase: liquid
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_iron_steam
+    reactants:
+    - target_id: ent_substance_elemental_fe
+      phase: solid
+    - target_id: ent_substance_h2o
+      phase: gas
+    context:
+      temperature_regime: heated
+      medium: non_aqueous
+  - id: case_curriculum_iron_oxygen
+    reactants:
+    - target_id: ent_substance_elemental_fe
+      phase: solid
+    - target_id: ent_substance_o2
+      phase: gas
+    context:
+      temperature_regime: heated
+      medium: non_aqueous
+  - id: case_curriculum_iron_chlorine
+    reactants:
+    - target_id: ent_substance_elemental_fe
+      phase: solid
+    - target_id: ent_substance_cl2
+      phase: gas
+    context:
+      temperature_regime: heated
+      medium: non_aqueous
+  - id: case_curriculum_ferric_hydroxide_decomposition
+    reactants:
+    - target_id: ent_substance_fe_oh_3
+      phase: solid
+    context:
+      temperature_regime: heated
+      medium: non_aqueous
+  - id: case_curriculum_magnetite_nitric_unknown
+    reactants:
+    - target_id: ent_substance_fe3o4
+      phase: solid
+    - target_id: ent_substance_hno3
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_ferrous_hydroxide_without_oxygen
+    reactants:
+    - target_id: ent_substance_fe_oh_2
+      phase: solid
+    - target_id: ent_substance_h2o
+      phase: liquid
+    context:
+      medium: aqueous
+      temperature_regime: ambient

@@ -16,7 +16,7 @@ M4 保持文件布局不承载身份的原则：稳定 ID 和语义内容决定�
 
 ```text
 schemas/knowledge-record.schema.json
-source schema version: 3.7.0
+source schema version: 3.8.0
 ```
 
 覆盖 M4 可执行子集中的 Entity、嵌入式有类型 Entity Relation 断言、Reaction/ReactionForm、TeachingView、Rule、Source、Evidence。Relation 定义域/值域及家族基数由编译器语义校验。
@@ -88,7 +88,7 @@ M4 分离四项兼容坐标：
 
 | 坐标 | 当前值 | 责任 |
 | --- | --- | --- |
-| 源 schema | `3.7.0` | 源数据契约 |
+| 源 schema | `3.8.0` | 源数据契约 |
 | Rule DSL | `1.4.0` | 规则源契约 |
 | 编译器 RulePlan | `1.4.0` | 编译器内部契约 |
 | 外部产物格式 | `1.5.0` | 外部生成契约 |

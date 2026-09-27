@@ -311,7 +311,7 @@ Source 标识出版物/数据库/标准/手册。Evidence 定位并解释来源�
 
 | 坐标 | 当前值 |
 | --- | --- |
-| 源 schema | `3.7.0` |
+| 源 schema | `3.8.0` |
 | Rule DSL | `1.4.0` |
 | 内部 RulePlan | `1.4.0` |
 | 外部产物格式 | `1.5.0` |
@@ -321,3 +321,5 @@ manifest 携带四项坐标，外部 payload 携带 artifact_format_version。�
 产物 1.5.0 必需，因为输出计划的 PredicatePlan.target_source、ProductPlan.entity_source 包含嵌套 EntitySourcePlan。参考读取器仍接受 1.0.0–1.4.0。
 
 编译器内部计划、索引、缓存和紧凑运行 ID 仍是实现细节，不是规范源契约。
+
+源 schema 3.8.0 的 Reaction 条件增加 `medium: non_aqueous`，与 aqueous 并列。非水相表示不是水溶液，不排除水蒸气；缺失仍为未知。Rule 适用条件与规范 Reaction 条件分别归各自所有者维护，必要介质须一致声明。

@@ -336,7 +336,7 @@ External generated artifacts remain contract-owned and reproducible. The four co
 
 | Coordinate | Current value |
 | --- | --- |
-| source schema | `3.7.0` |
+| source schema | `3.8.0` |
 | Rule DSL | `1.4.0` |
 | internal RulePlan | `1.4.0` |
 | external artifact format | `1.5.0` |
@@ -346,3 +346,5 @@ Manifests carry all four coordinates. External payloads carry `artifact_format_v
 Artifact `1.5.0` is required because externally emitted compiled plans now contain nested `EntitySourcePlan` values in `PredicatePlan.target_source` and `ProductPlan.entity_source`. The reference reader still accepts artifact formats `1.0.0` through `1.4.0`.
 
 Compiler-internal plans, indexes, caches, and dense runtime IDs remain implementation details rather than canonical source contracts.
+
+Source schema 3.8.0 admits Reaction condition `medium: non_aqueous` alongside `aqueous`. Non-aqueous excludes an aqueous solution, not steam; omission remains unknown. Rule applicability and canonical Reaction conditions retain separate ownership and must declare the same necessary medium.

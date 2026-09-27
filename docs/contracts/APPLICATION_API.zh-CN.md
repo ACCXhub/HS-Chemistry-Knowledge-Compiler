@@ -2,7 +2,7 @@
 
 [English](APPLICATION_API.md)
 
-状态：compiler 0.5.0 已实现离线导出和 Python 接口；HTTP 路由、chem-wiki 适配器和数据库迁移尚未实现。
+状态：compiler 0.6.0 已实现离线导出和 Python 接口；HTTP 路由、chem-wiki 适配器和数据库迁移尚未实现。
 
 ## 发布、安装和加载
 
@@ -45,8 +45,8 @@ assert response["result"]["canonical_match"]["state"] == "none"
 ## 请求
 
 - `id` 是调用方关联标识，匹配 `^[a-z][a-z0-9_:-]+$`；不参与候选化学身份。
-- `reactants` 当前为 1–2 个规范 Entity ID，物态必须显式提供：solid/liquid/gas/aqueous/dissolved/unknown。同一 ID 重复输入（即使物态不同）拒绝，不能静默丢物态。
-- `context` 必须提供对象，可为空；仅允许 `medium: aqueous` 与 `temperature_regime: ambient|warmed|heated|frozen`。缺条件保留 UNKNOWN，不自动补常温或水溶液。heated 与 warmed 不等价；frozen 用于已有阻断边界。
+- `reactants` 是非空规范 Entity ID 列表；当前规则覆盖 1–3 个输入，物态必须显式提供：solid/liquid/gas/aqueous/dissolved/unknown。同一 ID 重复输入（即使物态不同）拒绝，不能静默丢物态。
+- `context` 必须提供对象，可为空；仅允许 `medium: aqueous|non_aqueous` 与 `temperature_regime: ambient|warmed|heated|frozen`。缺条件保留 UNKNOWN，不自动补常温或水溶液。heated 与 warmed 不等价；frozen 用于已有阻断边界。
 - 不接受自由文本化学式、产物、投料量/比例、浓度、催化剂、电解、光照、压强等额外字段。配平系数表示当前规则的反应路径，不是实际混合物的限量、过量或平衡计算。扩展这些条件须先有对应语义，不能忽略后返回成功。
 - 输入形状错误抛 `SourceError(code="request_invalid", stage="request_validation")`。未知 ID 则返回化学结果 `invalid/reference_unresolved`。
 
@@ -70,3 +70,9 @@ assert response["result"]["canonical_match"]["state"] == "none"
 建议 `POST /v1/reaction-builder/infer` 由现有 reaction_builder 持有适配器。请求中的 application UUID 经 knowledge_catalog 的已审核 crosswalk 映射为 compiler ID，返回 DTO 再反向映射。来源 Source、Evidence 和规范 Reaction 查询归 knowledge_catalog；应用 Reaction 物化归 reaction_core，前端 EquationDraft 不保存事实。
 
 HTTP 建议：合法请求的六类化学结果均为 200；请求校验或未映射 UUID 为 422；固定数据包无法加载则 worker 启动失败/503；不向前端泄露本地路径。保留详细 trace 供展开调试。数据字典及 PostgreSQL 表复用、导入幂等和回滚约束见 [chem-wiki 接入说明](CHEM_WIKI_INTEGRATION.md)。
+
+## 显式非水相（compiler 0.6.0）
+
+源 schema 3.8.0 在规范 Reaction 条件及公共请求中增加 `medium: non_aqueous`，表示不是水溶液环境，不排除气态水。新增铁/蒸汽、铁/氧气、铁/氯气及 Fe(OH)3 热分解规则需要 `{"medium": "non_aqueous", "temperature_regime": "heated"}` 和准确物态。介质缺失仍是 UNKNOWN，aqueous 不满足这些规则，不从字段省略推定介质。早期 M16–M18 暂保留原仅 heated 契约，后续兼容性更新再统一。
+
+bundle/module 格式、Rule DSL/plan、artifact 格式均不变。部署 compiler 0.6.0 和重新导出的 schema-3.8.0 数据包；严格加载器拒绝旧编译器/版本坐标，不能手改 manifest 或哈希伪装升级。Fe(OH)2/O2/H2O 的三个反应物复用已有输入列表和匹配器，无需新 API 结构。

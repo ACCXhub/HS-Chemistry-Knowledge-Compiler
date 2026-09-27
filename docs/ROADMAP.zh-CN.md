@@ -14,6 +14,10 @@ M8 现要求非氧化性酸，撤下 HNO3/Na2SO3 和 HNO3/K2SO3 的普通放气�
 
 以下 M4–M25 为历史范围，M8/M21/M25 的当时限制已由上述纠正更新。当前数量与缺口见[课程覆盖](CURRICULUM_COVERAGE.zh-CN.md)，应用接口见[契约](contracts/APPLICATION_API.zh-CN.md)。氧化物、亚铁、铜硝酸盐、铁氯化物价态互转和铁固体酸反应批次已扩展方程覆盖；compiler 0.5.0 已支持独立数据模块。下一验收重点是有限教材逐式清单及其缺口。
 
+## 2026-09-27 显式介质与铁转化
+
+compiler 0.6.0/source schema 3.8.0 为新增铁热反应提供显式 non_aqueous 条件；混合价磁铁矿酸溶和氢氧化物氧化复用已有匹配/配平。缺介质仍为 UNKNOWN。兼容性与早期 M16–M18 的后续介质统一见当前接口契约。
+
 ## M4 — 化学模型收敛
 
 M4 在历史 workstream/f3-convergence 分支整合上述工作流，验证以下流程：

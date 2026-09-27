@@ -222,7 +222,7 @@ def test_dynamic_m19_target_distinguishes_false_from_unknown() -> None:
 
 
 def test_m20_source_version_only_advances_source_contract() -> None:
-    assert SOURCE_SCHEMA_VERSION == "3.7.0"
+    assert SOURCE_SCHEMA_VERSION == "3.8.0"
     assert RULE_DSL_VERSION == "1.4.0"
     assert RULE_PLAN_VERSION == "1.4.0"
     assert ARTIFACT_FORMAT_VERSION == "1.5.0"
