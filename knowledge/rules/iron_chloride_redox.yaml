@@ -1,0 +1,72 @@
+records:
+- id: rule_curriculum_iron_ferric_chloride
+  record_type: rule
+  version: 1.0.0
+  decision_domain: aqueous_iron_chloride_redox
+  match:
+    reactants:
+    - bind: reactant_0
+      target_id: ent_substance_elemental_fe
+      phase: solid
+    - bind: reactant_1
+      target_id: ent_substance_fecl3
+      phase: aqueous
+  context:
+    medium: aqueous
+    temperature_regime: ambient
+  products:
+  - target_id: ent_substance_fecl2
+    phase: aqueous
+  validators:
+  - atoms_conserved
+  - charge_conserved
+  evidence_ids:
+  - ev_curriculum_iron_chloride_redox
+- id: rule_curriculum_copper_ferric_chloride
+  record_type: rule
+  version: 1.0.0
+  decision_domain: aqueous_iron_chloride_redox
+  match:
+    reactants:
+    - bind: reactant_0
+      target_id: ent_substance_elemental_cu
+      phase: solid
+    - bind: reactant_1
+      target_id: ent_substance_fecl3
+      phase: aqueous
+  context:
+    medium: aqueous
+    temperature_regime: ambient
+  products:
+  - target_id: ent_substance_cucl2
+    phase: aqueous
+  - target_id: ent_substance_fecl2
+    phase: aqueous
+  validators:
+  - atoms_conserved
+  - charge_conserved
+  evidence_ids:
+  - ev_curriculum_iron_chloride_redox
+- id: rule_curriculum_ferrous_chloride_chlorine
+  record_type: rule
+  version: 1.0.0
+  decision_domain: aqueous_iron_chloride_redox
+  match:
+    reactants:
+    - bind: reactant_0
+      target_id: ent_substance_fecl2
+      phase: aqueous
+    - bind: reactant_1
+      target_id: ent_substance_cl2
+      phase: gas
+  context:
+    medium: aqueous
+    temperature_regime: ambient
+  products:
+  - target_id: ent_substance_fecl3
+    phase: aqueous
+  validators:
+  - atoms_conserved
+  - charge_conserved
+  evidence_ids:
+  - ev_curriculum_iron_chloride_redox

@@ -8,7 +8,7 @@
 
 ## 当前可执行范围
 
-F1/F2/F3 基础与 M4–M25 及本轮修正见[路线图](docs/ROADMAP.zh-CN.md)。当前 91 条规范 Reaction、20 条 Rule、146 个案例和 42 个水溶液配置；已补固体 CaCO3/HCl 推导。尚未覆盖大陆高中全部必修＋选择性必修内容，逐项现状见[课程清单](docs/CURRICULUM_COVERAGE.zh-CN.md)。
+F1/F2/F3 基础与 M4–M25 及本轮修正见[路线图](docs/ROADMAP.zh-CN.md)。当前 94 条规范 Reaction、23 条 Rule、149 个案例和 42 个水溶液配置；已补固体 CaCO3/HCl 推导。尚未覆盖大陆高中全部必修＋选择性必修内容，逐项现状见[课程清单](docs/CURRICULUM_COVERAGE.zh-CN.md)。
 
 支持有界的中和、沉淀、酸驱动放气、铵盐/碱、金属/酸和金属/水放氢、水溶液金属盐置换，以及限定身份的热分解/水蒸气试点。缺失知识保持 UNKNOWN；显式 FALSE 只否定具体路径，不声明全局负面 Reaction。
 

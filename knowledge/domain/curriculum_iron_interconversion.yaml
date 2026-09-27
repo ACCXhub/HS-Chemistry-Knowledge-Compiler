@@ -1,0 +1,146 @@
+records:
+- id: ev_curriculum_iron_chloride_redox
+  record_type: evidence
+  source_id: src_openstax_chemistry_2e
+  claim_summary: OpenStax Chemistry 2e 17.3 Table 17.1 (https://openstax.org/books/chemistry-2e/pages/17-3-electrode-and-cell-potentials,
+    checked 2026-09-27) lists Fe3+/Fe2+ +0.771 V, Fe2+/Fe -0.447 V, Cu2+/Cu +0.34 V and Cl2(g)/Cl- +1.35827 V. Author-reviewed
+    combinations support the ordinary aqueous teaching pathways Fe + 2Fe3+ -> 3Fe2+, Cu + 2Fe3+ -> Cu2+ + 2Fe2+,
+    and Cl2 + 2Fe2+ -> 2Cl- + 2Fe3+. Existing canonical chloride identities supply spectator ions. The records are
+    limited to these explicit chloride examples at ambient temperature; the runtime neither computes potentials
+    nor predicts general redox products. Copper does not displace elemental iron from Fe2+ in this ordinary aqueous
+    pathway.
+  stance: supports
+- id: ent_substance_cl2
+  record_type: entity
+  entity_kind: substance
+  terms:
+    preferred: chlorine
+    aliases:
+    - 氯气
+  semantic_keys:
+  - scheme: formula.unit
+    value: Cl2
+  payload:
+    substance_kind: elemental
+    composition:
+      components:
+      - element_id: ent_element_cl
+        count: 2
+      net_charge: 0
+  evidence_ids:
+  - ev_curriculum_iron_chloride_redox
+- id: rxn_curriculum_iron_ferric_chloride
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_elemental_fe
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_fecl3
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_fecl2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 3
+      denominator: 1
+    phase: aqueous
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_chloride_redox
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_iron_chloride_redox
+  forms: []
+  evidence_ids:
+  - ev_curriculum_iron_chloride_redox
+- id: rxn_curriculum_copper_ferric_chloride
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_elemental_cu
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_fecl3
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_cucl2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_fecl2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_chloride_redox
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_iron_chloride_redox
+  forms: []
+  evidence_ids:
+  - ev_curriculum_iron_chloride_redox
+- id: rxn_curriculum_ferrous_chloride_chlorine
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_fecl2
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_cl2
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: gas
+  - target_id: ent_substance_fecl3
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_chloride_redox
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_iron_chloride_redox
+  forms: []
+  evidence_ids:
+  - ev_curriculum_iron_chloride_redox

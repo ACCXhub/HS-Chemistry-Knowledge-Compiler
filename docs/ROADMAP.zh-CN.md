@@ -12,7 +12,7 @@ main 已完成截至 M25 的有界工作，已按授权持续补齐课程数据�
 
 M8 现要求非氧化性酸，撤下 HNO3/Na2SO3 和 HNO3/K2SO3 的普通放气反应；补 HBr 非氧化性事实后 M9 可推导未存储方程。固体 CaCO3/HCl 现由单独有界 Rule 推导，未放宽 M6 水溶液门槛。新增完整数据包和校验后的 Python 接口，compiler 0.4.0、bundle 1.0.0，四项既有兼容坐标不变。
 
-以下 M4–M25 为历史范围，M8/M21/M25 的当时限制已由上述纠正更新。当前数量与缺口见[课程覆盖](CURRICULUM_COVERAGE.zh-CN.md)，应用接口见[契约](contracts/APPLICATION_API.zh-CN.md)。氧化物、亚铁和铜硝酸盐批次已扩展方程覆盖；compiler 0.5.0 已支持独立数据模块。下一验收重点是有限教材逐式清单及其缺口。
+以下 M4–M25 为历史范围，M8/M21/M25 的当时限制已由上述纠正更新。当前数量与缺口见[课程覆盖](CURRICULUM_COVERAGE.zh-CN.md)，应用接口见[契约](contracts/APPLICATION_API.zh-CN.md)。氧化物、亚铁、铜硝酸盐和铁氯化物价态互转批次已扩展方程覆盖；compiler 0.5.0 已支持独立数据模块。下一验收重点是有限教材逐式清单及其缺口。
 
 ## M4 — 化学模型收敛
 

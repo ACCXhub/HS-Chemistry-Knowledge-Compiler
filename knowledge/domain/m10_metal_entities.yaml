@@ -116,6 +116,7 @@ records:
       - {property_key: metal.activity.relative_to_hydrogen, value_state: known, value: below, fact_kind: contextual, context: {medium: aqueous}, evidence_ids: [ev_m10_metal_hydrogen_activity]}
     relation_assertions:
       - {relation_key: metal.displaces_cation, target_id: ent_species_zn_2plus, truth: false, context: {medium: aqueous}, evidence_ids: [ev_m20_copper_zinc_non_displacement]}
+      - {relation_key: metal.displaces_cation, target_id: ent_species_fe_2plus, truth: false, context: {medium: aqueous}, evidence_ids: [ev_curriculum_iron_chloride_redox]}
     evidence_ids: [ev_m10_metal_identity_and_chloride_speciation, ev_m10_metal_hydrogen_activity]
 
   - id: ent_substance_elemental_zn
