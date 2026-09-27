@@ -1,0 +1,491 @@
+records:
+- id: ev_curriculum_iron_solid_acid
+  record_type: evidence
+  source_id: src_openstax_chemistry_2e
+  claim_summary: 'OpenStax Chemistry 2e 19.1 (https://openstax.org/books/chemistry-2e/pages/19-1-occurrence-preparation-and-properties-of-transition-metals-and-their-compounds,
+    checked 2026-09-27) identifies FeO and Fe2O3, and describes low-oxidation-state metal oxides, hydroxides and
+    hydrated oxides reacting with aqueous acids to form salts and water. These authored teaching records use stoichiometric
+    FeO/Fe2O3 and the existing Fe(OH)2/Fe(OH)3 school-level identities, without modeling oxide nonstoichiometry
+    or hydration. Fe(II) products require a known non-oxidizing acid: FeO or Fe(OH)2 with nitric acid cannot be
+    treated as ordinary Fe(II) salt neutralization. The Fe3+/Fe2+ redox distinction is independently supported by
+    section 17.3; unspecified oxidation paths remain UNKNOWN. The Rules describe dissolution, not dissolution rate
+    or a later atmospheric oxidation step.'
+  stance: supports
+- id: ev_curriculum_ferric_nitrate
+  record_type: evidence
+  source_id: src_openstax_chemistry_2e
+  claim_summary: OpenStax Chemistry 2e 4.2 Table 4.1 (https://openstax.org/books/chemistry-2e/pages/4-2-classifying-chemical-reactions,
+    checked 2026-09-27) supports soluble nitrates and insoluble iron hydroxides. Existing Fe3+ and NO3- identities
+    establish Fe(NO3)3 composition and its strong-electrolyte ionic representation. These records support ferric
+    nitrate as a product of Fe(III) oxide/hydroxide acid dissolution and its immediate precipitation with NaOH/KOH.
+    They do not model hydrolysis equilibria or authorize nitric acid as a non-oxidizing acid.
+  stance: supports
+- id: ent_substance_feo
+  record_type: entity
+  entity_kind: substance
+  terms:
+    preferred: iron(II) oxide
+    aliases:
+    - 氧化亚铁
+  semantic_keys:
+  - scheme: formula.unit
+    value: FeO
+  payload:
+    substance_kind: pure_compound
+    composition:
+      components:
+      - element_id: ent_element_fe
+        count: 1
+      - element_id: ent_element_o
+        count: 1
+      net_charge: 0
+  facet_assertions:
+  - facet_key: classification.basic_oxide
+    value_state: known
+    value: true
+    fact_kind: intrinsic
+    evidence_ids:
+    - ev_curriculum_iron_solid_acid
+  evidence_ids:
+  - ev_curriculum_iron_solid_acid
+- id: ent_substance_fe2o3
+  record_type: entity
+  entity_kind: substance
+  terms:
+    preferred: iron(III) oxide
+    aliases:
+    - 氧化铁
+  semantic_keys:
+  - scheme: formula.unit
+    value: Fe2O3
+  payload:
+    substance_kind: pure_compound
+    composition:
+      components:
+      - element_id: ent_element_fe
+        count: 2
+      - element_id: ent_element_o
+        count: 3
+      net_charge: 0
+  facet_assertions:
+  - facet_key: classification.basic_oxide
+    value_state: known
+    value: true
+    fact_kind: intrinsic
+    evidence_ids:
+    - ev_curriculum_iron_solid_acid
+  evidence_ids:
+  - ev_curriculum_iron_solid_acid
+- id: ent_substance_fe_no3_3
+  record_type: entity
+  entity_kind: substance
+  terms:
+    preferred: iron(III) nitrate
+    aliases:
+    - 硝酸铁
+  semantic_keys:
+  - scheme: formula.unit
+    value: Fe(NO3)3
+  payload:
+    substance_kind: pure_compound
+    composition:
+      components:
+      - element_id: ent_element_fe
+        count: 1
+      - element_id: ent_element_n
+        count: 3
+      - element_id: ent_element_o
+        count: 9
+      net_charge: 0
+  facet_assertions:
+  - facet_key: classification.salt
+    value_state: known
+    value: true
+    fact_kind: intrinsic
+    evidence_ids:
+    - ev_curriculum_ferric_nitrate
+  - facet_key: classification.nitrate
+    value_state: known
+    value: true
+    fact_kind: intrinsic
+    evidence_ids:
+    - ev_curriculum_ferric_nitrate
+  property_assertions:
+  - property_key: electrolyte.strength
+    value_state: known
+    value: strong
+    fact_kind: contextual
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_curriculum_ferric_nitrate
+  - property_key: solubility.class
+    value_state: known
+    value: soluble
+    fact_kind: contextual
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_curriculum_ferric_nitrate
+  speciation_profiles:
+  - profile_key: aqueous_complete_dissociation
+    context:
+      medium: aqueous
+    model: strong_electrolyte_complete_dissociation
+    products:
+    - target_id: ent_species_fe_3plus
+      coefficient:
+        numerator: 1
+        denominator: 1
+    - target_id: ent_species_no3_minus
+      coefficient:
+        numerator: 3
+        denominator: 1
+    evidence_ids:
+    - ev_curriculum_ferric_nitrate
+  evidence_ids:
+  - ev_curriculum_ferric_nitrate
+- id: rxn_curriculum_feo_hcl
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_feo
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_hcl
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_fecl2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: liquid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_solid_acid
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_iron_solid_acid
+  forms: []
+  evidence_ids:
+  - ev_curriculum_iron_solid_acid
+- id: rxn_curriculum_fe2o3_hcl
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_fe2o3
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_hcl
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 6
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_fecl3
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 3
+      denominator: 1
+    phase: liquid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_solid_acid
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_iron_solid_acid
+  forms: []
+  evidence_ids:
+  - ev_curriculum_iron_solid_acid
+- id: rxn_curriculum_fe2o3_hno3
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_fe2o3
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_hno3
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 6
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_fe_no3_3
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 3
+      denominator: 1
+    phase: liquid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_solid_acid
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_iron_solid_acid
+  forms: []
+  evidence_ids:
+  - ev_curriculum_iron_solid_acid
+- id: rxn_curriculum_fe_oh_2_hcl
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_fe_oh_2
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_hcl
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_fecl2
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 2
+      denominator: 1
+    phase: liquid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_solid_acid
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_iron_solid_acid
+  forms: []
+  evidence_ids:
+  - ev_curriculum_iron_solid_acid
+- id: rxn_curriculum_fe_oh_3_hcl
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_fe_oh_3
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_hcl
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 3
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_fecl3
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 3
+      denominator: 1
+    phase: liquid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_solid_acid
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_iron_solid_acid
+  forms: []
+  evidence_ids:
+  - ev_curriculum_iron_solid_acid
+- id: rxn_curriculum_fe_oh_3_hno3
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_fe_oh_3
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_hno3
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 3
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_fe_no3_3
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 3
+      denominator: 1
+    phase: liquid
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_iron_solid_acid
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_iron_solid_acid
+  forms: []
+  evidence_ids:
+  - ev_curriculum_iron_solid_acid
+- id: rxn_curriculum_ferric_nitrate_naoh
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_fe_no3_3
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_naoh
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 3
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_fe_oh_3
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_nano3
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 3
+      denominator: 1
+    phase: aqueous
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_ferric_nitrate
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_ferric_nitrate
+  forms: []
+  evidence_ids:
+  - ev_curriculum_ferric_nitrate
+- id: rxn_curriculum_ferric_nitrate_koh
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_fe_no3_3
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_koh
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 3
+      denominator: 1
+    phase: aqueous
+  - target_id: ent_substance_fe_oh_3
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+    phase: solid
+  - target_id: ent_substance_kno3
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 3
+      denominator: 1
+    phase: aqueous
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_ferric_nitrate
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_ferric_nitrate
+  forms: []
+  evidence_ids:
+  - ev_curriculum_ferric_nitrate

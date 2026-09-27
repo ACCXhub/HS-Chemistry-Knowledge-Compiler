@@ -10,7 +10,7 @@ Main has completed the bounded work through M25; authorized curriculum expansion
 
 M8 now requires a non-oxidizing acid; the HNO3/Na2SO3 and HNO3/K2SO3 simple gas-evolution records are withdrawn. An HBr non-oxidizing fact enables an unstored M9 equation. A bounded solid-CaCO3 Rule now covers HCl without weakening M6 aqueous constraints. A complete bundle and validated Python API ship with compiler 0.4.0 and bundle 1.0.0; the existing four compatibility coordinates are unchanged.
 
-M4–M25 below describe historical scope; the M8/M21/M25 limitations are superseded above. See [current curriculum coverage](CURRICULUM_COVERAGE.md) and the [application contract](contracts/APPLICATION_API.md). The oxide, ferrous, copper-nitrate and iron-chloride redox batches extend equation coverage. Compiler 0.5.0 also exports independent data modules. Next acceptance priority: a finite textbook equation checklist and its remaining gaps.
+M4–M25 below describe historical scope; the M8/M21/M25 limitations are superseded above. See [current curriculum coverage](CURRICULUM_COVERAGE.md) and the [application contract](contracts/APPLICATION_API.md). The oxide, ferrous, copper-nitrate, iron-chloride redox and iron solid-acid batches extend equation coverage. Compiler 0.5.0 also exports independent data modules. Next acceptance priority: a finite textbook equation checklist and its remaining gaps.
 
 ## M4 — Chemistry Model Convergence
 

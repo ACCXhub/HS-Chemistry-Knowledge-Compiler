@@ -2,32 +2,30 @@
 
 [简体中文](CONTINUATION.zh-CN.md)
 
-The long-term mainland compulsory/selective-compulsory goal remains incomplete. Preserve shared canonical identities across independently published element, substance and equation modules. Predictions must remain separate from curated facts; UNKNOWN is not impossible. Safe main commits/pushes are authorized. No subagents, repeated M0–M25 audit, reset, stash or rebase.
+The mainland compulsory/selective-compulsory goal remains incomplete: elements, substances, equations, general Rules, exact cases, independently distributed modules with shared identities, and later evidence-backed case transfer/prediction explanations. Predictions are not canonical facts; UNKNOWN is not impossible. Safe main commits/pushes are authorized. No subagents, repeat M0–M25 audit, reset, stash or rebase.
 
-## Latest completed batch: Fe2+/Fe3+ chloride interconversion
+## Latest completed batch: iron solid oxides/hydroxides with acid
 
-Published baseline `c751cf4fb530ca8af334caccd43a4d291fcb358a` has matching final bundle/modules. This batch adds Cl2 identity, three exact declarative Rules/Reactions (Fe/FeCl3, Cu/FeCl3, FeCl2/Cl2), and explicit Cu-to-Fe2+ displacement FALSE. No potential calculation or general redox runtime.
+Published baseline: `3ab77d93b6f93b8744e10a7b22eb62fa015fa0ff` (iron chloride interconversion). This batch adds FeO, Fe2O3 and Fe(NO3)3, eight Reactions, four declarative Rules, eight positives and two UNKNOWN cases. Ordinary FeO/Fe(OH)2 dissolution requires positive non-oxidizing-acid evidence; HNO3 must not generate unreviewed Fe(II) salts. Fe(III) oxide/hydroxide dissolution supports HCl/HNO3, and ferric nitrate precipitation reuses M15. Runtime, schema, compatibility coordinates and migration code are unchanged.
 
-Current source: 280 records, 114 Entities, 94 Reactions, 23 Rules, 149 cases and 42 profiles; 95 inferred, 41 indeterminate, 12 no_match, one blocked. Module roots/dependencies: elements 18/6, substances 96/60, equations 117/157. All 25 focused tests pass, covering ionic products, phase/context boundaries, independent generation and order invariance. All 482 tests pass (406.48 seconds); log: `build/iron-interconversion-pytest.txt`. InferenceSession also loads the bundle and infers all three new cases.
+Current source: 297 records, 117 Entities, 102 Reactions, 27 Rules, 159 cases, 43 profiles; 103 inferred, 43 indeterminate, 12 no_match, one blocked. All 102 canonical reactions have positives; removing all Reactions still generates 103 positives. Compiler 0.5.0; module roots/dependencies: elements 18/6, substances 99/62, equations 129/162.
 
-Validate passes; compile/audit/bundle/modules are byte-identical across hash seeds 3/941. All 94 canonical equations have positives. Two M25 replays still agree at 21 mapped, 122 unsupported, nine rejected. Evidence: `build/iron-interconversion-verification/`. The coverage matrix now contains a finite iron equation queue; next prioritize FeO/Fe2O3 acid pathways before mixed-valence oxides and hydroxide oxidation.
+## Validation and preservation
 
-## Published baseline: copper oxide and nitrates, 2026-09-27
+Validate and 35 focused tests pass, including valence, ionic equations, atom/charge conservation, phases, context, positive non-oxidizing evidence, input/Rule order and generation without stored Reactions. All 508 tests pass (443.48 seconds), log: `build/iron-solid-acid-pytest.txt`. Session `69693` has ended and needs no rerun. Bundle InferenceSession checks pass for eight positives and two UNKNOWN boundaries.
 
-Based on ferrous commit `0db354e2aae013f0b8ca36e6be0028057b8f01b9`, add CuO, Ca(NO3)2 and Cu(NO3)2, eight Reactions, one CuO/strong-acid Rule and eight positive cases. Seven paths reuse existing Rules. Nitrate spectators do not make nitric acid non-oxidizing. No runtime/schema changes. M12/M13 tests now check their own displacement targets and evidence without freezing every future relation. Bilingual current counts, roadmap and historical audit labels are synchronized.
+Compile/audit/bundle/modules are byte-identical across hash seeds 3/941; evidence: `build/iron-solid-acid-verification/`. Two M25 replays agree at 21 mapped, 122 unsupported and nine rejected. Historical reports remain unchanged. This batch is committed/pushed to main and final application-bundle/data-modules are regenerated from its SHA. Compare both manifest.source_revision values with HEAD to verify publication identity.
 
-Current source: 272 records, 113 Entities, 91 Reactions, 20 Rules, 146 cases, 42 dissociation profiles. Outcomes: 92 inferred covering all 91 canonical equations plus one unstored equation, 41 indeterminate, 12 no_match, one blocked.
+The previous batch passed all 482 tests (`build/iron-interconversion-pytest.txt`); that result does not replace this batch's validation. Earlier copper oxide work is preserved in `c751cf4`. Do not repeat completed audits/tests.
 
-Compiler 0.5.0 exports the complete InferenceSession bundle and independent modules: elements 18 roots/6 dependencies, substances 95/59, equations 111/155. See [modules](contracts/DATA_PACKAGES.md), [Python API](contracts/APPLICATION_API.md) and [chem-wiki integration](contracts/CHEM_WIKI_INTEGRATION.md). HTTP adaptation and actual database import remain unimplemented.
+## Exact next steps
 
-## Previous batch validation and preservation
+Run `git status --short --branch`, `git diff --stat`, `git rev-parse HEAD`, read this record and check actual quota. Preserve dirty work. Next prioritize Fe3O4/HCl mixed-valence dissolution and the separate Fe(OH)2/O2/H2O oxidation step in the [equation queue](CURRICULUM_COVERAGE.md). Do not guess one valence or merge later oxidation into precipitation.
 
-Validation and 18 focused tests pass, including generation of all 92 positive cases after removal of stored Reactions. All 466 tests were executed: 464 passed and two stale relation-list assertions failed; those assertions were then corrected. All 27 tests in the affected M12/M13 files then passed; no runtime or Rule changes followed. Full log: `build/current-final-pytest.txt`; no repeat full run is required.
+Continue a finite textbook equation inventory, Al/nonmetal/organic/electrochemical coverage and necessary concentration, excess, catalyst, reversible and electrode semantics. Current counts do not prove textbook completeness. Automated analogy/model prediction is pending; existing Rules infer unstored equations only when supporting knowledge is sufficient.
 
-Compile/audit/bundle/modules are byte-identical across hash seeds 3 and 941; evidence: `build/copper-verification/`. Two M25 replays agree: 21 mapped, 122 unsupported, nine rejected. Historical reports remain unchanged. After committing, regenerate `build/application-bundle` and `build/data-modules` from the final SHA and verify manifest.source_revision.
+## Website delivery and automation
 
-## Exact resume point
+The full bundle is the InferenceSession input; independent modules support database import, not runtime plugins. See [modules](contracts/DATA_PACKAGES.md), [Python API](contracts/APPLICATION_API.md) and [chem-wiki integration](contracts/CHEM_WIKI_INTEGRATION.md). Actual HTTP adaptation/database import remain unimplemented. README now points to the coverage matrix instead of duplicating counts.
 
-Run `git status --short --branch`, `git diff --stat`, `git rev-parse HEAD` and query actual quota. Preserve any dirty work. Freeze a finite textbook equation inventory; the [coverage matrix](CURRICULUM_COVERAGE.md) is not an exhaustive textbook list. Next prioritize bounded FeO/Fe2O3 acid pathways, then Al and nonmetal gaps. Concentration, excess, catalysts, reversibility and electrodes need explicit semantics before their reactions. Automated case transfer is pending; current Rules infer unstored equations only when supporting knowledge is sufficient.
-
-The previous window reached 93% and its batch was preserved. At 2026-09-27 09:51 Beijing quota recovered to 1%, enabling the iron interconversion batch. Heartbeat `automation` remains ACTIVE every five hours at minute 50, with actual recovery checked on each trigger. Check actual recovery each time, wait quietly if unavailable, and never mark the long-term goal complete. Full-test sessions 14838 and 71460 have ended; neither needs repeating. The heartbeat Chinese encoding was repaired and verified.
+Heartbeat `automation` remains ACTIVE with repaired Chinese encoding, every five hours and ten minutes, leaving ten minutes beyond the five-hour quota window. Check actual quota/reset each trigger; start closeout around 80%, preserve progress before exhaustion, wait quietly if quota has not recovered, never disable the schedule or declare the long-term goal complete. Usage reached 73% at closeout; do not open another Rule workstream this window. Reset: 2026-09-27 14:51:13 Beijing.
