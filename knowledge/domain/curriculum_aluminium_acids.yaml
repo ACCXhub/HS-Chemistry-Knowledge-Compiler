@@ -1,0 +1,176 @@
+records:
+- id: ev_curriculum_aluminium_acid
+  record_type: evidence
+  source_id: src_ncert_metals_nonmetals
+  stance: supports
+  claim_summary: NCERT Science Metals and Non-metals section 3.2.1 explicitly gives
+    Al2O3 + 6HCl -> 2AlCl3 + 3H2O and identifies Al2O3 as amphoteric. Section 3.2.3
+    describes Al evolving hydrogen with dilute HCl (Mg > Al > Zn > Fe), excluding
+    oxidizing nitric acid from this hydrogen pathway. The aqueous teaching representation
+    AlCl3 -> Al3+ + 3Cl- supports product construction and ionic cancellation, not
+    hydrolysis equilibria or dry covalent AlCl3. Aluminium oxide remains a solid without
+    a complete-dissociation profile. No aluminium displacement activity ordering or
+    passivation model is inferred.
+- id: ent_species_al_3plus
+  record_type: entity
+  entity_kind: species
+  terms:
+    preferred: aluminium ion
+    aliases:
+    - 铝离子
+  semantic_keys:
+  - scheme: formula.ion
+    value: Al3+
+  payload:
+    species_kind: ion
+    formal_charge: 3
+    composition:
+      components:
+      - element_id: ent_element_al
+        count: 1
+      net_charge: 3
+  evidence_ids:
+  - ev_curriculum_aluminium_acid
+- id: ent_substance_alcl3
+  record_type: entity
+  entity_kind: substance
+  terms:
+    preferred: aluminium chloride
+    aliases:
+    - 氯化铝
+  semantic_keys:
+  - scheme: formula.unit
+    value: AlCl3
+  payload:
+    substance_kind: pure_compound
+    composition:
+      components:
+      - element_id: ent_element_al
+        count: 1
+      - element_id: ent_element_cl
+        count: 3
+      net_charge: 0
+  facet_assertions:
+  - facet_key: classification.salt
+    value_state: known
+    value: true
+    fact_kind: intrinsic
+    evidence_ids:
+    - ev_curriculum_aluminium_acid
+  property_assertions:
+  - property_key: electrolyte.strength
+    value_state: known
+    value: strong
+    fact_kind: contextual
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_curriculum_aluminium_acid
+  - property_key: solubility.class
+    value_state: known
+    value: soluble
+    fact_kind: contextual
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_curriculum_aluminium_acid
+  speciation_profiles:
+  - profile_key: aqueous_complete_dissociation
+    context:
+      medium: aqueous
+    model: strong_electrolyte_complete_dissociation
+    products:
+    - target_id: ent_species_al_3plus
+      coefficient:
+        numerator: 1
+        denominator: 1
+    - target_id: ent_species_cl_minus
+      coefficient:
+        numerator: 3
+        denominator: 1
+    evidence_ids:
+    - ev_curriculum_aluminium_acid
+  evidence_ids:
+  - ev_curriculum_aluminium_acid
+- id: rxn_curriculum_aluminium_hcl
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_elemental_al
+    target_kind: substance
+    role: reactant
+    phase: solid
+    coefficient:
+      numerator: 2
+      denominator: 1
+  - target_id: ent_substance_hcl
+    target_kind: substance
+    role: reactant
+    phase: aqueous
+    coefficient:
+      numerator: 6
+      denominator: 1
+  - target_id: ent_substance_alcl3
+    target_kind: substance
+    role: product
+    phase: aqueous
+    coefficient:
+      numerator: 2
+      denominator: 1
+  - target_id: ent_substance_h2
+    target_kind: substance
+    role: product
+    phase: gas
+    coefficient:
+      numerator: 3
+      denominator: 1
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_aluminium_acid
+  forms: []
+  evidence_ids:
+  - ev_curriculum_aluminium_acid
+- id: rxn_curriculum_alumina_hcl
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_al2o3
+    target_kind: substance
+    role: reactant
+    phase: solid
+    coefficient:
+      numerator: 1
+      denominator: 1
+  - target_id: ent_substance_hcl
+    target_kind: substance
+    role: reactant
+    phase: aqueous
+    coefficient:
+      numerator: 6
+      denominator: 1
+  - target_id: ent_substance_alcl3
+    target_kind: substance
+    role: product
+    phase: aqueous
+    coefficient:
+      numerator: 2
+      denominator: 1
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: product
+    phase: liquid
+    coefficient:
+      numerator: 3
+      denominator: 1
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_curriculum_aluminium_acid
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_curriculum_aluminium_acid
+  forms: []
+  evidence_ids:
+  - ev_curriculum_aluminium_acid

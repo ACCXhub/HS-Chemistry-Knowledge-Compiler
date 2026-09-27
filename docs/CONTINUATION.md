@@ -4,7 +4,17 @@
 
 The mainland compulsory/selective-compulsory goal remains incomplete: elements, substances, equations, general Rules and exact cases, independent modules with shared identities, and later evidence-backed case transfer/prediction explanations. Predictions are not canonical facts; UNKNOWN is not impossible. Safe main commits/pushes are authorized. No subagents, repeated M0–M25 audit, reset, stash or rebase.
 
-## Latest completed batch: CO reduction and thermite
+## Latest completed batch: aluminium and alumina with acid
+
+Base `2f57d24d766d8a63101fdbd81c3aedd9452b32f7`. Add Al3+, aqueous AlCl3 dissociation and aluminium metal/activity/product-cation facts. 2Al+6HCl -> 2AlCl3+3H2 reuses unchanged M10; Al2O3+6HCl -> 2AlCl3+3H2O adds one ionic_pair-based acid Rule. No false basic-oxide classification, solid dissociation, valence guessing or activity ordering.
+
+Evidence: saved NCERT 3.2.1 alumina/HCl equation and 3.2.3 aluminium/dilute-HCl experiment. All 38 focused equation/ionic-form/Reaction-independent/M10/bundle tests and validate pass. Initial missing ambient context correctly yielded UNKNOWN at the M10 frozen blocker; only the positive fixture was corrected. Compile/audit/bundle/modules match across seeds 3/941; M25 repeats at 19/124/9. Evidence `build/aluminium-acids-*`; no live process; no full-suite rerun.
+
+Current: 333 records, 125 Entities, 112 Reactions, 36 Rules, 171 cases, 44 profiles; 113 inferred, 45 indeterminate, 12 no_match, one blocked. All 112 equations have positives. Module roots/dependencies: elements19/8, substances106/70, equations148/179. Re-export release bundles at final SHA.
+
+Exact next step: explicitly distinguish aqueous [Al(OH)4]- from school NaAlO2 notation, then add Al/NaOH and Al2O3/NaOH. Al(OH)3 precipitation/excess dissolution needs explicit quantity boundaries rather than presenting an intermediate as the final excess-reagent outcome. Full curriculum and analogy goals remain incomplete.
+
+## Previous batch: CO reduction and thermite
 
 Base `03710ed66eec0cfc1b0dc86cc1c1fff609391d47`. Add Al element, CO/Al/Al2O3 substances, two canonical equations and exact declarative Rules: Fe2O3+3CO -> 2Fe(s)+3CO2; Fe2O3+2Al -> 2Fe(l)+Al2O3(s). Existing heated/non_aqueous contexts represent coarse school-level thermal conditions, not arbitrary mild warming, numeric temperatures, furnace intermediates, equilibrium gas ratios or kinetics.
 

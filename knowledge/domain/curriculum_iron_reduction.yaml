@@ -74,6 +74,30 @@ records:
       net_charge: 0
   evidence_ids:
   - ev_iron_thermite
+  - ev_curriculum_aluminium_acid
+  facet_assertions:
+  - facet_key: classification.metal
+    value_state: known
+    value: true
+    fact_kind: intrinsic
+    evidence_ids:
+    - ev_curriculum_aluminium_acid
+  property_assertions:
+  - property_key: metal.activity.relative_to_hydrogen
+    value_state: known
+    value: above
+    fact_kind: contextual
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_curriculum_aluminium_acid
+  relation_assertions:
+  - relation_key: metal.product_cation
+    target_id: ent_species_al_3plus
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_curriculum_aluminium_acid
 - id: ent_substance_al2o3
   record_type: entity
   entity_kind: substance

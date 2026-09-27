@@ -1154,3 +1154,22 @@ cases:
     context:
       medium: non_aqueous
       temperature_regime: heated
+
+  - id: case_curriculum_aluminium_hcl
+    reactants:
+    - target_id: ent_substance_elemental_al
+      phase: solid
+    - target_id: ent_substance_hcl
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_alumina_hcl
+    reactants:
+    - target_id: ent_substance_al2o3
+      phase: solid
+    - target_id: ent_substance_hcl
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient

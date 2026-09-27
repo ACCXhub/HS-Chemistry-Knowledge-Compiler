@@ -6,7 +6,17 @@
 
 覆盖大陆高中必修＋选择性必修的元素、物质、方程、通用规则与特例；独立发布共享身份的数据模块，后续支持有证据的案例迁移和预测解释。预测不冒充规范事实，UNKNOWN 不等于不可能。安全提交推送 main 已授权；不启动子代理，不重复 M0–M25 审计，不 reset/stash/rebase。
 
-## 最新完成批次：铁的 CO 还原与铝热反应
+## 最新完成批次：铝与氧化铝溶酸
+
+基线 `2f57d24d766d8a63101fdbd81c3aedd9452b32f7`。新增 Al3+、AlCl3（水溶液教学解离），Al 的金属性/相对氢活动性/产物阳离子关系。2Al+6HCl→2AlCl3+3H2 直接复用未改动的 M10；Al2O3+6HCl→2AlCl3+3H2O 使用一条复用 ionic_pair 的溶酸规则。Al2O3 不误标成基本氧化物、不虚构固体解离；不添加通用价态或金属活动排序算法。
+
+来源：已保存 NCERT 3.2.1 的氧化铝/HCl方程及3.2.3的Al/稀盐酸实验。38项针对性（新方程、净离子式、删Reaction仍可推导、硝酸排除、缺介质、M10与bundle）通过，validate通过。初次正例遗漏常温，M10 frozen阻断为UNKNOWN；已补正例ambient，未放宽引擎。compile/audit/bundle/modules种子3/941一致；M25两次19/124/9。证据 `build/aluminium-acids-*`；无遗留进程，未重跑全套。
+
+当前333记录、125 Entity、112 Reaction、36 Rule、171案例、44解离配置；113 inferred、45 indeterminate、12 no_match、1 blocked。112规范方程都有正例。模块主记录/依赖：elements19/8、substances106/70、equations148/179。提交后正式包按最终SHA重导出。
+
+精确下一步：先明确水溶液[Al(OH)4]-与教学NaAlO2不同表示，再补Al/NaOH、Al2O3/NaOH；Al(OH)3沉淀/过量溶解需要显式用量边界，不能把中间沉淀冒充任意过量下的最终产物。长期全教材及案例推广目标仍未完成。
+
+## 前批：铁的 CO 还原与铝热反应
 
 基线 `03710ed66eec0cfc1b0dc86cc1c1fff609391d47`。新增 Al 元素、CO/Al/Al2O3 物质身份，两条规范方程及精确声明式规则。Fe2O3+3CO→2Fe(s)+3CO2；Fe2O3+2Al→2Fe(l)+Al2O3(s)。使用现有 heated/non_aqueous 条件；heated 是高中教学的粗粒度热条件，不表示任意轻微加热均能启动，不建模温度数值、炉内中间体、平衡气体比例或动力学。
 
