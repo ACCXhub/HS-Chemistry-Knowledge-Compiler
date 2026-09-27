@@ -6,7 +6,15 @@
 
 覆盖大陆高中必修＋选择性必修的元素、物质、方程、通用规则与特例；独立发布共享身份的数据模块，后续支持有证据的案例迁移和预测解释。预测不冒充规范事实，UNKNOWN 不等于不可能。安全提交推送 main 已授权；不启动子代理，不重复 M0–M25 审计，不 reset/stash/rebase。
 
-## 最新完成批次：铝与氧化铝溶酸
+## 最新完成批次：水溶液铝酸根与氢氧化铝溶碱
+
+基线 `5f4d322ba98f317f600dfa2d99b7f5fa9bb383d4`。新增 Al(OH)3、[Al(OH)4]-、Na[Al(OH)4]，以及一条固体氢氧化铝/NaOH规则与规范方程；不从AlCl3/NaOH推测过量终态。来源 Chemguide `inorganic/complexions/aquaoh.html` 及 `aloh.gif` 已读取，缓存 `build/curriculum-review/aluminium-aquaoh.html` / `aloh.gif`；图示省略配位水后的高中表示已在双语API契约说明。NaAlO2不是别名。
+
+validate通过；23项既有酸/bundle测试通过，新测试初次仅离子物态断言误用aqueous，修正为dissolved后1项通过（日志初次失败仍在 `build/aluminate-tests.txt`，复测终端1 passed）。单种子compile/audit/bundle/modules与全部规范方程正例检查通过，证据 `build/aluminate-verification/`、`build/aluminate-verification.txt`。本批未复跑双种子/M25/全套，未改编译器或schema。额度达到80%，只收尾；无遗留进程。
+
+下一步：额度恢复后补Al/NaOH、Al2O3/NaOH（水溶液显式水参与），再设计必要的用量边界支持Al3+沉淀/过量溶解。不要重做本批来源搜索；错误猜测的 Chemguide group3/oxides(h).html 与 period3/oxides.html 均404。自动任务保持ACTIVE，真实重置为北京时间2026-09-28 01:20:55，恢复后留余量继续。
+
+## 前批：铝与氧化铝溶酸
 
 基线 `2f57d24d766d8a63101fdbd81c3aedd9452b32f7`。新增 Al3+、AlCl3（水溶液教学解离），Al 的金属性/相对氢活动性/产物阳离子关系。2Al+6HCl→2AlCl3+3H2 直接复用未改动的 M10；Al2O3+6HCl→2AlCl3+3H2O 使用一条复用 ionic_pair 的溶酸规则。Al2O3 不误标成基本氧化物、不虚构固体解离；不添加通用价态或金属活动排序算法。
 

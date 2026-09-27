@@ -76,3 +76,9 @@ Suggested HTTP behavior: 200 for all six chemistry outcomes; 422 for invalid req
 Source schema 3.8.0 adds `medium: non_aqueous` to canonical Reaction conditions and the public request. It excludes an aqueous solution, not gaseous water: the new iron/steam, iron/oxygen, iron/chlorine and ferric hydroxide thermal Rules require `{"medium": "non_aqueous", "temperature_regime": "heated"}` plus their exact phases. Missing medium stays UNKNOWN; `aqueous` does not satisfy these Rules. No default medium is inferred from omission. M16–M18 Rules version 1.1.0 now require the same explicit non_aqueous medium. Existing callers must add it for dry carbonate/bicarbonate decomposition and magnesium/steam; missing medium returns indeterminate, not an inferred equation. Regenerate bundles after updating the rule data.
 
 Bundle/module formats, Rule DSL/plan and artifact format are unchanged. Export and deploy matching compiler 0.6.0 plus schema-3.8.0 bundles; the strict loader rejects older compiler/version coordinates. Regenerate bundles rather than editing manifests or hashes. The three-reactant Fe(OH)2/O2/H2O path uses the existing request list and matching engine; no API shape change is needed.
+
+## Aqueous aluminate representation
+
+Use `[Al(OH)4]-` and `Na[Al(OH)4]` for `ent_species_al_oh_4_minus` and `ent_substance_na_al_oh_4`. This school-level aqueous representation omits coordinated spectator water. `AlO2-` and `NaAlO2` are not aliases: their compositions and balancing water differ.
+
+Supported: explicit Al(OH)3(s) + NaOH(aq) -> Na[Al(OH)4](aq), requiring aqueous/ambient. Net ionic: Al(OH)3(s) + OH- -> [Al(OH)4]-. The solid hydroxide must be an input. An unspecified AlCl3/NaOH quantity does not select a precipitation or excess-dissolution endpoint; UNKNOWN does not mean impossible. NaAlO2 teaching notation, quantity branches and metal-aluminium/base paths remain pending.

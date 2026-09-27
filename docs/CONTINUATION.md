@@ -4,7 +4,15 @@
 
 The mainland compulsory/selective-compulsory goal remains incomplete: elements, substances, equations, general Rules and exact cases, independent modules with shared identities, and later evidence-backed case transfer/prediction explanations. Predictions are not canonical facts; UNKNOWN is not impossible. Safe main commits/pushes are authorized. No subagents, repeated M0–M25 audit, reset, stash or rebase.
 
-## Latest completed batch: aluminium and alumina with acid
+## Latest completed batch: aqueous aluminate and hydroxide/base dissolution
+
+Base `5f4d322ba98f317f600dfa2d99b7f5fa9bb383d4`. Add Al(OH)3, [Al(OH)4]- and Na[Al(OH)4], one solid-hydroxide/NaOH Rule and canonical equation. No unspecified AlCl3/NaOH endpoint inference. Chemguide `inorganic/complexions/aquaoh.html` and `aloh.gif` were read; cached under `build/curriculum-review/`. Bilingual API explains omission of coordinated spectator water and forbids NaAlO2 as an identity alias.
+
+Validate passed; 23 existing acid/bundle tests passed. The new test initially used aqueous instead of the established dissolved ionic phase; corrected test passed separately. Initial log `build/aluminate-tests.txt`; rerun terminal: 1 passed. Single-seed compile/audit/bundle/modules and complete positive coverage passed (`build/aluminate-verification/`, `build/aluminate-verification.txt`). No two-seed, M25 or full-suite rerun this batch; no compiler/schema edits. Quota reached 80%; closeout only, no live processes.
+
+After reset: Al/NaOH and Al2O3/NaOH with explicit aqueous water inputs, then necessary quantity boundaries for precipitation/excess dissolution. Do not repeat source searches; guessed Chemguide group3/oxides(h).html and period3/oxides.html returned 404. Automation remains ACTIVE; real reset 2026-09-28 01:20:55 Beijing; allow recovery margin.
+
+## Previous batch: aluminium and alumina with acid
 
 Base `2f57d24d766d8a63101fdbd81c3aedd9452b32f7`. Add Al3+, aqueous AlCl3 dissociation and aluminium metal/activity/product-cation facts. 2Al+6HCl -> 2AlCl3+3H2 reuses unchanged M10; Al2O3+6HCl -> 2AlCl3+3H2O adds one ionic_pair-based acid Rule. No false basic-oxide classification, solid dissociation, valence guessing or activity ordering.
 

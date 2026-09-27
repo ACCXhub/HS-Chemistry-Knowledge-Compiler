@@ -1173,3 +1173,13 @@ cases:
     context:
       medium: aqueous
       temperature_regime: ambient
+
+  - id: case_curriculum_aluminium_hydroxide_naoh
+    reactants:
+    - target_id: ent_substance_al_oh_3
+      phase: solid
+    - target_id: ent_substance_naoh
+      phase: aqueous
+    context:
+      medium: aqueous
+      temperature_regime: ambient

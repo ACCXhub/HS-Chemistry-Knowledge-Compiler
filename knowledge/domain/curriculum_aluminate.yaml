@@ -1,0 +1,166 @@
+records:
+- id: src_chemguide_aqua_hydroxide
+  record_type: source
+  source_type: textbook
+  citation: Jim Clark, Chemguide, Reactions of hexaaqua metal ions with hydroxide
+    ions. https://www.chemguide.co.uk/inorganic/complexions/aquaoh.html and aloh.gif
+    (accessed 2026-09-27).
+- id: ev_aluminium_hydroxide_alkali
+  record_type: evidence
+  source_id: src_chemguide_aqua_hydroxide
+  stance: supports
+  claim_summary: Chemguide explicitly shows white aluminium hydroxide precipitate
+    dissolving in excess NaOH to [Al(H2O)2(OH)4]-. The school-level aqueous identity
+    omits coordinated spectator water as [Al(OH)4]-, and represents the precipitate
+    as Al(OH)3. The authored dissolution step is Al(OH)3(s) + NaOH(aq) -> Na[Al(OH)4](aq),
+    not a prediction of the final mixture after adding an unspecified amount of base
+    to Al3+. NaAlO2/AlO2- are not aliases of these hydrated-composition identities.
+    No complex geometry or hydration equilibrium is inferred.
+- id: ent_substance_al_oh_3
+  record_type: entity
+  entity_kind: substance
+  terms:
+    preferred: aluminium hydroxide
+    aliases:
+    - 氢氧化铝
+  semantic_keys:
+  - scheme: formula.unit
+    value: Al(OH)3
+  payload:
+    substance_kind: pure_compound
+    composition:
+      components:
+      - element_id: ent_element_al
+        count: 1
+      - element_id: ent_element_o
+        count: 3
+      - element_id: ent_element_h
+        count: 3
+      net_charge: 0
+  evidence_ids:
+  - ev_aluminium_hydroxide_alkali
+- id: ent_species_al_oh_4_minus
+  record_type: entity
+  entity_kind: species
+  terms:
+    preferred: tetrahydroxoaluminate ion
+    aliases:
+    - 四羟基合铝酸根离子
+  semantic_keys:
+  - scheme: formula.ion
+    value: '[Al(OH)4]-'
+  payload:
+    species_kind: ion
+    formal_charge: -1
+    composition:
+      components:
+      - element_id: ent_element_al
+        count: 1
+      - element_id: ent_element_o
+        count: 4
+      - element_id: ent_element_h
+        count: 4
+      net_charge: -1
+  evidence_ids:
+  - ev_aluminium_hydroxide_alkali
+- id: ent_substance_na_al_oh_4
+  record_type: entity
+  entity_kind: substance
+  terms:
+    preferred: sodium tetrahydroxoaluminate
+    aliases:
+    - 四羟基合铝酸钠
+  semantic_keys:
+  - scheme: formula.unit
+    value: Na[Al(OH)4]
+  payload:
+    substance_kind: pure_compound
+    composition:
+      components:
+      - element_id: ent_element_na
+        count: 1
+      - element_id: ent_element_al
+        count: 1
+      - element_id: ent_element_o
+        count: 4
+      - element_id: ent_element_h
+        count: 4
+      net_charge: 0
+  facet_assertions:
+  - facet_key: classification.salt
+    value_state: known
+    value: true
+    fact_kind: intrinsic
+    evidence_ids:
+    - ev_aluminium_hydroxide_alkali
+  property_assertions:
+  - property_key: electrolyte.strength
+    value_state: known
+    value: strong
+    fact_kind: contextual
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_aluminium_hydroxide_alkali
+  - property_key: solubility.class
+    value_state: known
+    value: soluble
+    fact_kind: contextual
+    context:
+      medium: aqueous
+    evidence_ids:
+    - ev_aluminium_hydroxide_alkali
+  speciation_profiles:
+  - profile_key: aqueous_complete_dissociation
+    context:
+      medium: aqueous
+    model: strong_electrolyte_complete_dissociation
+    products:
+    - target_id: ent_species_na_plus
+      coefficient:
+        numerator: 1
+        denominator: 1
+    - target_id: ent_species_al_oh_4_minus
+      coefficient:
+        numerator: 1
+        denominator: 1
+    evidence_ids:
+    - ev_aluminium_hydroxide_alkali
+  evidence_ids:
+  - ev_aluminium_hydroxide_alkali
+- id: rxn_curriculum_aluminium_hydroxide_naoh
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_al_oh_3
+    phase: solid
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+  - target_id: ent_substance_naoh
+    phase: aqueous
+    target_kind: substance
+    role: reactant
+    coefficient:
+      numerator: 1
+      denominator: 1
+  - target_id: ent_substance_na_al_oh_4
+    phase: aqueous
+    target_kind: substance
+    role: product
+    coefficient:
+      numerator: 1
+      denominator: 1
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_aluminium_hydroxide_alkali
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_aluminium_hydroxide_alkali
+  forms: []
+  evidence_ids:
+  - ev_aluminium_hydroxide_alkali
