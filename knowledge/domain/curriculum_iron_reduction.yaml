@@ -1,0 +1,179 @@
+records:
+- id: ev_iron_co_reduction
+  record_type: evidence
+  source_id: src_openstax_chemistry_2e
+  claim_summary: OpenStax Chemistry 2e 19.1, blast-furnace section, describes CO reducing
+    iron oxides to iron before the iron melts in the lower region. The school-level
+    overall reduction is Fe2O3(s) + 3CO(g) -> 2Fe(s) + 3CO2(g). This exact heated,
+    non-aqueous teaching equation does not model intermediate oxides, equilibrium
+    gas ratios, kinetics or a molten furnace product. Heated is the existing coarse
+    high-temperature condition, not a claim that any mild warming suffices.
+  stance: supports
+- id: ev_iron_thermite
+  record_type: evidence
+  source_id: src_ncert_metals_nonmetals
+  claim_summary: NCERT Science Metals and Non-metals section 3.4.4 explicitly prints
+    Fe2O3(s) + 2Al(s) -> 2Fe(l) + Al2O3(s) + heat, describing the strongly exothermic
+    thermit reaction and molten metal. The same chapter identifies aluminium as atomic
+    number 13. This bounded school-level path requires thermal initiation represented
+    by heated and a non-aqueous mixture; it does not claim spontaneous reaction at
+    ambient temperature or infer other metal-oxide reductions.
+  stance: supports
+- id: ent_element_al
+  record_type: entity
+  entity_kind: element
+  terms:
+    preferred: aluminium
+    aliases:
+    - 铝
+  semantic_keys:
+  - scheme: element.symbol
+    value: Al
+  payload:
+    atomic_number: 13
+    symbol: Al
+  evidence_ids:
+  - ev_iron_thermite
+- id: ent_substance_co
+  record_type: entity
+  entity_kind: substance
+  terms:
+    preferred: carbon monoxide
+    aliases:
+    - 一氧化碳
+  semantic_keys:
+  - scheme: formula.unit
+    value: CO
+  payload:
+    substance_kind: pure_compound
+    composition:
+      components:
+      - element_id: ent_element_c
+        count: 1
+      - element_id: ent_element_o
+        count: 1
+      net_charge: 0
+  evidence_ids:
+  - ev_iron_co_reduction
+- id: ent_substance_elemental_al
+  record_type: entity
+  entity_kind: substance
+  terms:
+    preferred: aluminium
+    aliases:
+    - 铝单质
+  semantic_keys:
+  - scheme: formula.unit
+    value: Al
+  payload:
+    substance_kind: elemental
+    composition:
+      components:
+      - element_id: ent_element_al
+        count: 1
+      net_charge: 0
+  evidence_ids:
+  - ev_iron_thermite
+- id: ent_substance_al2o3
+  record_type: entity
+  entity_kind: substance
+  terms:
+    preferred: aluminium oxide
+    aliases:
+    - 氧化铝
+  semantic_keys:
+  - scheme: formula.unit
+    value: Al2O3
+  payload:
+    substance_kind: pure_compound
+    composition:
+      components:
+      - element_id: ent_element_al
+        count: 2
+      - element_id: ent_element_o
+        count: 3
+      net_charge: 0
+  evidence_ids:
+  - ev_iron_thermite
+- id: rxn_curriculum_iron_co_reduction
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_fe2o3
+    target_kind: substance
+    role: reactant
+    phase: solid
+    coefficient:
+      numerator: 1
+      denominator: 1
+  - target_id: ent_substance_co
+    target_kind: substance
+    role: reactant
+    phase: gas
+    coefficient:
+      numerator: 3
+      denominator: 1
+  - target_id: ent_substance_elemental_fe
+    target_kind: substance
+    role: product
+    phase: solid
+    coefficient:
+      numerator: 2
+      denominator: 1
+  - target_id: ent_substance_co2
+    target_kind: substance
+    role: product
+    phase: gas
+    coefficient:
+      numerator: 3
+      denominator: 1
+  conditions:
+  - key: medium
+    value: non_aqueous
+    evidence_ids: &id001
+    - ev_iron_co_reduction
+  - key: temperature_regime
+    value: heated
+    evidence_ids: *id001
+  forms: []
+  evidence_ids: *id001
+- id: rxn_curriculum_iron_thermite
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_fe2o3
+    target_kind: substance
+    role: reactant
+    phase: solid
+    coefficient:
+      numerator: 1
+      denominator: 1
+  - target_id: ent_substance_elemental_al
+    target_kind: substance
+    role: reactant
+    phase: solid
+    coefficient:
+      numerator: 2
+      denominator: 1
+  - target_id: ent_substance_elemental_fe
+    target_kind: substance
+    role: product
+    phase: liquid
+    coefficient:
+      numerator: 2
+      denominator: 1
+  - target_id: ent_substance_al2o3
+    target_kind: substance
+    role: product
+    phase: solid
+    coefficient:
+      numerator: 1
+      denominator: 1
+  conditions:
+  - key: medium
+    value: non_aqueous
+    evidence_ids: &id002
+    - ev_iron_thermite
+  - key: temperature_regime
+    value: heated
+    evidence_ids: *id002
+  forms: []
+  evidence_ids: *id002

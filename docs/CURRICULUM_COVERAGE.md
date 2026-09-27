@@ -75,8 +75,8 @@ This is a finite engineering queue, not an exhaustive textbook inventory. Pendin
 | 2Fe(OH)3 -> Fe2O3 + 3H2O | Implemented: heated/non_aqueous; product water is gas |
 | 3Fe + 4H2O(g) -> Fe3O4 + 4H2 | Implemented: heated/non_aqueous, water vapor required |
 | 2Fe + 3Cl2 -> 2FeCl3 | Implemented: heated/non_aqueous, solid FeCl3 product |
-| Fe2O3 + 3CO -> 2Fe + 3CO2 | Pending high-temperature reduction and identities |
-| Fe2O3 + 2Al -> 2Fe + Al2O3 | Pending thermite initiation conditions and identities |
+| Fe2O3 + 3CO -> 2Fe + 3CO2 | Implemented: heated/non_aqueous, CO(g), school-level overall reaction yielding Fe(s) |
+| Fe2O3 + 2Al -> 2Fe + Al2O3 | Implemented: heated/non_aqueous thermal initiation, Fe(l) and Al2O3(s) products |
 
 All 25 focused and 482 full-suite tests pass. The three implemented transformations use existing declarative exact Rules, balancing and ionic projection. No general redox engine is added. The Cu-to-Fe2+ negative excludes only the M19 displacement pathway; other UNKNOWN paths do not mean no reaction.
 

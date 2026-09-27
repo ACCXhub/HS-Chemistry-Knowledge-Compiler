@@ -1135,3 +1135,22 @@ cases:
     context:
       medium: aqueous
       temperature_regime: ambient
+
+  - id: case_curriculum_iron_co_reduction
+    reactants:
+    - target_id: ent_substance_fe2o3
+      phase: solid
+    - target_id: ent_substance_co
+      phase: gas
+    context:
+      medium: non_aqueous
+      temperature_regime: heated
+  - id: case_curriculum_iron_thermite
+    reactants:
+    - target_id: ent_substance_fe2o3
+      phase: solid
+    - target_id: ent_substance_elemental_al
+      phase: solid
+    context:
+      medium: non_aqueous
+      temperature_regime: heated

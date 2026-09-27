@@ -1,0 +1,51 @@
+records:
+- id: rule_curriculum_iron_co_reduction
+  record_type: rule
+  version: 1.0.0
+  decision_domain: iron_thermal_conversion
+  match:
+    reactants:
+    - bind: input_0
+      target_id: ent_substance_fe2o3
+      phase: solid
+    - bind: input_1
+      target_id: ent_substance_co
+      phase: gas
+  context:
+    medium: non_aqueous
+    temperature_regime: heated
+  products:
+  - target_id: ent_substance_elemental_fe
+    phase: solid
+  - target_id: ent_substance_co2
+    phase: gas
+  validators:
+  - atoms_conserved
+  - charge_conserved
+  evidence_ids:
+  - ev_iron_co_reduction
+- id: rule_curriculum_iron_thermite
+  record_type: rule
+  version: 1.0.0
+  decision_domain: iron_thermal_conversion
+  match:
+    reactants:
+    - bind: input_0
+      target_id: ent_substance_fe2o3
+      phase: solid
+    - bind: input_1
+      target_id: ent_substance_elemental_al
+      phase: solid
+  context:
+    medium: non_aqueous
+    temperature_regime: heated
+  products:
+  - target_id: ent_substance_elemental_fe
+    phase: liquid
+  - target_id: ent_substance_al2o3
+    phase: solid
+  validators:
+  - atoms_conserved
+  - charge_conserved
+  evidence_ids:
+  - ev_iron_thermite

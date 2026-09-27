@@ -6,7 +6,17 @@
 
 覆盖大陆高中必修＋选择性必修的元素、物质、方程、通用规则与特例；独立发布共享身份的数据模块，后续支持有证据的案例迁移和预测解释。预测不冒充规范事实，UNKNOWN 不等于不可能。安全提交推送 main 已授权；不启动子代理，不重复 M0–M25 审计，不 reset/stash/rebase。
 
-## 最新完成批次：M16–M18 介质边界
+## 最新完成批次：铁的 CO 还原与铝热反应
+
+基线 `03710ed66eec0cfc1b0dc86cc1c1fff609391d47`。新增 Al 元素、CO/Al/Al2O3 物质身份，两条规范方程及精确声明式规则。Fe2O3+3CO→2Fe(s)+3CO2；Fe2O3+2Al→2Fe(l)+Al2O3(s)。使用现有 heated/non_aqueous 条件；heated 是高中教学的粗粒度热条件，不表示任意轻微加热均能启动，不建模温度数值、炉内中间体、平衡气体比例或动力学。
+
+来源为已保存的 OpenStax 19.1 高炉还原段和 NCERT 3.4.4 铝热反应明确方程。未新增通用氧化还原推断分支或大学范围。63项针对性测试通过，含两条规则移除存储Reaction后仍能生成、准确系数/物态、输入顺序、缺条件与错误介质边界；validate通过。compile/audit/bundle/modules在种子3/941下字节一致；M25两次19 mapped/124 skipped/9 rejected。证据 `build/iron-reduction-*`，没有遗留测试进程，未重跑全套。
+
+当前327记录、123 Entity、110 Reaction、35 Rule、169案例；111 inferred、45 indeterminate、12 no_match、1 blocked。110规范方程都有正例。模块主记录/依赖：elements 19/8、substances 104/69、equations 145/176。正式产物提交后按最终SHA重导出。
+
+下一小批：铝的酸/碱及氧化铝两性路径。先核对现有产物构造和 Al3+/铝酸根表示缺口，避免以单一价态或基本氧化物标签掩盖两性；NaAlO2与水溶液[Al(OH)4]-表示必须作明确约定。随后补有限教材逐式目录及非金属/有机/电化学；自动案例推广仍未实现。
+
+## 前批：M16–M18 介质边界
 
 基线 `e7f8a71d07e82bf61b835fe8b22f1d64332c0d14`。三条规则升级 1.1.0，同时要求 `medium: non_aqueous` 和 `temperature_regime: heated`；规范 Reaction 条件、fixtures、相关测试及中英文接口/路线图已同步。缺 medium 为 indeterminate/UNKNOWN，明确 aqueous 为 no_match，均不生成候选。编译器与 schema 版本不变，没有新增运行分支。
 
@@ -36,7 +46,7 @@ M25 两次复现相同：19 mapped /124 skipped /9 rejected。相比上一批，
 
 1. `git status --short --branch`、`git diff --stat`、`git rev-parse HEAD`，读本文并检查真实额度；保留未提交工作，当前批次无遗留测试进程。
 2. M16–M18 介质修正已完成，不重复审计；直接从下一项逐式队列继续。
-3. 然后补 Fe2O3/CO、铝热反应等[逐式队列](CURRICULUM_COVERAGE.zh-CN.md)，以及 Al、非金属、有机、电化学。当前数量不是教材全覆盖证明；仍需有限教材逐式目录。
+3. Fe2O3/CO、铝热反应已补，继续铝化学及[逐式队列](CURRICULUM_COVERAGE.zh-CN.md)，以及 Al、非金属、有机、电化学。当前数量不是教材全覆盖证明；仍需有限教材逐式目录。
 4. 浓度、过量、催化、可逆、电极条件须有必要语义。案例/模型自动推广还未实现，不凭标签或守恒猜反应。
 
 ## 网站与自动续作

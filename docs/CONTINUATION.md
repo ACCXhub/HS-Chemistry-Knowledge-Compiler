@@ -4,7 +4,17 @@
 
 The mainland compulsory/selective-compulsory goal remains incomplete: elements, substances, equations, general Rules and exact cases, independent modules with shared identities, and later evidence-backed case transfer/prediction explanations. Predictions are not canonical facts; UNKNOWN is not impossible. Safe main commits/pushes are authorized. No subagents, repeated M0–M25 audit, reset, stash or rebase.
 
-## Latest completed batch: M16–M18 medium boundaries
+## Latest completed batch: CO reduction and thermite
+
+Base `03710ed66eec0cfc1b0dc86cc1c1fff609391d47`. Add Al element, CO/Al/Al2O3 substances, two canonical equations and exact declarative Rules: Fe2O3+3CO -> 2Fe(s)+3CO2; Fe2O3+2Al -> 2Fe(l)+Al2O3(s). Existing heated/non_aqueous contexts represent coarse school-level thermal conditions, not arbitrary mild warming, numeric temperatures, furnace intermediates, equilibrium gas ratios or kinetics.
+
+Evidence: saved OpenStax 19.1 furnace reduction section and NCERT 3.4.4 explicit thermite equation. No generic redox engine. All 63 focused tests pass, including inference without stored Reactions, coefficients/phases, input order and context boundaries; validate passes. Compile/audit/bundle/modules match across seeds 3/941; M25 repeats at 19 mapped/124 skipped/9 rejected. Evidence `build/iron-reduction-*`; no live test processes; no full-suite rerun.
+
+Current: 327 records, 123 Entities, 110 Reactions, 35 Rules, 169 cases; 111 inferred, 45 indeterminate, 12 no_match, one blocked. All 110 equations have positives. Module roots/dependencies: elements 19/8, substances 104/69, equations 145/176. Re-export release outputs using final commit SHA.
+
+Next bounded batch: aluminium acid/base and amphoteric oxide paths. Inspect existing product construction and missing Al3+/aluminate representation; do not misclassify amphoteric oxide as solely basic. Explicitly distinguish school NaAlO2 from aqueous [Al(OH)4]-. Then continue the finite textbook inventory and nonmetal/organic/electrochemical gaps. Automated analogy is still pending.
+
+## Previous batch: M16–M18 medium boundaries
 
 Base `e7f8a71d07e82bf61b835fe8b22f1d64332c0d14`. All three Rules are now 1.1.0 and require both `medium: non_aqueous` and `temperature_regime: heated`. Canonical conditions, fixtures, tests and bilingual API/roadmap notes agree. Missing medium is indeterminate/UNKNOWN; aqueous is no_match. Neither produces a candidate. Compiler/schema versions and runtime code are unchanged.
 
@@ -34,7 +44,7 @@ Sources: OpenStax 19.1 (iron/chlorine, magnetite, oxides/hydroxides); Chemguide 
 
 Run `git status --short --branch`, `git diff --stat`, `git rev-parse HEAD`, read this record and check actual quota. Preserve dirty work; this batch has no remaining live test processes. M16–M18 medium corrections are complete; continue the equation queue without repeating this audit.
 
-Then continue Fe2O3/CO, thermite and the [equation queue](CURRICULUM_COVERAGE.md), Al/nonmetal/organic/electrochemical gaps and a finite textbook inventory. Current counts do not prove curriculum completeness. Concentration, excess, catalysts, reversibility and electrodes require necessary semantics; automated analogy/model prediction is not implemented.
+Fe2O3/CO and thermite are complete. Continue aluminium chemistry and the [equation queue](CURRICULUM_COVERAGE.md), Al/nonmetal/organic/electrochemical gaps and a finite textbook inventory. Current counts do not prove curriculum completeness. Concentration, excess, catalysts, reversibility and electrodes require necessary semantics; automated analogy/model prediction is not implemented.
 
 ## Website and automation
 

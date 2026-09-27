@@ -77,8 +77,8 @@
 | 2Fe(OH)3 → Fe2O3 + 3H2O | 已实现：heated/non_aqueous，产物水为气态 |
 | 3Fe + 4H2O(g) → Fe3O4 + 4H2 | 已实现：heated/non_aqueous，必须是水蒸气 |
 | 2Fe + 3Cl2 → 2FeCl3 | 已实现：heated/non_aqueous，产物为固体 FeCl3 |
-| Fe2O3 + 3CO → 2Fe + 3CO2 | 待补高温还原语义与身份 |
-| Fe2O3 + 2Al → 2Fe + Al2O3 | 待补铝热反应启动条件与身份 |
+| Fe2O3 + 3CO → 2Fe + 3CO2 | 已实现：heated/non_aqueous，CO(g)，高中总反应产物 Fe(s) |
+| Fe2O3 + 2Al → 2Fe + Al2O3 | 已实现：heated/non_aqueous 表示热启动，产物 Fe(l)、Al2O3(s) |
 
 本批25项针对性与482项全套测试通过。三条已实现价态互转使用现有声明式精确规则和配平/离子投影器，不新增通用氧化还原引擎。Cu→Fe2+ 的否定只排除 M19 置换路径，不能把所有 UNKNOWN 解释为不反应。
 
