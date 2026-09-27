@@ -1183,3 +1183,25 @@ cases:
     context:
       medium: aqueous
       temperature_regime: ambient
+  - id: case_curriculum_aluminium_naoh
+    reactants:
+    - target_id: ent_substance_elemental_al
+      phase: solid
+    - target_id: ent_substance_naoh
+      phase: aqueous
+    - target_id: ent_substance_h2o
+      phase: liquid
+    context:
+      medium: aqueous
+      temperature_regime: ambient
+  - id: case_curriculum_alumina_naoh
+    reactants:
+    - target_id: ent_substance_al2o3
+      phase: solid
+    - target_id: ent_substance_naoh
+      phase: aqueous
+    - target_id: ent_substance_h2o
+      phase: liquid
+    context:
+      medium: aqueous
+      temperature_regime: ambient

@@ -4,13 +4,21 @@
 
 The mainland compulsory/selective-compulsory goal remains incomplete: elements, substances, equations, general Rules and exact cases, independent modules with shared identities, and later evidence-backed case transfer/prediction explanations. Predictions are not canonical facts; UNKNOWN is not impossible. Safe main commits/pushes are authorized. No subagents, repeated M0–M25 audit, reset, stash or rebase.
 
-## Latest completed batch: aqueous aluminate and hydroxide/base dissolution
+## Latest completed batch: aqueous aluminium/alumina base pathways
+
+Base `34f55f9ec0941560e9f16aa54cb67c0addaba1d3`. Add the canonical equations `2Al + 2NaOH + 6H2O -> 2Na[Al(OH)4] + 3H2` and `Al2O3 + 2NaOH + 3H2O -> 2Na[Al(OH)4]`, plus two exact declarative Rules. Liquid water, aqueous/ambient context and phases are explicit. Reuse the `[Al(OH)4]-`/`Na[Al(OH)4]` aqueous representation; do not alias `NaAlO2`, and do not choose a precipitation or excess-base endpoint from an unspecified `Al3+ + NaOH` amount.
+
+Validate passes; 25 focused aluminium/aluminate/application-bundle tests pass; both net-ionic forms are derived by the existing projector and conserve atoms/charge. Current source has 345 records, 115 canonical Reactions, 39 Rules, 174 fixtures and 45 speciation profiles: 116 inferred, 45 indeterminate, 12 no_match and one blocked. Every canonical Reaction has a positive fixture. No compiler/schema change and no full-suite rerun.
+
+Next: add the minimum quantity-boundary semantics needed for `Al3+ + NaOH` precipitation versus excess dissolution, then continue bounded aluminium acid/base cases. Follow the finite textbook equation queue for halogens, sulfur, nitrogen, organic and electrochemical topics. Model candidates remain separate from canonical facts; UNKNOWN is not impossible.
+
+## Previous batch: aqueous aluminate and hydroxide/base dissolution
 
 Base `5f4d322ba98f317f600dfa2d99b7f5fa9bb383d4`. Add Al(OH)3, [Al(OH)4]- and Na[Al(OH)4], one solid-hydroxide/NaOH Rule and canonical equation. No unspecified AlCl3/NaOH endpoint inference. Chemguide `inorganic/complexions/aquaoh.html` and `aloh.gif` were read; cached under `build/curriculum-review/`. Bilingual API explains omission of coordinated spectator water and forbids NaAlO2 as an identity alias.
 
 Validate passed; 23 existing acid/bundle tests passed. The new test initially used aqueous instead of the established dissolved ionic phase; corrected test passed separately. Initial log `build/aluminate-tests.txt`; rerun terminal: 1 passed. Single-seed compile/audit/bundle/modules and complete positive coverage passed (`build/aluminate-verification/`, `build/aluminate-verification.txt`). No two-seed, M25 or full-suite rerun this batch; no compiler/schema edits. Quota reached 80%; closeout only, no live processes.
 
-After reset: Al/NaOH and Al2O3/NaOH with explicit aqueous water inputs, then necessary quantity boundaries for precipitation/excess dissolution. Do not repeat source searches; guessed Chemguide group3/oxides(h).html and period3/oxides.html returned 404. Automation remains ACTIVE; real reset 2026-09-28 01:20:55 Beijing; allow recovery margin.
+After this batch, Al/NaOH and Al2O3/NaOH are complete with explicit aqueous water inputs. The next bounded item is quantity semantics for precipitation/excess dissolution. Do not repeat source searches; guessed Chemguide group3/oxides(h).html and period3/oxides.html returned 404. Automation remains ACTIVE; query the live reset time on each trigger.
 
 ## Previous batch: aluminium and alumina with acid
 

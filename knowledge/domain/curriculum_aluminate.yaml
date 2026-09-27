@@ -1,4 +1,14 @@
 records:
+- id: ev_aluminium_alkali_paths
+  record_type: evidence
+  source_id: src_openstax_chemistry_2e
+  stance: supports
+  claim_summary: OpenStax Chemistry 2e representative-metal chemistry and the reviewed
+    high-school amphoteric-aluminium treatment support the bounded aqueous paths
+    2Al + 2NaOH + 6H2O -> 2Na[Al(OH)4] + 3H2 and Al2O3 + 2NaOH + 3H2O ->
+    2Na[Al(OH)4]. The hydrated aqueous representation is kept separate from the
+    dry-school notation NaAlO2; explicit liquid water is required by this representation.
+    No general aluminium/base, excess-reagent, or equilibrium inference is introduced.
 - id: src_chemguide_aqua_hydroxide
   record_type: source
   source_type: textbook
@@ -164,3 +174,96 @@ records:
   forms: []
   evidence_ids:
   - ev_aluminium_hydroxide_alkali
+- id: rxn_curriculum_aluminium_naoh
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_elemental_al
+    target_kind: substance
+    role: reactant
+    phase: solid
+    coefficient:
+      numerator: 2
+      denominator: 1
+  - target_id: ent_substance_naoh
+    target_kind: substance
+    role: reactant
+    phase: aqueous
+    coefficient:
+      numerator: 2
+      denominator: 1
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: reactant
+    phase: liquid
+    coefficient:
+      numerator: 6
+      denominator: 1
+  - target_id: ent_substance_na_al_oh_4
+    target_kind: substance
+    role: product
+    phase: aqueous
+    coefficient:
+      numerator: 2
+      denominator: 1
+  - target_id: ent_substance_h2
+    target_kind: substance
+    role: product
+    phase: gas
+    coefficient:
+      numerator: 3
+      denominator: 1
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_aluminium_alkali_paths
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_aluminium_alkali_paths
+  forms: []
+  evidence_ids:
+  - ev_aluminium_alkali_paths
+- id: rxn_curriculum_alumina_naoh
+  record_type: reaction
+  participants:
+  - target_id: ent_substance_al2o3
+    target_kind: substance
+    role: reactant
+    phase: solid
+    coefficient:
+      numerator: 1
+      denominator: 1
+  - target_id: ent_substance_naoh
+    target_kind: substance
+    role: reactant
+    phase: aqueous
+    coefficient:
+      numerator: 2
+      denominator: 1
+  - target_id: ent_substance_h2o
+    target_kind: substance
+    role: reactant
+    phase: liquid
+    coefficient:
+      numerator: 3
+      denominator: 1
+  - target_id: ent_substance_na_al_oh_4
+    target_kind: substance
+    role: product
+    phase: aqueous
+    coefficient:
+      numerator: 2
+      denominator: 1
+  conditions:
+  - key: medium
+    value: aqueous
+    evidence_ids:
+    - ev_aluminium_alkali_paths
+  - key: temperature_regime
+    value: ambient
+    evidence_ids:
+    - ev_aluminium_alkali_paths
+  forms: []
+  evidence_ids:
+  - ev_aluminium_alkali_paths

@@ -6,13 +6,21 @@
 
 覆盖大陆高中必修＋选择性必修的元素、物质、方程、通用规则与特例；独立发布共享身份的数据模块，后续支持有证据的案例迁移和预测解释。预测不冒充规范事实，UNKNOWN 不等于不可能。安全提交推送 main 已授权；不启动子代理，不重复 M0–M25 审计，不 reset/stash/rebase。
 
-## 最新完成批次：水溶液铝酸根与氢氧化铝溶碱
+## 最新完成批次：铝、氧化铝与碱的水溶液两性路径
+
+基线 `34f55f9ec0941560e9f16aa54cb67c0addaba1d3`。新增 `2Al + 2NaOH + 6H2O → 2Na[Al(OH)4] + 3H2` 与 `Al2O3 + 2NaOH + 3H2O → 2Na[Al(OH)4]` 两条规范方程和两条精确声明式 Rule；显式要求液态水、`aqueous/ambient` 和正确物态。沿用 `[Al(OH)4]-`/`Na[Al(OH)4]` 的水溶液表示，不把 `NaAlO2` 当别名，也不从未指定用量的 `Al3+ + NaOH` 推断沉淀或过量终态。
+
+`validate` 通过；铝酸根、铝酸/酸、应用数据包相关 25 项定向测试通过；两条净离子式均由现有投影器导出并守恒。当前为 345 条记录、115 条规范 Reaction、39 条 Rule、174 个案例、45 个解离配置；116 inferred、45 indeterminate、12 no_match、1 blocked，115 条规范 Reaction 均有正例。未改编译器/schema，未重复全套测试。
+
+下一步：为 `Al3+ + NaOH` 的少量/过量分支引入最小用量边界语义，继续补铝的酸碱特例；随后按有限教材逐式清单推进卤素、硫、氮和有机/电化学。模型候选仍须与规范事实分离，UNKNOWN 不等于不可能。
+
+## 前批：水溶液铝酸根与氢氧化铝溶碱
 
 基线 `5f4d322ba98f317f600dfa2d99b7f5fa9bb383d4`。新增 Al(OH)3、[Al(OH)4]-、Na[Al(OH)4]，以及一条固体氢氧化铝/NaOH规则与规范方程；不从AlCl3/NaOH推测过量终态。来源 Chemguide `inorganic/complexions/aquaoh.html` 及 `aloh.gif` 已读取，缓存 `build/curriculum-review/aluminium-aquaoh.html` / `aloh.gif`；图示省略配位水后的高中表示已在双语API契约说明。NaAlO2不是别名。
 
 validate通过；23项既有酸/bundle测试通过，新测试初次仅离子物态断言误用aqueous，修正为dissolved后1项通过（日志初次失败仍在 `build/aluminate-tests.txt`，复测终端1 passed）。单种子compile/audit/bundle/modules与全部规范方程正例检查通过，证据 `build/aluminate-verification/`、`build/aluminate-verification.txt`。本批未复跑双种子/M25/全套，未改编译器或schema。额度达到80%，只收尾；无遗留进程。
 
-下一步：额度恢复后补Al/NaOH、Al2O3/NaOH（水溶液显式水参与），再设计必要的用量边界支持Al3+沉淀/过量溶解。不要重做本批来源搜索；错误猜测的 Chemguide group3/oxides(h).html 与 period3/oxides.html 均404。自动任务保持ACTIVE，真实重置为北京时间2026-09-28 01:20:55，恢复后留余量继续。
+本批之后已补 Al/NaOH、Al2O3/NaOH；下一项是必要的用量边界，支持 Al3+ 沉淀/过量溶解。不要重做本批来源搜索；错误猜测的 Chemguide group3/oxides(h).html 与 period3/oxides.html 均404。自动任务保持 ACTIVE，真实重置以实时额度查询为准。
 
 ## 前批：铝与氧化铝溶酸
 

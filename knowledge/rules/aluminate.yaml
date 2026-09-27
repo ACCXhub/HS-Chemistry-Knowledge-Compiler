@@ -1,4 +1,58 @@
 records:
+- id: rule_curriculum_aluminium_naoh
+  record_type: rule
+  version: 1.0.0
+  decision_domain: aqueous_amphoteric_aluminium_base
+  match:
+    reactants:
+    - bind: aluminium
+      target_id: ent_substance_elemental_al
+      phase: solid
+    - bind: base
+      target_id: ent_substance_naoh
+      phase: aqueous
+    - bind: water
+      target_id: ent_substance_h2o
+      phase: liquid
+  context:
+    medium: aqueous
+    temperature_regime: ambient
+  products:
+  - target_id: ent_substance_na_al_oh_4
+    phase: aqueous
+  - target_id: ent_substance_h2
+    phase: gas
+  validators:
+  - atoms_conserved
+  - charge_conserved
+  evidence_ids:
+  - ev_aluminium_alkali_paths
+- id: rule_curriculum_alumina_naoh
+  record_type: rule
+  version: 1.0.0
+  decision_domain: aqueous_amphoteric_aluminium_base
+  match:
+    reactants:
+    - bind: oxide
+      target_id: ent_substance_al2o3
+      phase: solid
+    - bind: base
+      target_id: ent_substance_naoh
+      phase: aqueous
+    - bind: water
+      target_id: ent_substance_h2o
+      phase: liquid
+  context:
+    medium: aqueous
+    temperature_regime: ambient
+  products:
+  - target_id: ent_substance_na_al_oh_4
+    phase: aqueous
+  validators:
+  - atoms_conserved
+  - charge_conserved
+  evidence_ids:
+  - ev_aluminium_alkali_paths
 - id: rule_curriculum_aluminium_hydroxide_naoh
   record_type: rule
   version: 1.0.0

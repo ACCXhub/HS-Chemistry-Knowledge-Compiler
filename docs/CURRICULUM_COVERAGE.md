@@ -4,7 +4,7 @@
 
 The acceptance target is mainland China's compulsory and selective-compulsory high-school chemistry. **Coverage is incomplete; arbitrary reactions cannot be inferred from element tags.** This engineering checklist groups common teaching topics; it is not an official curriculum or a textbook's exhaustive equation inventory.
 
-There are 108 canonical Reactions, 33 Rules and 167 fixtures. The 109 inferred cases cover all 108 canonical Reactions plus one unstored equation. The remaining 45 indeterminate, 12 no_match and one blocked outcomes are boundary proofs, not covered equations.
+There are 115 canonical Reactions, 39 Rules and 174 fixtures. The 116 inferred cases cover all 115 canonical Reactions plus one unstored equation. The remaining 45 indeterminate, 12 no_match and one blocked outcomes are boundary proofs, not covered equations.
 
 ## Coverage checklist
 
@@ -26,7 +26,7 @@ Partial coverage applies only to admitted identities, properties, phases and con
 | Thermal decomposition | Exact pilots | CaCO3, NaHCO3 and Fe(OH)3; permanganate/chlorate, nitrates and other hydroxides missing |
 | Basic oxide/acid and acidic oxide/base | Partial | Twelve Na2O/MgO/CaO/CuO/FeO/Fe2O3 acid cases plus three solid Fe hydroxide acid cases; CO2/NaOH still missing |
 | Sodium oxides/peroxides | Partial | Na2O/water implemented; Na2O2 with water/CO2 still missing |
-| Aluminum and amphoteric chemistry | Missing | Al/base, Al(OH)3 with acid/base, excess-reagent pathways |
+| Aluminum and amphoteric chemistry | Partial | Aqueous Al/NaOH, Al2O3/NaOH and Al(OH)3/NaOH; Al3+ quantity boundaries and complete acid/base coverage remain |
 | Iron and Fe2+/Fe3+ interconversion | Partial | Fe/acid, Cu salt displacement, Fe hydroxides and three FeCl2/FeCl3 redox cases; FeO/Fe2O3 and solid hydroxide acid dissolution now supported; Fe3O4/HCl, explicit hydroxide oxidation and heated Fe/O2, Fe/Cl2, Fe/steam are now supported; further anions remain missing |
 | Halogens and halide redox | Two exact cases | Cl2(g) oxidizes FeCl2(aq); heated non-aqueous Fe/Cl2 yields solid FeCl3; chlorine water/bleaching, Cl2/base, displacement and reversibility remain missing |
 | Sulfur redox | Missing | SO2 oxidation/reduction, concentrated H2SO4/Cu, selected H2S chemistry |
@@ -43,7 +43,7 @@ Partial coverage applies only to admitted identities, properties, phases and con
 
 The pipeline matches identity/classification/phase and contextual facts or one-hop Relations, selects a Rule, resolves canonical products, balances and validates atoms/charge, then compares with stored Reactions. Stored equations do not select products.
 
-Removing every Reaction and recompiling still generates all 109 positive cases across all 33 Rules with unchanged participants/candidate keys and canonical_match none. An evidence-backed HBr non-oxidizing-acid fact enables existing M9 to generate the unstored `2 HBr + Na2S2O3 -> 2 NaBr + SO2 + S + H2O`; no Reaction was added for it.
+Removing every Reaction and recompiling still generates all 116 positive cases across all 39 Rules with unchanged participants/candidate keys and canonical_match none. An evidence-backed HBr non-oxidizing-acid fact enables existing M9 to generate the unstored `2 HBr + Na2S2O3 -> 2 NaBr + SO2 + S + H2O`; no Reaction was added for it.
 
 New combinations therefore work when identity/composition, classifications, contextual properties, speciation/Relations, canonical products and evidence are sufficient. A tag such as “active metal” or “oxidant” alone does not determine valence, selectivity or products. Conservation is necessary but does not establish chemical feasibility.
 
@@ -52,6 +52,8 @@ New combinations therefore work when identity/composition, classifications, cont
 Curriculum expansion is ongoing. Next acceptance step: freeze a finite equation checklist by chosen textbook chapters and prioritize common inorganic acid/base/oxide and Fe/Al gaps with evidence and boundary cases. Define necessary concentration, excess-reagent, catalyst, reversibility and electrode semantics before populating reactions that need them. Cover remaining organic/selective-compulsory topics in separate bounded batches. Count stored equations, executable coverage and boundaries separately. The oxide, ferrous and copper-nitrate batches are implemented; the listed missing families remain pending.
 
 See the [application contract](contracts/APPLICATION_API.md) and [Chinese chem-wiki database integration note](contracts/CHEM_WIKI_INTEGRATION.md).
+
+2026-09-27 aluminium/base amphoteric batch: two explicit aqueous equations and two Rules for Al/NaOH and Al2O3/NaOH; both use `Na[Al(OH)4]` with liquid water as an explicit reactant, and net-ionic forms come from the existing projector. Validate, 25 focused tests and positive fixtures pass; the curriculum and prediction objective remains ongoing; see [continuation](CONTINUATION.md).
 
 2026-09-27 oxide batch: one Na2O identity, six oxide/strong-acid equations, one Na2O/water special case and four Rules. Independent conservation supplies the missing coefficient (2 NaOH) in the printed OpenStax 18.9 example. All 443 tests pass. The curriculum and prediction objective remains ongoing; see [continuation](CONTINUATION.md).
 
