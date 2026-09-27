@@ -1,5 +1,7 @@
 # 路线图
 
+当前兼容性修正：M16–M18 规则 1.1.0 还要求 `medium: non_aqueous`；缺失仍为 UNKNOWN。下文原里程碑仅 heated 的描述是历史范围，当前调用以[接口契约](contracts/APPLICATION_API.zh-CN.md)为准。
+
 [English](ROADMAP.md)
 
 > 中文版对应英文文档；历史章节保留其当时范围与版本。后续契约变更须同步维护两种语言。

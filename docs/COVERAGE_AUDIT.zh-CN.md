@@ -84,7 +84,7 @@ M22–M25 各运行两次，输出成对字节一致。M22/M23/M25 与历史跟�
 
 当以下条件齐备时，当前可执行核心足够：反应物可由身份/类型/物态/Facet/上下文属性/精确或动态 Relation 匹配；产物已规范化，可由 exact_entity、semantic_key、ionic_pair、exchange_product、entity_source 选择；水溶液离子来自唯一有证据的 strong_electrolyte_complete_dissociation；产物在配平前固定，精确整数配平仅有一个自由变量；规范比较使用配平签名和兼容条件；缺失事实/关系可保持 UNKNOWN。
 
-明确边界：两盐沉淀需要 aqueous 盐、唯一完全解离、已有交叉产物、恰好一个难溶驱动产物；离子投影不建模弱/部分平衡、水解或浓度依赖物种；关系只一跳，不作图遍历/活动排序；product_cation 每上下文一正目标，displaces_cation 可多正目标，重复/真值冲突无效，否定不占基数；elemental_substance 从正离子映射单质金属，单目标；Reaction 条件限 medium/temperature_regime，值 aqueous/ambient/warmed/heated，heated 不等于 warmed；有效 schema 尚无可执行 Structure/Experiment 家族；公式、名称、位置、教学路径不创造事实/身份。
+明确边界：两盐沉淀需要 aqueous 盐、唯一完全解离、已有交叉产物、恰好一个难溶驱动产物；离子投影不建模弱/部分平衡、水解或浓度依赖物种；关系只一跳，不作图遍历/活动排序；product_cation 每上下文一正目标，displaces_cation 可多正目标，重复/真值冲突无效，否定不占基数；elemental_substance 从正离子映射单质金属，单目标；Reaction 条件限 medium/temperature_regime，值 aqueous/non_aqueous/ambient/warmed/heated，heated 不等于 warmed；有效 schema 尚无可执行 Structure/Experiment 家族；公式、名称、位置、教学路径不创造事实/身份。
 
 ## 覆盖分类
 

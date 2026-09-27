@@ -6,6 +6,7 @@ records:
       - {target_id: ent_substance_cao, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: solid}
       - {target_id: ent_substance_co2, target_kind: substance, role: product, coefficient: {numerator: 1, denominator: 1}, phase: gas}
     conditions:
+      - {key: medium, value: non_aqueous, evidence_ids: [ev_m16_caco3_heated_decomposition]}
       - {key: temperature_regime, value: heated, evidence_ids: [ev_m16_caco3_heated_decomposition]}
     forms: []
     evidence_ids: [ev_batch_a_ionic_identity_and_solubility, ev_f3b_carbonate_acid, ev_m16_caco3_heated_decomposition]

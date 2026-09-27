@@ -73,6 +73,6 @@ HTTP 建议：合法请求的六类化学结果均为 200；请求校验或未�
 
 ## 显式非水相（compiler 0.6.0）
 
-源 schema 3.8.0 在规范 Reaction 条件及公共请求中增加 `medium: non_aqueous`，表示不是水溶液环境，不排除气态水。新增铁/蒸汽、铁/氧气、铁/氯气及 Fe(OH)3 热分解规则需要 `{"medium": "non_aqueous", "temperature_regime": "heated"}` 和准确物态。介质缺失仍是 UNKNOWN，aqueous 不满足这些规则，不从字段省略推定介质。早期 M16–M18 暂保留原仅 heated 契约，后续兼容性更新再统一。
+源 schema 3.8.0 在规范 Reaction 条件及公共请求中增加 `medium: non_aqueous`，表示不是水溶液环境，不排除气态水。新增铁/蒸汽、铁/氧气、铁/氯气及 Fe(OH)3 热分解规则需要 `{"medium": "non_aqueous", "temperature_regime": "heated"}` 和准确物态。介质缺失仍是 UNKNOWN，aqueous 不满足这些规则，不从字段省略推定介质。M16–M18 规则 1.1.0 也要求明确的 non_aqueous 介质。旧调用方须为干态碳酸盐/碳酸氢盐热分解及镁/蒸汽补上该条件；缺介质返回 indeterminate，不再生成方程。更新规则数据后须重新导出数据包。
 
 bundle/module 格式、Rule DSL/plan、artifact 格式均不变。部署 compiler 0.6.0 和重新导出的 schema-3.8.0 数据包；严格加载器拒绝旧编译器/版本坐标，不能手改 manifest 或哈希伪装升级。Fe(OH)2/O2/H2O 的三个反应物复用已有输入列表和匹配器，无需新 API 结构。

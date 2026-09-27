@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def _case(case_id: str, substance_id: str = "ent_substance_caco3", *, phase: str = "solid", temperature: str | None = "heated") -> dict:
-    context = {}
+    context = {"medium": "non_aqueous"}
     if temperature is not None:
         context["temperature_regime"] = temperature
     return {

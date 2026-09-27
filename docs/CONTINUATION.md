@@ -4,7 +4,15 @@
 
 The mainland compulsory/selective-compulsory goal remains incomplete: elements, substances, equations, general Rules and exact cases, independent modules with shared identities, and later evidence-backed case transfer/prediction explanations. Predictions are not canonical facts; UNKNOWN is not impossible. Safe main commits/pushes are authorized. No subagents, repeated M0–M25 audit, reset, stash or rebase.
 
-## Latest completed batch: mixed-valence iron oxide, oxidation and thermal reactions
+## Latest completed batch: M16–M18 medium boundaries
+
+Base `e7f8a71d07e82bf61b835fe8b22f1d64332c0d14`. All three Rules are now 1.1.0 and require both `medium: non_aqueous` and `temperature_regime: heated`. Canonical conditions, fixtures, tests and bilingual API/roadmap notes agree. Missing medium is indeterminate/UNKNOWN; aqueous is no_match. Neither produces a candidate. Compiler/schema versions and runtime code are unchanged.
+
+Validation: 28 focused thermal tests and 21 application bundle/M25 tests pass; validate passes. No full-suite rerun under the current targeted-validation instruction. Compile/audit/bundle/modules are identical across seeds 3/941. All 108 canonical reactions retain positive cases; statuses remain 109 inferred, 45 indeterminate, 12 no_match, one blocked. Evidence/logs: `build/thermal-medium-*`.
+
+M25 repeats identically at 19 mapped /124 skipped /9 rejected. Only `reaction:caco3-thermal` and `reaction:nahco3-thermal` changed from the previous batch, to context_gap because legacy conditions lack medium. Historical reports are preserved; migration was not loosened. Restoring these mappings requires sourced medium declarations, not assumptions from solid phases.
+
+## Previous batch: mixed-valence iron oxide, oxidation and thermal reactions
 
 Base: `89cb84993b7072eabe1d837f4a72beab11541fe8`. Add Fe3O4/O2 identities and six exact Rules/equations: Fe3O4/HCl, Fe(OH)2/O2/H2O, Fe/steam, Fe/O2, Fe/Cl2 and Fe(OH)3 decomposition. Magnetite retains Fe(II):Fe(III)=1:2. Hydroxide oxidation requires explicit oxygen and water, preserving the original precipitation step.
 
@@ -24,7 +32,7 @@ Sources: OpenStax 19.1 (iron/chlorine, magnetite, oxides/hydroxides); Chemguide 
 
 ## Exact next steps
 
-Run `git status --short --branch`, `git diff --stat`, `git rev-parse HEAD`, read this record and check actual quota. Preserve dirty work; this batch has no remaining live test processes. M16–M18 retain their old heated-only contract; next align their non-aqueous boundaries with Rule-version and caller updates. Missing medium must not prove non-aqueous conditions.
+Run `git status --short --branch`, `git diff --stat`, `git rev-parse HEAD`, read this record and check actual quota. Preserve dirty work; this batch has no remaining live test processes. M16–M18 medium corrections are complete; continue the equation queue without repeating this audit.
 
 Then continue Fe2O3/CO, thermite and the [equation queue](CURRICULUM_COVERAGE.md), Al/nonmetal/organic/electrochemical gaps and a finite textbook inventory. Current counts do not prove curriculum completeness. Concentration, excess, catalysts, reversibility and electrodes require necessary semantics; automated analogy/model prediction is not implemented.
 
@@ -32,4 +40,4 @@ Then continue Fe2O3/CO, thermite and the [equation queue](CURRICULUM_COVERAGE.md
 
 [Modules](contracts/DATA_PACKAGES.md), [Python API](contracts/APPLICATION_API.md) and [chem-wiki integration](contracts/CHEM_WIKI_INTEGRATION.md) are synchronized. Full bundles run InferenceSession; independent modules support database import. HTTP adaptation and actual database import remain pending.
 
-Heartbeat `automation` remains ACTIVE every five hours and ten minutes. Check quota each trigger, start closeout around 80%, wait quietly if unrecovered, never disable the schedule or mark the long-term goal complete. This window recovered; reset is 2026-09-27 19:53:55 Beijing.
+Heartbeat `automation` remains ACTIVE every five hours and ten minutes. Check quota each trigger, start closeout around 80%, wait quietly if unrecovered, never disable the schedule or mark the long-term goal complete. This turn started with ordinary quota recovered, five-hour usage 5%; reset 2026-09-28 01:20:55 Beijing. Query current limits on each trigger.

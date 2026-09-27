@@ -108,7 +108,7 @@ Important boundaries are equally concrete:
 - Relation execution remains one-hop: predicates may use an exact target or a target resolved from canonical speciation, and products may use one Relation target from a non-Relation entity source; it is not graph traversal or activity ranking;
 - `metal.product_cation` is one-positive-target-per-context; `metal.displaces_cation` is many-positive-targets-per-context; exact duplicates and same-tuple truth contradictions are invalid, while explicit negative targets do not consume positive cardinality;
 - `ion.elemental_substance` is one-target-per-context from a positive ion Species to an elemental-metal Substance;
-- canonical Reaction conditions are limited to `medium` and `temperature_regime`, with the currently admitted values `aqueous`, `ambient`, `warmed`, and `heated`; `heated` is distinct from `warmed`;
+- canonical Reaction conditions are limited to `medium` and `temperature_regime`, with the currently admitted values `aqueous`, `non_aqueous`, `ambient`, `warmed`, and `heated`; `heated` is distinct from `warmed`;
 - active source records do not include executable Structure or Experiment record families;
 - formula text, names, file placement, and TeachingView paths never create chemistry truth or identity.
 

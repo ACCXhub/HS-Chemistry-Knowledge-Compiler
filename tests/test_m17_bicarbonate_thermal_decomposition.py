@@ -19,7 +19,7 @@ def _case(
     phase: str = "solid",
     temperature: str | None = "heated",
 ) -> dict:
-    context = {}
+    context = {"medium": "non_aqueous"}
     if temperature is not None:
         context["temperature_regime"] = temperature
     return {
@@ -66,7 +66,7 @@ def test_m17_nahco3_heated_infers_exact_canonical_decomposition_deterministicall
     assert first["provenance"]["evidence_ids"] == ["ev_m17_nahco3_heated_decomposition"]
     assert any(
         item.get("event") == "input.normalized"
-        and item.get("context") == {"temperature_regime": "heated"}
+        and item.get("context") == {"medium": "non_aqueous", "temperature_regime": "heated"}
         for item in first["proof_trace"]
     )
 

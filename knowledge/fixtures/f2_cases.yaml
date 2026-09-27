@@ -536,98 +536,98 @@ cases:
   - id: case_m16_caco3_heated
     reactants:
       - {target_id: ent_substance_caco3, phase: solid}
-    context: {temperature_regime: heated}
+    context: {medium: non_aqueous, temperature_regime: heated}
 
   - id: case_m16_caco3_missing_temperature
     reactants:
       - {target_id: ent_substance_caco3, phase: solid}
-    context: {}
+    context: {medium: non_aqueous}
 
   - id: case_m16_caco3_ambient
     reactants:
       - {target_id: ent_substance_caco3, phase: solid}
-    context: {temperature_regime: ambient}
+    context: {medium: non_aqueous, temperature_regime: ambient}
 
   - id: case_m16_caco3_warmed
     reactants:
       - {target_id: ent_substance_caco3, phase: solid}
-    context: {temperature_regime: warmed}
+    context: {medium: non_aqueous, temperature_regime: warmed}
 
   - id: case_m16_caco3_wrong_phase
     reactants:
       - {target_id: ent_substance_caco3, phase: aqueous}
-    context: {temperature_regime: heated}
+    context: {medium: non_aqueous, temperature_regime: heated}
 
   - id: case_m16_mgco3_heated_deferred
     reactants:
       - {target_id: ent_substance_mgco3, phase: solid}
-    context: {temperature_regime: heated}
+    context: {medium: non_aqueous, temperature_regime: heated}
 
   - id: case_m17_nahco3_heated
     reactants:
       - {target_id: ent_substance_nahco3, phase: solid}
-    context: {temperature_regime: heated}
+    context: {medium: non_aqueous, temperature_regime: heated}
 
   - id: case_m17_nahco3_missing_temperature
     reactants:
       - {target_id: ent_substance_nahco3, phase: solid}
-    context: {}
+    context: {medium: non_aqueous}
 
   - id: case_m17_nahco3_ambient
     reactants:
       - {target_id: ent_substance_nahco3, phase: solid}
-    context: {temperature_regime: ambient}
+    context: {medium: non_aqueous, temperature_regime: ambient}
 
   - id: case_m17_nahco3_warmed
     reactants:
       - {target_id: ent_substance_nahco3, phase: solid}
-    context: {temperature_regime: warmed}
+    context: {medium: non_aqueous, temperature_regime: warmed}
 
   - id: case_m17_nahco3_wrong_phase
     reactants:
       - {target_id: ent_substance_nahco3, phase: aqueous}
-    context: {temperature_regime: heated}
+    context: {medium: non_aqueous, temperature_regime: heated}
 
   - id: case_m17_khco3_heated_deferred
     reactants:
       - {target_id: ent_substance_khco3, phase: solid}
-    context: {temperature_regime: heated}
+    context: {medium: non_aqueous, temperature_regime: heated}
 
   - id: case_m18_magnesium_steam_heated
     reactants:
       - {target_id: ent_substance_elemental_mg, phase: solid}
       - {target_id: ent_substance_h2o, phase: gas}
-    context: {temperature_regime: heated}
+    context: {medium: non_aqueous, temperature_regime: heated}
 
   - id: case_m18_magnesium_liquid_heated
     reactants:
       - {target_id: ent_substance_elemental_mg, phase: solid}
       - {target_id: ent_substance_h2o, phase: liquid}
-    context: {temperature_regime: heated}
+    context: {medium: non_aqueous, temperature_regime: heated}
 
   - id: case_m18_magnesium_liquid_ambient
     reactants:
       - {target_id: ent_substance_elemental_mg, phase: solid}
       - {target_id: ent_substance_h2o, phase: liquid}
-    context: {temperature_regime: ambient}
+    context: {medium: non_aqueous, temperature_regime: ambient}
 
   - id: case_m18_magnesium_steam_ambient
     reactants:
       - {target_id: ent_substance_elemental_mg, phase: solid}
       - {target_id: ent_substance_h2o, phase: gas}
-    context: {temperature_regime: ambient}
+    context: {medium: non_aqueous, temperature_regime: ambient}
 
   - id: case_m18_magnesium_steam_warmed
     reactants:
       - {target_id: ent_substance_elemental_mg, phase: solid}
       - {target_id: ent_substance_h2o, phase: gas}
-    context: {temperature_regime: warmed}
+    context: {medium: non_aqueous, temperature_regime: warmed}
 
   - id: case_m18_magnesium_steam_missing_temperature
     reactants:
       - {target_id: ent_substance_elemental_mg, phase: solid}
       - {target_id: ent_substance_h2o, phase: gas}
-    context: {}
+    context: {medium: non_aqueous}
 
   - id: case_m21_hbr_naoh
     reactants:

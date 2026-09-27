@@ -6,7 +6,15 @@
 
 覆盖大陆高中必修＋选择性必修的元素、物质、方程、通用规则与特例；独立发布共享身份的数据模块，后续支持有证据的案例迁移和预测解释。预测不冒充规范事实，UNKNOWN 不等于不可能。安全提交推送 main 已授权；不启动子代理，不重复 M0–M25 审计，不 reset/stash/rebase。
 
-## 最新完成批次：混合价铁氧化物、氧化及热反应
+## 最新完成批次：M16–M18 介质边界
+
+基线 `e7f8a71d07e82bf61b835fe8b22f1d64332c0d14`。三条规则升级 1.1.0，同时要求 `medium: non_aqueous` 和 `temperature_regime: heated`；规范 Reaction 条件、fixtures、相关测试及中英文接口/路线图已同步。缺 medium 为 indeterminate/UNKNOWN，明确 aqueous 为 no_match，均不生成候选。编译器与 schema 版本不变，没有新增运行分支。
+
+验证：28 项热反应针对性测试、21 项 application bundle/M25 测试全部通过；validate 通过。按本轮仅针对实际改动验证的要求，未重跑全套。种子3/941下 compile/audit/bundle/modules 字节一致，108条规范反应仍均有正例；统计保持109 inferred、45 indeterminate、12 no_match、1 blocked。日志与证据在 `build/thermal-medium-*`。
+
+M25 两次复现相同：19 mapped /124 skipped /9 rejected。相比上一批，只有 `reaction:caco3-thermal` 和 `reaction:nahco3-thermal` 因旧数据缺明确介质转为 context_gap；未放宽迁移或重写历史报告。后续若恢复这两条映射，须补有来源的介质声明，不从固体相态猜环境。
+
+## 上一批：混合价铁氧化物、氧化及热反应
 
 基线 `89cb84993b7072eabe1d837f4a72beab11541fe8`。新增 Fe3O4、O2 身份及六条精确规则/方程：Fe3O4/HCl、Fe(OH)2/O2/H2O、Fe/蒸汽、Fe/O2、Fe/Cl2、Fe(OH)3 热分解。Fe3O4 保留 Fe(II):Fe(III)=1:2，不能选单一价态。氢氧化物氧化必须显式输入氧气和水，不改写之前的沉淀反应。
 
@@ -27,7 +35,7 @@
 ## 精确下一步
 
 1. `git status --short --branch`、`git diff --stat`、`git rev-parse HEAD`，读本文并检查真实额度；保留未提交工作，当前批次无遗留测试进程。
-2. 早期 M16–M18 仍保留原仅 heated 契约。下一批应统一其非水相边界，更新相关 Rule 版本和旧调用样例；不能靠缺失介质证明非水相。
+2. M16–M18 介质修正已完成，不重复审计；直接从下一项逐式队列继续。
 3. 然后补 Fe2O3/CO、铝热反应等[逐式队列](CURRICULUM_COVERAGE.zh-CN.md)，以及 Al、非金属、有机、电化学。当前数量不是教材全覆盖证明；仍需有限教材逐式目录。
 4. 浓度、过量、催化、可逆、电极条件须有必要语义。案例/模型自动推广还未实现，不凭标签或守恒猜反应。
 
@@ -35,4 +43,4 @@
 
 [模块契约](contracts/DATA_PACKAGES.zh-CN.md)、[Python API](contracts/APPLICATION_API.zh-CN.md)、[chem-wiki接入](contracts/CHEM_WIKI_INTEGRATION.md)已同步。完整bundle用于 InferenceSession，独立模块用于数据库导入；HTTP适配和实际数据库导入未实施。
 
-自动任务 `automation` 保持 ACTIVE，每5小时10分钟触发；每次先查真实额度，约80%起只收尾。额度未恢复则安静等待，不暂停/删除自动任务，不将长期目标标记完成。本窗口额度已恢复，重置时间为北京时间2026-09-27 19:53:55。
+自动任务 `automation` 保持 ACTIVE，每5小时10分钟触发；每次先查真实额度，约80%起只收尾。额度未恢复则安静等待，不暂停/删除自动任务，不将长期目标标记完成。本轮开始额度已恢复，五小时用量5%；重置时间为北京时间2026-09-28 01:20:55，每次以实时查询为准。

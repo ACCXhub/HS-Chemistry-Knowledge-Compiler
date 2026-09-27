@@ -21,7 +21,7 @@ def _case(
     water_phase: str = "gas",
     temperature: str | None = "heated",
 ) -> dict:
-    context = {}
+    context = {"medium": "non_aqueous"}
     if temperature is not None:
         context["temperature_regime"] = temperature
     return {
@@ -77,7 +77,7 @@ def test_m18_magnesium_steam_heated_infers_exact_canonical_reaction_deterministi
     ]
     assert any(
         item.get("event") == "input.normalized"
-        and item.get("context") == {"temperature_regime": "heated"}
+        and item.get("context") == {"medium": "non_aqueous", "temperature_regime": "heated"}
         for item in first["proof_trace"]
     )
 

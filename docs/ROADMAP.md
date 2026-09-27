@@ -1,5 +1,7 @@
 # Roadmap
 
+Current compatibility update: M16–M18 Rules 1.1.0 additionally require `medium: non_aqueous`; omission stays UNKNOWN. This supersedes the original heated-only milestone descriptions below. See [the API contract](contracts/APPLICATION_API.md).
+
 [简体中文](ROADMAP.zh-CN.md)
 
 ## Current state

@@ -1,7 +1,7 @@
 records:
   - id: rule_m16_caco3_heated_decomposition
     record_type: rule
-    version: 1.0.0
+    version: 1.1.0
     decision_domain: thermal_decomposition
     match:
       reactants:
@@ -9,6 +9,7 @@ records:
           target_id: ent_substance_caco3
           phase: solid
     context:
+      medium: non_aqueous
       temperature_regime: heated
     products:
       - {target_id: ent_substance_cao, phase: solid}
