@@ -1,0 +1,155 @@
+{
+  "records": [
+    {
+      "id": "rule_curriculum_copper_oxygen",
+      "record_type": "rule",
+      "version": "1.0.0",
+      "decision_domain": "curriculum_metal_thermal",
+      "match": {
+        "reactants": [
+          {
+            "bind": "input_0",
+            "target_id": "ent_substance_elemental_cu",
+            "phase": "solid"
+          },
+          {
+            "bind": "input_1",
+            "target_id": "ent_substance_o2",
+            "phase": "gas"
+          }
+        ]
+      },
+      "context": {
+        "medium": "non_aqueous",
+        "temperature_regime": "heated"
+      },
+      "products": [
+        {
+          "target_id": "ent_substance_cuo",
+          "phase": "solid"
+        }
+      ],
+      "validators": [
+        "atoms_conserved",
+        "charge_conserved"
+      ],
+      "evidence_ids": [
+        "ev_copper_oxygen"
+      ]
+    },
+    {
+      "id": "rule_curriculum_aluminium_oxygen",
+      "record_type": "rule",
+      "version": "1.0.0",
+      "decision_domain": "curriculum_metal_thermal",
+      "match": {
+        "reactants": [
+          {
+            "bind": "input_0",
+            "target_id": "ent_substance_elemental_al",
+            "phase": "solid"
+          },
+          {
+            "bind": "input_1",
+            "target_id": "ent_substance_o2",
+            "phase": "gas"
+          }
+        ]
+      },
+      "context": {
+        "medium": "non_aqueous",
+        "temperature_regime": "heated"
+      },
+      "products": [
+        {
+          "target_id": "ent_substance_al2o3",
+          "phase": "solid"
+        }
+      ],
+      "validators": [
+        "atoms_conserved",
+        "charge_conserved"
+      ],
+      "evidence_ids": [
+        "ev_aluminium_oxygen"
+      ]
+    },
+    {
+      "id": "rule_curriculum_aluminium_steam",
+      "record_type": "rule",
+      "version": "1.0.0",
+      "decision_domain": "curriculum_metal_thermal",
+      "match": {
+        "reactants": [
+          {
+            "bind": "input_0",
+            "target_id": "ent_substance_elemental_al",
+            "phase": "solid"
+          },
+          {
+            "bind": "input_1",
+            "target_id": "ent_substance_h2o",
+            "phase": "gas"
+          }
+        ]
+      },
+      "context": {
+        "medium": "non_aqueous",
+        "temperature_regime": "heated"
+      },
+      "products": [
+        {
+          "target_id": "ent_substance_al2o3",
+          "phase": "solid"
+        },
+        {
+          "target_id": "ent_substance_h2",
+          "phase": "gas"
+        }
+      ],
+      "validators": [
+        "atoms_conserved",
+        "charge_conserved"
+      ],
+      "evidence_ids": [
+        "ev_aluminium_steam"
+      ]
+    },
+    {
+      "id": "rule_curriculum_aluminium_hydroxide_thermal",
+      "record_type": "rule",
+      "version": "1.0.0",
+      "decision_domain": "curriculum_metal_thermal",
+      "match": {
+        "reactants": [
+          {
+            "bind": "input_0",
+            "target_id": "ent_substance_al_oh_3",
+            "phase": "solid"
+          }
+        ]
+      },
+      "context": {
+        "medium": "non_aqueous",
+        "temperature_regime": "heated"
+      },
+      "products": [
+        {
+          "target_id": "ent_substance_al2o3",
+          "phase": "solid"
+        },
+        {
+          "target_id": "ent_substance_h2o",
+          "phase": "gas"
+        }
+      ],
+      "validators": [
+        "atoms_conserved",
+        "charge_conserved"
+      ],
+      "evidence_ids": [
+        "ev_aluminium_hydroxide_thermal"
+      ]
+    }
+  ]
+}

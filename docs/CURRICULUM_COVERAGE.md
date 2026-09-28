@@ -4,7 +4,7 @@
 
 The acceptance target is mainland China's compulsory and selective-compulsory high-school chemistry. **Coverage is incomplete; arbitrary reactions cannot be inferred from element tags.** This engineering checklist groups common teaching topics; it is not an official curriculum or a textbook's exhaustive equation inventory.
 
-There are 115 canonical Reactions, 39 Rules and 174 fixtures. The 116 inferred cases cover all 115 canonical Reactions plus one unstored equation. The remaining 45 indeterminate, 12 no_match and one blocked outcomes are boundary proofs, not covered equations.
+There are 125 canonical Reactions, 49 Rules and 184 fixtures. The 126 inferred cases cover all 125 canonical Reactions plus one unstored equation. The remaining 45 indeterminate, 12 no_match and one blocked outcomes are boundary proofs, not covered equations.
 
 ## Coverage checklist
 
@@ -28,7 +28,7 @@ Partial coverage applies only to admitted identities, properties, phases and con
 | Sodium oxides/peroxides | Partial | Na2O/water implemented; Na2O2 with water/CO2 still missing |
 | Aluminum and amphoteric chemistry | Partial | Aqueous Al/NaOH, Al2O3/NaOH and Al(OH)3/NaOH; Al3+ quantity boundaries and complete acid/base coverage remain |
 | Iron and Fe2+/Fe3+ interconversion | Partial | Fe/acid, Cu salt displacement, Fe hydroxides and three FeCl2/FeCl3 redox cases; FeO/Fe2O3 and solid hydroxide acid dissolution now supported; Fe3O4/HCl, explicit hydroxide oxidation and heated Fe/O2, Fe/Cl2, Fe/steam are now supported; further anions remain missing |
-| Halogens and halide redox | Two exact cases | Cl2(g) oxidizes FeCl2(aq); heated non-aqueous Fe/Cl2 yields solid FeCl3; chlorine water/bleaching, Cl2/base, displacement and reversibility remain missing |
+| Halogens and halide redox | Partial | Cl2/FeCl2, Fe/Cl2, plus six Na/K salt displacements: Cl2 oxidizes Br-/I-, Br2 oxidizes I-; chlorine water, bleaching and Cl2/base remain pending |
 | Sulfur redox | Missing | SO2 oxidation/reduction, concentrated H2SO4/Cu, selected H2S chemistry |
 | Nitrogen chemistry | Missing | Ammonia synthesis/oxidation, NO/NO2, dilute/concentrated HNO3 with metals |
 | Carbon, silicon and materials | Missing | C/CO reduction, Si/SiO2/silicates, industrial preparation |
@@ -43,7 +43,7 @@ Partial coverage applies only to admitted identities, properties, phases and con
 
 The pipeline matches identity/classification/phase and contextual facts or one-hop Relations, selects a Rule, resolves canonical products, balances and validates atoms/charge, then compares with stored Reactions. Stored equations do not select products.
 
-Removing every Reaction and recompiling still generates all 116 positive cases across all 39 Rules with unchanged participants/candidate keys and canonical_match none. An evidence-backed HBr non-oxidizing-acid fact enables existing M9 to generate the unstored `2 HBr + Na2S2O3 -> 2 NaBr + SO2 + S + H2O`; no Reaction was added for it.
+Removing every Reaction and recompiling still generates all 126 positive cases across all 49 Rules with unchanged participants/candidate keys and canonical_match none. An evidence-backed HBr non-oxidizing-acid fact enables existing M9 to generate the unstored `2 HBr + Na2S2O3 -> 2 NaBr + SO2 + S + H2O`; no Reaction was added for it.
 
 New combinations therefore work when identity/composition, classifications, contextual properties, speciation/Relations, canonical products and evidence are sufficient. A tag such as “active metal” or “oxidant” alone does not determine valence, selectivity or products. Conservation is necessary but does not establish chemical feasibility.
 

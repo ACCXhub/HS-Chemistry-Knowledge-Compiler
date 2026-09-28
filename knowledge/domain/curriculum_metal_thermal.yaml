@@ -1,0 +1,266 @@
+{
+  "records": [
+    {
+      "id": "ev_copper_oxygen",
+      "record_type": "evidence",
+      "source_id": "src_ncert_metals_nonmetals",
+      "stance": "supports",
+      "claim_summary": "NCERT Metals and Non-metals 3.2.1 explicitly prints 2Cu + O2 -> 2CuO on heating. Cached source read 2026-09-28. Heated denotes the deliberate thermal pathway, not an arbitrary small temperature rise."
+    },
+    {
+      "id": "rxn_curriculum_copper_oxygen",
+      "record_type": "reaction",
+      "participants": [
+        {
+          "target_id": "ent_substance_elemental_cu",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "solid",
+          "coefficient": {
+            "numerator": 2,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_o2",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "gas",
+          "coefficient": {
+            "numerator": 1,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_cuo",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "solid",
+          "coefficient": {
+            "numerator": 2,
+            "denominator": 1
+          }
+        }
+      ],
+      "conditions": [
+        {
+          "key": "medium",
+          "value": "non_aqueous",
+          "evidence_ids": [
+            "ev_copper_oxygen"
+          ]
+        },
+        {
+          "key": "temperature_regime",
+          "value": "heated",
+          "evidence_ids": [
+            "ev_copper_oxygen"
+          ]
+        }
+      ],
+      "forms": [],
+      "evidence_ids": [
+        "ev_copper_oxygen"
+      ]
+    },
+    {
+      "id": "ev_aluminium_oxygen",
+      "record_type": "evidence",
+      "source_id": "src_ncert_metals_nonmetals",
+      "stance": "supports",
+      "claim_summary": "NCERT 3.2.1 explicitly prints 4Al + 3O2 -> 2Al2O3. This is the thermally initiated oxidation path, not an ambient surface-film model. Cached source read 2026-09-28. Heated denotes the deliberate thermal pathway, not an arbitrary small temperature rise."
+    },
+    {
+      "id": "rxn_curriculum_aluminium_oxygen",
+      "record_type": "reaction",
+      "participants": [
+        {
+          "target_id": "ent_substance_elemental_al",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "solid",
+          "coefficient": {
+            "numerator": 4,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_o2",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "gas",
+          "coefficient": {
+            "numerator": 3,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_al2o3",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "solid",
+          "coefficient": {
+            "numerator": 2,
+            "denominator": 1
+          }
+        }
+      ],
+      "conditions": [
+        {
+          "key": "medium",
+          "value": "non_aqueous",
+          "evidence_ids": [
+            "ev_aluminium_oxygen"
+          ]
+        },
+        {
+          "key": "temperature_regime",
+          "value": "heated",
+          "evidence_ids": [
+            "ev_aluminium_oxygen"
+          ]
+        }
+      ],
+      "forms": [],
+      "evidence_ids": [
+        "ev_aluminium_oxygen"
+      ]
+    },
+    {
+      "id": "ev_aluminium_steam",
+      "record_type": "evidence",
+      "source_id": "src_ncert_metals_nonmetals",
+      "stance": "supports",
+      "claim_summary": "NCERT 3.2.2 explicitly prints 2Al(s) + 3H2O(g) -> Al2O3(s) + 3H2(g). Restricted to the heated steam teaching pathway; liquid water and passivation kinetics are not inferred. Cached source read 2026-09-28. Heated denotes the deliberate thermal pathway, not an arbitrary small temperature rise."
+    },
+    {
+      "id": "rxn_curriculum_aluminium_steam",
+      "record_type": "reaction",
+      "participants": [
+        {
+          "target_id": "ent_substance_elemental_al",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "solid",
+          "coefficient": {
+            "numerator": 2,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_h2o",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "gas",
+          "coefficient": {
+            "numerator": 3,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_al2o3",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "solid",
+          "coefficient": {
+            "numerator": 1,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_h2",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "gas",
+          "coefficient": {
+            "numerator": 3,
+            "denominator": 1
+          }
+        }
+      ],
+      "conditions": [
+        {
+          "key": "medium",
+          "value": "non_aqueous",
+          "evidence_ids": [
+            "ev_aluminium_steam"
+          ]
+        },
+        {
+          "key": "temperature_regime",
+          "value": "heated",
+          "evidence_ids": [
+            "ev_aluminium_steam"
+          ]
+        }
+      ],
+      "forms": [],
+      "evidence_ids": [
+        "ev_aluminium_steam"
+      ]
+    },
+    {
+      "id": "ev_aluminium_hydroxide_thermal",
+      "record_type": "evidence",
+      "source_id": "src_openstax_chemistry_2e",
+      "stance": "supports",
+      "claim_summary": "OpenStax Chemistry 2e 18.9 explicitly gives 2Al(OH)3(s) -> Al2O3(s) + 3H2O(g) on heating. Cached source read 2026-09-28. Heated denotes the deliberate thermal pathway, not an arbitrary small temperature rise."
+    },
+    {
+      "id": "rxn_curriculum_aluminium_hydroxide_thermal",
+      "record_type": "reaction",
+      "participants": [
+        {
+          "target_id": "ent_substance_al_oh_3",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "solid",
+          "coefficient": {
+            "numerator": 2,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_al2o3",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "solid",
+          "coefficient": {
+            "numerator": 1,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_h2o",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "gas",
+          "coefficient": {
+            "numerator": 3,
+            "denominator": 1
+          }
+        }
+      ],
+      "conditions": [
+        {
+          "key": "medium",
+          "value": "non_aqueous",
+          "evidence_ids": [
+            "ev_aluminium_hydroxide_thermal"
+          ]
+        },
+        {
+          "key": "temperature_regime",
+          "value": "heated",
+          "evidence_ids": [
+            "ev_aluminium_hydroxide_thermal"
+          ]
+        }
+      ],
+      "forms": [],
+      "evidence_ids": [
+        "ev_aluminium_hydroxide_thermal"
+      ]
+    }
+  ]
+}

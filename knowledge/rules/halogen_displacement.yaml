@@ -1,0 +1,250 @@
+{
+  "records": [
+    {
+      "id": "rule_halogen_cl2_nabr",
+      "record_type": "rule",
+      "version": "1.0.0",
+      "decision_domain": "aqueous_halogen_displacement",
+      "match": {
+        "reactants": [
+          {
+            "bind": "input_0",
+            "target_id": "ent_substance_cl2",
+            "phase": "gas"
+          },
+          {
+            "bind": "input_1",
+            "target_id": "ent_substance_nabr",
+            "phase": "aqueous"
+          }
+        ]
+      },
+      "context": {
+        "medium": "aqueous",
+        "temperature_regime": "ambient"
+      },
+      "products": [
+        {
+          "target_id": "ent_substance_nacl",
+          "phase": "aqueous"
+        },
+        {
+          "target_id": "ent_substance_br2",
+          "phase": "liquid"
+        }
+      ],
+      "validators": [
+        "atoms_conserved",
+        "charge_conserved"
+      ],
+      "evidence_ids": [
+        "ev_curriculum_halogen_displacement"
+      ]
+    },
+    {
+      "id": "rule_halogen_cl2_kbr",
+      "record_type": "rule",
+      "version": "1.0.0",
+      "decision_domain": "aqueous_halogen_displacement",
+      "match": {
+        "reactants": [
+          {
+            "bind": "input_0",
+            "target_id": "ent_substance_cl2",
+            "phase": "gas"
+          },
+          {
+            "bind": "input_1",
+            "target_id": "ent_substance_kbr",
+            "phase": "aqueous"
+          }
+        ]
+      },
+      "context": {
+        "medium": "aqueous",
+        "temperature_regime": "ambient"
+      },
+      "products": [
+        {
+          "target_id": "ent_substance_kcl",
+          "phase": "aqueous"
+        },
+        {
+          "target_id": "ent_substance_br2",
+          "phase": "liquid"
+        }
+      ],
+      "validators": [
+        "atoms_conserved",
+        "charge_conserved"
+      ],
+      "evidence_ids": [
+        "ev_curriculum_halogen_displacement"
+      ]
+    },
+    {
+      "id": "rule_halogen_cl2_nai",
+      "record_type": "rule",
+      "version": "1.0.0",
+      "decision_domain": "aqueous_halogen_displacement",
+      "match": {
+        "reactants": [
+          {
+            "bind": "input_0",
+            "target_id": "ent_substance_cl2",
+            "phase": "gas"
+          },
+          {
+            "bind": "input_1",
+            "target_id": "ent_substance_nai",
+            "phase": "aqueous"
+          }
+        ]
+      },
+      "context": {
+        "medium": "aqueous",
+        "temperature_regime": "ambient"
+      },
+      "products": [
+        {
+          "target_id": "ent_substance_nacl",
+          "phase": "aqueous"
+        },
+        {
+          "target_id": "ent_substance_i2",
+          "phase": "solid"
+        }
+      ],
+      "validators": [
+        "atoms_conserved",
+        "charge_conserved"
+      ],
+      "evidence_ids": [
+        "ev_curriculum_halogen_displacement"
+      ]
+    },
+    {
+      "id": "rule_halogen_cl2_ki",
+      "record_type": "rule",
+      "version": "1.0.0",
+      "decision_domain": "aqueous_halogen_displacement",
+      "match": {
+        "reactants": [
+          {
+            "bind": "input_0",
+            "target_id": "ent_substance_cl2",
+            "phase": "gas"
+          },
+          {
+            "bind": "input_1",
+            "target_id": "ent_substance_ki",
+            "phase": "aqueous"
+          }
+        ]
+      },
+      "context": {
+        "medium": "aqueous",
+        "temperature_regime": "ambient"
+      },
+      "products": [
+        {
+          "target_id": "ent_substance_kcl",
+          "phase": "aqueous"
+        },
+        {
+          "target_id": "ent_substance_i2",
+          "phase": "solid"
+        }
+      ],
+      "validators": [
+        "atoms_conserved",
+        "charge_conserved"
+      ],
+      "evidence_ids": [
+        "ev_curriculum_halogen_displacement"
+      ]
+    },
+    {
+      "id": "rule_halogen_br2_nai",
+      "record_type": "rule",
+      "version": "1.0.0",
+      "decision_domain": "aqueous_halogen_displacement",
+      "match": {
+        "reactants": [
+          {
+            "bind": "input_0",
+            "target_id": "ent_substance_br2",
+            "phase": "liquid"
+          },
+          {
+            "bind": "input_1",
+            "target_id": "ent_substance_nai",
+            "phase": "aqueous"
+          }
+        ]
+      },
+      "context": {
+        "medium": "aqueous",
+        "temperature_regime": "ambient"
+      },
+      "products": [
+        {
+          "target_id": "ent_substance_nabr",
+          "phase": "aqueous"
+        },
+        {
+          "target_id": "ent_substance_i2",
+          "phase": "solid"
+        }
+      ],
+      "validators": [
+        "atoms_conserved",
+        "charge_conserved"
+      ],
+      "evidence_ids": [
+        "ev_curriculum_halogen_displacement"
+      ]
+    },
+    {
+      "id": "rule_halogen_br2_ki",
+      "record_type": "rule",
+      "version": "1.0.0",
+      "decision_domain": "aqueous_halogen_displacement",
+      "match": {
+        "reactants": [
+          {
+            "bind": "input_0",
+            "target_id": "ent_substance_br2",
+            "phase": "liquid"
+          },
+          {
+            "bind": "input_1",
+            "target_id": "ent_substance_ki",
+            "phase": "aqueous"
+          }
+        ]
+      },
+      "context": {
+        "medium": "aqueous",
+        "temperature_regime": "ambient"
+      },
+      "products": [
+        {
+          "target_id": "ent_substance_kbr",
+          "phase": "aqueous"
+        },
+        {
+          "target_id": "ent_substance_i2",
+          "phase": "solid"
+        }
+      ],
+      "validators": [
+        "atoms_conserved",
+        "charge_conserved"
+      ],
+      "evidence_ids": [
+        "ev_curriculum_halogen_displacement"
+      ]
+    }
+  ]
+}

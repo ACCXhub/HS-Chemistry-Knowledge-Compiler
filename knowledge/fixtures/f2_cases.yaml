@@ -1,4 +1,8 @@
 cases:
+  - {"id":"case_curriculum_copper_oxygen","reactants":[{"target_id":"ent_substance_elemental_cu","phase":"solid"},{"target_id":"ent_substance_o2","phase":"gas"}],"context":{"medium":"non_aqueous","temperature_regime":"heated"}}
+  - {"id":"case_curriculum_aluminium_oxygen","reactants":[{"target_id":"ent_substance_elemental_al","phase":"solid"},{"target_id":"ent_substance_o2","phase":"gas"}],"context":{"medium":"non_aqueous","temperature_regime":"heated"}}
+  - {"id":"case_curriculum_aluminium_steam","reactants":[{"target_id":"ent_substance_elemental_al","phase":"solid"},{"target_id":"ent_substance_h2o","phase":"gas"}],"context":{"medium":"non_aqueous","temperature_regime":"heated"}}
+  - {"id":"case_curriculum_aluminium_hydroxide_thermal","reactants":[{"target_id":"ent_substance_al_oh_3","phase":"solid"}],"context":{"medium":"non_aqueous","temperature_regime":"heated"}}
   - id: case_precipitation
     reactants:
       - {target_id: ent_substance_nacl, phase: aqueous}
@@ -1205,3 +1209,9 @@ cases:
     context:
       medium: aqueous
       temperature_regime: ambient
+  - {"id":"case_halogen_cl2_nabr","reactants":[{"target_id":"ent_substance_cl2","phase":"gas"},{"target_id":"ent_substance_nabr","phase":"aqueous"}],"context":{"medium":"aqueous","temperature_regime":"ambient"}}
+  - {"id":"case_halogen_cl2_kbr","reactants":[{"target_id":"ent_substance_cl2","phase":"gas"},{"target_id":"ent_substance_kbr","phase":"aqueous"}],"context":{"medium":"aqueous","temperature_regime":"ambient"}}
+  - {"id":"case_halogen_cl2_nai","reactants":[{"target_id":"ent_substance_cl2","phase":"gas"},{"target_id":"ent_substance_nai","phase":"aqueous"}],"context":{"medium":"aqueous","temperature_regime":"ambient"}}
+  - {"id":"case_halogen_cl2_ki","reactants":[{"target_id":"ent_substance_cl2","phase":"gas"},{"target_id":"ent_substance_ki","phase":"aqueous"}],"context":{"medium":"aqueous","temperature_regime":"ambient"}}
+  - {"id":"case_halogen_br2_nai","reactants":[{"target_id":"ent_substance_br2","phase":"liquid"},{"target_id":"ent_substance_nai","phase":"aqueous"}],"context":{"medium":"aqueous","temperature_regime":"ambient"}}
+  - {"id":"case_halogen_br2_ki","reactants":[{"target_id":"ent_substance_br2","phase":"liquid"},{"target_id":"ent_substance_ki","phase":"aqueous"}],"context":{"medium":"aqueous","temperature_regime":"ambient"}}

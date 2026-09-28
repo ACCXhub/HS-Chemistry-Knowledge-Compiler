@@ -6,7 +6,15 @@
 
 覆盖大陆高中必修＋选择性必修的元素、物质、方程、通用规则与特例；独立发布共享身份的数据模块，后续支持有证据的案例迁移和预测解释。预测不冒充规范事实，UNKNOWN 不等于不可能。安全提交推送 main 已授权；不启动子代理，不重复 M0–M25 审计，不 reset/stash/rebase。
 
-## 最新完成批次：铝、氧化铝与碱的水溶液两性路径
+## 最新完成批次：卤素置换与金属热反应（2026-09-28）
+
+新增10条方程、10条声明式规则和Br2/I2两个身份：Cl2分别与NaBr/KBr/NaI/KI，Br2分别与NaI/KI；以及Cu/O2、Al/O2、Al/水蒸气、Al(OH)3热分解。卤素置换使用aqueous/ambient，Br2(l)、I2(s)表示教材分离产物，不计算稀溶液或I3-平衡终态。热反应要求non_aqueous/heated；Al/蒸汽必须输入气态水。
+
+来源已读取build/curriculum-review中的OpenStax 18.11、17.3、18.9和NCERT 3.2.1/3.2.2。17.3答案Br2(s)的印刷错误按18.11常温液态说明纠正。validate和35项定向测试通过，包括新方程、缺条件/错误介质/逆向边界、全体规则删除Reaction后独立生成、bundle和三个独立模块。当前372记录、125规范Reaction、49 Rule、184案例；126 inferred、45 indeterminate、12 no_match、1 blocked，全部125规范方程有正例。
+
+下一批优先：有条件的Al3+/OH-沉淀及过量溶解，再补CO2/碱用量路径与非金属反应。之前铝/碱批次的笼统OpenStax引用和ambient适用性还需逐项复核；测试通过仅证明程序与已录规则一致。全高中覆盖、模型推广、最终收口及chem-wiki交付仍未完成。
+
+## 前批：铝、氧化铝与碱的水溶液两性路径
 
 基线 `34f55f9ec0941560e9f16aa54cb67c0addaba1d3`。新增 `2Al + 2NaOH + 6H2O → 2Na[Al(OH)4] + 3H2` 与 `Al2O3 + 2NaOH + 3H2O → 2Na[Al(OH)4]` 两条规范方程和两条精确声明式 Rule；显式要求液态水、`aqueous/ambient` 和正确物态。沿用 `[Al(OH)4]-`/`Na[Al(OH)4]` 的水溶液表示，不把 `NaAlO2` 当别名，也不从未指定用量的 `Al3+ + NaOH` 推断沉淀或过量终态。
 

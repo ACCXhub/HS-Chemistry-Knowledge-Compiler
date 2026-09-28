@@ -1,0 +1,471 @@
+{
+  "records": [
+    {
+      "id": "ev_curriculum_halogen_displacement",
+      "record_type": "evidence",
+      "source_id": "src_openstax_chemistry_2e",
+      "stance": "supports",
+      "claim_summary": "OpenStax Chemistry 2e 18.11 explicitly gives Cl2(g) + 2Br-(aq) -> Br2(l) + 2Cl-(aq). Section 17.3 Table 17.1 gives Cl2/Cl- +1.35827 V, Br2/Br- +1.0873 V and I2/I- +0.5355 V, and its check-your-learning explicitly supports bromine oxidation of iodide. Cached chapter extracts reviewed 2026-09-28. Author-curated Na/K spectator-salt examples represent ordinary aqueous ambient displacement with separated Br2(l) or I2(s) products, not concentrations, dissolved iodine/triiodide equilibrium or final mixture speciation. The 17.3 answer's Br2(s) typo is not adopted: 18.11 identifies ambient bromine as liquid. Runtime does not calculate potentials or extrapolate other oxidants."
+    },
+    {
+      "id": "ent_substance_br2",
+      "record_type": "entity",
+      "entity_kind": "substance",
+      "terms": {
+        "preferred": "bromine",
+        "aliases": [
+          "溴"
+        ]
+      },
+      "semantic_keys": [
+        {
+          "scheme": "formula.unit",
+          "value": "Br2"
+        }
+      ],
+      "payload": {
+        "substance_kind": "elemental",
+        "composition": {
+          "components": [
+            {
+              "element_id": "ent_element_br",
+              "count": 2
+            }
+          ],
+          "net_charge": 0
+        }
+      },
+      "evidence_ids": [
+        "ev_curriculum_halogen_displacement"
+      ]
+    },
+    {
+      "id": "ent_substance_i2",
+      "record_type": "entity",
+      "entity_kind": "substance",
+      "terms": {
+        "preferred": "iodine",
+        "aliases": [
+          "碘"
+        ]
+      },
+      "semantic_keys": [
+        {
+          "scheme": "formula.unit",
+          "value": "I2"
+        }
+      ],
+      "payload": {
+        "substance_kind": "elemental",
+        "composition": {
+          "components": [
+            {
+              "element_id": "ent_element_i",
+              "count": 2
+            }
+          ],
+          "net_charge": 0
+        }
+      },
+      "evidence_ids": [
+        "ev_curriculum_halogen_displacement"
+      ]
+    },
+    {
+      "id": "rxn_halogen_cl2_nabr",
+      "record_type": "reaction",
+      "participants": [
+        {
+          "target_id": "ent_substance_cl2",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "gas",
+          "coefficient": {
+            "numerator": 1,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_nabr",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "aqueous",
+          "coefficient": {
+            "numerator": 2,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_nacl",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "aqueous",
+          "coefficient": {
+            "numerator": 2,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_br2",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "liquid",
+          "coefficient": {
+            "numerator": 1,
+            "denominator": 1
+          }
+        }
+      ],
+      "conditions": [
+        {
+          "key": "medium",
+          "value": "aqueous",
+          "evidence_ids": [
+            "ev_curriculum_halogen_displacement"
+          ]
+        },
+        {
+          "key": "temperature_regime",
+          "value": "ambient",
+          "evidence_ids": [
+            "ev_curriculum_halogen_displacement"
+          ]
+        }
+      ],
+      "forms": [],
+      "evidence_ids": [
+        "ev_curriculum_halogen_displacement"
+      ]
+    },
+    {
+      "id": "rxn_halogen_cl2_kbr",
+      "record_type": "reaction",
+      "participants": [
+        {
+          "target_id": "ent_substance_cl2",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "gas",
+          "coefficient": {
+            "numerator": 1,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_kbr",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "aqueous",
+          "coefficient": {
+            "numerator": 2,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_kcl",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "aqueous",
+          "coefficient": {
+            "numerator": 2,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_br2",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "liquid",
+          "coefficient": {
+            "numerator": 1,
+            "denominator": 1
+          }
+        }
+      ],
+      "conditions": [
+        {
+          "key": "medium",
+          "value": "aqueous",
+          "evidence_ids": [
+            "ev_curriculum_halogen_displacement"
+          ]
+        },
+        {
+          "key": "temperature_regime",
+          "value": "ambient",
+          "evidence_ids": [
+            "ev_curriculum_halogen_displacement"
+          ]
+        }
+      ],
+      "forms": [],
+      "evidence_ids": [
+        "ev_curriculum_halogen_displacement"
+      ]
+    },
+    {
+      "id": "rxn_halogen_cl2_nai",
+      "record_type": "reaction",
+      "participants": [
+        {
+          "target_id": "ent_substance_cl2",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "gas",
+          "coefficient": {
+            "numerator": 1,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_nai",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "aqueous",
+          "coefficient": {
+            "numerator": 2,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_nacl",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "aqueous",
+          "coefficient": {
+            "numerator": 2,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_i2",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "solid",
+          "coefficient": {
+            "numerator": 1,
+            "denominator": 1
+          }
+        }
+      ],
+      "conditions": [
+        {
+          "key": "medium",
+          "value": "aqueous",
+          "evidence_ids": [
+            "ev_curriculum_halogen_displacement"
+          ]
+        },
+        {
+          "key": "temperature_regime",
+          "value": "ambient",
+          "evidence_ids": [
+            "ev_curriculum_halogen_displacement"
+          ]
+        }
+      ],
+      "forms": [],
+      "evidence_ids": [
+        "ev_curriculum_halogen_displacement"
+      ]
+    },
+    {
+      "id": "rxn_halogen_cl2_ki",
+      "record_type": "reaction",
+      "participants": [
+        {
+          "target_id": "ent_substance_cl2",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "gas",
+          "coefficient": {
+            "numerator": 1,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_ki",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "aqueous",
+          "coefficient": {
+            "numerator": 2,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_kcl",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "aqueous",
+          "coefficient": {
+            "numerator": 2,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_i2",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "solid",
+          "coefficient": {
+            "numerator": 1,
+            "denominator": 1
+          }
+        }
+      ],
+      "conditions": [
+        {
+          "key": "medium",
+          "value": "aqueous",
+          "evidence_ids": [
+            "ev_curriculum_halogen_displacement"
+          ]
+        },
+        {
+          "key": "temperature_regime",
+          "value": "ambient",
+          "evidence_ids": [
+            "ev_curriculum_halogen_displacement"
+          ]
+        }
+      ],
+      "forms": [],
+      "evidence_ids": [
+        "ev_curriculum_halogen_displacement"
+      ]
+    },
+    {
+      "id": "rxn_halogen_br2_nai",
+      "record_type": "reaction",
+      "participants": [
+        {
+          "target_id": "ent_substance_br2",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "liquid",
+          "coefficient": {
+            "numerator": 1,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_nai",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "aqueous",
+          "coefficient": {
+            "numerator": 2,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_nabr",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "aqueous",
+          "coefficient": {
+            "numerator": 2,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_i2",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "solid",
+          "coefficient": {
+            "numerator": 1,
+            "denominator": 1
+          }
+        }
+      ],
+      "conditions": [
+        {
+          "key": "medium",
+          "value": "aqueous",
+          "evidence_ids": [
+            "ev_curriculum_halogen_displacement"
+          ]
+        },
+        {
+          "key": "temperature_regime",
+          "value": "ambient",
+          "evidence_ids": [
+            "ev_curriculum_halogen_displacement"
+          ]
+        }
+      ],
+      "forms": [],
+      "evidence_ids": [
+        "ev_curriculum_halogen_displacement"
+      ]
+    },
+    {
+      "id": "rxn_halogen_br2_ki",
+      "record_type": "reaction",
+      "participants": [
+        {
+          "target_id": "ent_substance_br2",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "liquid",
+          "coefficient": {
+            "numerator": 1,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_ki",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "aqueous",
+          "coefficient": {
+            "numerator": 2,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_kbr",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "aqueous",
+          "coefficient": {
+            "numerator": 2,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_i2",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "solid",
+          "coefficient": {
+            "numerator": 1,
+            "denominator": 1
+          }
+        }
+      ],
+      "conditions": [
+        {
+          "key": "medium",
+          "value": "aqueous",
+          "evidence_ids": [
+            "ev_curriculum_halogen_displacement"
+          ]
+        },
+        {
+          "key": "temperature_regime",
+          "value": "ambient",
+          "evidence_ids": [
+            "ev_curriculum_halogen_displacement"
+          ]
+        }
+      ],
+      "forms": [],
+      "evidence_ids": [
+        "ev_curriculum_halogen_displacement"
+      ]
+    }
+  ]
+}

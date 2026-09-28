@@ -4,7 +4,15 @@
 
 The mainland compulsory/selective-compulsory goal remains incomplete: elements, substances, equations, general Rules and exact cases, independent modules with shared identities, and later evidence-backed case transfer/prediction explanations. Predictions are not canonical facts; UNKNOWN is not impossible. Safe main commits/pushes are authorized. No subagents, repeated M0–M25 audit, reset, stash or rebase.
 
-## Latest completed batch: aqueous aluminium/alumina base pathways
+## Latest completed batch: halogen displacement and metal thermal pathways (2026-09-28)
+
+Add ten equations/Rules and Br2/I2 identities: Cl2 with NaBr/KBr/NaI/KI, Br2 with NaI/KI, Cu/O2, Al/O2, Al/steam, and Al(OH)3 thermal decomposition. Halogen paths use aqueous/ambient with separated Br2(l)/I2(s) teaching products, not final dilute-solution or triiodide speciation. Thermal paths require non_aqueous/heated and explicit steam where applicable.
+
+Reviewed cached OpenStax 18.11/17.3/18.9 and NCERT 3.2.1/3.2.2. Corrected the 17.3 answer's Br2(s) typo using the ambient-liquid description in 18.11. Validate and 35 targeted tests pass, including Reaction-independent generation, boundaries, bundle and module exports. Current: 372 records, 125 Reactions, 49 Rules, 184 cases; 126 inferred, 45 indeterminate, 12 no_match, one blocked; all 125 Reactions have positive fixtures.
+
+Next: quantity-qualified Al3+/OH- precipitation/excess dissolution, then CO2/base and nonmetal paths. Recheck the previous aluminium/base batch's broad OpenStax attribution and ambient applicability against specific source passages. Curriculum completion, model generalization, final audit and chem-wiki delivery remain pending.
+
+## Previous batch: aqueous aluminium/alumina base pathways
 
 Base `34f55f9ec0941560e9f16aa54cb67c0addaba1d3`. Add the canonical equations `2Al + 2NaOH + 6H2O -> 2Na[Al(OH)4] + 3H2` and `Al2O3 + 2NaOH + 3H2O -> 2Na[Al(OH)4]`, plus two exact declarative Rules. Liquid water, aqueous/ambient context and phases are explicit. Reuse the `[Al(OH)4]-`/`Na[Al(OH)4]` aqueous representation; do not alias `NaAlO2`, and do not choose a precipitation or excess-base endpoint from an unspecified `Al3+ + NaOH` amount.
 
