@@ -1,4 +1,6 @@
 cases:
+  - {"id":"case_alcl3_naoh_precipitation_endpoint","reactants":[{"target_id":"ent_substance_alcl3","phase":"aqueous"},{"target_id":"ent_substance_naoh","phase":"aqueous"}],"context":{"medium":"aqueous","temperature_regime":"ambient","alkali_regime":"precipitation_endpoint"}}
+  - {"id":"case_alcl3_naoh_excess","reactants":[{"target_id":"ent_substance_alcl3","phase":"aqueous"},{"target_id":"ent_substance_naoh","phase":"aqueous"}],"context":{"medium":"aqueous","temperature_regime":"ambient","alkali_regime":"excess"}}
   - {"id":"case_curriculum_copper_oxygen","reactants":[{"target_id":"ent_substance_elemental_cu","phase":"solid"},{"target_id":"ent_substance_o2","phase":"gas"}],"context":{"medium":"non_aqueous","temperature_regime":"heated"}}
   - {"id":"case_curriculum_aluminium_oxygen","reactants":[{"target_id":"ent_substance_elemental_al","phase":"solid"},{"target_id":"ent_substance_o2","phase":"gas"}],"context":{"medium":"non_aqueous","temperature_regime":"heated"}}
   - {"id":"case_curriculum_aluminium_steam","reactants":[{"target_id":"ent_substance_elemental_al","phase":"solid"},{"target_id":"ent_substance_h2o","phase":"gas"}],"context":{"medium":"non_aqueous","temperature_regime":"heated"}}

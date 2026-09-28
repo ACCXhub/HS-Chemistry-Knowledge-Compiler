@@ -6,7 +6,15 @@
 
 覆盖大陆高中必修＋选择性必修的元素、物质、方程、通用规则与特例；独立发布共享身份的数据模块，后续支持有证据的案例迁移和预测解释。预测不冒充规范事实，UNKNOWN 不等于不可能。安全提交推送 main 已授权；不启动子代理，不重复 M0–M25 审计，不 reset/stash/rebase。
 
-## 最新完成批次：卤素置换与金属热反应（2026-09-28）
+## 最新完成批次：铝盐加碱终点（2026-09-28）
+
+compiler 0.7.0/source schema 3.9.0新增结构化alkali_regime条件：precipitation_endpoint与excess。AlCl3/NaOH据此选择Al(OH)3沉淀或Na[Al(OH)4]；缺标签保持UNKNOWN。两条Rule对M15作显式specializes，复用原匹配、配平、离子形式与规范比较。Chemguide已缓存图文和既有配位水省略约定支持两条方程；精确终点前提见API契约。未引入任意数值投料或平衡求解。
+
+51项针对性测试通过（公共bundle输入、净离子式、缺条件、M15、Reaction独立生成和条件契约），validate通过；旧M15测试仍把已存在AlCl3期待为未知ID，现改为缺用量标签时indeterminate。当前377记录、127规范Reaction、51 Rule、186案例；128 inferred、45 indeterminate、12 no_match、1 blocked。历史版本断言已同步3.9.0，未重跑全套。
+
+下一步：CO2/碱的用量分支及更多非金属反应；复核此前Al/碱来源与常温边界。完成全部教材覆盖、预测解释和收口后再进入chem-wiki。自动化保持现有ACTIVE配置。
+
+## 前批：卤素置换与金属热反应（2026-09-28）
 
 新增10条方程、10条声明式规则和Br2/I2两个身份：Cl2分别与NaBr/KBr/NaI/KI，Br2分别与NaI/KI；以及Cu/O2、Al/O2、Al/水蒸气、Al(OH)3热分解。卤素置换使用aqueous/ambient，Br2(l)、I2(s)表示教材分离产物，不计算稀溶液或I3-平衡终态。热反应要求non_aqueous/heated；Al/蒸汽必须输入气态水。
 

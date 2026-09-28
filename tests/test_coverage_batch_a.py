@@ -472,12 +472,12 @@ def test_batch_a_retained_cases_use_existing_rules_and_track_current_compatibili
         "rule_m7_ammonium_strong_base_gas_evolution",
     }
     assert {plan.rule_id for plan in compile_rules(kb)} == set(kb.rules)
-    assert SOURCE_SCHEMA_VERSION == "3.8.0"
+    assert SOURCE_SCHEMA_VERSION == "3.9.0"
     assert RULE_DSL_VERSION == "1.4.0"
     assert RULE_PLAN_VERSION == "1.4.0"
     assert ARTIFACT_FORMAT_VERSION == "1.5.0"
     assert artifact_versions() == {
-        "source_schema": "3.8.0",
+        "source_schema": "3.9.0",
         "rule_dsl": "1.4.0",
         "rule_plan": "1.4.0",
         "artifact_format": "1.5.0",

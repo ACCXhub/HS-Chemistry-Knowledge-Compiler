@@ -245,7 +245,7 @@ def test_m15_unmodeled_zinc_hydroxide_is_not_inferred() -> None:
     assert any(item["truth"] == "UNKNOWN" for item in driving)
 
 
-def test_m15_unmodeled_aluminium_input_is_rejected_before_inference() -> None:
+def test_aluminium_without_alkali_regime_is_indeterminate() -> None:
     kb = load_knowledge(ROOT)
     result = infer_case(
         kb,
@@ -253,8 +253,8 @@ def test_m15_unmodeled_aluminium_input_is_rejected_before_inference() -> None:
         _case("m15_alcl3_naoh_deferred", "ent_substance_alcl3", "ent_substance_naoh"),
     )
 
-    assert result["status"] == "invalid"
-    assert result["diagnostic"]["code"] == "reference_unresolved"
+    assert result["status"] == "indeterminate"
+    assert result["diagnostic"]["code"] == "unknown_applicability"
     assert "candidate_key" not in result
 
 
@@ -345,12 +345,12 @@ def test_m15_new_identities_are_unique_and_exactly_evidenced() -> None:
 def test_m15_adds_one_rule_without_compatibility_drift() -> None:
     kb = load_knowledge(ROOT)
     assert {plan.rule_id for plan in compile_rules(kb)} == set(kb.rules)
-    assert SOURCE_SCHEMA_VERSION == "3.8.0"
+    assert SOURCE_SCHEMA_VERSION == "3.9.0"
     assert RULE_DSL_VERSION == "1.4.0"
     assert RULE_PLAN_VERSION == "1.4.0"
     assert ARTIFACT_FORMAT_VERSION == "1.5.0"
     assert artifact_versions() == {
-        "source_schema": "3.8.0",
+        "source_schema": "3.9.0",
         "rule_dsl": "1.4.0",
         "rule_plan": "1.4.0",
         "artifact_format": "1.5.0",

@@ -37,6 +37,7 @@ def export_bundle(repo_root: Path, output_dir: Path, source_revision: str) -> di
         "properties": {
             "medium": {"enum": ["aqueous", "non_aqueous"]},
             "temperature_regime": {"enum": ["ambient", "warmed", "heated", "frozen"]},
+            "alkali_regime": {"enum": ["precipitation_endpoint", "excess"]},
         },
     }
     artifacts = {

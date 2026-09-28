@@ -4,7 +4,7 @@
 
 The acceptance target is mainland China's compulsory and selective-compulsory high-school chemistry. **Coverage is incomplete; arbitrary reactions cannot be inferred from element tags.** This engineering checklist groups common teaching topics; it is not an official curriculum or a textbook's exhaustive equation inventory.
 
-There are 125 canonical Reactions, 49 Rules and 184 fixtures. The 126 inferred cases cover all 125 canonical Reactions plus one unstored equation. The remaining 45 indeterminate, 12 no_match and one blocked outcomes are boundary proofs, not covered equations.
+There are 127 canonical Reactions, 51 Rules and 186 fixtures. The 128 inferred cases cover all 127 canonical Reactions plus one unstored equation. The remaining 45 indeterminate, 12 no_match and one blocked outcomes are boundary proofs, not covered equations.
 
 ## Coverage checklist
 
@@ -43,7 +43,7 @@ Partial coverage applies only to admitted identities, properties, phases and con
 
 The pipeline matches identity/classification/phase and contextual facts or one-hop Relations, selects a Rule, resolves canonical products, balances and validates atoms/charge, then compares with stored Reactions. Stored equations do not select products.
 
-Removing every Reaction and recompiling still generates all 126 positive cases across all 49 Rules with unchanged participants/candidate keys and canonical_match none. An evidence-backed HBr non-oxidizing-acid fact enables existing M9 to generate the unstored `2 HBr + Na2S2O3 -> 2 NaBr + SO2 + S + H2O`; no Reaction was added for it.
+Removing every Reaction and recompiling still generates all 128 positive cases across all 51 Rules with unchanged participants/candidate keys and canonical_match none. An evidence-backed HBr non-oxidizing-acid fact enables existing M9 to generate the unstored `2 HBr + Na2S2O3 -> 2 NaBr + SO2 + S + H2O`; no Reaction was added for it.
 
 New combinations therefore work when identity/composition, classifications, contextual properties, speciation/Relations, canonical products and evidence are sufficient. A tag such as “active metal” or “oxidant” alone does not determine valence, selectivity or products. Conservation is necessary but does not establish chemical feasibility.
 

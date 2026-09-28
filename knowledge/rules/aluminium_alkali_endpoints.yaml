@@ -1,0 +1,96 @@
+{
+  "records": [
+    {
+      "id": "rule_alcl3_naoh_precipitation_endpoint",
+      "record_type": "rule",
+      "version": "1.0.0",
+      "decision_domain": "aqueous_exchange",
+      "match": {
+        "reactants": [
+          {
+            "bind": "input_0",
+            "target_id": "ent_substance_alcl3",
+            "phase": "aqueous"
+          },
+          {
+            "bind": "input_1",
+            "target_id": "ent_substance_naoh",
+            "phase": "aqueous"
+          }
+        ]
+      },
+      "context": {
+        "medium": "aqueous",
+        "temperature_regime": "ambient",
+        "alkali_regime": "precipitation_endpoint"
+      },
+      "products": [
+        {
+          "target_id": "ent_substance_al_oh_3",
+          "phase": "solid"
+        },
+        {
+          "target_id": "ent_substance_nacl",
+          "phase": "aqueous"
+        }
+      ],
+      "validators": [
+        "atoms_conserved",
+        "charge_conserved"
+      ],
+      "evidence_ids": [
+        "ev_aluminium_alkali_endpoints"
+      ],
+      "specializes": [
+        "rule_m15_hydroxide_precipitation"
+      ],
+      "mutually_exclusive_with": ["rule_f2_agcl_precipitation"]
+    },
+    {
+      "id": "rule_alcl3_naoh_excess",
+      "record_type": "rule",
+      "version": "1.0.0",
+      "decision_domain": "aqueous_exchange",
+      "match": {
+        "reactants": [
+          {
+            "bind": "input_0",
+            "target_id": "ent_substance_alcl3",
+            "phase": "aqueous"
+          },
+          {
+            "bind": "input_1",
+            "target_id": "ent_substance_naoh",
+            "phase": "aqueous"
+          }
+        ]
+      },
+      "context": {
+        "medium": "aqueous",
+        "temperature_regime": "ambient",
+        "alkali_regime": "excess"
+      },
+      "products": [
+        {
+          "target_id": "ent_substance_na_al_oh_4",
+          "phase": "aqueous"
+        },
+        {
+          "target_id": "ent_substance_nacl",
+          "phase": "aqueous"
+        }
+      ],
+      "validators": [
+        "atoms_conserved",
+        "charge_conserved"
+      ],
+      "evidence_ids": [
+        "ev_aluminium_alkali_endpoints"
+      ],
+      "specializes": [
+        "rule_m15_hydroxide_precipitation"
+      ],
+      "mutually_exclusive_with": ["rule_f2_agcl_precipitation"]
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "records": [
+    {
+      "id": "ev_aluminium_alkali_endpoints",
+      "record_type": "evidence",
+      "source_id": "src_chemguide_aqua_hydroxide",
+      "stance": "supports",
+      "claim_summary": "Chemguide Reactions of hexaaqua metal ions with hydroxide ions, aluminium section and aloh.gif, describes precipitation then redissolution in excess NaOH. With the established omission of coordinated water, curated endpoint equations are AlCl3 + 3NaOH -> Al(OH)3 + 3NaCl and AlCl3 + 4NaOH -> Na[Al(OH)4] + 3NaCl. precipitation_endpoint denotes the idealized three OH per Al endpoint with no residual free acid; excess denotes sufficient excess strong base beyond four OH per Al, not arbitrary slight excess over three. These are pathway endpoints, not pH/quantity calculations or final mixture speciation."
+    },
+    {
+      "id": "rxn_alcl3_naoh_precipitation_endpoint",
+      "record_type": "reaction",
+      "participants": [
+        {
+          "target_id": "ent_substance_alcl3",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "aqueous",
+          "coefficient": {
+            "numerator": 1,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_naoh",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "aqueous",
+          "coefficient": {
+            "numerator": 3,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_al_oh_3",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "solid",
+          "coefficient": {
+            "numerator": 1,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_nacl",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "aqueous",
+          "coefficient": {
+            "numerator": 3,
+            "denominator": 1
+          }
+        }
+      ],
+      "conditions": [
+        {
+          "key": "medium",
+          "value": "aqueous",
+          "evidence_ids": [
+            "ev_aluminium_alkali_endpoints"
+          ]
+        },
+        {
+          "key": "temperature_regime",
+          "value": "ambient",
+          "evidence_ids": [
+            "ev_aluminium_alkali_endpoints"
+          ]
+        },
+        {
+          "key": "alkali_regime",
+          "value": "precipitation_endpoint",
+          "evidence_ids": [
+            "ev_aluminium_alkali_endpoints"
+          ]
+        }
+      ],
+      "forms": [],
+      "evidence_ids": [
+        "ev_aluminium_alkali_endpoints"
+      ]
+    },
+    {
+      "id": "rxn_alcl3_naoh_excess",
+      "record_type": "reaction",
+      "participants": [
+        {
+          "target_id": "ent_substance_alcl3",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "aqueous",
+          "coefficient": {
+            "numerator": 1,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_naoh",
+          "target_kind": "substance",
+          "role": "reactant",
+          "phase": "aqueous",
+          "coefficient": {
+            "numerator": 4,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_na_al_oh_4",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "aqueous",
+          "coefficient": {
+            "numerator": 1,
+            "denominator": 1
+          }
+        },
+        {
+          "target_id": "ent_substance_nacl",
+          "target_kind": "substance",
+          "role": "product",
+          "phase": "aqueous",
+          "coefficient": {
+            "numerator": 3,
+            "denominator": 1
+          }
+        }
+      ],
+      "conditions": [
+        {
+          "key": "medium",
+          "value": "aqueous",
+          "evidence_ids": [
+            "ev_aluminium_alkali_endpoints"
+          ]
+        },
+        {
+          "key": "temperature_regime",
+          "value": "ambient",
+          "evidence_ids": [
+            "ev_aluminium_alkali_endpoints"
+          ]
+        },
+        {
+          "key": "alkali_regime",
+          "value": "excess",
+          "evidence_ids": [
+            "ev_aluminium_alkali_endpoints"
+          ]
+        }
+      ],
+      "forms": [],
+      "evidence_ids": [
+        "ev_aluminium_alkali_endpoints"
+      ]
+    }
+  ]
+}

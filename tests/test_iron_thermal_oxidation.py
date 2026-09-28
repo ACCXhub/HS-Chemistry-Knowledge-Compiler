@@ -103,7 +103,7 @@ def test_missing_medium_is_unknown_not_implicitly_non_aqueous(source, path):
 def test_bundle_api_admits_explicit_non_aqueous_and_three_reactants(source, tmp_path):
     _, _, cases = source
     manifest = export_bundle(ROOT, tmp_path, "TEST")
-    assert manifest["versions"]["source_schema"] == "3.8.0"
+    assert manifest["versions"]["source_schema"] == "3.9.0"
     session = InferenceSession(tmp_path)
     for name in ["iron_steam", "ferrous_hydroxide_oxidation"]:
         result = session.infer(cases["case_curriculum_" + name])["result"]

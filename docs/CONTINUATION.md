@@ -4,7 +4,13 @@
 
 The mainland compulsory/selective-compulsory goal remains incomplete: elements, substances, equations, general Rules and exact cases, independent modules with shared identities, and later evidence-backed case transfer/prediction explanations. Predictions are not canonical facts; UNKNOWN is not impossible. Safe main commits/pushes are authorized. No subagents, repeated M0–M25 audit, reset, stash or rebase.
 
-## Latest completed batch: halogen displacement and metal thermal pathways (2026-09-28)
+## Latest completed batch: aluminium alkali endpoints (2026-09-28)
+
+Compiler 0.7.0/source schema 3.9.0 adds alkali_regime (precipitation_endpoint/excess) to public input and canonical conditions. Two AlCl3/NaOH Rules specialize M15 and choose Al(OH)3 or Na[Al(OH)4]; omission stays UNKNOWN. Existing match/balance/ionic/canonical owners are reused. Cached Chemguide material supports the endpoints under the documented coordinated-water convention. No numeric amount or equilibrium solver is implied.
+
+All 51 focused tests and validate pass; the stale M15 unresolved-AlCl3 test now expects indeterminate for missing regime. Version assertions updated to 3.9.0. Current: 377 records, 127 Reactions, 51 Rules, 186 cases; 128 inferred, 45 indeterminate, 12 no_match, one blocked. No full-suite rerun. Next: CO2/base quantity branches and nonmetals; revisit prior Al/base source and ambient assumptions. Full curriculum, predictions, final audit and chem-wiki remain pending; existing automation stays ACTIVE.
+
+## Previous batch: halogen displacement and metal thermal pathways (2026-09-28)
 
 Add ten equations/Rules and Br2/I2 identities: Cl2 with NaBr/KBr/NaI/KI, Br2 with NaI/KI, Cu/O2, Al/O2, Al/steam, and Al(OH)3 thermal decomposition. Halogen paths use aqueous/ambient with separated Br2(l)/I2(s) teaching products, not final dilute-solution or triiodide speciation. Thermal paths require non_aqueous/heated and explicit steam where applicable.
 

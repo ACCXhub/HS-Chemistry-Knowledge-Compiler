@@ -2,7 +2,13 @@
 
 [简体中文](APPLICATION_API.zh-CN.md)
 
-Compiler 0.6.0 implements offline export and a Python API. HTTP routes, the chem-wiki adapter and database migrations are not implemented.
+Compiler 0.7.0/source schema 3.9.0 implements offline export and a Python API. HTTP routes, the chem-wiki adapter and database migrations are not implemented.
+
+## Aluminium alkali endpoints (0.7.0)
+
+The public context now accepts `alkali_regime: precipitation_endpoint|excess`. The AlCl3(aq)/NaOH(aq) family requires this plus aqueous/ambient. The precipitation endpoint is the idealized 3 OH per Al endpoint without additional free acid; it yields Al(OH)3 + 3NaCl. Excess denotes sufficient strong base beyond 4 OH per Al for dissolution, consuming 4NaOH to form Na[Al(OH)4] + 3NaCl. Unconsumed excess base is not part of the net reaction. The caller chooses the regime; balanced coefficients do not measure supplied amounts. Mixed endpoints between 3 and 4 equivalents, extra acid and pH equilibria are unsupported. Missing context yields indeterminate; invalid enums yield request_invalid.
+
+Canonical Reaction conditions retain the regime so matching cannot cross endpoints. Explicit solid Al(OH)3/NaOH dissolution does not need the new field. A website may offer the two named endpoints with these assumptions. Re-export bundles with compiler 0.7.0; bundle/module/DSL formats stay unchanged. The 0.6.0 sections below describe historical compatibility.
 
 ## Publish and load
 
@@ -46,7 +52,7 @@ Load once per backend worker and reuse validated knowledge and RulePlans. Infere
 
 - `id` matches `^[a-z][a-z0-9_:-]+$` and correlates requests without affecting candidate chemistry identity.
 - `reactants` accepts a nonempty list of canonical Entity IDs; current Rules cover 1–3 inputs with explicit solid/liquid/gas/aqueous/dissolved/unknown phases. Repeated IDs, including across phases, are rejected rather than losing phase information.
-- `context` is required but may be empty. Only `medium: aqueous|non_aqueous` and `temperature_regime: ambient|warmed|heated|frozen` are supported. Missing conditions stay UNKNOWN; heated differs from warmed. Frozen exercises existing blockers.
+- `context` is required but may be empty. Supported keys are `medium: aqueous|non_aqueous`, `temperature_regime: ambient|warmed|heated|frozen` and `alkali_regime: precipitation_endpoint|excess`. Missing conditions stay UNKNOWN; heated differs from warmed. Frozen exercises existing blockers.
 - Free-text formulas, supplied products, reagent amounts/ratios, concentrations, catalysts, electrolysis, light and pressure are rejected. Stoichiometry describes the selected pathway, not limiting-reagent, excess-reagent or equilibrium behavior. Such conditions require implemented semantics before admission.
 - Malformed inputs raise `SourceError(code="request_invalid", stage="request_validation")`. Unresolved canonical IDs return the chemistry outcome `invalid/reference_unresolved`.
 
@@ -81,4 +87,4 @@ Bundle/module formats, Rule DSL/plan and artifact format are unchanged. Export a
 
 Use `[Al(OH)4]-` and `Na[Al(OH)4]` for `ent_species_al_oh_4_minus` and `ent_substance_na_al_oh_4`. This school-level aqueous representation omits coordinated spectator water. `AlO2-` and `NaAlO2` are not aliases: their compositions and balancing water differ.
 
-Supported: explicit Al(OH)3(s) + NaOH(aq) -> Na[Al(OH)4](aq), requiring aqueous/ambient. Net ionic: Al(OH)3(s) + OH- -> [Al(OH)4]-. The solid hydroxide must be an input. An unspecified AlCl3/NaOH quantity does not select a precipitation or excess-dissolution endpoint; UNKNOWN does not mean impossible. NaAlO2 teaching notation, quantity branches and metal-aluminium/base paths remain pending.
+Supported: explicit Al(OH)3(s) + NaOH(aq) -> Na[Al(OH)4](aq), requiring aqueous/ambient. Net ionic: Al(OH)3(s) + OH- -> [Al(OH)4]-. The solid hydroxide must be an input. AlCl3/NaOH endpoint selection requires the alkali_regime label described above; omission stays unknown. Al/NaOH and Al2O3/NaOH paths with explicit liquid water are also recorded. NaAlO2 identity and actual mixture amount calculations remain pending.

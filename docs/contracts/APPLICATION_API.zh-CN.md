@@ -2,7 +2,13 @@
 
 [English](APPLICATION_API.md)
 
-状态：compiler 0.6.0 已实现离线导出和 Python 接口；HTTP 路由、chem-wiki 适配器和数据库迁移尚未实现。
+状态：compiler 0.7.0/source schema 3.9.0 已实现离线导出和 Python 接口；HTTP 路由、chem-wiki 适配器和数据库迁移尚未实现。
+
+## 铝盐加碱终点条件（0.7.0）
+
+公共context新增`alkali_regime: precipitation_endpoint|excess`。当前AlCl3(aq)/NaOH(aq)家族消费此条件，同时要求aqueous/ambient。precipitation_endpoint表示无额外游离酸时、理想化OH:Al=3:1的沉淀终点，得到Al(OH)3 + 3NaCl；excess表示有足够过量强碱（超过OH:Al=4:1）使沉淀溶解，反应消耗4NaOH，得到Na[Al(OH)4] + 3NaCl。未反应的过量碱不写入净反应式。该标签由调用方明确选择，不从配平系数自动判断投料量；不支持3至4当量之间的混合终态、额外酸或pH平衡计算。缺条件为indeterminate；未知枚举为request_invalid。
+
+规范Reaction条件也保存该键，因此规范匹配不能跨终点。已有Al(OH)3固体/NaOH溶解不需要此标签；AlCl3/NaOH输入必须提供它。网站可据此提供“沉淀终点/充分过量碱”选择，并展示上述前提。重新导出并部署0.7.0匹配数据包；bundle/module/DSL格式不变。下文0.6.0段落为历史兼容说明。
 
 ## 发布、安装和加载
 
@@ -46,7 +52,7 @@ assert response["result"]["canonical_match"]["state"] == "none"
 
 - `id` 是调用方关联标识，匹配 `^[a-z][a-z0-9_:-]+$`；不参与候选化学身份。
 - `reactants` 是非空规范 Entity ID 列表；当前规则覆盖 1–3 个输入，物态必须显式提供：solid/liquid/gas/aqueous/dissolved/unknown。同一 ID 重复输入（即使物态不同）拒绝，不能静默丢物态。
-- `context` 必须提供对象，可为空；仅允许 `medium: aqueous|non_aqueous` 与 `temperature_regime: ambient|warmed|heated|frozen`。缺条件保留 UNKNOWN，不自动补常温或水溶液。heated 与 warmed 不等价；frozen 用于已有阻断边界。
+- `context` 必须提供对象，可为空；允许 `medium: aqueous|non_aqueous`、`temperature_regime: ambient|warmed|heated|frozen`、`alkali_regime: precipitation_endpoint|excess`。缺条件保留 UNKNOWN，不自动补常温、水溶液或加碱终点。heated 与 warmed 不等价；frozen 用于已有阻断边界。
 - 不接受自由文本化学式、产物、投料量/比例、浓度、催化剂、电解、光照、压强等额外字段。配平系数表示当前规则的反应路径，不是实际混合物的限量、过量或平衡计算。扩展这些条件须先有对应语义，不能忽略后返回成功。
 - 输入形状错误抛 `SourceError(code="request_invalid", stage="request_validation")`。未知 ID 则返回化学结果 `invalid/reference_unresolved`。
 
@@ -81,4 +87,4 @@ bundle/module 格式、Rule DSL/plan、artifact 格式均不变。部署 compile
 
 当前使用 `[Al(OH)4]-` 及 `Na[Al(OH)4]`，分别对应 `ent_species_al_oh_4_minus` 和 `ent_substance_na_al_oh_4`。这是省略配位水的高中水溶液表示；`AlO2-`、`NaAlO2` 不作为同一身份别名，不能直接字符串替换，因为组成及配平水不同。
 
-已支持显式 Al(OH)3(s) + NaOH(aq) → Na[Al(OH)4](aq)，要求 aqueous/ambient；净离子式为 Al(OH)3(s) + OH− → [Al(OH)4]−。输入必须已有氢氧化铝固体。本接口尚不能依据未指定用量的 AlCl3/NaOH 自动选择沉淀或过量溶解终态；UNKNOWN 不代表反应不可能。教学 NaAlO2 写法、用量分支及金属铝/碱路径尚待实现。
+已支持显式 Al(OH)3(s) + NaOH(aq) → Na[Al(OH)4](aq)，要求 aqueous/ambient；净离子式为 Al(OH)3(s) + OH− → [Al(OH)4]−。输入必须已有氢氧化铝固体。AlCl3/NaOH终点需要上述alkali_regime标签；未指定时仍未知。另已收录显式液态水参与的Al/NaOH及Al2O3/NaOH路径。教学NaAlO2身份和实际混合物用量计算仍未实现。
